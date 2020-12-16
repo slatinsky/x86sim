@@ -13,10 +13,11 @@
         <option value="Navigation" />
         <option value="Photos" />
         <option value="Registers" />
-        <option value="Register" />
         <option value="JavaScript File" />
         <option value="Validator" />
         <option value="Screen" />
+        <option value="Register" />
+        <option value="Tooltip" />
       </list>
     </option>
   </component>
@@ -39,7 +40,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1608059687700</updated>
-      <workItem from="1608059688907" duration="20827000" />
+      <workItem from="1608059688907" duration="31319000" />
     </task>
     <servers />
   </component>
