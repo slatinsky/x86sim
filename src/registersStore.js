@@ -22,6 +22,8 @@ const createWritableStore = (key, startValue) => {
 
 export const selectedFormat = createWritableStore('hex')
 selectedFormat.useLocalStorage();
+export const sp = createWritableStore('sp', 0)
+sp.useLocalStorage();
 
 // export const registers = writable({
 //     'ax': {

@@ -1,6 +1,6 @@
 <script>
     import Register from "./Register.svelte";
-    import {selectedFormat} from "../registersStore";
+    import {selectedFormat, sp} from "../registersStore";
 
     let formats = [
         { id: 'hex', text: `16-ková sústava` },
@@ -22,7 +22,7 @@
     let si = 0
     let di = 0
     let bp = 0
-    let sp = 0
+    // let sp = 0
     function resetNew() {
         ax = 10
         bx = 20
@@ -31,7 +31,7 @@
         si = 50
         di = 60000
         bp = 32767
-        sp = -32768
+        $sp = -32768
     }
 
     const watch = selectedFormat.subscribe(value => {
@@ -64,7 +64,7 @@
         <Register bind:value={si} label="si"/>
         <Register bind:value={di} label="di"/>
         <Register bind:value={bp} label="bp"/>
-        <Register bind:value={sp} label="sp"/>
+        <Register bind:value={$sp} label="sp"/>
     </div>
 
 </div>

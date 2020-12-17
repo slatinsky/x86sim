@@ -3,6 +3,7 @@
 <!--https://svelte.dev/repl/052c877eb34c45ee8f773a8bf8475347?version=3.12.1-->
 
 <script>
+    console.log("RERENDERED register")
     import {selectedFormat} from "../registersStore";
     import {baseToIntWrapper, intToBaseWrapper} from "../formatConverter";
 
