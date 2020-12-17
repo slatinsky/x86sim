@@ -4,9 +4,10 @@
 
     let formats = [
         { id: 'hex', text: `16-ková sústava` },
-        // { id: 'signed', text: `10-ková sústava (signed)` },
+        { id: 'signed', text: `10-ková sústava (signed)` },
         { id: 'unsigned', text: `10-ková sústava (unsigned)` },
-        { id: 'bin', text: `2-ková sústava` }
+        { id: 'bin', text: `2-ková sústava` },
+        // { id: 'ascii', text: `ascii` }
     ];
 
 
@@ -28,9 +29,9 @@
         cx = 30
         dx = 40
         si = 50
-        di = 60
-        bp = 70
-        sp = 80
+        di = 60000
+        bp = 32767
+        sp = -32768
     }
 
     const watch = selectedFormat.subscribe(value => {

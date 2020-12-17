@@ -4,6 +4,7 @@
 
 <script>
     import {selectedFormat} from "../registersStore";
+    import {baseToIntWrapper, intToBaseWrapper} from "../formatConverter";
 
     let color = 'DARKSLATEGRAY'
     export let label = 'ax'     // register label
@@ -12,88 +13,33 @@
 
     // if register value was changes from "outside" or it was changed using "validate() - transform it to internal "stringValue"
     $: {
-        if ($selectedFormat === 'hex') {
-            stringValue = value.toString(16).padStart(4, '0')
-        } else if ($selectedFormat === 'signed' || $selectedFormat === 'unsigned') {
-            stringValue = value
-        } else if ($selectedFormat === 'bin') {
-            stringValue = value.toString(2).padStart(16, '0')
-        }
+        stringValue = intToBaseWrapper(value, $selectedFormat)
     }
 
-    // validate input and transfer
+    // validate input and try to correct the format
     function validate() {
         console.log("validate")
 
-        let oldValue = stringValue
-        let newValue = oldValue
-
-
-
-        if ($selectedFormat === 'bin') {
-            // remove characters other than numbers and a-f
-            newValue = newValue.replaceAll(/[^0-1]/gm, '')
-
-            // remove zeros from the beginning
-            newValue = newValue.replaceAll(/^0+/gm, '')
-
-            // allow only 16 characters
-            newValue = newValue.substring(0, 16)
-
-            // if not all 16 characters, pad with zeros
-            newValue = newValue.padStart(16, '0')
-
-            if (newValue.length === 0) {
-                newValue = '0'
-            }
-
-            value = NaN                   // force rerender even if the value resolves to the same value
-            value = parseInt(newValue, 2)
-            console.log("value", value)
-        }
-        else if ($selectedFormat === 'hex') {
-            // convert to lowercase
-            newValue = newValue.toLowerCase()
-
-            // remove characters other than numbers and a-f
-            newValue = newValue.replaceAll(/[^0-9a-f]/gm, '')
-
-            // remove zeros from the beginning
-            newValue = newValue.replaceAll(/^0+/gm, '')
-
-            // allow only 4 characters
-            newValue = newValue.substring(0, 4)
-
-            // if not all 4 characters, pad with zeros
-            newValue = newValue.padStart(4, '0')
-
-            if (newValue.length === 0) {
-                newValue = '0'
-            }
-
-            value = NaN                   // force rerender even if the value resolves to the same value
-            value = parseInt(newValue, 16)
-            console.log("value", value)
-        }
-        else if ($selectedFormat === 'signed' || $selectedFormat === 'unsigned') {
-            // remove characters other than numbers
-            newValue = newValue.replaceAll(/[^0-9]/gm, '')
-
-            // remove zeros from the beginning
-            newValue = newValue.replaceAll(/^0+/gm, '')
-
-            if (newValue.length === 0) {
-                newValue = '0'
-            }
-            value = NaN                   // force rerender even if the value resolves to same value
-            value = parseInt(newValue, 10)
-        }
+        value = NaN                   // force rerender even if the value resolves to the same value
+        value = baseToIntWrapper(stringValue, $selectedFormat, 16)
     }
 
     function focusIn(e) {
         if ($selectedFormat !== 'bin') {
             e.target.focus();
             e.target.setSelectionRange(0, 32);
+        }
+    }
+
+    function keyUp(e) {
+        if (e.key === "Enter") {
+            validate()
+        }
+        else if (e.key === "ArrowUp") {
+            value++
+        }
+        else if (e.key === "ArrowDown") {
+            value--
         }
     }
 
@@ -138,5 +84,5 @@
 
 <div class='input-container'>
     <div class='square' style="background-color: {color}" data-tooltip="Všeobecný register">{label}</div>
-    <input class="input {$selectedFormat}" type="string" min="0" bind:value={stringValue} on:blur={validate} on:focus={focusIn}  />
+    <input class="input {$selectedFormat}" maxlength="16" type="string" min="0" bind:value={stringValue} on:blur={validate} on:focus={focusIn} on:keyup={keyUp} />
 </div>

@@ -4,6 +4,7 @@
 	import Registers from "./modules/Registers.svelte";
 	import Screen from "./modules/Screen.svelte";
 	import Tooltip from "./global/Tooltip.svelte";
+	import CodeEditor from "./modules/CodeEditor.svelte";
 
 	export let name
 	let count = 1
@@ -65,6 +66,9 @@
 			</div>
 			<div class="col-6">
 				<Screen />
+			</div>
+			<div class="col-6">
+				<CodeEditor />
 			</div>
 		</div>
 

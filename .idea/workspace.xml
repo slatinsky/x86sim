@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="" />
+    <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Register.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Register.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Registers.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Registers.svelte" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,10 +23,16 @@
         <option value="Screen" />
         <option value="Register" />
         <option value="Tooltip" />
+        <option value="CodeEditor" />
+        <option value="Stack" />
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1lhqUcvgPIlU70zHRPknLJvLdJ2" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -29,6 +40,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -40,12 +52,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1608059687700</updated>
-      <workItem from="1608059688907" duration="31319000" />
+      <workItem from="1608059688907" duration="44873000" />
+      <workItem from="1608237599431" duration="3843000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="WindowStateProjectService">
     <state x="2214" y="949" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1608127340403">
@@ -56,5 +80,9 @@
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
     <state x="1296" y="742" key="SettingsEditor/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608059723500" />
+    <state x="1285" y="481" key="run.anything.popup" timestamp="1608190363909">
+      <screen x="0" y="0" width="3840" height="2120" />
+    </state>
+    <state x="1285" y="481" key="run.anything.popup/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608190363909" />
   </component>
 </project>
