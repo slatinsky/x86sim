@@ -55,7 +55,7 @@
 <b>Registre:</b>
 <div class="regContainer">
     <div>
-        <Register bind:value={ax} label="ax"/>
+        <Register bind:value={ax} label="ax" bcolor="DARKSLATEGRAY"/>
         <Register bind:value={bx} label="bx"/>
         <Register bind:value={cx} label="cx"/>
         <Register bind:value={dx} label="dx"/>

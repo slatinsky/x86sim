@@ -8,7 +8,7 @@
         width: 560px;
 
         background-color: black;
-        color: white;
+        color: darkgray;
         padding: 1rem;
 
         font-family: monospace;

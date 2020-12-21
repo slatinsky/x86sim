@@ -7,10 +7,12 @@
     import {selectedFormat} from "../registersStore";
     import {baseToIntWrapper, intToBaseWrapper} from "../formatConverter";
 
-    let color = 'DARKSLATEGRAY'
+    export let bcolor = 'DARKSLATEGRAY'
     export let label = 'ax'     // register label
     let stringValue = '0000'    // value shown inside register input
     export let value = 0        // real integer value
+
+    export let largeSquare = false
 
     // if register value was changes from "outside" or it was changed using "validate() - transform it to internal "stringValue"
     $: {
@@ -63,6 +65,10 @@
         text-align: center;
     }
 
+    .square.large {
+        width: 3rem;
+    }
+
     .input {
         border: none;
         outline: none;
@@ -83,7 +89,7 @@
     }
 </style>
 
-<div class='input-container'>
-    <div class='square' style="background-color: {color}" data-tooltip="Všeobecný register">{label}</div>
+<div class="input-container">
+    <div class="square {largeSquare ? 'large' : ''}" style="background-color: {bcolor}" data-tooltip="Všeobecný register">{label}</div>
     <input class="input {$selectedFormat}" maxlength="16" type="string" min="0" bind:value={stringValue} on:blur={validate} on:focus={focusIn} on:keyup={keyUp} />
 </div>

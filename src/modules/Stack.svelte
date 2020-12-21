@@ -1,10 +1,14 @@
 <script>
-    import {onMount} from 'svelte';
+    import {onMount, afterUpdate} from 'svelte';
     import Register from "./Register.svelte";
+    import {sp} from "../registersStore";
+    import * as animateScroll from "svelte-scrollto";
 
     let stack = [
-        {address: 0, value: 10}
+        {address: 1000, value: 10}
     ]
+
+
 
     $: maxAddress = stack.reduce((currentHighestAddress, currentStackObj) => {
         if (currentStackObj.value !== 0) {
@@ -15,7 +19,7 @@
     }, 0)
 
     function insertItemToStack() {
-        stack = [{address: maxAddress + 2, value: 10}, ...stack]
+        stack = [...stack, {address: maxAddress + 2, value: 10}]
     }
 
 
@@ -26,13 +30,25 @@
         }
     });
 
+    afterUpdate(() => {
+        console.log('sp changed')
+
+        if ($sp % 2 === 0)
+            // https://www.npmjs.com/package/svelte-scrollto
+            animateScroll.scrollTo({
+                container: '#stack',
+                element: '.stackSP',
+                offset: -150
+            })
+    });
+
 </script>
 
 <style>
     #stack {
         overflow-y: scroll;
         height: 400px;
-        max-width: 300px;
+        max-width: 250px;
         margin: 1rem
     }
 </style>
@@ -41,11 +57,20 @@
 
 
 <b>Zásobník:</b>
-<div id="stack">
-    {#each stack as stackItem (stackItem.address)}
-        <Register bind:value={stackItem.value} label={stackItem.address}/>
-        <!--    <div><b>{stackItem.address}:</b> {stackItem.value}</div>-->
-    {/each}
+<div>
+    <div id="stack">
+        {#each stack as stackItem (stackItem.address)}
+            {#if stackItem.address === $sp}
+                <span class="stackSP"><Register bind:value={stackItem.value} label={stackItem.address} bcolor="red" largeSquare={true}/></span>
+            {:else if stackItem.address < $sp}
+                <Register bind:value={stackItem.value} label={stackItem.address} bcolor="gray" largeSquare={true}/>
+            {:else}
+                <Register bind:value={stackItem.value} label={stackItem.address} largeSquare={true}/>
+            {/if}
+
+            <!--    <div><b>{stackItem.address}:</b> {stackItem.value}</div>-->
+        {/each}
+    </div>
 </div>
 
 <button on:click={insertItemToStack}>DEBUG: insert value to stack</button> <br>

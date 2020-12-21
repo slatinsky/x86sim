@@ -11,12 +11,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/modules/Stack.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Register.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Register.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Registers.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Registers.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/registersStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/registersStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Screen.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Screen.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Stack.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Stack.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +65,8 @@
       <option name="presentableId" value="Default" />
       <updated>1608059687700</updated>
       <workItem from="1608059688907" duration="44873000" />
-      <workItem from="1608237599431" duration="6882000" />
+      <workItem from="1608237599431" duration="8182000" />
+      <workItem from="1608569952483" duration="2158000" />
     </task>
     <servers />
   </component>
@@ -81,6 +83,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2214" y="949" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1608127340403">
@@ -91,6 +94,10 @@
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
     <state x="1296" y="742" key="SettingsEditor/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608059723500" />
+    <state x="1581" y="1205" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1608572032762">
+      <screen x="0" y="0" width="3840" height="2120" />
+    </state>
+    <state x="1581" y="1205" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608572032762" />
     <state x="1285" y="481" key="run.anything.popup" timestamp="1608190363909">
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
