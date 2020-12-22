@@ -11,9 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/LoadSave.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/loadSave.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Registers.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Registers.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Screen.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Screen.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Stack.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Stack.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/registersStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/registersStore.js" afterDir="false" />
     </list>
@@ -28,13 +29,14 @@
         <option value="Navigation" />
         <option value="Photos" />
         <option value="Registers" />
-        <option value="JavaScript File" />
         <option value="Validator" />
         <option value="Screen" />
         <option value="Register" />
         <option value="Tooltip" />
         <option value="CodeEditor" />
         <option value="Stack" />
+        <option value="LoadSave" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -64,7 +66,7 @@
       <updated>1608059687700</updated>
       <workItem from="1608059688907" duration="44873000" />
       <workItem from="1608237599431" duration="8182000" />
-      <workItem from="1608569952483" duration="7492000" />
+      <workItem from="1608569952483" duration="13768000" />
     </task>
     <servers />
   </component>
@@ -92,10 +94,10 @@
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
     <state x="1296" y="742" key="SettingsEditor/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608059723500" />
-    <state x="1581" y="1205" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1608572032762">
+    <state x="1581" y="1205" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1608669204086">
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
-    <state x="1581" y="1205" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608572032762" />
+    <state x="1581" y="1205" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608669204086" />
     <state x="1285" y="481" key="run.anything.popup" timestamp="1608190363909">
       <screen x="0" y="0" width="3840" height="2120" />
     </state>

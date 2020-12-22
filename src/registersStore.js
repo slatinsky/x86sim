@@ -47,6 +47,10 @@ bp.useLocalStorage();
 export const sp = createWritableStore('sp', 0)
 sp.useLocalStorage();
 
+
+export const programs = createWritableStore('programs', [])
+programs.useLocalStorage();
+
 // export const registers = writable({
 //     'ax': {
 //         value: 0

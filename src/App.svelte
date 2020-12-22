@@ -6,6 +6,7 @@
 	import Tooltip from "./global/Tooltip.svelte";
 	import CodeEditor from "./modules/CodeEditor.svelte";
 	import Stack from "./modules/Stack.svelte";
+	import LoadSave from "./LoadSave.svelte";
 
 	export let name
 	let count = 1
@@ -60,8 +61,12 @@
 
 <main>
 	<Navigation />
+
 	<div class="container-fluid">
 		<div class="row">
+			<div class="col-12">
+				<LoadSave />
+			</div>
 			<div class="col-6">
 				<Registers />
 			</div>

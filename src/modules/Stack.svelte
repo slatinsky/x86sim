@@ -9,30 +9,6 @@
     let stack = []
 
 
-
-
-
-
-    // $: maxAddress = stack.reduce((currentHighestAddress, currentStackObj) => {
-    //     if (currentStackObj.value !== 0) {
-    //         return Math.max(currentHighestAddress, currentStackObj.address)
-    //     } else {
-    //         return currentHighestAddress
-    //     }
-    // }, 0)
-
-    // function insertItemToStack() {
-    //     stack = [...stack, {address: maxAddress + 2, value: 10}]
-    // }
-
-
-    // onMount(async () => {
-    //     //debug
-    //     for (let i = 0; i < 200; i++) {
-    //         setTimeout(insertItemToStack, i)
-    //     }
-    // });
-
     // does address referenced by stack pointer exist in stack?
     $: spAddressExistsInStack = stack.filter(stackItem => stackItem.address === $sp).length
     $: bpAddressExistsInStack = stack.filter(stackItem => stackItem.address === $bp).length
@@ -50,7 +26,7 @@
 
     onMount(async () => {
         // generate stack object
-        for (let address=1000; address < 2000;address+=2) {
+        for (let address=1000; address <= 2000;address+=2) {
             stack.push({address: address, value: 0})
         }
 
