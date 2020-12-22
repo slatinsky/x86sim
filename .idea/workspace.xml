@@ -11,12 +11,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/LoadSave.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/loadSave.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sim-svelte.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sim-svelte.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rollup.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/rollup.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/setupTypeScript.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Stack.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Stack.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/registersStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/registersStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/CodeEditor.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/CodeEditor.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +40,7 @@
         <option value="Stack" />
         <option value="LoadSave" />
         <option value="JavaScript File" />
+        <option value="AceEditor" />
       </list>
     </option>
   </component>
@@ -90,6 +94,22 @@
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
     <state x="2214" y="949" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608127340403" />
+    <state width="2534" height="577" key="GridCell.Tab.0.bottom" timestamp="1608676854457">
+      <screen x="0" y="0" width="3840" height="2120" />
+    </state>
+    <state width="2534" height="577" key="GridCell.Tab.0.bottom/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608676854457" />
+    <state width="2534" height="577" key="GridCell.Tab.0.center" timestamp="1608676854457">
+      <screen x="0" y="0" width="3840" height="2120" />
+    </state>
+    <state width="2534" height="577" key="GridCell.Tab.0.center/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608676854457" />
+    <state width="2534" height="577" key="GridCell.Tab.0.left" timestamp="1608676854457">
+      <screen x="0" y="0" width="3840" height="2120" />
+    </state>
+    <state width="2534" height="577" key="GridCell.Tab.0.left/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608676854457" />
+    <state width="2534" height="577" key="GridCell.Tab.0.right" timestamp="1608676854457">
+      <screen x="0" y="0" width="3840" height="2120" />
+    </state>
+    <state width="2534" height="577" key="GridCell.Tab.0.right/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608676854457" />
     <state x="1296" y="742" key="SettingsEditor" timestamp="1608059723500">
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
