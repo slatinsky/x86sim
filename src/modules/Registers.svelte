@@ -1,6 +1,6 @@
 <script>
     import Register from "./Register.svelte";
-    import {selectedFormat, sp} from "../registersStore";
+    import {selectedFormat, ax, bx, cx, dx, si, di, bp, sp} from "../registersStore";
 
     let formats = [
         { id: 'hex', text: `16-ková sústava` },
@@ -14,23 +14,14 @@
     // logs after selectedformat is changed
     $: console.log("selectedFormat", $selectedFormat)
 
-    let ax = 0
-    let bx = 0
-    let cx = 0
-    let dx = 0
-
-    let si = 0
-    let di = 0
-    let bp = 0
-    // let sp = 0
     function resetNew() {
-        ax = 10
-        bx = 20
-        cx = 30
-        dx = 40
-        si = 50
-        di = 60000
-        bp = 32767
+        $ax = 10
+        $bx = 20
+        $cx = 30
+        $dx = 40
+        $si = 50
+        $di = 60000
+        $bp = 32767
         $sp = -32768
     }
 
@@ -38,7 +29,7 @@
         console.log(value);
     });
 
-    $: decValues = `DEBUG - ax: ${ax}, bx: ${bx}, cx: ${cx}, dx: ${dx}, format: ${$selectedFormat}`
+    $: decValues = `DEBUG - ax: ${$ax}, bx: ${$bx}, cx: ${$cx}, dx: ${$dx}, format: ${$selectedFormat}`
 
 </script>
 
@@ -55,15 +46,15 @@
 <b>Registre:</b>
 <div class="regContainer">
     <div>
-        <Register bind:value={ax} label="ax" bcolor="DARKSLATEGRAY"/>
-        <Register bind:value={bx} label="bx"/>
-        <Register bind:value={cx} label="cx"/>
-        <Register bind:value={dx} label="dx"/>
+        <Register bind:value={$ax} label="ax" bcolor="DARKSLATEGRAY"/>
+        <Register bind:value={$bx} label="bx"/>
+        <Register bind:value={$cx} label="cx"/>
+        <Register bind:value={$dx} label="dx"/>
     </div>
     <div>
-        <Register bind:value={si} label="si"/>
-        <Register bind:value={di} label="di"/>
-        <Register bind:value={bp} label="bp"/>
+        <Register bind:value={$si} label="si"/>
+        <Register bind:value={$di} label="di"/>
+        <Register bind:value={$bp} label="bp"/>
         <Register bind:value={$sp} label="sp"/>
     </div>
 
