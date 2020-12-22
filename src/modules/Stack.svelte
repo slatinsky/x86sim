@@ -1,4 +1,5 @@
 <script>
+    import { fade } from 'svelte/transition';
     import {onMount, afterUpdate} from 'svelte';
     import Register from "./Register.svelte";
     import {sp} from "../registersStore";
@@ -30,26 +31,43 @@
         }
     });
 
+    $: spAddressExistsInStack = stack.filter(stackItem => stackItem.address === $sp).length
+
     afterUpdate(() => {
         console.log('sp changed')
 
-        if ($sp % 2 === 0)
+        if (spAddressExistsInStack) {
             // https://www.npmjs.com/package/svelte-scrollto
             animateScroll.scrollTo({
                 container: '#stack',
                 element: '.stackSP',
                 offset: -150
             })
+        }
     });
 
 </script>
 
 <style>
+
+    #wrapper {
+        position: relative;
+        max-width: 250px;
+    }
+
     #stack {
         overflow-y: scroll;
         height: 400px;
-        max-width: 250px;
         margin: 1rem
+    }
+
+    #warning {
+        z-index: 20;
+        padding: 1rem;
+        background-color: rgba(48, 48, 48, 0.80);
+        top: 0;
+        position: absolute;
+        color: #f3a8a8;
     }
 </style>
 
@@ -57,7 +75,11 @@
 
 
 <b>Zásobník:</b>
-<div>
+
+<div id="wrapper">
+    {#if !spAddressExistsInStack}
+        <div id="warning" transition:fade={{ duration: 150 }}>Varovanie: stack pointer ukazuje mimo zásobníka</div>
+    {/if}
     <div id="stack">
         {#each stack as stackItem (stackItem.address)}
             {#if stackItem.address === $sp}
