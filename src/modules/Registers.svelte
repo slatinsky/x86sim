@@ -54,8 +54,8 @@
     <div>
         <Register bind:value={$si} label="si"/>
         <Register bind:value={$di} label="di"/>
-        <Register bind:value={$bp} label="bp"/>
-        <Register bind:value={$sp} label="sp"/>
+        <Register bind:value={$bp} label="bp" bcolor="darkred"/>
+        <Register bind:value={$sp} label="sp" bcolor="red"/>
     </div>
 
 </div>

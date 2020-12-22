@@ -3,9 +3,16 @@
     let maxRows = 10
     let lines = []
     $: {
-        let linesTemp = text.match(/[\s\S]{1,60}/g)
-        if (linesTemp.length > maxRows) linesTemp.length = maxRows;
-        lines = linesTemp
+        if (text) {
+            let linesTemp = text.match(/[\s\S]{1,60}/g)
+            if (linesTemp.length > maxRows) linesTemp.length = maxRows;
+            lines = linesTemp
+        }
+        else {
+            lines = []
+        }
+
+
     }
 </script>
 
