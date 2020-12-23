@@ -4,7 +4,7 @@
     import "brace/mode/assembly_x86";
     import "brace/theme/dracula";
     import "brace/ext/language_tools";
-    import {code} from "../store"
+    import {code} from "../store/store"
     let editor
     function init(editor) {
         window.editor = editor

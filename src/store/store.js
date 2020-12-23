@@ -41,10 +41,10 @@ si.useLocalStorage();
 export const di = createWritableStore('di', 0)
 di.useLocalStorage();
 
-export const bp = createWritableStore('bp', 0)
+export const bp = createWritableStore('bp', 2000)
 bp.useLocalStorage();
 
-export const sp = createWritableStore('sp', 0)
+export const sp = createWritableStore('sp', 2000)
 sp.useLocalStorage();
 
 export const code = createWritableStore('code', `// Ukážkový assembler kód
