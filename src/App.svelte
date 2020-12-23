@@ -63,24 +63,26 @@
 
 <main>
 	<Navigation />
-
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12">
-				<LoadSave />
-			</div>
-			<div class="col-6">
-				<Registers />
-			</div>
-			<div class="col-6">
-				<Stack />
-			</div>
-			<div class="col-6">
-				<Screen />
-			</div>
-
-			<div class="col-6">
+			<div class="col-3">
 				<CodeEditor />
+			</div>
+			<div class="col-9">
+				<div class="row">
+					<div class="col-6">
+						<LoadSave />
+					</div>
+					<div class="col-6">
+						<Registers />
+					</div>
+					<div class="col-6">
+						<Stack />
+					</div>
+					<div class="col-6">
+						<Screen />
+					</div>
+				</div>
 			</div>
 		</div>
 

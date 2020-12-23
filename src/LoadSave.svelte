@@ -1,5 +1,5 @@
 <script>
-    import {programs} from "./registersStore";
+    import {programs} from "./store";
     import {saveProgram, loadProgram, deleteProgram} from "./loadSave";
 
     let value

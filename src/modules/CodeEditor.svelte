@@ -2,20 +2,7 @@
     import { AceEditor } from "svelte-ace";
     import "brace/mode/assembly_x86";
     import "brace/theme/dracula";
-    let text = `// Ukážkový assembler kód
-// Spočítaj čísla v intervale 1-10
-
-mov cx, 10
-xor ax,ax
-
-loop:
-    add ax, cx
-    dec cx
-    jnz loop
-
-end:
-hlt
-`;
+    import {code} from "../store"
     let editor
     function init(editor) {
         window.editor = editor
@@ -60,10 +47,10 @@ hlt
         on:changeMode={(obj) => console.log(`change mode : ${obj.detail}`)}
         on:blur={() => console.log('blur')}
         width='100%'
-        height='300px'
+        height='90vh'
         lang="assembly_x86"
         theme="dracula"
-        value={text}
+        bind:value={$code}
 />
 
 

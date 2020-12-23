@@ -12,8 +12,14 @@
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LoadSave.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadSave.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/loadSave.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/loadSave.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/CodeEditor.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/CodeEditor.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Register.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Register.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Registers.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Registers.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Screen.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Screen.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Stack.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Stack.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/registersStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

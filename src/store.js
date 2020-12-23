@@ -47,6 +47,22 @@ bp.useLocalStorage();
 export const sp = createWritableStore('sp', 0)
 sp.useLocalStorage();
 
+export const code = createWritableStore('code', `// Ukážkový assembler kód
+// Spočítaj čísla v intervale 1-10
+
+mov cx, 10
+xor ax,ax
+
+loop:
+    add ax, cx
+    dec cx
+    jnz loop
+
+end:
+hlt
+`)
+code.useLocalStorage();
+
 
 export const programs = createWritableStore('programs', [])
 programs.useLocalStorage();

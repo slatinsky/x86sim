@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import {selectedFormat, ax, bx, cx, dx, si, di, bp, sp, programs} from "./registersStore";
+import {selectedFormat, ax, bx, cx, dx, si, di, bp, sp, programs, code} from "./store";
 
 function getProgram(programName) {
     let allPrograms = get(programs)
@@ -51,7 +51,8 @@ export function saveProgram(programName) {
             si: get(si),
             di: get(di),
             bp: get(bp),
-            sp: get(sp)
+            sp: get(sp),
+            code: get(code)
         }
     }
 
@@ -72,6 +73,7 @@ export function loadProgram(programName) {
         di.set(program.di)
         bp.set(program.bp)
         sp.set(program.sp)
+        code.set(program.code)
     }
     else {
         alert(`Program with name ${program} doesn't exist`)
