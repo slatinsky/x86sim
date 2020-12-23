@@ -1,7 +1,9 @@
 <script lang="ts">
     import { AceEditor } from "svelte-ace";
+    import * as ace from "brace";
     import "brace/mode/assembly_x86";
     import "brace/theme/dracula";
+    import "brace/ext/language_tools";
     import {code} from "../store"
     let editor
     function init(editor) {
@@ -19,12 +21,63 @@
             }
         };
 
+        // add autocomplete to the editor
+        // https://stackoverflow.com/a/30047705/14409632
+        // https://github.com/thlorenz/brace/issues/19#issuecomment-74065730
+        var langTools = ace.acequire("ace/ext/language_tools");
+        let staticWordCompleter = {
+            getCompletions: function(editor, session, pos, prefix, callback) {
+                console.log(pos)
+                var wordList = ["mov", "jmp", "je", "jne"];
+                callback(null, wordList.map(function(word) {
+                    console.log("word", word)
+                    return {
+                        score: 9999, // top priority when sorting
+                        caption: word,
+                        value: word,
+                        meta: "static"
+                    };
+                }));
+            }
+        }
+
+        // add snippets to the editor
+        //https://stackoverflow.com/questions/32091515/ace-editor-auto-completion-less-priority-for-local-snippets-text
+        let snippetsCompleter = {
+            getCompletions: function(editor, session, pos, prefix, callback) {
+                var completions = [];
+                completions.push({
+                    caption: "save registers to stack",
+                    snippet: `// save registers to stack
+push ax
+push bx
+push cx
+push dx
+
+...your code
+
+// restore registers from stack
+pop dx
+pop cx
+pop bx
+pop ax`,
+                    meta: "snippet"
+                });
+                callback(null, completions);
+            }
+        }
+        langTools.addCompleter(staticWordCompleter);
+        langTools.addCompleter(snippetsCompleter);
+
         // hide vertical ruler (after 80 characters in the editor)
         editor.setShowPrintMargin(false);
 
         // larger font
         editor.setOptions({
-            fontSize: 16
+            fontSize: 16,
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
         });
     }
 
