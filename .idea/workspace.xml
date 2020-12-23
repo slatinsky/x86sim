@@ -11,8 +11,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/modules/codeEditor/completers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/CodeEditor.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/CodeEditor.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LoadSave.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadSave.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/loadSave.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/loadSave.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/CodeEditor.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/codeEditor/CodeEditor.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Register.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Register.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Registers.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Registers.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Stack.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Stack.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,8 +40,8 @@
         <option value="CodeEditor" />
         <option value="Stack" />
         <option value="LoadSave" />
-        <option value="JavaScript File" />
         <option value="AceEditor" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -52,6 +60,12 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dodomeka2\react\sim-svelte\src\modules\codeEditor" />
+      <recent name="C:\dodomeka2\react\sim-svelte\src\store" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

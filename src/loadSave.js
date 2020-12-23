@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import {selectedFormat, ax, bx, cx, dx, si, di, bp, sp, programs, code} from "./store";
+import {selectedFormat, ax, bx, cx, dx, si, di, bp, sp, programs, code} from "./store/store";
 
 function getProgram(programName) {
     let allPrograms = get(programs)

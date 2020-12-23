@@ -1,6 +1,6 @@
 <script>
     import Register from "./Register.svelte";
-    import {selectedFormat, ax, bx, cx, dx, si, di, bp, sp} from "../store";
+    import {selectedFormat, ax, bx, cx, dx, si, di, bp, sp} from "../store/store";
 
     let formats = [
         { id: 'hex', text: `16-ková sústava` },

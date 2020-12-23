@@ -4,7 +4,7 @@
 
 <script>
     console.log("RERENDERED register")
-    import {selectedFormat} from "../store";
+    import {selectedFormat} from "../store/store";
     import {baseToIntWrapper, intToBaseWrapper} from "../formatConverter";
 
     export let bcolor = 'DARKSLATEGRAY'
