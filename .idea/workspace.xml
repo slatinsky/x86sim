@@ -11,16 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/modules/codeEditor/completers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LoadSave.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadSave.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/loadSave.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/loadSave.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/CodeEditor.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/codeEditor/CodeEditor.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Register.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Register.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Registers.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Registers.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Stack.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Stack.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LoadSave.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/LoadSave.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/loadSave.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/loadSave.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,12 +53,13 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="ts.external.directory.path" value="C:\dodomeka2\react\sim-svelte\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\dodomeka2\react\sim-svelte\src\modules\codeEditor" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\store" />
+      <recent name="C:\dodomeka2\react\sim-svelte\src\modules\codeEditor" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -97,10 +92,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2214" y="949" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1608127340403">
+    <state x="2214" y="949" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1608754811741">
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
-    <state x="2214" y="949" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608127340403" />
+    <state x="2214" y="949" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608754811741" />
     <state width="2534" height="577" key="GridCell.Tab.0.bottom" timestamp="1608676854457">
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
