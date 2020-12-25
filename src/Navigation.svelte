@@ -1,5 +1,5 @@
 <script>
-
+    import {projectsShown, settingsShown} from "./store/store";
 </script>
 
 <style>
@@ -31,7 +31,7 @@
         <li><i class="fas fa-play"></i> Spustiť</li>
         <li><i class="fas fa-pause"></i> Pozastaviť</li>
         <li><i class="fas fa-stop"></i> Zresetovať</li>
-        <li><i class="fas fa-folder-open"></i> Projekty</li>
-        <li><i class="fas fa-cog"></i> Nastavenia</li>
+        <li on:click={() => $projectsShown = true}><i class="fas fa-folder-open"></i> Projekty</li>
+        <li on:click={() => $settingsShown = true}><i class="fas fa-cog"></i> Nastavenia</li>
     </ul>
 </nav>

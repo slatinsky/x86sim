@@ -15,6 +15,10 @@
 	import CodeEditor from "./modules/codeEditor/CodeEditor.svelte";
 	import Stack from "./modules/Stack.svelte";
 	import LoadSave from "./store/LoadSave.svelte";
+	import Modal from "./components/Modal.svelte";
+
+	import {settingsShown, projectsShown} from "./store/store.js"
+	import Settings from "./modules/Settings.svelte";
 </script>
 
 <style>
@@ -39,9 +43,6 @@
 			<div class="col-9">
 				<div class="row">
 					<div class="col-6">
-						<LoadSave />
-					</div>
-					<div class="col-6">
 						<Registers />
 					</div>
 					<div class="col-6">
@@ -54,6 +55,14 @@
 			</div>
 		</div>
 	</div>
+
+	<Modal bind:shown={$settingsShown}>
+		<Settings />
+	</Modal>
+
+	<Modal bind:shown={$projectsShown}>
+		<LoadSave />
+	</Modal>
 </main>
 
 <Tooltip />

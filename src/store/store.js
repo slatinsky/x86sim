@@ -82,3 +82,8 @@ programs.useLocalStorage();
 //     },
 // });
 
+
+export const settingsShown = writable(false);
+export const projectsShown = writable(false);
+export const debug = createWritableStore(true);
+debug.useLocalStorage();
