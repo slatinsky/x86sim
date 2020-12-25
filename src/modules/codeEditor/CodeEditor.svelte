@@ -11,6 +11,8 @@
 
     let editor
     let errorCheckingInterval
+    let breakpoints
+
     function init(e) {
         editor = e
         window.editor = editor
@@ -47,6 +49,32 @@
             useWorker: false
         });
 
+        // add breakpoints to ace editor
+        // https://ourcodeworld.com/articles/read/1052/how-to-add-toggle-breakpoints-on-the-ace-editor-gutter
+        // TODO: save breakpoints in a project file
+        editor.on("guttermousedown", function(e) {
+            var target = e.domEvent.target;
+            if (target.className.indexOf("ace_gutter-cell") == -1)
+                return;
+            // if (!editor.isFocused())
+            //     return;
+
+            // allow setting breakpoints only on the left side of editor gutter
+            if (e.clientX > 25 + target.getBoundingClientRect().left)
+                return;
+
+            let breakpointsTemp = e.editor.session.getBreakpoints(row, 0);
+
+            var row = e.getDocumentPosition().row;
+            if(breakpointsTemp[row] === undefined)
+                e.editor.session.setBreakpoint(row);
+            else
+                e.editor.session.clearBreakpoint(row);
+            e.stop();
+
+            breakpoints = e.editor.session.getBreakpoints(row, 0);
+        })
+
         // run annotate function first time after load
         setTimeout(()=>annotate(editor, $code), 2000)
     }
@@ -54,9 +82,28 @@
     // debounce annotate function - don't interrupt user while he is typing. Show/update errors only when user stops typing the code
     const debouncedAnnotate = debounce(() => annotate(editor, $code), 400)
 
+    $: console.log("breakpoints", breakpoints)
 
 
 </script>
+
+<style>
+    :global(.ace_breakpoint) {
+        position: relative;
+        background-color: darkred;
+    }
+
+    /*draw a circle https://stackoverflow.com/a/6937010/14409632*/
+    :global(.ace_breakpoint:before) {
+        cursor: pointer;
+        position: absolute;
+        color: red;
+        content: '\25CF';
+        font-size: 30px;
+        top: -10px;
+        left: 2px;
+    }
+</style>
 
 <b>Editor kódu:</b>
 

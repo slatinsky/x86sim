@@ -8,6 +8,9 @@
 </svelte:head>
 
 <script lang="ts">
+	// clear the loader
+	document.body.innerHTML = '';
+
 	import Navigation from "./Navigation.svelte"
 	import Registers from "./modules/Registers.svelte";
 	import Screen from "./modules/Screen.svelte";

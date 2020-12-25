@@ -44,6 +44,7 @@ export let mainCompleter = {
             }));
         }
         // second parameter
+        // TODO: refactor the check, don't expect the delimeter to be space, it is a comma
         else if (wordCount(curLine) === 3) {
             callback(null, registers.map(register => {
                 return {

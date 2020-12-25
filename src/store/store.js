@@ -10,7 +10,7 @@ const createWritableStore = (key, startValue) => {
         useLocalStorage: () => {
             const json = localStorage.getItem(key);
             if (json) {
-                set(JSON.parse(json));
+                set(JSON.parse(json));      //TODO delete the key if it is invalid (for example 'undefined')
             }
 
             subscribe(current => {

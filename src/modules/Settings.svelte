@@ -10,7 +10,7 @@
     ];
 </script>
 
-<h3>Nastavenia 2</h3>
+<h3>Nastavenia</h3>
 
 <div>
     <label for="selectedFormat">Formát čísel</label>
