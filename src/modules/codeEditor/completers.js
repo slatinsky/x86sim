@@ -1,17 +1,6 @@
-const registers = ['ax', 'bx', 'cx', 'dx', 'si', 'di', 'bp', 'sp', 'f', 'ip']
-const instructionsZeroParameters = ['ret']
-const instructionsOneParameter = ['jmp', 'je', 'jne', 'push', 'pop', 'mul']
-const instructionsTwoParameters = ['mov', 'add', 'sub', 'xor', 'cmp']
+import {registers, instructionsZeroParameters, instructionsOneParameter, instructionsTwoParameters} from "../../config"
 
-// counts the words in a string
-function wordCount(str) {
-    return str.trim().split(" ").length;
-}
-
-// returns first word in a string
-function firstWord(str) {
-    return str.trim().split(" ")?.[0]
-}
+import {firstWord, wordCount} from '../../helperFunctions'
 
 // main autocomplete
 export let mainCompleter = {
@@ -76,15 +65,15 @@ export let mainCompleter = {
 let snippets = [
     {
         caption: "save registers to stack",
-        code: `// save registers to stack
+        code: `; save registers to stack
 push ax
 push bx
 push cx
 push dx
 
-...your code
+; ...your code 
 
-// restore registers from stack
+; restore registers from stack
 pop dx
 pop cx
 pop bx
@@ -95,22 +84,22 @@ pop ax
         caption: "infinite loop",
         code: `again:
         
-    ...this will be running indefinitely
+    ; ...this will be running indefinitely
     
     jmp again
 `
     },
     {
         caption: "repeat 10-times",
-        code: `push cx
-mov cx, 10
+        code: `push cx  ; save current cx value to stack
+mov cx, 10  ; counter
 again:
     
-    ...this code will run 10 times
+    ; ...this code will run 10 times
     
-    inc cx
-    jne again
-pop cx
+    dec cx
+    jne again  ; jump to label 'again' if cx not zero
+pop cx    ; restore original cx value from stack
 `
     }
 ]

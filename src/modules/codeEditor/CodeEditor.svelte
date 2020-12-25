@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { debounce } from 'lodash-es';
     import { AceEditor } from "svelte-ace";
     import * as ace from "brace";
     import "brace/mode/assembly_x86";
@@ -6,8 +7,12 @@
     import "brace/ext/language_tools";
     import {code} from "../../store/store"
     import {mainCompleter, snippetsCompleter} from "./completers"
+    import {annotate} from "./annotations.js"
+
     let editor
-    function init(editor) {
+    let errorCheckingInterval
+    function init(e) {
+        editor = e
         window.editor = editor
 
         // custom line formatting: https://stackoverflow.com/questions/28311086/modify-the-gutter-of-ajax-org-cloud9-editor-ace-editor
@@ -38,9 +43,17 @@
             fontSize: 16,
             enableBasicAutocompletion: true,
             enableSnippets: false,
-            enableLiveAutocompletion: true
+            enableLiveAutocompletion: true,
+            useWorker: false
         });
+
+        // run annotate function first time after load
+        setTimeout(()=>annotate(editor, $code), 2000)
     }
+
+    // debounce annotate function - don't interrupt user while he is typing. Show/update errors only when user stops typing the code
+    const debouncedAnnotate = debounce(() => annotate(editor, $code), 400)
+
 
 
 </script>
@@ -52,7 +65,7 @@
 <AceEditor
         on:selectionChange={(obj) => console.log(obj.detail)}
         on:paste={(obj) => editor.execCommand("paste", obj.detail)}
-        on:input={(obj) => console.log(obj.detail)}
+        on:input={(obj) => debouncedAnnotate(obj.detail)}
         on:focus={() => console.log('focus')}
         on:documentChange={(obj) => console.log(`document change : ${obj.detail}`)}
         on:cut={() => editor.execCommand("cut")}
