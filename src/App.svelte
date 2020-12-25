@@ -9,9 +9,11 @@
 
 <script lang="ts">
 	// clear the loader
+	import Help from "./modules/Help.svelte";
+
 	document.body.innerHTML = '';
 
-	import Navigation from "./Navigation.svelte"
+	import Navigation from "./modules/Navigation.svelte"
 	import Registers from "./modules/Registers.svelte";
 	import Screen from "./modules/Screen.svelte";
 	import Tooltip from "./global/Tooltip.svelte";
@@ -20,7 +22,7 @@
 	import LoadSave from "./store/LoadSave.svelte";
 	import Modal from "./components/Modal.svelte";
 
-	import {settingsShown, projectsShown} from "./store/store.js"
+	import {settingsShown, projectsShown, helpShown} from "./store/store.js"
 	import Settings from "./modules/Settings.svelte";
 </script>
 
@@ -65,6 +67,10 @@
 
 	<Modal bind:shown={$projectsShown}>
 		<LoadSave />
+	</Modal>
+
+	<Modal bind:shown={$helpShown}>
+		<Help />
 	</Modal>
 </main>
 

@@ -11,13 +11,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/modules/Help.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Settings.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Settings.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/codeEditor/CodeEditor.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/codeEditor/CodeEditor.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/codeEditor/annotations.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/codeEditor/annotations.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/codeEditor/completers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/codeEditor/completers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Navigation.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Navigation.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Photos.svelte" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,6 +40,7 @@
         <option value="Modal" />
         <option value="Settings" />
         <option value="JavaScript File" />
+        <option value="Help" />
       </list>
     </option>
   </component>
@@ -64,6 +63,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dodomeka2\react\sim-svelte\src\modules" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\store" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\modules\codeEditor" />
     </key>
