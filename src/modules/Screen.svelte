@@ -23,13 +23,16 @@
         width: 560px;
 
         background-color: black;
-        color: darkgray;
         padding: 1rem;
 
         font-family: monospace;
         font-size: 16px;
         text-align: left;
 
+    }
+
+    #screen span {
+        color: darkgray;
     }
 
     textarea {

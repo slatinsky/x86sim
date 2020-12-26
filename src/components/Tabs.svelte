@@ -20,16 +20,19 @@
         position: fixed;
         width: 200px;
         height: 80vh;
-        background-color: midnightblue;
-        color: white;
+        background-color: var(--primary-background);
+
         list-style: none;
         padding-left: 0;
         margin: 0;
     }
+    .tabMenu li {
+        color: var(--white-text-color);
+    }
 
     .tabMenuMainTitle {
         font-weight: bold;
-        padding: .5rem 1rem;
+        padding: .5rem 1rem 1.5rem 1rem;
     }
 
     .tabMenu > li.tabMenuTitle {
@@ -46,6 +49,7 @@
     .tabContent {
         width: 100%;
         padding: 1rem 1rem 1rem calc(200px + 1rem);
+        background-color: var(--body-background);
     }
 </style>
 
@@ -54,7 +58,7 @@
         <li class="tabMenuMainTitle">{title}</li>
         {#each items as item}
             <li class="tabMenuTitle {activeTabValue === item.value ? 'active' : ''}" on:click={handleClick(item.value)}>
-                <span>{item.label}</span>
+                {item.label}
             </li>
         {/each}
     </ul>

@@ -22,15 +22,22 @@
 	import LoadSave from "./store/LoadSave.svelte";
 	import Modal from "./components/Modal.svelte";
 
-	import {settingsShown, projectsShown, helpShown} from "./store/store.js"
+	import {settingsShown, projectsShown, helpShown, darkTheme} from "./store/store.js"
 	import Settings from "./modules/Settings.svelte";
+
+	$: {
+		if ($darkTheme) {
+			window.document.documentElement.classList.add('dark')
+		}
+		else {
+			window.document.documentElement.classList.remove('dark')
+		}
+		console.log('darkTheme', $darkTheme)
+	}
 </script>
 
 <style>
-	:global(body) {
-		margin: 0 !important;
-		padding: 0 !important;
-	}
+
 
 	#grid {
 		display: grid;
@@ -59,24 +66,6 @@
 				<Screen />
 			</div>
 		</div>
-<!--		<div class="row">-->
-<!--			<div class="col-3">-->
-<!--				<CodeEditor />-->
-<!--			</div>-->
-<!--			<div class="col-9">-->
-<!--				<div class="row">-->
-<!--					<div class="col-6">-->
-<!--						<Registers />-->
-<!--					</div>-->
-<!--					<div class="col-6">-->
-<!--						<Stack />-->
-<!--					</div>-->
-<!--					<div class="col-6">-->
-<!--						<Screen />-->
-<!--					</div>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		</div>-->
 	</div>
 
 	<Modal bind:shown={$settingsShown}>

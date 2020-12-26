@@ -88,3 +88,7 @@ export const projectsShown = writable(false);
 export const helpShown = writable(false);
 export const debug = createWritableStore(true);
 debug.useLocalStorage();
+
+
+export const darkTheme = createWritableStore('darkTheme', false)
+darkTheme.useLocalStorage();

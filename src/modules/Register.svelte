@@ -70,9 +70,6 @@
     }
 
     .input {
-        border: none;
-        outline: none;
-        border-bottom: 1px solid silver;
         width: 100px;
     }
 
@@ -82,10 +79,6 @@
 
     input.hex {
         width: 50px;
-    }
-
-    .input:focus {
-        border-bottom: 1px solid midnightblue;
     }
 </style>
 

@@ -12,52 +12,139 @@ body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
+
+/*colors - light theme*/
+:root {
+	--primary-background: midnightblue;
+	--body-background: white;
+	--text-color: #161616;
+	--white-text-color: white;
+	--link-color: #0d6efd;
+	--visited-link-color: rgb(0,80,160);
+	--input-background: white;
+	--input-border-color: silver;
+}
+
+/* Overrides colors in :root */
+/*colors - dark theme*/
+html.dark {
+
+	--primary-background: #2d2d2d;
+	--body-background: #161616;
+	--text-color: #d6d6d6;
+	--white-text-color: #d6d6d6;
+	--link-color: #8f8f8f;
+	--visited-link-color: #727272;
+	--input-background: #282828;
+	--input-border-color: #5d5d5d;
+}
+
+body {
+	background-color: var(--body-background) !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+input {
+	background-color: var(--input-background);
+	color: var(--text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+b,
+li,
+label,
+span {
+	color: var(--text-color);
+}
+
+/* Link styling */
 a {
-	color: rgb(0,100,200);
-	text-decoration: none;
+	color: var(--link-color);
 }
-
-a:hover {
-	text-decoration: underline;
-}
-
 a:visited {
-	color: rgb(0,80,160);
+	color: var(--visited-link-color);
 }
 
-label {
-	display: block;
+
+/* Dark theme scrollbar styling - chrome only */
+html.dark *::-webkit-scrollbar {
+	width: 1em;
 }
 
-input, button, select, textarea {
-	font-family: inherit;
-	font-size: inherit;
-	-webkit-padding: 0.4em 0;
-	padding: 0.4em;
-	margin: 0 0 0.5em 0;
-	box-sizing: border-box;
-	border: 1px solid #ccc;
-	border-radius: 2px;
+html.dark *::-webkit-scrollbar-track,
+html.dark *::-webkit-scrollbar-corner{
+	background-color: rgb(16, 16, 16);
 }
 
-input:disabled {
-	color: #ccc;
+html.dark *::-webkit-scrollbar-thumb {
+	background-color: darkgrey;
+	outline: 1px solid darkgrey;
 }
 
-button {
-	color: #333;
-	background-color: #f4f4f4;
+/* Input styling */
+.input {
+	border: none;
 	outline: none;
+	border-bottom: 1px solid var(--input-border-color);
 }
 
-button:disabled {
-	color: #999;
+.input:focus {
+	border-bottom: 1px solid var(--text-color);
 }
 
-button:not(:disabled):active {
-	background-color: #ddd;
-}
+/*a {*/
+/*	color: rgb(0,100,200);*/
+/*	text-decoration: none;*/
+/*}*/
 
-button:focus {
-	border-color: #666;
-}
+/*a:hover {*/
+/*	text-decoration: underline;*/
+/*}*/
+
+/*a:visited {*/
+/*	color: rgb(0,80,160);*/
+/*}*/
+
+/*label {*/
+/*	display: block;*/
+/*}*/
+
+/*input, button, select, textarea {*/
+/*	font-family: inherit;*/
+/*	font-size: inherit;*/
+/*	-webkit-padding: 0.4em 0;*/
+/*	padding: 0.4em;*/
+/*	margin: 0 0 0.5em 0;*/
+/*	box-sizing: border-box;*/
+/*	border: 1px solid #ccc;*/
+/*	border-radius: 2px;*/
+/*}*/
+
+/*input:disabled {*/
+/*	color: #ccc;*/
+/*}*/
+
+/*button {*/
+/*	color: #333;*/
+/*	background-color: #f4f4f4;*/
+/*	outline: none;*/
+/*}*/
+
+/*button:disabled {*/
+/*	color: #999;*/
+/*}*/
+
+/*button:not(:disabled):active {*/
+/*	background-color: #ddd;*/
+/*}*/
+
+/*button:focus {*/
+/*	border-color: #666;*/
+/*}*/

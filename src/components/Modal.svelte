@@ -26,7 +26,7 @@
 
     .smodalContent {
         z-index: 101;
-        background-color: white;
+        background-color: var(--body-background);
         width: 90%;
         max-width: 1000px;
         /*padding: 2rem;*/

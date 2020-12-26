@@ -14,6 +14,9 @@
 </script>
 
 <style>
+    #main {
+        padding: 2rem;
+    }
     #main > div {
         margin: 1.5rem 0;
     }
@@ -32,8 +35,9 @@
     }
 </style>
 
-<h3>Projekty</h3>
+
 <div id="main">
+    <h3>Projekty</h3>
     <div>
         <div><b>Projekty:</b></div>
         <label for="projectNameInput">Meno projektu</label>
@@ -50,7 +54,7 @@
             <div id="programList">
                 {#each $programs as program}
                     <div class="program" on:click={()=>{loadProgram(program.name); value=program.name}}>
-                        {program.name}
+                        <span>{program.name}</span>
                     </div>
                 {/each}
             </div>

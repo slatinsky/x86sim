@@ -4,7 +4,7 @@
 
 <style>
     nav {
-        background-color: midnightblue;
+        background-color: var(--primary-background);
     }
 
     ul {
@@ -14,7 +14,7 @@
         list-style-type: none;
     }
     li {
-        color: white;
+        color: var(--white-text-color);
         padding: 1rem;
         cursor: pointer;
         user-select: none;
