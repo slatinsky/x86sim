@@ -47,7 +47,8 @@
 
     #wrapper {
         position: relative;
-        max-width: 250px;
+        width: 100%;
+        /*max-width: 250px;*/
     }
 
     #stack {

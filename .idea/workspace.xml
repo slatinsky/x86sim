@@ -11,11 +11,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/modules/Help.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Tabs.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/help/tabs/HelpAboutSim.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/help/tabs/HelpBeginning.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/help/tabs/HelpCodeEditor.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/help/tabs/HelpRegisters.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/help/tabs/HelpScreen.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Navigation.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Navigation.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Photos.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Modal.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Help.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/help/Help.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Stack.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Stack.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/codeEditor/CodeEditor.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/codeEditor/CodeEditor.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +49,12 @@
         <option value="Settings" />
         <option value="JavaScript File" />
         <option value="Help" />
+        <option value="Tabs" />
+        <option value="HelpRegisters" />
+        <option value="HelpScreen" />
+        <option value="HelpCodeEditor" />
+        <option value="HelpBeginning" />
+        <option value="HelpAboutSim" />
       </list>
     </option>
   </component>
@@ -56,13 +70,18 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="C:\dodomeka2\react\sim-svelte\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dodomeka2\react\sim-svelte\src\components" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dodomeka2\react\sim-svelte\src\modules\help" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\modules" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\store" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\modules\codeEditor" />
@@ -126,10 +145,14 @@
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
     <state x="1581" y="1205" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608669204086" />
-    <state x="1285" y="481" key="run.anything.popup" timestamp="1608190363909">
+    <state x="215" y="0" width="1907" height="1923" key="dock-window-1" timestamp="1608941210975">
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
-    <state x="1285" y="481" key="run.anything.popup/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608190363909" />
+    <state x="215" y="0" width="1907" height="1923" key="dock-window-1/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608941210975" />
+    <state x="1285" y="481" width="672" height="677" key="run.anything.popup" timestamp="1608941255282">
+      <screen x="0" y="0" width="3840" height="2120" />
+    </state>
+    <state x="1285" y="481" width="672" height="677" key="run.anything.popup/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608941255282" />
     <state x="1222" y="579" width="672" height="678" key="search.everywhere.popup" timestamp="1608718698146">
       <screen x="0" y="0" width="3840" height="2120" />
     </state>

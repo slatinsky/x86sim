@@ -9,7 +9,7 @@
 
 <script lang="ts">
 	// clear the loader
-	import Help from "./modules/Help.svelte";
+	import Help from "./modules/help/Help.svelte";
 
 	document.body.innerHTML = '';
 
@@ -32,33 +32,51 @@
 		padding: 0 !important;
 	}
 
-	/*@media (min-width: 640px) {*/
+	#grid {
+		display: grid;
+        grid-template-columns: 300px auto auto;
+		gap: 15px
+	}
 
-	/*}*/
+	@media (min-width: 992px) {
+		#grid {
+			grid-template-columns: 450px auto auto;
+		}
+	}
 </style>
 
 
 <main>
 	<Navigation />
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-3">
-				<CodeEditor />
+		<div id="grid">
+			<CodeEditor />
+			<div>
+				<Registers />
+				<Stack />
 			</div>
-			<div class="col-9">
-				<div class="row">
-					<div class="col-6">
-						<Registers />
-					</div>
-					<div class="col-6">
-						<Stack />
-					</div>
-					<div class="col-6">
-						<Screen />
-					</div>
-				</div>
+			<div>
+				<Screen />
 			</div>
 		</div>
+<!--		<div class="row">-->
+<!--			<div class="col-3">-->
+<!--				<CodeEditor />-->
+<!--			</div>-->
+<!--			<div class="col-9">-->
+<!--				<div class="row">-->
+<!--					<div class="col-6">-->
+<!--						<Registers />-->
+<!--					</div>-->
+<!--					<div class="col-6">-->
+<!--						<Stack />-->
+<!--					</div>-->
+<!--					<div class="col-6">-->
+<!--						<Screen />-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
 	</div>
 
 	<Modal bind:shown={$settingsShown}>

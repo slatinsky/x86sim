@@ -19,6 +19,7 @@
         background-color: rgba(51, 51, 51, 0.7);
     }
 
+
     .smodal.hidden {
         display: none;
     }
@@ -26,9 +27,11 @@
     .smodalContent {
         z-index: 101;
         background-color: white;
-        width: 50%;
-        padding: 2rem;
+        width: 90%;
+        max-width: 1000px;
+        /*padding: 2rem;*/
     }
+
 </style>
 <div class="smodal {shown ? '' : 'hidden'}" on:click={() => shown = false} transition:fade>
     <div class="smodalContent" on:click|stopPropagation transition:fade>

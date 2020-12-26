@@ -105,28 +105,32 @@
     }
 </style>
 
-<b>Editor kódu:</b>
 
-<!--TODO: fix cut copy paste - https://stackoverflow.com/questions/59998538/cut-and-paste-in-ace-editor-->
-<!--https://github.com/nateshmbhat/svelte-ace-->
-<AceEditor
-        on:selectionChange={(obj) => console.log(obj.detail)}
-        on:paste={(obj) => editor.execCommand("paste", obj.detail)}
-        on:input={(obj) => debouncedAnnotate(obj.detail)}
-        on:focus={() => console.log('focus')}
-        on:documentChange={(obj) => console.log(`document change : ${obj.detail}`)}
-        on:cut={() => editor.execCommand("cut")}
-        on:cursorChange={() => console.log('cursor change')}
-        on:copy={() => {}}
-        on:init={(editor) => init(editor.detail)}
-        on:commandKey={(obj) => console.log(obj.detail)}
-        on:changeMode={(obj) => console.log(`change mode : ${obj.detail}`)}
-        on:blur={() => console.log('blur')}
-        width='100%'
-        height='90vh'
-        lang="assembly_x86"
-        theme="dracula"
-        bind:value={$code}
-/>
+<div>
+    <b>Editor kódu:</b>
+
+    <!--TODO: fix cut copy paste - https://stackoverflow.com/questions/59998538/cut-and-paste-in-ace-editor-->
+    <!--https://github.com/nateshmbhat/svelte-ace-->
+    <AceEditor
+            on:selectionChange={(obj) => console.log(obj.detail)}
+            on:paste={(obj) => editor.execCommand("paste", obj.detail)}
+            on:input={(obj) => debouncedAnnotate(obj.detail)}
+            on:focus={() => console.log('focus')}
+            on:documentChange={(obj) => console.log(`document change : ${obj.detail}`)}
+            on:cut={() => editor.execCommand("cut")}
+            on:cursorChange={() => console.log('cursor change')}
+            on:copy={() => {}}
+            on:init={(editor) => init(editor.detail)}
+            on:commandKey={(obj) => console.log(obj.detail)}
+            on:changeMode={(obj) => console.log(`change mode : ${obj.detail}`)}
+            on:blur={() => console.log('blur')}
+            width='100%'
+            height='90vh'
+            lang="assembly_x86"
+            theme="dracula"
+            bind:value={$code}
+    />
+</div>
+
 
 
