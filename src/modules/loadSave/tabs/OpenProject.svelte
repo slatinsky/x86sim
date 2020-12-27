@@ -25,7 +25,7 @@
             loadProject(programName)
             toast.success(`Projekt '${programName}' načítaný`)
             $loadingReason = ""
-        }, 1)
+        }, 10)
     }
 
 </script>

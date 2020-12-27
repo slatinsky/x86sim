@@ -11,24 +11,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/toast/Toast.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/toast/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Spinner.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/loadSave/tabs/CurrentProject.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/loadSave/tabs/NewProject.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/loadSave/tabs/OpenProject.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/loadSave.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/global.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Tabs.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Tabs.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Navigation.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Navigation.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/help/Help.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/help/Help.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/LoadSave.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/loadSave/LoadSave.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/loadSave.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Spinner.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Spinner.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/loadSave/tabs/OpenProject.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/loadSave/tabs/OpenProject.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,16 +158,5 @@
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
     <state x="1222" y="579" width="672" height="678" key="search.everywhere.popup/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608718698146" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/modules/loadSave/tabs/NewProject.svelte</url>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

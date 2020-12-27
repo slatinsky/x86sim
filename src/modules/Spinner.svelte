@@ -29,9 +29,10 @@
 
     #aplicationLoaderContainer {
         position: fixed;
-        opacity: .7;
+        opacity: 0;
         z-index: 999999;
-        display: flex;
+        transition: opacity .3s ease .1s;
+
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -39,14 +40,21 @@
         height: 100vh;
         background-color: #333333;
         color: lightgray;
+
+        display: flex;
+
+        pointer-events: none; /*Click throught*/
+    }
+
+    #aplicationLoaderContainer.active {
+        opacity: .7;
+        pointer-events: auto;  /*Disable click throught*/
     }
 </style>
 
 
-{#if $loadingReason !== ""}
-    <div id="aplicationLoaderContainer">
-        <div class="aplicationLoaderSpinner"></div>
-        <h1>{$loadingReason}</h1>
-    </div>
-{/if}
+<div id="aplicationLoaderContainer" class="{($loadingReason !== '') ? 'active' : ''}">
+    <div class="aplicationLoaderSpinner"></div>
+    <h1>{$loadingReason}</h1>
+</div>
 

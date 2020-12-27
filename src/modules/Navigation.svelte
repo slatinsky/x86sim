@@ -14,7 +14,7 @@
 
         list-style-type: none;
     }
-    li {
+    li, li b {
         color: var(--white-text-color);
         padding: 1rem;
         cursor: pointer;

@@ -22,7 +22,7 @@
 	import LoadSave from "./modules/loadSave/LoadSave.svelte";
 	import Modal from "./components/Modal.svelte";
 
-	import {settingsShown, projectsShown, helpShown, darkTheme} from "./store/store.js"
+	import {settingsShown, projectsShown, helpShown, darkTheme, loadingReason} from "./store/store.js"
 	import Settings from "./modules/Settings.svelte";
 	import Spinner from "./modules/Spinner.svelte";
 
