@@ -19,17 +19,17 @@
 	import Tooltip from "./global/Tooltip.svelte";
 	import CodeEditor from "./modules/codeEditor/CodeEditor.svelte";
 	import Stack from "./modules/Stack.svelte";
-	import LoadSave from "./store/LoadSave.svelte";
+	import LoadSave from "./modules/loadSave/LoadSave.svelte";
 	import Modal from "./components/Modal.svelte";
 
 	import {settingsShown, projectsShown, helpShown, darkTheme} from "./store/store.js"
 	import Settings from "./modules/Settings.svelte";
+	import Spinner from "./modules/Spinner.svelte";
 
 	$: {
 		if ($darkTheme) {
 			window.document.documentElement.classList.add('dark')
-		}
-		else {
+		} else {
 			window.document.documentElement.classList.remove('dark')
 		}
 		console.log('darkTheme', $darkTheme)
@@ -54,7 +54,9 @@
 
 
 <main>
+	<Spinner />
 	<Navigation />
+
 	<div class="container-fluid">
 		<div id="grid">
 			<CodeEditor />

@@ -16,6 +16,8 @@ body {
 /*colors - light theme*/
 :root {
 	--primary-background: midnightblue;
+	--active-primary-background: dodgerblue;
+	--active-secondary-background: lightgray;
 	--body-background: white;
 	--text-color: #161616;
 	--white-text-color: white;
@@ -30,6 +32,8 @@ body {
 html.dark {
 
 	--primary-background: #2d2d2d;
+	--active-primary-background: #737373;
+	--active-secondary-background: #414141;
 	--body-background: #161616;
 	--text-color: #d6d6d6;
 	--white-text-color: #d6d6d6;
@@ -37,6 +41,9 @@ html.dark {
 	--visited-link-color: #727272;
 	--input-background: #282828;
 	--input-border-color: #5d5d5d;
+
+	/* Dark theme scrollbar styling - firefox */
+	scrollbar-color: darkgrey rgb(16, 16, 16)
 }
 
 body {
@@ -60,7 +67,7 @@ p,
 b,
 li,
 label,
-span {
+.text {
 	color: var(--text-color);
 }
 
@@ -73,7 +80,7 @@ a:visited {
 }
 
 
-/* Dark theme scrollbar styling - chrome only */
+/* Dark theme scrollbar styling - chrome */
 html.dark *::-webkit-scrollbar {
 	width: 1em;
 }
@@ -98,6 +105,7 @@ html.dark *::-webkit-scrollbar-thumb {
 .input:focus {
 	border-bottom: 1px solid var(--text-color);
 }
+
 
 /*a {*/
 /*	color: rgb(0,100,200);*/

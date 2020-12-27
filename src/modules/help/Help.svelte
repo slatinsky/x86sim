@@ -7,29 +7,28 @@
     import Tabs from "../../components/Tabs.svelte";
 
     // List of tab items with labels, values and assigned components
-    let items = [
+    let tabs = [
         { label: "Úvod",
-            value: 1,
+            id: 1,
             component: HelpBeginning
         },
         { label: "Registre",
-            value: 2,
+            id: 2,
             component: HelpRegisters
         },
         { label: "Obrazovka",
-            value: 3,
+            id: 3,
             component: HelpScreen
         },
         { label: "Editor kódu",
-            value: 4,
+            id: 4,
             component: HelpCodeEditor
         },
         { label: "O simulátore",
-            value: 5,
+            id: 5,
             component: HelpAboutSim
         },
     ];
 </script>
 
-<!--<h3>Pomocník</h3>-->
-<Tabs {items} title="Pomocník"/>
+<Tabs {tabs} title="Pomocník"/>

@@ -1,8 +1,8 @@
-import { writable } from 'svelte/store';
+import {writable, get} from 'svelte/store';
 
 // https://stackoverflow.com/a/61300826/14409632
 const createWritableStore = (key, startValue) => {
-    const { subscribe, set } = writable(startValue);
+    const {subscribe, set} = writable(startValue);
 
     return {
         subscribe,
@@ -10,7 +10,14 @@ const createWritableStore = (key, startValue) => {
         useLocalStorage: () => {
             const json = localStorage.getItem(key);
             if (json) {
-                set(JSON.parse(json));      //TODO delete the key if it is invalid (for example 'undefined')
+                try {
+                    // try to parse json and set the store variable
+                    set(JSON.parse(json));      //TODO delete the key if it is invalid (for example 'undefined')
+                } catch (e) {
+                    // key is not a valid json, delete it
+                    localStorage.removeItem(key)
+                    console.error(key, "was not a valid json and it was deleted:", e)
+                }
             }
 
             subscribe(current => {
@@ -83,12 +90,34 @@ programs.useLocalStorage();
 // });
 
 
-export const settingsShown = writable(false);
-export const projectsShown = writable(false);
-export const helpShown = writable(false);
-export const debug = createWritableStore(true);
-debug.useLocalStorage();
+export const settingsShown = createWritableStore("settingsShown", false);
+settingsShown.useLocalStorage();
 
+export const projectName = createWritableStore('projectName', "")
+projectName.useLocalStorage();
+
+export const projectsShown = createWritableStore("projectsShown", false);
+projectsShown.useLocalStorage();
+
+
+
+// projectsShown.subscribe(() => {
+//     console.log("projectsShown.subscribe")
+//     if (!get(projectsShown) && get(projectName) === "") {
+//         projectsShown.set(true)
+//         alert("Prosím vytvorte nový projekt")
+//     }
+// })
+
+export const helpShown = createWritableStore("helpShown", false);
+helpShown.useLocalStorage();
+
+export const debug = createWritableStore("debug", true);
+debug.useLocalStorage();
 
 export const darkTheme = createWritableStore('darkTheme', false)
 darkTheme.useLocalStorage();
+
+export const loadingReason = writable("");
+
+

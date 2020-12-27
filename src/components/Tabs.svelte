@@ -1,10 +1,10 @@
 <script>
     // modified https://svelte.dev/repl/cf05bd4a4ca14fb8ace8b6cdebbb58da?version=3.17.0
-    export let items = [];
+    export let tabs = [];
     export let title = "";
-    export let activeTabValue = 1;
+    export let activeTabId = 1;
 
-    const handleClick = tabValue => () => (activeTabValue = tabValue);
+    const handleClick = tabId => () => (activeTabId = tabId);
 </script>
 
 <style>
@@ -43,7 +43,7 @@
 
     .tabMenu > li.tabMenuTitle.active,
     .tabMenu > li.tabMenuTitle:hover {
-        background-color: dodgerblue;
+        background-color: var(--active-primary-background);
     }
 
     .tabContent {
@@ -56,18 +56,18 @@
 <div class="tabsWrapper">
     <ul class="tabMenu">
         <li class="tabMenuMainTitle">{title}</li>
-        {#each items as item}
-            <li class="tabMenuTitle {activeTabValue === item.value ? 'active' : ''}" on:click={handleClick(item.value)}>
-                {item.label}
+        {#each tabs as tab}
+            <li class="tabMenuTitle {activeTabId === tab.id ? 'active' : ''}" on:click={handleClick(tab.id)}>
+                {tab.label}
             </li>
         {/each}
     </ul>
     <div class="tabContent">
-        {#each items as item}
-            {#if activeTabValue === item.value}
+        {#each tabs as tab}
+            {#if activeTabId === tab.id}
                 <div class="box">
-                    <h3>{item.label}</h3>
-                    <svelte:component this={item.component}/>
+                    <h3>{tab.label}</h3>
+                    <svelte:component this={tab.component}/>
                 </div>
             {/if}
         {/each}

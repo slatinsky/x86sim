@@ -1,5 +1,5 @@
 <script>
-    import {projectsShown, settingsShown, helpShown} from "../store/store";
+    import {projectsShown, settingsShown, helpShown, projectName} from "../store/store";
 </script>
 
 <style>
@@ -10,6 +10,7 @@
     ul {
         display: flex;
         flex-wrap: wrap;
+        margin: 0;
 
         list-style-type: none;
     }
@@ -20,12 +21,13 @@
         user-select: none;
     }
     li:hover {
-        background-color: dodgerblue;
+        background-color: var(--active-primary-background);
     }
 </style>
 
 <nav>
     <ul>
+        <li><b>{$projectName}</b></li>
         <li><i class="fas fa-step-forward"></i> Krok</li>
         <li><i class="fas fa-step-backward"></i> Krok späť</li>
         <li><i class="fas fa-play"></i> Spustiť</li>

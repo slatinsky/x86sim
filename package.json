@@ -29,5 +29,8 @@
     "svelte-ace": "^1.0.13",
     "svelte-scrollto": "^0.2.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "bootstrap": "^5.0.0-beta1",
+    "svelte-toast": "^1.0.0"
+  }
 }
