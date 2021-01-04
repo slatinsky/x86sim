@@ -12,9 +12,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Navigation.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Navigation.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Spinner.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Spinner.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/loadSave/tabs/OpenProject.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/loadSave/tabs/OpenProject.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
