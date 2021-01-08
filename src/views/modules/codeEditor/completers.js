@@ -1,4 +1,5 @@
-import {registers, instructionsZeroParameters, instructionsOneParameter, instructionsTwoParameters} from "../../../config"
+import {registers} from "../../../config"
+import {opcodes, opcodes_0_operands, opcodes_1_operands} from "../../../compiler/opcodes";
 
 import {firstWord, wordCount} from '../../../helperFunctions'
 
@@ -9,14 +10,15 @@ export let mainCompleter = {
         // if the user is typing the first word, it has to be an instruction or a label
         // TODO: add label autocomplete
         if (wordCount(curLine) === 1) {
-            callback(null, [...instructionsZeroParameters, ...instructionsOneParameter, ...instructionsTwoParameters].map(opcode => {
+            callback(null, [...Object.keys(opcodes)].map(opcode => {
                 let terminator
-                if (instructionsZeroParameters.includes(opcode)) {
+                if (opcodes_0_operands.includes(opcode)) {
                     terminator = '\n'  // this opcode doesn't need parameters - go immediately to the next line
                 }
                 else {
                     terminator = ' '  // instruction needs another parameter
                 }
+
                 return {
                     score: 9999,      // top priority when sorting autocomplete list
                     caption: opcode,
@@ -29,7 +31,7 @@ export let mainCompleter = {
         else if (wordCount(curLine) === 2){
             callback(null, registers.map(register => {
                 let terminator
-                if (instructionsOneParameter.includes(firstWord(curLine))) {
+                if (opcodes_1_operands.includes(firstWord(curLine))) {
                     terminator = '\n'  // this is the last parameter needed - go immediately to the next line
                 }
                 else {

@@ -29,6 +29,24 @@ export const opcodes = {
     pop
 }
 
+export const opcodes_0_operands = []
+export const opcodes_1_operands = []
+export const opcodes_2_operands = []
+
+Object.entries(opcodes).map(entry => {
+    let [opcodeName, opcodeContent] = entry
+
+    if (opcodeContent.run.length === 0) {
+        opcodes_0_operands.push(opcodeName)
+    }
+    else if (opcodeContent.run.length === 1) {
+        opcodes_1_operands.push(opcodeName)
+    }
+    else if (opcodeContent.run.length === 2) {
+        opcodes_2_operands.push(opcodeName)
+    }
+})
+
 // if opcode is implemented is validated during parsing - it doesn't need to be checked here
 const executeInstruction = (opcode: string, operands) => {
     opcodes[opcode].run(...operands)
