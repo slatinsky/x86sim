@@ -5,7 +5,7 @@
     import "brace/mode/assembly_x86";
     import "brace/theme/dracula";
     import "brace/ext/language_tools";
-    import {code} from "../../store/store"
+    import {code} from "../../../store/store"
     import {mainCompleter, snippetsCompleter} from "./completers"
     import {annotate} from "./annotations.js"
 

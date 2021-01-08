@@ -1,5 +1,5 @@
-import {firstWord, wordCount} from '../../helperFunctions'
-import {registers, instructionsZeroParameters, instructionsOneParameter, instructionsTwoParameters} from "../../config"
+import {firstWord, wordCount} from '../../../helperFunctions'
+import {registers, instructionsZeroParameters, instructionsOneParameter, instructionsTwoParameters} from "../../../config"
 
 export function annotate(editor, code) {
     console.log('annotate')

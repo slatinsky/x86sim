@@ -1,6 +1,6 @@
 <script>
     import Register from "./Register.svelte";
-    import {selectedFormat, ax, bx, cx, dx, si, di, bp, sp, debug} from "../store/store";
+    import {selectedFormat, ax, bx, cx, dx, si, di, bp, sp, debug} from "../../store/store";
 
     function resetNew() {
         $ax = 10

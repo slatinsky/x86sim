@@ -1,5 +1,5 @@
 <script>
-    import {projectsShown, settingsShown, helpShown, projectName} from "../store/store";
+    import {projectsShown, settingsShown, helpShown, projectName} from "../../store/store";
 </script>
 
 <style>

@@ -1,6 +1,6 @@
 // modified https://github.com/lili21/svelte-toast/blob/master/src/index.js
 
-import _Toast from './toast.svelte'
+import _Toast from './Toast.svelte'
 
 export default class Toast {
     constructor (opts) {

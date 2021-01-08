@@ -1,5 +1,5 @@
 <script>
-    import {loadingReason} from "../store/store";
+    import {loadingReason} from "../../store/store";
 </script>
 
 <style>

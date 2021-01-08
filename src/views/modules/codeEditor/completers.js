@@ -1,6 +1,6 @@
-import {registers, instructionsZeroParameters, instructionsOneParameter, instructionsTwoParameters} from "../../config"
+import {registers, instructionsZeroParameters, instructionsOneParameter, instructionsTwoParameters} from "../../../config"
 
-import {firstWord, wordCount} from '../../helperFunctions'
+import {firstWord, wordCount} from '../../../helperFunctions'
 
 // main autocomplete
 export let mainCompleter = {

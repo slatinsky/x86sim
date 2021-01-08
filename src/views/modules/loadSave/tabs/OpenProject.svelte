@@ -1,7 +1,7 @@
 <script>
     import {tick} from "svelte"
-    import {programs, projectsShown, projectName, loadingReason} from "../../../store/store";
-    import {loadProject, deleteProject, newProject} from "../../../store/loadSave";
+    import {programs, projectsShown, projectName, loadingReason} from "../../../../store/store";
+    import {loadProject, deleteProject, newProject} from "../../../../store/loadSave";
     import Toast from "../../../components/toast";
     const toast = new Toast()
 
