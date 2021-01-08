@@ -1,18 +1,13 @@
 import {get} from 'svelte/store';
-import {selectedFormat, ax, bx, cx, dx, si, di, bp, sp, programs, code, projectName, projectsShown} from "./store";
+import {selectedFormat, programs, projectName, projectsShown} from "./store";
 import {orderBy} from 'lodash-es'
+import {memory, registers, code} from "../stores/stores";
 
 interface Project {
     name: string,
     data: {
-        ax: number,
-        bx: number,
-        cx: number,
-        dx: number,
-        si: number,
-        di: number,
-        bp: number,
-        sp: number,
+        registers: any,
+        memory: any,
         code: string
     }
 }
@@ -21,14 +16,8 @@ interface Project {
 const defaultProject: Project = {
     name: "__default__",
     data: {
-        ax: 0,
-        bx: 0,
-        cx: 0,
-        dx: 0,
-        si: 0,
-        di: 0,
-        bp: 2000,
-        sp: 2000,
+        registers: {},
+        memory: {},
         code: ""
     }
 }
@@ -38,29 +27,19 @@ function getCurrentProject() {
     let currentProject: Project = {
         name: get(projectName),
         data: {
-            ax: get(ax),
-            bx: get(bx),
-            cx: get(cx),
-            dx: get(dx),
-            si: get(si),
-            di: get(di),
-            bp: get(bp),
-            sp: get(sp),
+            registers: registers.reduce(),
+            memory: memory.reduce(),
             code: get(code)
         }
     }
     return currentProject
 }
+
 // replaces currently loaded project from object
 function setCurrentProject(projectToLoad: Project) {
-    ax.set(projectToLoad.data.ax)
-    bx.set(projectToLoad.data.bx)
-    cx.set(projectToLoad.data.cx)
-    dx.set(projectToLoad.data.dx)
-    si.set(projectToLoad.data.si)
-    di.set(projectToLoad.data.di)
-    bp.set(projectToLoad.data.bp)
-    sp.set(projectToLoad.data.sp)
+    console.log("projectToLoad.data.registers", projectToLoad.data.registers)
+    registers.load(projectToLoad.data.registers)
+    memory.load(projectToLoad.data.memory)
     code.set(projectToLoad.data.code)
     projectName.set(projectToLoad.name)
 }
