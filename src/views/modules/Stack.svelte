@@ -2,16 +2,20 @@
     import { fade } from 'svelte/transition';
     import {onMount, afterUpdate} from 'svelte';
     import Register from "./Register.svelte";
-    import {sp, bp} from "../../storeOld/store";
     import * as animateScroll from "svelte-scrollto";
+    import {memory} from "../../stores/stores";
+    import {registers} from "../../stores/stores";
 
 
     let stack = []
 
 
     // does address referenced by stack pointer exist in stack?
-    $: spAddressExistsInStack = stack.filter(stackItem => stackItem.address === $sp).length
-    $: bpAddressExistsInStack = stack.filter(stackItem => stackItem.address === $bp).length
+    // $: spAddressExistsInStack = stack.filter(stackItem => stackItem.address === $sp).length
+    // $: bpAddressExistsInStack = stack.filter(stackItem => stackItem.address === $bp).length
+    // TODO: restore original checks
+    let spAddressExistsInStack = true
+    let bpAddressExistsInStack = true
 
     function scrollToSP() {
         if (spAddressExistsInStack) {
@@ -84,18 +88,18 @@
         {/if}
     </div>
     <div id="stack">
-        {#each stack as stackItem (stackItem.address)}
-            {#if stackItem.address === $sp}
-                <span class="stackSP"><Register bind:value={stackItem.value} label={stackItem.address} bcolor="red" largeSquare={true}/></span>
-            {:else if stackItem.address === $bp}
-                <Register bind:value={stackItem.value} label={stackItem.address} bcolor="darkred" largeSquare={true}/>
-            {:else if stackItem.address < $sp}
-                <Register bind:value={stackItem.value} label={stackItem.address} bcolor="gray" largeSquare={true}/>
-            {:else}
-                <Register bind:value={stackItem.value} label={stackItem.address} largeSquare={true}/>
+        {#each $memory as value, address}
+            {#if address > $registers.sp - 10}
+                {#if address === $registers.sp}
+                    <span class="stackSP"><Register bind:value={value} label={address} bcolor="red" largeSquare={true}/></span>
+                {:else if address === $registers.bp}
+                    <Register bind:value={value} label={address} bcolor="darkred" largeSquare={true}/>
+                {:else if address < $registers.sp}
+                    <Register bind:value={value} label={address} bcolor="gray" largeSquare={true}/>
+                {:else}
+                    <Register bind:value={value} label={address} largeSquare={true}/>
+                {/if}
             {/if}
-
-            <!--    <div><b>{stackItem.address}:</b> {stackItem.value}</div>-->
         {/each}
     </div>
 </div>

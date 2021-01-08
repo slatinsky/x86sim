@@ -25,6 +25,7 @@
 	import {settingsShown, projectsShown, helpShown, darkTheme, loadingReason} from "../storeOld/store.js"
 	import Settings from "./modules/Settings.svelte";
 	import Spinner from "./modules/Spinner.svelte";
+	import Memory from "./modules/Memory.svelte";
 
 	$: {
 		if ($darkTheme) {
@@ -41,13 +42,13 @@
 
 	#grid {
 		display: grid;
-        grid-template-columns: 300px auto auto;
+        grid-template-columns: 300px auto auto auto;
 		gap: 15px
 	}
 
 	@media (min-width: 992px) {
 		#grid {
-			grid-template-columns: 450px auto auto;
+			grid-template-columns: 450px auto auto auto;
 		}
 	}
 </style>
@@ -66,6 +67,9 @@
 			</div>
 			<div>
 				<Screen />
+			</div>
+			<div>
+				<Memory />
 			</div>
 		</div>
 	</div>
