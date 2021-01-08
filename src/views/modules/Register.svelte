@@ -4,7 +4,7 @@
 
 <script>
     // console.log("RERENDERED register")
-    import {selectedFormat} from "../../storeOld/store";
+    import {settings} from "../../stores/settings";
     import {baseToIntWrapper, intToBaseWrapper} from "../../formatConverter";
 
     export let bcolor = 'DARKSLATEGRAY'
@@ -16,7 +16,7 @@
 
     // if register value was changes from "outside" or it was changed using "validate() - transform it to internal "stringValue"
     $: {
-        stringValue = intToBaseWrapper(value, $selectedFormat)
+        stringValue = intToBaseWrapper(value, $settings.selectedFormat)
     }
 
     // validate input and try to correct the format
@@ -24,11 +24,11 @@
         console.log("validate")
 
         value = NaN                   // force rerender even if the value resolves to the same value
-        value = baseToIntWrapper(stringValue, $selectedFormat, 16)
+        value = baseToIntWrapper(stringValue, $settings.selectedFormat, 16)
     }
 
     function focusIn(e) {
-        if ($selectedFormat !== 'bin') {
+        if ($settings.selectedFormat !== 'bin') {
             e.target.focus();
             e.target.setSelectionRange(0, 32);
         }
@@ -84,5 +84,5 @@
 
 <div class="input-container">
     <div class="square {largeSquare ? 'large' : ''}" style="background-color: {bcolor}" data-tooltip="Všeobecný register">{label}</div>
-    <input class="input {$selectedFormat}" maxlength="16" type="string" min="0" bind:value={stringValue} on:blur={validate} on:focus={focusIn} on:keyup={keyUp} />
+    <input class="input {$settings.selectedFormat}" maxlength="16" type="string" min="0" bind:value={stringValue} on:blur={validate} on:focus={focusIn} on:keyup={keyUp} />
 </div>

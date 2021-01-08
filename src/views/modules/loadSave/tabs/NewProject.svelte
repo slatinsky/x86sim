@@ -1,5 +1,5 @@
 <script>
-    import {newProject} from "../../../../storeOld/loadSave.ts";
+    import {newProject} from "../../../../stores/loadSave.ts";
     import Toast from "../../../components/toast";
     const toast = new Toast()
 

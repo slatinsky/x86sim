@@ -1,9 +1,8 @@
 <script>
     import Register from "./Register.svelte";
-    import {registers} from "../../stores/stores";
-    import {selectedFormat, debug} from "../../storeOld/store";
+    import {registers, settings} from "../../stores/stores";
 
-    $: decValues = `DEBUG - ax: ${$registers.ax}, bx: ${$registers.bx}, cx: ${$registers.cx}, dx: ${$registers.dx}, format: ${$selectedFormat}`
+    $: decValues = `DEBUG - ax: ${$registers.ax}, bx: ${$registers.bx}, cx: ${$registers.cx}, dx: ${$registers.dx}, format: ${$settings.selectedFormat}`
 
 </script>
 
@@ -32,7 +31,7 @@
         <Register bind:value={$registers.sp} label="sp" bcolor="red"/>
     </div>
 </div>
-{#if $debug}
+{#if $settings.debug}
     <button on:click={registers.reset}>DEBUG: Prenastav registre</button>
     <br>
     {decValues}

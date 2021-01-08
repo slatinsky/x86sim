@@ -22,18 +22,19 @@
 	import LoadSave from "./modules/loadSave/LoadSave.svelte";
 	import Modal from "./components/Modal.svelte";
 
-	import {settingsShown, projectsShown, helpShown, darkTheme, loadingReason} from "../storeOld/store.js"
+	import {appState} from "../stores/appState";
+	import {settings} from "../stores/settings";
 	import Settings from "./modules/Settings.svelte";
 	import Spinner from "./modules/Spinner.svelte";
 	import Memory from "./modules/Memory.svelte";
 
 	$: {
-		if ($darkTheme) {
+		if ($settings.darkTheme) {
 			window.document.documentElement.classList.add('dark')
 		} else {
 			window.document.documentElement.classList.remove('dark')
 		}
-		console.log('darkTheme', $darkTheme)
+		console.log('darkTheme', $settings.darkTheme)
 	}
 </script>
 
@@ -74,15 +75,15 @@
 		</div>
 	</div>
 
-	<Modal bind:shown={$settingsShown}>
+	<Modal bind:shown={$appState.settingsShown}>
 		<Settings />
 	</Modal>
 
-	<Modal bind:shown={$projectsShown}>
+	<Modal bind:shown={$appState.projectsShown}>
 		<LoadSave />
 	</Modal>
 
-	<Modal bind:shown={$helpShown}>
+	<Modal bind:shown={$appState.helpShown}>
 		<Help />
 	</Modal>
 </main>

@@ -1,8 +1,9 @@
 <script>
-    import {tick} from "svelte"
-    import {programs, projectsShown, projectName, loadingReason} from "../../../../storeOld/store";
-    import {loadProject, deleteProject, newProject} from "../../../../storeOld/loadSave";
+    import {projectName, appState, programs} from "../../../../stores/stores";
+    import {loadProject, deleteProject, newProject} from "../../../../stores/loadSave";
     import Toast from "../../../components/toast";
+    import {spinnerLoad} from "../../../../spinnerLoad";
+
     const toast = new Toast()
 
     let value
@@ -20,12 +21,10 @@
         toast.success(`Projekt '${programName}' vymazaný`)
     }
     function loadP(programName) {
-        $loadingReason = `Načítavam projekt '${programName}'`
-        setTimeout(()=> {
+        spinnerLoad(`Načítavam projekt '${programName}'`, ()=> {
             loadProject(programName)
             toast.success(`Projekt '${programName}' načítaný`)
-            $loadingReason = ""
-        }, 10)
+        })
     }
 
 </script>

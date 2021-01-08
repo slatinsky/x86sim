@@ -11,8 +11,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/spinnerLoad.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/appState.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/settings.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/storeOld/loadSave.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/storeOld/loadSave.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/storeOld/loadSave.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/loadSave.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/storeOld/store.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/createWritableStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/createWritableStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/stores.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/stores.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/App.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Navigation.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Navigation.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Register.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Register.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Registers.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Registers.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Screen.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Screen.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Settings.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Settings.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Spinner.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Spinner.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/loadSave/tabs/NewProject.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/loadSave/tabs/NewProject.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/loadSave/tabs/OpenProject.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/loadSave/tabs/OpenProject.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +65,7 @@
         <option value="Loader" />
         <option value="Memory" />
         <option value="HelpReadme" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -73,11 +89,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dodomeka2\react\sim-svelte\src\stores" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\views" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\modules\loadSave" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\modules\help" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\modules" />
-      <recent name="C:\dodomeka2\react\sim-svelte\src\store" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\dodomeka2\react\sim-svelte\src\components" />
@@ -118,6 +134,10 @@
       <screen x="0" y="0" width="3840" height="2120" />
     </state>
     <state x="2214" y="949" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.3840.2120/-1920.1080.1920.1040@0.0.3840.2120" timestamp="1608754811741" />
+    <state x="1439" y="349" width="2416" height="1377" key="DiffContextDialog" timestamp="1610128895221">
+      <screen x="0" y="0" width="3840" height="2120" />
+    </state>
+    <state x="1439" y="349" width="2416" height="1377" key="DiffContextDialog/0.0.3840.2120/-1920.1063.1920.1040@0.0.3840.2120" timestamp="1610128895221" />
     <state width="2534" height="577" key="GridCell.Tab.0.bottom" timestamp="1608676854457">
       <screen x="0" y="0" width="3840" height="2120" />
     </state>

@@ -1,7 +1,8 @@
 import {get} from 'svelte/store';
-import {selectedFormat, programs, projectName, projectsShown} from "./store";
+import {appState} from "./stores";
+import {projectName, programs} from "./stores";
 import {orderBy} from 'lodash-es'
-import {memory, registers, code} from "../stores/stores";
+import {memory, registers, code} from "./stores";
 
 interface Project {
     name: string,
@@ -101,7 +102,7 @@ export function loadProject(projectName: string, hideModal: boolean = true): boo
 
         // hide modal if shown
         if (hideModal) {
-            projectsShown.set(false)
+            appState.setAttribute('projectsShown', false)
         }
         return true
     } else {

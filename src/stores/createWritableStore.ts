@@ -1,12 +1,20 @@
 // https://stackoverflow.com/a/61300826/14409632
 import {writable} from "svelte/store";
+import {register} from "../types/types";
 
 export const createWritableStore = (key, startValue) => {
-    const {subscribe, set} = writable(startValue);
+    const {subscribe, set, update} = writable(startValue);
 
     return {
         subscribe,
         set,
+        update,
+        setAttribute: (attributeName: string, newValue: any) => {  // for object stores - set just one attribute
+            update((storeObj:any) => {
+                storeObj[attributeName] = newValue
+                return storeObj
+            })
+        },
         useLocalStorage: () => {
             const json = localStorage.getItem(key);
             if (json) {

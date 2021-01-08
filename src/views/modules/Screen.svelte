@@ -1,5 +1,5 @@
 <script>
-    import {debug} from "../../storeOld/store"
+    import {settings} from "../../stores/settings";
 
     let text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus turpis in eu mi bibendum neque. Congue quisque egestas diam in. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum. Orci sagittis eu volutpat odio facilisis mauris sit. Magna etiam tempor orci eu. Fames ac turpis egestas sed. Mi quis hendrerit dolor magna eget est lorem.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus turpis in eu mi bibendum neque. Congue quisque egestas diam in. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum. Orci sagittis eu volutpat odio facilisis mauris sit. Magna etiam tempor orci eu. Fames ac turpis egestas sed. Mi quis hendrerit dolor magna eget est lorem.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus turpis in eu mi bibendum neque. Congue quisque egestas diam in. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum. Orci sagittis eu volutpat odio facilisis mauris sit. Magna etiam tempor orci eu. Fames ac turpis egestas sed. Mi quis hendrerit dolor magna eget est lorem. '
     let maxRows = 10
@@ -44,7 +44,7 @@
 <div>
     <b>Obrazovka:</b><br>
 
-    {#if $debug}
+    {#if $settings.debug}
         <textarea bind:value={text}></textarea>
     {/if}
 

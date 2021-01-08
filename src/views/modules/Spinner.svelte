@@ -1,5 +1,5 @@
 <script>
-    import {loadingReason} from "../../storeOld/store";
+    import {appState} from "../../stores/appState";
 </script>
 
 <style>
@@ -53,8 +53,8 @@
 </style>
 
 
-<div id="aplicationLoaderContainer" class="{($loadingReason !== '') ? 'active' : ''}">
+<div id="aplicationLoaderContainer" class="{($appState.loadingReason !== '') ? 'active' : ''}">
     <div class="aplicationLoaderSpinner"></div>
-    <h1>{$loadingReason}</h1>
+    <h1>{$appState.loadingReason}</h1>
 </div>
 
