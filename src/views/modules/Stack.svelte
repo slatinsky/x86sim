@@ -74,11 +74,8 @@
 </style>
 
 
-
-
-<b>Zásobník:</b>
-
 <div id="wrapper">
+    <b>Zásobník:</b>
     <div id="warnings">
         {#if !spAddressExistsInStack}
             <div class="warning" transition:fade={{ duration: 150 }}>Varovanie: register 'stack pointer' (SP) ukazuje mimo zásobníka</div>

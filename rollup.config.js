@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import { string } from "rollup-plugin-string";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -63,6 +64,13 @@ export default {
 		typescript({
 			sourceMap: !production,
 			inlineSources: !production
+		}),
+		string({  // https://www.npmjs.com/package/rollup-plugin-string
+			// Required to be specified
+			include: "**/*.md",
+
+			// Undefined by default
+			exclude: ["**/index.html"]
 		}),
 
 		// In dev mode, call `npm run start` once

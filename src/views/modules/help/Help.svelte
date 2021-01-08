@@ -4,6 +4,7 @@
     import HelpRegisters from "./tabs/HelpRegisters.svelte";
     import HelpScreen from "./tabs/HelpScreen.svelte";
     import HelpCodeEditor from "./tabs/HelpCodeEditor.svelte";
+    import HelpReadme from "./tabs/HelpReadme.svelte";
     import Tabs from "../../components/Tabs.svelte";
 
     // List of tab items with labels, values and assigned components
@@ -27,6 +28,10 @@
         { label: "O simulátore",
             id: 5,
             component: HelpAboutSim
+        },
+        { label: "Readme",
+            id: 6,
+            component: HelpReadme
         },
     ];
 </script>
