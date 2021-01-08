@@ -70,7 +70,7 @@ function saveProject(currentProject: Project): void {
     // remove current program from the array - current program will be added in the next step
     let allProjectsWithoutCurrentOne = allProjects.filter(project => project.name !== currentProject.name)
 
-    // merge programs together, sort them by name and save them to storeOld
+    // merge programs together, sort them by name and save them to store
     allProjects = [currentProject, ...allProjectsWithoutCurrentOne]
     allProjects = orderBy(allProjects, project => project.name)
     programs.set(allProjects)
@@ -102,7 +102,7 @@ export function loadProject(projectName: string, hideModal: boolean = true): boo
 
         // hide modal if shown
         if (hideModal) {
-            appState.setAttribute('projectsShown', false)
+            appState.set('projectsShown', false)
         }
         return true
     } else {

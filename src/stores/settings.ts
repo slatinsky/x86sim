@@ -7,3 +7,4 @@ const defaultSettings = {
 }
 
 export const settings = createWritableStore('settings', defaultSettings)
+settings.useLocalStorage()

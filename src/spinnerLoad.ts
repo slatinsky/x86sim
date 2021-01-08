@@ -1,9 +1,9 @@
 import {appState} from "./stores/appState";
 
 export function spinnerLoad(text: string, callback) {
-    appState.setAttribute('loadingReason', text)
+    appState.set('loadingReason', text)
     setTimeout(()=> {
         callback()
-        appState.setAttribute('loadingReason', '')
+        appState.set('loadingReason', '')
     }, 10)
 }

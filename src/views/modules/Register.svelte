@@ -13,18 +13,26 @@
     export let value = 0        // real integer value
 
     export let largeSquare = false
+    let focused = false
 
     // if register value was changes from "outside" or it was changed using "validate() - transform it to internal "stringValue"
-    $: {
+    function updateStringValue(value) {
         stringValue = intToBaseWrapper(value, $settings.selectedFormat)
+    }
+
+    $: {
+        if (!focused) {
+            updateStringValue(value)
+        }
     }
 
     // validate input and try to correct the format
     function validate() {
-        console.log("validate")
+        console.log("validate", value)
 
         value = NaN                   // force rerender even if the value resolves to the same value
         value = baseToIntWrapper(stringValue, $settings.selectedFormat, 16)
+        focused = false
     }
 
     function focusIn(e) {
@@ -32,17 +40,21 @@
             e.target.focus();
             e.target.setSelectionRange(0, 32);
         }
+        focused = true
     }
 
     function keyUp(e) {
+        console.log("keyUp")
         if (e.key === "Enter") {
             validate()
         }
         else if (e.key === "ArrowUp") {
             value++
+            updateStringValue(value)
         }
         else if (e.key === "ArrowDown") {
             value--
+            updateStringValue(value)
         }
     }
 

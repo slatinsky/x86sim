@@ -27,29 +27,46 @@ function createRegisters() {
     const {subscribe, set, update} = writable(Object.assign({}, defaultRegisters));
 
     function saveRegistersToLocalStorage() {
-        localStorage.setItem('registers', JSON.stringify(registers.reduce()))
+        localStorage.setItem('registers', JSON.stringify(thisStore.reduce()))
     }
 
 
-    return {
+    const thisStore = {
         subscribe,
+        set: (arg1:any, arg2) => {
+            // if (typeof arg2 !== "undefined") {
+                // alternative way to set attribute by name
+                let attributeName = arg1
+                let newValue = arg2
+                update(storeObj => {
+                    storeObj[attributeName] = newValue
 
-        // sets passed in register to a value manually
-        set: (registerName: register, newValue: number) => {
-            update((registers: Register) => {
-                registers[registerName] = newValue
-
-                // TODO: handle overflow here
-                return registers
-            })
-
-            // autosave
-            saveRegistersToLocalStorage()
+                    // TODO: handle overflow here
+                    return storeObj
+                })
+            // }
+            // else {
+            //     default svelte call
+                // set(arg1)
+            // }
         },
+        // // sets passed in register to a value manually
+        // set: (registerName: register, newValue: number) => {
+        //     console.log("SET")
+        //     update((registers: Register) => {
+        //         registers[registerName] = newValue
+        //
+        //         // TODO: handle overflow here
+        //         return registers
+        //     })
+        //
+        //     // autosave
+        //     saveRegistersToLocalStorage()
+        // },
         reset: () => set(Object.assign({}, defaultRegisters)),
-        get: (registerName: register): number => get(registers)[registerName],
+        get: (registerName: register): number => get(thisStore)[registerName],
         reduce: () => {  // returns all non zero registers
-            let registersCopy = Object.assign({}, get(registers))
+            let registersCopy = Object.assign({}, get(thisStore))
             Object.entries(registersCopy).map((registerEntry) => {
                 let registerName = registerEntry[0]
                 let value = registerEntry[1]
@@ -60,12 +77,14 @@ function createRegisters() {
         },
         load: (reducedRegisters) => {  // loads object returned by reduce
             console.log("LOADING")
-            registers.reset()
+            thisStore.reset()
             for (const [registerName, value] of Object.entries(reducedRegisters)) {
-                registers.set(<register>registerName, <number>value)
+                thisStore.set(<register>registerName, <number>value)
             }
         }
-    };
+    }
+
+    return thisStore
 }
 
 
