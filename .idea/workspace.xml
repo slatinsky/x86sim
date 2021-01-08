@@ -11,10 +11,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/views/modules/Memory.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/App.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/modules/Stack.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Stack.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/codeEditor/CodeEditor.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/codeEditor/CodeEditor.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/codeEditor/annotations.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/codeEditor/annotations.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +94,7 @@
       <workItem from="1608059688907" duration="44873000" />
       <workItem from="1608237599431" duration="8182000" />
       <workItem from="1608569952483" duration="13768000" />
-      <workItem from="1610046905791" duration="3015000" />
+      <workItem from="1610046905791" duration="3847000" />
     </task>
     <servers />
   </component>
