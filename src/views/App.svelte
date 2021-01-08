@@ -16,13 +16,13 @@
 	import Navigation from "./modules/Navigation.svelte"
 	import Registers from "./modules/Registers.svelte";
 	import Screen from "./modules/Screen.svelte";
-	import Tooltip from "../global/Tooltip.svelte";
+	import Tooltip from "./global/Tooltip.svelte";
 	import CodeEditor from "./modules/codeEditor/CodeEditor.svelte";
 	import Stack from "./modules/Stack.svelte";
 	import LoadSave from "./modules/loadSave/LoadSave.svelte";
 	import Modal from "./components/Modal.svelte";
 
-	import {settingsShown, projectsShown, helpShown, darkTheme, loadingReason} from "../store/store.js"
+	import {settingsShown, projectsShown, helpShown, darkTheme, loadingReason} from "../storeOld/store.js"
 	import Settings from "./modules/Settings.svelte";
 	import Spinner from "./modules/Spinner.svelte";
 

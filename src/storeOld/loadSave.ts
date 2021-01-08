@@ -90,7 +90,7 @@ function saveProject(currentProject: Project): void {
     // remove current program from the array - current program will be added in the next step
     let allProjectsWithoutCurrentOne = allProjects.filter(project => project.name !== currentProject.name)
 
-    // merge programs together, sort them by name and save them to store
+    // merge programs together, sort them by name and save them to storeOld
     allProjects = [currentProject, ...allProjectsWithoutCurrentOne]
     allProjects = orderBy(allProjects, project => project.name)
     programs.set(allProjects)

@@ -12,6 +12,21 @@
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/global/Tooltip.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/global/Tooltip.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/loadSave.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/storeOld/loadSave.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/storeOld/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/App.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Navigation.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Navigation.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Register.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Register.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Registers.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Registers.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Screen.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Screen.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Settings.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Settings.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Spinner.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Spinner.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Stack.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Stack.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/codeEditor/CodeEditor.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/codeEditor/CodeEditor.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/loadSave/tabs/CurrentProject.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/loadSave/tabs/CurrentProject.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/loadSave/tabs/NewProject.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/loadSave/tabs/NewProject.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/loadSave/tabs/OpenProject.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/loadSave/tabs/OpenProject.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,15 +84,15 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\dodomeka2\react\sim-svelte\src\components" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dodomeka2\react\sim-svelte\src\views" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\modules\loadSave" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\modules\help" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\modules" />
       <recent name="C:\dodomeka2\react\sim-svelte\src\store" />
-      <recent name="C:\dodomeka2\react\sim-svelte\src\modules\codeEditor" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dodomeka2\react\sim-svelte\src\components" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -91,7 +106,7 @@
       <workItem from="1608059688907" duration="44873000" />
       <workItem from="1608237599431" duration="8182000" />
       <workItem from="1608569952483" duration="13768000" />
-      <workItem from="1610046905791" duration="1641000" />
+      <workItem from="1610046905791" duration="2274000" />
     </task>
     <servers />
   </component>

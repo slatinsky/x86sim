@@ -1,5 +1,5 @@
 <script>
-    import {selectedFormat, debug, darkTheme} from "../../store/store";
+    import {selectedFormat, debug, darkTheme} from "../../storeOld/store";
 
     let formats = [
         {id: 'hex', text: `16-ková sústava`},

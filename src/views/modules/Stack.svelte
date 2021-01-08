@@ -2,7 +2,7 @@
     import { fade } from 'svelte/transition';
     import {onMount, afterUpdate} from 'svelte';
     import Register from "./Register.svelte";
-    import {sp, bp} from "../../store/store";
+    import {sp, bp} from "../../storeOld/store";
     import * as animateScroll from "svelte-scrollto";
 
 

@@ -11,7 +11,7 @@ const createWritableStore = (key, startValue) => {
             const json = localStorage.getItem(key);
             if (json) {
                 try {
-                    // try to parse json and set the store variable
+                    // try to parse json and set the storeOld variable
                     set(JSON.parse(json));      //TODO delete the key if it is invalid (for example 'undefined')
                 } catch (e) {
                     // key is not a valid json, delete it

@@ -1,6 +1,6 @@
 <!--<script>-->
-<!--    import {programs} from "../../../store/store";-->
-<!--    import {saveProgram, loadProject, deleteProgram} from "../../../store/loadSave";-->
+<!--    import {programs} from "../../../storeOld/storeOld";-->
+<!--    import {saveProgram, loadProject, deleteProgram} from "../../../storeOld/loadSave";-->
 
 <!--    let value-->
 
