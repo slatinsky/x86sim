@@ -36,14 +36,18 @@ function createRegisters() {
         set: (arg1:any, arg2) => {
             // if (typeof arg2 !== "undefined") {
                 // alternative way to set attribute by name
-                let attributeName = arg1
-                let newValue = arg2
-                update(storeObj => {
-                    storeObj[attributeName] = newValue
+            let attributeName = arg1
+            let newValue = arg2
+            update(storeObj => {
+                storeObj[attributeName] = newValue
 
-                    // TODO: handle overflow here
-                    return storeObj
-                })
+                // TODO: handle overflow here
+                return storeObj
+            })
+
+
+                // autosave
+            saveRegistersToLocalStorage()
             // }
             // else {
             //     default svelte call
