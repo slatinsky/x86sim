@@ -34,9 +34,7 @@
         <li><b>{$projectName}</b></li>
         <li><i class="fas fa-step-forward"></i> Krok</li>
         <li><i class="fas fa-step-backward"></i> Krok späť</li>
-        <li on:click={() => {
-            spinnerLoad('Čakám na ukončenie programu...', () => runAll($code))
-        }}><i class="fas fa-play"></i> Spustiť</li>
+        <li on:click={() => runAll($code)}><i class="fas fa-play"></i> Spustiť</li>
         <li><i class="fas fa-pause"></i> Pozastaviť</li>
         <li><i class="fas fa-stop"></i> Zresetovať</li>
         <li on:click={() => $appState.projectsShown = true}><i class="fas fa-folder-open"></i> Projekty</li>

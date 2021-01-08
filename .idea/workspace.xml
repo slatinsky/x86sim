@@ -12,13 +12,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ba1b726f-ca41-4a0d-bb6c-b7896d716d6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spinnerLoad.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/spinnerLoad.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/createWritableStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/createWritableStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/loadSave.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/loadSave.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/memory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/memory.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/registers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/registers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/settings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/modules/Register.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Register.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compiler/parseInstruction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/compiler/parseInstruction.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/modules/Navigation.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/modules/Navigation.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

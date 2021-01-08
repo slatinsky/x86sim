@@ -1,6 +1,7 @@
-import {registers} from "../stores/stores";
+import {memory, registers} from "../stores/stores";
 import {opcodes} from "./opcodes";
 import type {register} from "../types/types";
+import {forEach} from "lodash-es";
 
 interface Operand {
     get(): number,
@@ -121,7 +122,69 @@ const prepareOperand = (location: string): Operand => {
             },
             type: "immediate"
         }
-    } else {
+    }
+    else if (/^\[.*\]$/i.test(location)) {  // memory access
+        // remove []
+        location = location.slice(1,-1);
+
+        // replace '-' with '+-'
+        location = location.replace(/-/g, '+-')
+
+        // split by '+' character
+        let tokenizedLocation = location.split("+")
+
+        if (tokenizedLocation.length === 0) {
+            throw `ERROR: write something inside []`
+        }
+
+        return {
+            get: (): number => {
+                let address = 0
+                tokenizedLocation.map(token => {
+                    let sign
+                    if (/^-/.test(token)) {
+                        // subtraction
+                        sign = -1
+
+                        // remove sign character from the beginning of a token
+                        token = token.slice(1);
+                    }
+                    else {
+                        // addition
+                        sign = 1
+                    }
+
+                    if (/^[0-9]+$/i.test(token)) { // is token immediate?
+                        address += parseInt(token) * sign
+                    }
+                    else if (['bx','si','si','sp','bp','ip'].indexOf(token) !== -1) {  // is token one of allowed registers?
+                        address += registers.get(<register>token) * sign
+                    }
+                    else {
+                        throw `ERROR: only registers bx, si, si, sp, bp, ip and immediate values can be used during memory access, you used '${token}'`
+                    }
+                })
+                return memory.get(address)
+            },
+            set: (valueToSet: number): void => {
+                let address = 0
+                tokenizedLocation.map(token => {
+                    if (/^[0-9]+$/i.test(token)) { // is token immediate?
+                        address += parseInt(token)
+                    }
+                    else if (['bx','si','si','sp','bp','ip'].indexOf(token) !== -1) {
+                        address += registers.get(<register>token)
+                    }
+                    else {
+                        throw `ERROR: only registers bx, si, si, sp, bp, ip can be used during memory access, you used '${token}'`
+                    }
+                })
+                memory.set(address, valueToSet)
+            },
+            type: "immediate"
+        }
+    }
+    else {
         throw `ERROR: prepareLocation - can't parse operand '${location}'!`
     }
 }
