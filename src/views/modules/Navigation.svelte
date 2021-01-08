@@ -1,5 +1,7 @@
 <script>
     import {projectsShown, settingsShown, helpShown, projectName} from "../../storeOld/store";
+    import {runAll} from "../../compiler/mainLogic";
+    import {code} from "../../stores/stores";
 </script>
 
 <style>
@@ -30,7 +32,7 @@
         <li><b>{$projectName}</b></li>
         <li><i class="fas fa-step-forward"></i> Krok</li>
         <li><i class="fas fa-step-backward"></i> Krok späť</li>
-        <li><i class="fas fa-play"></i> Spustiť</li>
+        <li on:click={() => runAll($code)}><i class="fas fa-play"></i> Spustiť</li>
         <li><i class="fas fa-pause"></i> Pozastaviť</li>
         <li><i class="fas fa-stop"></i> Zresetovať</li>
         <li on:click={() => $projectsShown = true}><i class="fas fa-folder-open"></i> Projekty</li>
