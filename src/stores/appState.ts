@@ -1,4 +1,3 @@
-import {writable} from "svelte/store";
 import {createWritableStore} from "./createWritableStore";
 
 let defaultAppState = {

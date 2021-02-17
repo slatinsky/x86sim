@@ -252,7 +252,9 @@ function parseInstructionOrLabel(instruction: string): any {
 
 // splits instruction to opcode and operands
 export const parseInstructionList = (instructionList: string): any => {
+    let currentAddress = 0
     let instructions = []
+    let labels = []
     let errors = []
 
     // split instructions by lines and parse them
@@ -260,7 +262,8 @@ export const parseInstructionList = (instructionList: string): any => {
     instructionList.split('\n').map((oneInstruction: string, index: number) => {
         let instruction = {
             original: oneInstruction, // original code line
-            parsed: null
+            parsed: null,
+            address: null
         }
 
         // try to parse it
@@ -276,11 +279,27 @@ export const parseInstructionList = (instructionList: string): any => {
             errors.push(errorObj)
         }
 
-        instructions.push(instruction)
+
+
+        // if not empty, push it to instructions array
+        if (instruction.parsed !== null) {
+            console.log(instruction)
+
+            if (instruction.parsed.hasOwnProperty('label')) {
+                instruction.parsed.address = currentAddress + 1
+                labels.push(instruction)
+            }
+            else {
+                instruction.parsed.address = currentAddress
+                currentAddress += 1
+                instructions.push(instruction)
+            }
+
+        }
     })
 
-    // remove empty entries
-    instructions = instructions.filter(instruction => instruction.parsed !== null)
 
+    console.log("Instructions", instructions)
+    console.log("Labels", labels)
     return [instructions, errors]
 }
