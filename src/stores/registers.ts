@@ -87,6 +87,14 @@ function createRegisters() {
             for (const [registerName, value] of Object.entries(reducedRegisters)) {
                 thisStore.set(<register>registerName, <number>value)
             }
+        },
+        inc: (registerName: register) => {        // increment
+            let val = thisStore.get(registerName)
+            thisStore.set(registerName, val + 1)
+        },
+        dec: (registerName: register) => {        // decrement
+            let val = thisStore.get(registerName)
+            thisStore.set(registerName, val - 1)
         }
     }
 

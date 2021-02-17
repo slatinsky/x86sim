@@ -4,6 +4,7 @@
 // 3) add it to opcodes object
 
 // If rollup throws error after adding new .ts file, restart it
+import {registers, memory} from "../../stores/stores";
 
 import add from "./add"
 import sub from "./sub"
@@ -62,5 +63,10 @@ const executeInstruction = (opcode: string, operands) => {
 // temporary function to execute list of instructions
 // doesn't support jumps
 export const executeInstructionList = (instructionList) => {
-    instructionList.map(instruction => executeInstruction(instruction.parsed.opcode, instruction.parsed.operands))
+    setInterval(() => {
+        let currentInstruction = instructionList[registers.get('ip')]
+        console.log("currentInstruction", currentInstruction)
+        executeInstruction(currentInstruction.parsed.opcode, currentInstruction.parsed.operands)
+    }, 1000)
+    // instructionList.map(instruction => executeInstruction(instruction.parsed.opcode, instruction.parsed.operands))
 }

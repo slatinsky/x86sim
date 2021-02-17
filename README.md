@@ -81,6 +81,9 @@ export default  {
 
         // set 'sp' register to sp+1
         registers.set('sp', sp + 1)
+
+        // increment ip register
+        registers.inc('ip')
     },
 }
 ```

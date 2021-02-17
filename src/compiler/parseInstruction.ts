@@ -298,7 +298,7 @@ export const parseInstructionList = (instructionList: string): any => {
                 originalLine: originalLine,          // original code line content
                 cleanedLine: cleanedLine,            // cleaned instruction content (normalized whitespace, removed comments)
                 labelName: parseLabel(cleanedLine),
-                address: currentAddress + 1          // label points to address of the next instruction
+                address: currentAddress              // label points to address of before the next instruction
             })
         }
         else {  // else is instruction

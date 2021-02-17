@@ -7,5 +7,6 @@ export default  {
         let ax = registers.get('ax')
         let result = operand1.get() * ax
         registers.set('ax', result)
+        registers.inc('ip')
     },
 }
