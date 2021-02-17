@@ -135,51 +135,44 @@ const prepareOperand = (location: string): Operand => {
             throw `ERROR: write something inside []`
         }
 
+        function getAddress() {
+            let address = 0
+            tokenizedLocation.map(token => {
+                let sign
+                if (/^-/.test(token)) {
+                    // subtraction
+                    sign = -1
+
+                    // remove sign character from the beginning of a token
+                    token = token.slice(1);
+                }
+                else {
+                    // addition
+                    sign = 1
+                }
+
+                if (/^[0-9]+$/i.test(token)) { // is token immediate?
+                    address += parseInt(token) * sign
+                }
+                else if (['bx','si','si','sp','bp','ip'].indexOf(token) !== -1) {  // is token one of allowed registers?
+                    address += registers.get(<register>token) * sign
+                }
+                else {
+                    throw `ERROR: only registers bx, si, si, sp, bp, ip and immediate values can be used during memory access, you used '${token}'`
+                }
+            })
+
+            return address
+        }
+
         return {
             get: (): number => {
-                let address = 0
-                tokenizedLocation.map(token => {
-                    let sign
-                    if (/^-/.test(token)) {
-                        // subtraction
-                        sign = -1
-
-                        // remove sign character from the beginning of a token
-                        token = token.slice(1);
-                    }
-                    else {
-                        // addition
-                        sign = 1
-                    }
-
-                    if (/^[0-9]+$/i.test(token)) { // is token immediate?
-                        address += parseInt(token) * sign
-                    }
-                    else if (['bx','si','si','sp','bp','ip'].indexOf(token) !== -1) {  // is token one of allowed registers?
-                        address += registers.get(<register>token) * sign
-                    }
-                    else {
-                        throw `ERROR: only registers bx, si, si, sp, bp, ip and immediate values can be used during memory access, you used '${token}'`
-                    }
-                })
-                return memory.get(address)
+                return memory.get(getAddress())
             },
             set: (valueToSet: number): void => {
-                let address = 0
-                tokenizedLocation.map(token => {
-                    if (/^[0-9]+$/i.test(token)) { // is token immediate?
-                        address += parseInt(token)
-                    }
-                    else if (['bx','si','si','sp','bp','ip'].indexOf(token) !== -1) {
-                        address += registers.get(<register>token)
-                    }
-                    else {
-                        throw `ERROR: only registers bx, si, si, sp, bp, ip can be used during memory access, you used '${token}'`
-                    }
-                })
-                memory.set(address, valueToSet)
+                memory.set(getAddress(), valueToSet)
             },
-            type: "immediate"
+            type: "memory"
         }
     }
     else {

@@ -16,7 +16,7 @@ By default, the server will only respond to requests from localhost. To allow co
 If you're using [Visual Studio Code](https://code.visualstudio.com/), installation of the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) is recommended. If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
 
 #### Starting development server
-To start [Rollup](https://rollupjs.org) development server in live reloading mode, run `npm dev`. Then navigate to [localhost:5000](http://localhost:5000) in your browser. If you make any changes in `src`, page will be automatically reloaded.
+To start [Rollup](https://rollupjs.org) development server in live reloading mode, run `npm run dev`. Then navigate to [localhost:5000](http://localhost:5000) in your browser. If you make any changes in `src`, page will be automatically reloaded.
 
 
 

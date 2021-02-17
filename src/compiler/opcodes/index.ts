@@ -65,8 +65,8 @@ const executeInstruction = (opcode: string, operands) => {
 export const executeInstructionList = (instructionList) => {
     setInterval(() => {
         let currentInstruction = instructionList[registers.get('ip')]
-        console.log("currentInstruction", currentInstruction)
+        console.log("executed", currentInstruction.line, currentInstruction.cleanedLine)
         executeInstruction(currentInstruction.parsed.opcode, currentInstruction.parsed.operands)
-    }, 1000)
+    }, 500)
     // instructionList.map(instruction => executeInstruction(instruction.parsed.opcode, instruction.parsed.operands))
 }
