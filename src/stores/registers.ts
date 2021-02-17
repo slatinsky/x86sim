@@ -4,6 +4,7 @@ import {MEMORY_SIZE} from "./config";
 
 function createRegisters() {
     interface Register {
+        ip: number,
         ax: number,
         bx: number,
         cx: number,
@@ -15,6 +16,7 @@ function createRegisters() {
     }
 
     const defaultRegisters: Register = {
+        ip: 0,
         ax: 0,
         bx: 0,
         cx: 0,

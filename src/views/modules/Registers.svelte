@@ -2,7 +2,7 @@
     import Register from "./Register.svelte";
     import {registers, settings} from "../../stores/stores";
 
-    $: decValues = `DEBUG - ax: ${$registers.ax}, bx: ${$registers.bx}, cx: ${$registers.cx}, dx: ${$registers.dx}, format: ${$settings.selectedFormat}`
+    $: decValues = `DEBUG - ip: ${$registers.ip}, ax: ${$registers.ax}, bx: ${$registers.bx}, cx: ${$registers.cx}, dx: ${$registers.dx}, format: ${$settings.selectedFormat}`
 
 </script>
 
@@ -19,6 +19,7 @@
 <b>Registre:</b>
 <div class="regContainer">
     <div>
+        <Register bind:value={$registers.ip} label="ip" bcolor="DARKSLATEGRAY"/>
         <Register bind:value={$registers.ax} label="ax" bcolor="DARKSLATEGRAY"/>
         <Register bind:value={$registers.bx} label="bx"/>
         <Register bind:value={$registers.cx} label="cx"/>

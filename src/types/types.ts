@@ -1,1 +1,1 @@
-export type register = 'ax' | 'bx' | 'cx' | 'dx' | 'si' | 'di' | 'sp' | 'bp'
+export type register = 'ip' | 'ax' | 'bx' | 'cx' | 'dx' | 'si' | 'di' | 'sp' | 'bp'

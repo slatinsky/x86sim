@@ -1,5 +1,5 @@
 import {memory, registers} from "../stores/stores";
-import {opcodes} from "./opcodes";
+import {opcodes, jumps} from "./opcodes";
 import type {register} from "../types/types";
 import {forEach} from "lodash-es";
 
@@ -8,7 +8,7 @@ interface Operand {
 
     set(valueToSet: number): void,
 
-    type: "immediate" | "register" | "memory";
+    type: "immediate" | "register" | "memory" | "jump";
 }
 
 interface PreparedOperand {
@@ -59,8 +59,6 @@ function cleanupWhitespaceAndComments(instruction: string): string {
 // pass in cleaned instruction by cleanupWhitespaceAndComments()
 // returns tokenized instruction to
 // opcode and operands
-// or
-// label
 function splitInstruction(instruction: string): any {
     // instruction contains at least one operand, handle operands
     if (instruction.includes(' ')) {
@@ -82,7 +80,7 @@ function splitInstruction(instruction: string): any {
 
         return [opcode, operands]
     } else {
-        // instruction only contains one word, which can only be opcode or label
+        // instruction only contains one word, which can only be opcode
         return [instruction, []]
     }
 }
@@ -123,7 +121,7 @@ const prepareOperand = (location: string): Operand => {
             type: "immediate"
         }
     }
-    else if (/^\[.*\]$/i.test(location)) {  // memory access
+    else if (/^\[.*]$/i.test(location)) {  // memory access
         // remove []
         location = location.slice(1,-1);
 
@@ -189,7 +187,20 @@ const prepareOperand = (location: string): Operand => {
     }
 }
 
-function parseInstruction(opcode, operands) {
+
+function prepareLabel(labelName: string, labels: any[]): Operand {
+    return {
+        get: (): number => {
+            return labels.filter(label => label.labelName === labelName)[0].address
+        },
+        set: (valueToSet: number): void => {
+            throw `ERROR: Cannot set label`
+        },
+        type: "jump"
+    }
+}
+
+function parseInstruction(opcode, operands, labels: []) {
     // check if opcode is implemented
     if (!Object.keys(opcodes).includes(opcode)) {
         throw `ERROR: parseInstruction - opcode '${opcode}' isn't implemented`
@@ -199,107 +210,125 @@ function parseInstruction(opcode, operands) {
         throw `ERROR: parseInstruction - opcode '${opcode}' has incorrect amount of operands: ${opcodes[opcode].run.length} required, but only ${operands.length} provided`
     }
 
+
+    let preparedOperands = []
     let operand1 = operands?.[0]
     let operand2 = operands?.[1]
-
-    let preparedOperand1
-    let preparedOperand2
-    let preparedOperands = []
-
-    if (operand1) {
-        preparedOperand1 = prepareOperand(operand1)
-        preparedOperands.push(preparedOperand1)
+    if (opcodes[opcode].writesTo.includes('ip')) {  // if is jump
+        preparedOperands[0] = prepareLabel(operand1, labels)
     }
-    if (operand2) {
-        preparedOperand2 = prepareOperand(operand2)
-        preparedOperands.push(preparedOperand2)
-    }
+    else {
 
 
-    // validate operand types
-    if (operands.length === 2) {
-        if (preparedOperand1.type === "immediate") {
-            throw "First operand can't be immediate"
+        let preparedOperand1
+        let preparedOperand2
+
+        if (operand1) {
+            preparedOperand1 = prepareOperand(operand1)
+            preparedOperands.push(preparedOperand1)
+        }
+        if (operand2) {
+            preparedOperand2 = prepareOperand(operand2)
+            preparedOperands.push(preparedOperand2)
         }
 
-        if (preparedOperand1.type === "memory" && preparedOperand2.type === "memory") {
-            throw "You can't access two memory places in the same instruction"
+
+        // validate operand types
+        if (operands.length === 2) {
+            if (preparedOperand1.type === "immediate") {
+                throw "First operand can't be immediate"
+            }
+
+            if (preparedOperand1.type === "memory" && preparedOperand2.type === "memory") {
+                throw "You can't access two memory places in the same instruction"
+            }
+        }
+        else if (operands.length === 1) {
+            if (preparedOperand1.type === "immediate" && opcodes[opcode].writesTo.includes('operand1')) {
+                throw `Can't write to immediate ${operand1}`
+            }
         }
     }
-    else if (operands.length === 1) {
-        if (preparedOperand1.type === "immediate" && opcodes[opcode].writesTo.includes('operand1')) {
-            throw `Can't write to immediate ${operand1}`
-        }
-    }
+
 
     return {opcode: opcode, operands: preparedOperands}
 }
 
-function parseInstructionOrLabel(instruction: string): any {
-    instruction = cleanupWhitespaceAndComments(instruction)
-    let [opcodeOrLabel, operands] = splitInstruction(instruction)
 
-    if (opcodeOrLabel === "") {
-        return null
-    }
-
-    if (isLabel(opcodeOrLabel)) {
-        return {label: opcodeOrLabel.replace(':', '')}
-    } else {
-        return parseInstruction(opcodeOrLabel, operands)
-    }
+function parseLabel(line: string): string {
+    return line.replace(/:$/, '')
 }
 
+// function parseInstructionOrLabel(instruction: string): any {
+//     instruction = cleanupWhitespaceAndComments(instruction)
+//     let [opcodeOrLabel, operands] = splitInstruction(instruction)
+//
+//     if (opcodeOrLabel === "") {
+//         return null
+//     }
+//
+//     if (isLabel(opcodeOrLabel)) {
+//         return {label: opcodeOrLabel.replace(':', '')}
+//     } else {
+//         return parseInstruction(opcodeOrLabel, operands)
+//     }
+// }
+
 // splits instruction to opcode and operands
+// generates array of labels
 export const parseInstructionList = (instructionList: string): any => {
     let currentAddress = 0
+    let currentLine = -1
     let instructions = []
     let labels = []
     let errors = []
 
     // split instructions by lines and parse them
     // catch parse errors
-    instructionList.split('\n').map((oneInstruction: string, index: number) => {
-        let instruction = {
-            original: oneInstruction, // original code line
-            parsed: null,
-            address: null
+    instructionList.split('\n').map((originalLine: string, index: number) => {
+        currentLine += 1
+        let cleanedLine = cleanupWhitespaceAndComments(originalLine)
+
+        if (cleanedLine === "")  // ignore empty lines
+            return
+
+        if (isLabel(cleanedLine)) {
+            labels.push({
+                line: currentLine,                   // original line index
+                originalLine: originalLine,          // original code line content
+                cleanedLine: cleanedLine,            // cleaned instruction content (normalized whitespace, removed comments)
+                labelName: parseLabel(cleanedLine),
+                address: currentAddress + 1          // label points to address of the next instruction
+            })
         }
+        else {  // else is instruction
+            // try to parse instruction
+            try {
+                let [opcode, operands] = splitInstruction(cleanedLine)
+                let parsed = parseInstruction(opcode, operands, labels)
 
-        // try to parse it
-        try {
-            instruction.parsed = parseInstructionOrLabel(oneInstruction)
-        }
-        // catch any syntax errors during parsing
-        catch (e) {
-            let errorObj = {
-                line: index,
-                content: e
+                instructions.push({
+                    line: currentLine,
+                    originalLine: originalLine,          // original code line
+                    cleanedLine: cleanedLine,            // cleaned instruction (normalized whitespace, removed comments)
+                    parsed: parsed,
+                    address: currentAddress
+                })
+                currentAddress += 1                      // TODO: variable instruction length
             }
-            errors.push(errorObj)
-        }
-
-
-
-        // if not empty, push it to instructions array
-        if (instruction.parsed !== null) {
-            console.log(instruction)
-
-            if (instruction.parsed.hasOwnProperty('label')) {
-                instruction.parsed.address = currentAddress + 1
-                labels.push(instruction)
+            catch (e) {  // catch any syntax errors during parsing
+                errors.push({
+                    line: index,
+                    content: e
+                })
+                return   // ignore instruction with error
             }
-            else {
-                instruction.parsed.address = currentAddress
-                currentAddress += 1
-                instructions.push(instruction)
-            }
-
         }
     })
 
 
     console.log("Instructions", instructions)
     console.log("Labels", labels)
+    console.log("Errors", errors)
     return [instructions, errors]
 }

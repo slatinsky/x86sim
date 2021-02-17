@@ -54,10 +54,11 @@ import {registers, memory} from "../../stores/stores";
 
 export default  {
     // hint to the code editor, which values is expected the function to modify
-    // available values:
-    // writesTo: ["operand1"]
-    // writesTo: []
-    writesTo: ["operand1"],
+    // available values (must be lowercase):
+    // writesTo: ['operand1']
+    // writesTo: []             // if it doesn't write to anything - for example nop
+    // writesTo: ['ip']         // if it is jump
+    writesTo: ['operand1'],
 
     // if instruction uses two operands, change signature to
     // run: (operand1, operand2) => {
