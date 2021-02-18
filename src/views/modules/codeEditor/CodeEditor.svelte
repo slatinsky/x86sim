@@ -77,6 +77,22 @@
 
         // run annotate function first time after load
         setTimeout(()=>annotate(editor, $code), 2000)
+
+        let i = 0
+        let currentMarker
+        setInterval(()=>{
+            if(currentMarker) {  // remove marker if it exists
+                // https://stackoverflow.com/questions/33324361/ace-editor-cant-get-rid-of-marker
+                editor.session.removeMarker(currentMarker);
+            }
+
+            let from = i
+            let to = i
+            const Range = ace.acequire('ace/range').Range
+            currentMarker =  editor.session.addMarker(new Range(from, 0, to, 1), "ace_current_line", "fullLine");
+
+            i++
+        }, 1000)
     }
 
     // debounce annotate function - don't interrupt user while he is typing. Show/update errors only when user stops typing the code
@@ -102,6 +118,12 @@
         font-size: 30px;
         top: -10px;
         left: 2px;
+    }
+
+    :global(.ace_current_line) {
+        position:absolute;
+        background:rgba(100,200,100,0.5);
+        z-index:20
     }
 </style>
 
