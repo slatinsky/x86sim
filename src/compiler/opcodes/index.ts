@@ -63,7 +63,7 @@ const executeInstruction = (opcode: string, operands) => {
 // temporary function to execute list of instructions
 // doesn't support jumps
 export const executeInstructionList = (instructionList) => {
-    setInterval(() => {
+    window.runningProcess = setInterval(() => {
         let currentInstruction = instructionList[registers.get('ip')]
         console.log("executed", currentInstruction.line, currentInstruction.cleanedLine)
         executeInstruction(currentInstruction.parsed.opcode, currentInstruction.parsed.operands)
