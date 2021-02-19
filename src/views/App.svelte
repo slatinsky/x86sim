@@ -67,10 +67,10 @@
 				<Stack />
 			</div>
 			<div>
-				<Screen />
+				<Memory />
 			</div>
 			<div>
-				<Memory />
+				<Screen />
 			</div>
 		</div>
 	</div>
