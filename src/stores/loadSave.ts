@@ -3,7 +3,7 @@ import {appState, code, memory, programs, projectName, registers} from "./stores
 import {orderBy} from 'lodash-es'
 
 interface Project {
-    version: int,
+    version: number,
     name: string,
     registers: any,
     memory: any,

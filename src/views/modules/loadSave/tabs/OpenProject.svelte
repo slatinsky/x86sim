@@ -27,6 +27,23 @@
         })
     }
 
+
+    function createNewProject() {
+        let newProjectName = prompt("Prosím zadajte meno nového projektu", "Nový projekt");
+        if (newProjectName != null) {
+            if (newProject(newProjectName)) {
+                newProjectName = ""
+                toast.success(`Nový projekt s názvom '${newProjectName}' úspešne vytvorený`)
+            }
+            else {
+                toast.error(`Prosím zvoľte iný názov projektu, projekt s názvom '${newProjectName}' už existuje`)
+            }
+        }
+        else {
+            toast.error(`Názov projektu je povinný`)
+        }
+    }
+
 </script>
 
 <style>
@@ -85,4 +102,5 @@
     {:else}
         <span class="text">Žiadny projekt ešte nebol uložený - vytvorte ho</span>
     {/if}
+    <button class="btn btn-outline-primary" on:click={createNewProject}>Vytvoriť nový projekt</button>
 </div>
