@@ -28,9 +28,9 @@ function createRegisters() {
     }
     const {subscribe, set, update} = writable(Object.assign({}, defaultRegisters));
 
-    function saveRegistersToLocalStorage() {
-        localStorage.setItem('registers', JSON.stringify(thisStore.reduce()))
-    }
+    // function saveRegistersToLocalStorage() {
+    //     localStorage.setItem('registers', JSON.stringify(thisStore.reduce()))
+    // }
 
 
     const thisStore = {
@@ -49,7 +49,7 @@ function createRegisters() {
 
 
                 // autosave
-            saveRegistersToLocalStorage()
+            // saveRegistersToLocalStorage()
             // }
             // else {
             //     default svelte call

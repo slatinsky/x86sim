@@ -87,3 +87,30 @@ export default  {
     },
 }
 ```
+
+### Save file format
+This part of the documentation talks about the save format used.
+
+#### Format
+
+Example of the format
+```json
+{
+    "version":1,
+    "name":"a",
+    "registers":{"ip":18,"ax":21,"bx":6,"sp":32,"bp":32},
+    "memory":{},
+    "code":"inc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\n"
+}
+```
+
+- `version` is version of the saved format. It is used to ensure, that future versions of the simulator can safely migrate the file to new format.
+- `name` is the user defined name of the program
+- `registers` contains all non zero registers
+- `memory` contains all non zero memory addresses used
+- `code` contains assembly code written by user. New lines are delimeted by `\n`
+
+#### Autosave
+Currently opened program is autosaved to `localStorage.autosave` every 2 seconds
+
+On simulator load, `localStorage.autosave` is checked if exists. If exists, it is loaded. Else simulator loads default values.

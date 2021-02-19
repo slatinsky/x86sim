@@ -7,11 +7,8 @@ export {memory} from "./memory"
 export {settings} from "./settings"
 export {appState} from "./appState"
 
-export const code = createWritableStore('code', '')
-code.useLocalStorage();
-
-export const projectName = createWritableStore('projectName', 'unnamed project')
-projectName.useLocalStorage();
+export const code = writable('')
+export const projectName = writable('unnamed project')
 
 export const programs = createWritableStore('programs', [])
 programs.useLocalStorage();

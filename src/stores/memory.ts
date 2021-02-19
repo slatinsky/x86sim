@@ -6,10 +6,6 @@ function createMemory() {
     const defaultMemory = Array(size).fill(0)
     const {subscribe, set, update} = writable([...defaultMemory]);
 
-    function saveMemoryToLocalStorage() {
-        localStorage.setItem('memory', JSON.stringify(thisStore.reduce()))
-    }
-
     const thisStore =  {
         subscribe,
         update,
@@ -22,9 +18,6 @@ function createMemory() {
                 // TODO: handle overflow here
                 return memory
             })
-
-            // autosave
-            saveMemoryToLocalStorage()
         },
         reset: () => set([...defaultMemory]),
         get: (address: number): number => get(thisStore)[address],
