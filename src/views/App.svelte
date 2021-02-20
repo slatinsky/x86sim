@@ -27,7 +27,7 @@
 	import Settings from "./modules/Settings.svelte";
 	import Spinner from "./modules/Spinner.svelte";
 	import Memory from "./modules/Memory.svelte";
-	import {loadAutosaveAndStartAutosaving} from "../stores/loadSave";
+	// import {loadAutosaveAndStartAutosaving} from "../stores/loadSave";
 
 	$: {
 		if ($settings.darkTheme) {
@@ -37,7 +37,7 @@
 		}
 		console.log('darkTheme', $settings.darkTheme)
 	}
-	loadAutosaveAndStartAutosaving()
+	// loadAutosaveAndStartAutosaving()
 </script>
 
 <style>

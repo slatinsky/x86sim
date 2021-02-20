@@ -103,7 +103,3 @@ function createRegisters() {
 
 
 export const registers = createRegisters();
-// load autosave from localstorage
-if (localStorage.getItem('registers')) {
-    registers.load(JSON.parse(localStorage.getItem('registers')))
-}

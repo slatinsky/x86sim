@@ -1,6 +1,5 @@
 <script>
     import {projectName, appState, programs} from "../../../../stores/stores";
-    import {loadProject, deleteProject, newProject, renameProject} from "../../../../stores/loadSave";
     import Toast from "../../../components/toast";
     import {spinnerLoad} from "../../../../spinnerLoad";
 
@@ -17,7 +16,7 @@
 
         if (newProjectName != null) {
             if (oldProjectName !== newProjectName) {
-                renameProject(oldProjectName, newProjectName)
+                programs.renameProject(oldProjectName, newProjectName)
                 console.log("new name", newProjectName)
                 toast.success(`Projekt '${oldProjectName}' úspešne premenovaný na '${newProjectName}'`)
             }
@@ -31,13 +30,13 @@
     }
 
     function deleteP(programName) {
-        deleteProject(programName)
+        programs.deleteProject(programName)
         toast.success(`Projekt '${programName}' vymazaný`)
     }
 
     function loadP(programName) {
         spinnerLoad(`Načítavam projekt '${programName}'`, () => {
-            loadProject(programName)
+            programs.loadProject(programName)
             toast.success(`Projekt '${programName}' načítaný`)
         })
     }
@@ -46,7 +45,7 @@
     function createNewProject() {
         let newProjectName = prompt("Prosím zadajte meno nového projektu", "Nový projekt");
         if (newProjectName != null) {
-            if (newProject(newProjectName)) {
+            if (programs.newProject(newProjectName)) {
                 newProjectName = ""
                 toast.success(`Nový projekt s názvom '${newProjectName}' úspešne vytvorený`)
             } else {
