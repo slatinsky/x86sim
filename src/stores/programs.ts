@@ -1,5 +1,4 @@
 import {get, writable} from "svelte/store";
-import type {register} from "../types/types";
 import {code, memory, registers} from "./stores";
 import {createWritableStore} from "./createWritableStore";
 
@@ -156,23 +155,7 @@ function createProjects() {
         loadCurrentProject: () => {
             thisStore.loadProject(get(projectName))
         },
-        reset: () => set([{...defaultProject}]),
-        // get: (registerName: register): number => get(thisStore)[registerName],
-        load: (reducedRegisters) => {  // loads object returned by reduce
-            console.log("LOADING")
-            thisStore.reset()
-            for (const [registerName, value] of Object.entries(reducedRegisters)) {
-                thisStore.set(<register>registerName, <number>value)
-            }
-        },
-        inc: (registerName: register) => {        // increment
-            let val = thisStore.get(registerName)
-            thisStore.set(registerName, val + 1)
-        },
-        dec: (registerName: register) => {        // decrement
-            let val = thisStore.get(registerName)
-            thisStore.set(registerName, val - 1)
-        }
+        // reset: () => set([{...defaultProject}]),
     }
 
     // subscribe for changes and save changes in localStorage
