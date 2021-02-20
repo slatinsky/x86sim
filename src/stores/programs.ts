@@ -109,13 +109,13 @@ function createProjects() {
         renameProject: (oldProjectName: string, newProjectName: string) => {
             if (oldProjectName !== newProjectName) {
                 update(projects => {
-                    projectName.set(newProjectName)
                     projects.map(project => {
                         if (project.name === oldProjectName) {
                             project.name = newProjectName
                         }
                         return project
                     })
+                    thisStore.loadProject(newProjectName)
                     return projects
                 })
             }
