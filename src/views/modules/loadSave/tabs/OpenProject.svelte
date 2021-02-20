@@ -1,6 +1,6 @@
 <script>
     import {projectName, appState, programs} from "../../../../stores/stores";
-    import {loadProject, deleteProject, newProject} from "../../../../stores/loadSave";
+    import {loadProject, deleteProject, newProject, renameProject} from "../../../../stores/loadSave";
     import Toast from "../../../components/toast";
     import {spinnerLoad} from "../../../../spinnerLoad";
 
@@ -12,16 +12,31 @@
     $: isValueInPrograms = !$programs.filter(program => program.name === value).length
 
 
-    function renameProject(name) {
-        console.log(name)
+    function renameP(oldProjectName) {
+        let newProjectName = prompt("Prosím zadajte nové meno projektu", oldProjectName);
+
+        if (newProjectName != null) {
+            if (oldProjectName !== newProjectName) {
+                renameProject(oldProjectName, newProjectName)
+                console.log("new name", newProjectName)
+                toast.success(`Projekt '${oldProjectName}' úspešne premenovaný na '${newProjectName}'`)
+            }
+            else {
+                toast.error(`Premenovanie projektu neúspešné, pretože nové a staré meno je rovnaké`)
+            }
+        }
+        else {
+            toast.error(`Premenovanie projektu neúspešné, pretože ste prerušili túto operáciu`)
+        }
     }
 
     function deleteP(programName) {
         deleteProject(programName)
         toast.success(`Projekt '${programName}' vymazaný`)
     }
+
     function loadP(programName) {
-        spinnerLoad(`Načítavam projekt '${programName}'`, ()=> {
+        spinnerLoad(`Načítavam projekt '${programName}'`, () => {
             loadProject(programName)
             toast.success(`Projekt '${programName}' načítaný`)
         })
@@ -34,12 +49,10 @@
             if (newProject(newProjectName)) {
                 newProjectName = ""
                 toast.success(`Nový projekt s názvom '${newProjectName}' úspešne vytvorený`)
-            }
-            else {
+            } else {
                 toast.error(`Prosím zvoľte iný názov projektu, projekt s názvom '${newProjectName}' už existuje`)
             }
-        }
-        else {
+        } else {
             toast.error(`Názov projektu je povinný`)
         }
     }
@@ -84,17 +97,18 @@
             <div id="programList">
 
                 {#each $programs as program}
-                    <div class="program text {program.name === $projectName ? 'active':''}" on:click={()=>{loadP(program.name)}}>
+                    <div class="program text {program.name === $projectName ? 'active':''}"
+                         on:click={()=>{loadP(program.name)}}>
                         <span>{program.name}</span>
                         <div>
                             {#if program.name !== $projectName}
-                                <span> <button class="btn btn-outline-danger btn-sm" on:click|stopPropagation={deleteP(program.name)}><i class="fas fa-trash"></i> Vymazať</button></span>
+                                <span> <button class="btn btn-outline-danger btn-sm"
+                                               on:click|stopPropagation={deleteP(program.name)}><i
+                                        class="fas fa-trash"></i> Vymazať</button></span>
                             {/if}
-                            <span><button class="btn btn-outline-primary btn-sm" on:click|stopPropagation={renameProject(program.name)}><i class="fas fa-italic"></i> Premenovať</button></span>
+                            <span><button class="btn btn-outline-primary btn-sm"
+                                          on:click|stopPropagation={renameP(program.name)}><i class="fas fa-italic"></i> Premenovať</button></span>
                         </div>
-
-
-
                     </div>
                 {/each}
             </div>

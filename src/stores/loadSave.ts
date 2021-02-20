@@ -125,6 +125,30 @@ export function deleteProject(projectNameToDelete) {
 }
 
 
+function saveCurrentProjectToLocalstorage() {
+
+}
+
+export function renameProject(oldProjectName: string, newProjectName: string) {
+    // // get all programs from localstorage
+    // let allProjects: Project[] = get(programs)
+    //
+    // // remove current program from the object - current program will be added in the next step
+    // let allProjectsWithoutCurrentOne = allProjects.filter(project => project.name !== projectNameToDelete)
+    //
+    // // apply changes
+    // programs.set(allProjectsWithoutCurrentOne)
+    //
+    // // if currently deleted project is currently loaded one, replace loaded project with default one
+    // if (projectNameToDelete === get(projectName)) {  // if we are deleting currently opened program
+    //     jsonToLoadedProject(defaultProject)
+    // }
+}
+
+
+
+
+
 
 
 
