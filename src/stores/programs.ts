@@ -107,27 +107,29 @@ function createProjects() {
             code.set(projectToLoad.code)
         },
         renameProject: (oldProjectName: string, newProjectName: string) => {
-            update(projects => {
-                projectName.set(newProjectName)
-                projects.map(project => {
-                    if (project.name === oldProjectName) {
-                        project.name = newProjectName
-                    }
-                    return project
+            if (oldProjectName !== newProjectName) {
+                update(projects => {
+                    projectName.set(newProjectName)
+                    projects.map(project => {
+                        if (project.name === oldProjectName) {
+                            project.name = newProjectName
+                        }
+                        return project
+                    })
+                    return projects
                 })
-                return projects
-            })
+            }
         },
         deleteProject: (projectNameToDelete: string) => {
             update(projects => {
                 if (get(projectName) === projectNameToDelete) {
                     if (projects.length <= 1) {
                         projects = [{...defaultProject}]
-                        projectName.set(defaultProject.name)
+                        thisStore.loadProject(defaultProject.name)
                     }
                     else {
                         projects = projects.filter(project => project.name !== projectNameToDelete)
-                        projectName.set(projects[0].name)  //switch to different project
+                        thisStore.loadProject(projects[0].name) //switch to different project
                     }
                 }
                 else {
@@ -139,6 +141,17 @@ function createProjects() {
         },
         newProject: (newProjectName: string) => {
             console.log("newProject dummy", newProjectName)
+            update(projects => {
+                // Add project only if that project doesn't exist yet
+                if (projects.filter(project => project.name === newProjectName).length === 0) {
+                    let newProject = {...defaultProject}
+                    newProject.name = newProjectName
+                    return [...projects, newProject]
+                }
+                else {
+                    return projects
+                }
+            })
         },
         loadCurrentProject: () => {
             thisStore.loadProject(get(projectName))

@@ -15,17 +15,12 @@
         let newProjectName = prompt("Prosím zadajte nové meno projektu", oldProjectName);
 
         if (newProjectName != null) {
-            if (oldProjectName !== newProjectName) {
-                programs.renameProject(oldProjectName, newProjectName)
-                console.log("new name", newProjectName)
-                toast.success(`Projekt '${oldProjectName}' úspešne premenovaný na '${newProjectName}'`)
-            }
-            else {
-                toast.error(`Premenovanie projektu neúspešné, pretože nové a staré meno je rovnaké`)
-            }
+            programs.renameProject(oldProjectName, newProjectName)
+            console.log("new name", newProjectName)
+            toast.success(`Projekt '${oldProjectName}' premenovaný na '${newProjectName}'`)
         }
         else {
-            toast.error(`Premenovanie projektu neúspešné, pretože ste prerušili túto operáciu`)
+            toast.error(`Premenovanie prerušené`)
         }
     }
 
@@ -45,14 +40,9 @@
     function createNewProject() {
         let newProjectName = prompt("Prosím zadajte meno nového projektu", "Nový projekt");
         if (newProjectName != null) {
-            if (programs.newProject(newProjectName)) {
-                newProjectName = ""
-                toast.success(`Nový projekt s názvom '${newProjectName}' úspešne vytvorený`)
-            } else {
-                toast.error(`Prosím zvoľte iný názov projektu, projekt s názvom '${newProjectName}' už existuje`)
-            }
+            programs.newProject(newProjectName)
         } else {
-            toast.error(`Názov projektu je povinný`)
+            toast.error(`Operácia prerušená`)
         }
     }
 
