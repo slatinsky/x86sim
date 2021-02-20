@@ -15,7 +15,7 @@ function createProjectName() {
 }
 
 export const projectName = createWritableStore('currentProjectName', 'default')
-
+projectName.useLocalStorage()
 
 function createProjects() {
     interface Project {
@@ -73,8 +73,7 @@ function createProjects() {
                 }
 
                 //Find index of specific object using findIndex method.
-                let projectIndex = projects.findIndex((project => project.name == get(projectName)));  // single brakets mutate array
-                console.log("projectIndex", projectIndex)
+                let projectIndex = projects.findIndex((project => project.name == get(projectName)));  // single brackets mutate array - https://stackoverflow.com/a/41938641/14409632
 
                 if (projectIndex === -1) {  // project name not yet in array
                     projects = [...projects, projectToSave]
@@ -108,9 +107,34 @@ function createProjects() {
             code.set(projectToLoad.code)
         },
         renameProject: (oldProjectName: string, newProjectName: string) => {
-            console.log("renameProject dummy", oldProjectName, newProjectName)
+            update(projects => {
+                projectName.set(newProjectName)
+                projects.map(project => {
+                    if (project.name === oldProjectName) {
+                        project.name = newProjectName
+                    }
+                    return project
+                })
+                return projects
+            })
         },
         deleteProject: (projectNameToDelete: string) => {
+            update(projects => {
+                if (get(projectName) === projectNameToDelete) {
+                    if (projects.length <= 1) {
+                        projects = [{...defaultProject}]
+                        projectName.set(defaultProject.name)
+                    }
+                    else {
+                        projects = projects.filter(project => project.name !== projectNameToDelete)
+                        projectName.set(projects[0].name)  //switch to different project
+                    }
+                }
+                else {
+                    projects = projects.filter(project => project.name !== projectNameToDelete)
+                }
+                return projects
+            })
             console.log("deleteProject dummy", projectNameToDelete)
         },
         newProject: (newProjectName: string) => {

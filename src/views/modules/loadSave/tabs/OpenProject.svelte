@@ -7,7 +7,7 @@
 
     let value
 
-    $: console.log($programs)
+    // $: console.log($programs)
     $: isValueInPrograms = !$programs.filter(program => program.name === value).length
 
 
@@ -100,7 +100,7 @@
                          on:click={()=>{loadP(program.name)}}>
                         <span>{program.name}</span>
                         <div>
-                            {#if program.name !== $projectName}
+                            {#if !(program.name === "default" && $programs.length <= 1)}
                                 <span> <button class="btn btn-outline-danger btn-sm"
                                                on:click|stopPropagation={deleteP(program.name)}><i
                                         class="fas fa-trash"></i> Vymazať</button></span>
