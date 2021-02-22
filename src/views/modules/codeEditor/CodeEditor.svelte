@@ -5,7 +5,7 @@
     import "brace/mode/assembly_x86";
     import "brace/theme/dracula";
     import "brace/ext/language_tools";
-    import {code} from "../../../stores/stores";
+    import {code, currentlyExecutedLine} from "../../../stores/stores";
     import {mainCompleter, snippetsCompleter} from "./completers"
     import {annotate} from "./annotations.js"
 
@@ -80,8 +80,8 @@
 
 
         let currentMarker
-        // TODO: don't use window object
-        window.currentlyExecuted = (lineNumber) => {
+
+        currentlyExecutedLine.subscribe(lineNumber => {
             if(currentMarker) {  // remove marker if it exists
                 // https://stackoverflow.com/questions/33324361/ace-editor-cant-get-rid-of-marker
                 editor.session.removeMarker(currentMarker);
@@ -91,7 +91,7 @@
             let to = lineNumber
             const Range = ace.acequire('ace/range').Range
             currentMarker =  editor.session.addMarker(new Range(from, 0, to, 1), "ace_current_line", "fullLine");
-        }
+        })
     }
 
     // debounce annotate function - don't interrupt user while he is typing. Show/update errors only when user stops typing the code

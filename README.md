@@ -114,3 +114,7 @@ Example of the format
 Currently opened program is autosaved to `localStorage.autosave` every 2 seconds
 
 On simulator load, `localStorage.autosave` is checked if exists. If exists, it is loaded. Else simulator loads default values.
+
+
+## Bugs
+- rapidly switching between projects causes autosave to save to the wrong project

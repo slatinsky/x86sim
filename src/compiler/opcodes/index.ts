@@ -54,22 +54,3 @@ Object.entries(opcodes).map(entry => {
         opcodes_2_operands.push(opcodeName)
     }
 })
-
-// if opcode is implemented is validated during parsing - it doesn't need to be checked here
-const executeInstruction = (opcode: string, operands) => {
-    opcodes[opcode].run(...operands)
-}
-
-// temporary function to execute list of instructions
-// doesn't support jumps
-export const executeInstructionList = (instructionList) => {
-    // TODO: don't use window object
-    window.runningProcess = setInterval(() => {
-        let currentInstruction = instructionList[registers.get('ip')]
-        console.log("executed", currentInstruction.line, currentInstruction.cleanedLine)
-        executeInstruction(currentInstruction.parsed.opcode, currentInstruction.parsed.operands)
-        currentInstruction = instructionList[registers.get('ip')]
-        window.currentlyExecuted(currentInstruction.line)
-    }, 1000)
-    // instructionList.map(instruction => executeInstruction(instruction.parsed.opcode, instruction.parsed.operands))
-}

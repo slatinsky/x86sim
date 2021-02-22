@@ -1,9 +1,7 @@
 <script>
     import {appState} from "../../stores/stores";
     import {projectName} from "../../stores/stores";
-    import {spinnerLoad} from "../../spinnerLoad";
-    import {runAll} from "../../compiler/mainLogic";
-    import {code} from "../../stores/stores";
+    import {compiler} from "../../compiler/compiler";
 </script>
 
 <style>
@@ -41,11 +39,11 @@
     <div id="navControls">
         <ul>
             <li class="notClickable">{$projectName}</li>
-            <li><i class="fas fa-step-forward"></i> Krok</li>
+            <li on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> Krok</li>
             <li><i class="fas fa-step-backward"></i> Krok späť</li>
-            <li on:click={() => runAll($code)}><i class="fas fa-play"></i> Spustiť</li>
-            <li on:click={()=>clearInterval(window.runningProcess)}><i class="fas fa-pause"></i> Pozastaviť</li>
-            <li><i class="fas fa-stop"></i> Zresetovať</li>
+            <li on:click={() => compiler.run()}><i class="fas fa-play"></i> Spustiť</li>
+            <li><i class="fas fa-pause"></i> Pozastaviť</li>
+            <li  on:click={() => compiler.reset()}><i class="fas fa-stop"></i> Zresetovať</li>
         </ul>
     </div>
     <div id="navInfo">
