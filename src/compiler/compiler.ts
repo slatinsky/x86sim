@@ -10,6 +10,11 @@ export const currentlyExecutedLine = readable(-1, (set) => {
     setCurrentlyExecutedLine = set
 });
 
+var setCompiledInstructions = (val) => {}
+export const compiledInstructions = readable([], (set) => {
+    setCompiledInstructions = set
+});
+
 // var i = 0
 // setInterval(()=> {
 //     setCurrentlyExecutedLine(i++)
@@ -23,7 +28,7 @@ class Compiler {
     compile
 
     constructor() {
-        this.compile = throttle(this._compileUnthrottled, 1000);  // 1 sec throttle
+        this.compile = throttle(this._compileUnthrottled, 50);  // .05 sec throttle
 
         // subscribe for code changes
         code.subscribe(updatedCode => {
@@ -54,6 +59,7 @@ class Compiler {
         this.instructions = instructions
         this.errors = errors
         this.updateCurrentlyExecutedLine()
+        setCompiledInstructions(instructions)
     }
 
     // if opcode is implemented is validated during parsing - it doesn't need to be checked here
@@ -74,6 +80,7 @@ class Compiler {
 
 
     run() {
+        // TODO: don't execute more, if we are at the end
         for (let i=0; i < 500; i++) {
             this.step()
         }

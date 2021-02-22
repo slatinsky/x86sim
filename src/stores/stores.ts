@@ -1,6 +1,6 @@
 import { throttle } from 'lodash-es';
 import {writable} from "svelte/store";
-import {code, currentlyExecutedLine} from "../compiler/compiler"
+import {code, currentlyExecutedLine, compiledInstructions} from "../compiler/compiler"
 import {programs, projectName} from "./programs"
 import {registers} from "./registers"
 import {memory} from "./memory"
@@ -24,7 +24,7 @@ memory.subscribe(_ => {
     throttledSaveCurrentProject()
 });
 
-export {registers, memory, programs, projectName, code, currentlyExecutedLine}
+export {registers, memory, programs, projectName, code, currentlyExecutedLine, compiledInstructions}
 export {settings} from "./settings"
 export {appState} from "./appState"
 

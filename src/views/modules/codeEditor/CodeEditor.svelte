@@ -5,13 +5,15 @@
     import "brace/mode/assembly_x86";
     import "brace/theme/dracula";
     import "brace/ext/language_tools";
-    import {code, currentlyExecutedLine} from "../../../stores/stores";
+    import {code, currentlyExecutedLine, compiledInstructions} from "../../../stores/stores";
     import {mainCompleter, snippetsCompleter} from "./completers"
     import {annotate} from "./annotations.js"
 
     let editor
     let errorCheckingInterval
     let breakpoints
+
+    let lineAddressMapping = {}
 
     function init(e) {
         editor = e
@@ -25,7 +27,12 @@
             getText: function(session, row) {
 
                 // console.log(editor.session.getLine(4))  //get fourth line, will be usefull later
-                return (row+7000).toString().padStart(4, '0');
+                if (lineAddressMapping.hasOwnProperty(row)) {
+                    return lineAddressMapping[row]
+                }
+                else {
+                    return "   "
+                }
             }
         };
 
@@ -91,6 +98,13 @@
             let to = lineNumber
             const Range = ace.acequire('ace/range').Range
             currentMarker =  editor.session.addMarker(new Range(from, 0, to, 1), "ace_current_line", "fullLine");
+        })
+
+        compiledInstructions.subscribe(instructions => {
+            lineAddressMapping = {}
+            instructions.map(instruction => {
+                lineAddressMapping[instruction.line] = instruction.address
+            })
         })
     }
 
