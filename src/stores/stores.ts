@@ -1,24 +1,35 @@
-// https://svelte.dev/tutorial/custom-stores
+import { throttle } from 'lodash-es';
 import {writable} from "svelte/store";
-
-import {programs, projectName} from "./programs"
-
-export {registers} from "./registers"
-export {memory} from "./memory"
-export {settings} from "./settings"
-export {programs, projectName}
-export {appState} from "./appState"
-
 export const code = writable('')
+import {programs, projectName} from "./programs"
+import {registers} from "./registers"
+import {memory} from "./memory"
 
+
+// note: code in this file runs only one
+// load autosaved project
 programs.loadCurrentProject()
 
-// start autosaving current project
-setInterval(()=> {
-    programs.saveCurrentProject()
-}, 2000)
+
+// autosave currently opened project
+const throttledSaveCurrentProject = throttle(programs.saveCurrentProject, 1000);  // 1 sec throttle
 
 
-// export const programs = createWritableStore('programs', [])
-// programs.useLocalStorage();
+code.subscribe(updatedCode => {
+    throttledSaveCurrentProject()
+});
 
+registers.subscribe(_ => {
+    throttledSaveCurrentProject()
+});
+
+memory.subscribe(_ => {
+    throttledSaveCurrentProject()
+});
+
+
+
+export {registers, memory, programs, projectName}
+export {settings} from "./settings"
+export {appState} from "./appState"
+export {compiler} from "../compiler/compiler"
