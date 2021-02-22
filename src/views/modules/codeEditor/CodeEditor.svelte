@@ -14,6 +14,7 @@
     let breakpoints
 
     let lineAddressMapping = {}
+    let editorFocused = false
 
     function init(e) {
         editor = e
@@ -98,6 +99,10 @@
             let to = lineNumber
             const Range = ace.acequire('ace/range').Range
             currentMarker =  editor.session.addMarker(new Range(from, 0, to, 1), "ace_current_line", "fullLine");
+
+            if (!editorFocused) {
+                editor.scrollToLine(lineNumber, true, true, function () {});
+            }
         })
 
         compiledInstructions.subscribe(instructions => {
@@ -150,7 +155,7 @@
             on:selectionChange={(obj) => console.log(obj.detail)}
             on:paste={(obj) => editor.execCommand("paste", obj.detail)}
             on:input={(obj) => debouncedAnnotate(obj.detail)}
-            on:focus={() => console.log('focus')}
+            on:focus={() => editorFocused = true}
             on:documentChange={(obj) => console.log(`document change : ${obj.detail}`)}
             on:cut={() => editor.execCommand("cut")}
             on:cursorChange={() => console.log('cursor change')}
@@ -158,9 +163,9 @@
             on:init={(editor) => init(editor.detail)}
             on:commandKey={(obj) => console.log(obj.detail)}
             on:changeMode={(obj) => console.log(`change mode : ${obj.detail}`)}
-            on:blur={() => console.log('blur')}
+            on:blur={() => editorFocused = false}
             width='100%'
-            height='90vh'
+            height='85vh'
             lang="assembly_x86"
             theme="dracula"
             bind:value={$code}
