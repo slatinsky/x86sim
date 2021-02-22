@@ -40,7 +40,7 @@
         <ul>
             <li class="notClickable">{$projectName}</li>
             <li on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> Krok</li>
-            <li><i class="fas fa-step-backward"></i> Krok späť</li>
+            <li on:click={() => compiler.stepBack()}><i class="fas fa-step-backward"></i> Krok späť</li>
             <li on:click={() => compiler.run()}><i class="fas fa-play"></i> Spustiť</li>
             <li><i class="fas fa-pause"></i> Pozastaviť</li>
             <li  on:click={() => compiler.reset()}><i class="fas fa-stop"></i> Zresetovať</li>

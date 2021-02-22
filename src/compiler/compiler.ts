@@ -2,7 +2,7 @@ import { throttle } from 'lodash-es';
 export const code = writable('')
 import {get, readable, writable} from "svelte/store";
 import {parseInstructionList} from "./parseInstruction";
-import {registers} from "../stores/stores";
+import {memory, projectName, registers} from "../stores/stores";
 import {opcodes} from "./opcodes";
 
 var setCurrentlyExecutedLine = (val) => {}
@@ -26,8 +26,10 @@ class Compiler {
     instructions
     errors
     compile
+    history  // step history
 
     constructor() {
+        this.history = []
         this.compile = throttle(this._compileUnthrottled, 50);  // .05 sec throttle
 
         // subscribe for code changes
@@ -67,9 +69,28 @@ class Compiler {
         opcodes[opcode].run(...operands)
     }
 
+    pushToHistory() {
+        let snapshot = {
+            registers: registers.reduce(),
+            memory: memory.reduce(),
+        }
+
+        this.history.push(snapshot)
+        console.log("history", this.history)
+    }
+
+    stepBack() {
+        if (this.history.length > 0) {
+            let snapshot = this.history.pop()
+            registers.load(snapshot.registers)
+            memory.load(snapshot.memory)
+        }
+    }
+
     step() {
         let currentInstruction = this.instructions[registers.get('ip')]
         if (currentInstruction) {
+            this.pushToHistory()
             console.log("executed", currentInstruction.line, currentInstruction.cleanedLine)
             this.executeInstruction(currentInstruction.parsed.opcode, currentInstruction.parsed.operands)
             currentInstruction = this.instructions[registers.get('ip')]
@@ -88,6 +109,12 @@ class Compiler {
 
     reset() {
         registers.set('ip', 0)
+        if (this.history.length > 0) {
+            let firstSnapshot = this.history[0]
+            registers.load(firstSnapshot.registers)
+            memory.load(firstSnapshot.memory)
+            this.history = []
+        }
     }
 }
 
