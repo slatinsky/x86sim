@@ -2,8 +2,9 @@ import { throttle } from 'lodash-es';
 export const code = writable('')
 import {get, readable, writable} from "svelte/store";
 import {parseInstructionList} from "./parseInstruction";
-import {memory, projectName, registers} from "../stores/stores";
+import {memory, projectName, registers, settings} from "../stores/stores";
 import {opcodes} from "./opcodes";
+import {MAX_EXECUTED_INSTRUCTION_COUNT} from "../stores/config";
 
 var setCurrentlyExecutedLine = (val) => {}
 export const currentlyExecutedLine = readable(-1, (set) => {
@@ -20,6 +21,11 @@ export const debugMode = readable(false, (set) => {
     setDebugMode = set
 });
 
+var setProgramIsRunning = (val) => {}
+export const programIsRunning = readable(false, (set) => {
+    setProgramIsRunning = set
+});
+
 // var i = 0
 // setInterval(()=> {
 //     setCurrentlyExecutedLine(i++)
@@ -32,6 +38,7 @@ class Compiler {
     errors
     compile
     history  // step history
+    nextStepTimeout
 
     constructor() {
         this.history = []
@@ -119,14 +126,45 @@ class Compiler {
 
 
     run() {
+        setProgramIsRunning(true)
         // TODO: don't execute more, if we are at the end
-        for (let i=0; i < 500; i++) {
+
+        let codeExecutionDelay = get(settings).codeExecutionDelay
+
+        if (codeExecutionDelay <= 0) {
+            for (let i=0; i < MAX_EXECUTED_INSTRUCTION_COUNT; i++) {
+                this.step()
+
+                if (get(currentlyExecutedLine) === -1) {
+                    break
+                }
+
+                if (i === MAX_EXECUTED_INSTRUCTION_COUNT - 1) {
+                    alert(`Prevencia nekonečného cyklu: Dosiahnuté maximálne množstvo vykonaných inštrukcií (${MAX_EXECUTED_INSTRUCTION_COUNT}), pravdepodobne niekde v kóde máte nekonečný cyklus`)
+                }
+            }
+            setProgramIsRunning(false)
+        }
+
+        else {
             this.step()
+
+            if (get(currentlyExecutedLine) === -1) {
+                setProgramIsRunning(false)
+                return
+            }
+
+            this.nextStepTimeout = setTimeout(this.run.bind(this), codeExecutionDelay)
         }
     }
 
+    pause() {
+        clearTimeout(this.nextStepTimeout)
+        setProgramIsRunning(false)
+    }
+
     reset() {
-        registers.set('ip', 0)
+        this.pause()
         if (this.history.length > 0) {
             let firstSnapshot = this.history[0]
             registers.load(firstSnapshot.registers)

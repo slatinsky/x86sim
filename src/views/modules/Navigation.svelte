@@ -1,5 +1,5 @@
 <script>
-    import {appState, projectName, debugMode} from "../../stores/stores";
+    import {appState, projectName, debugMode, currentlyExecutedLine, programIsRunning} from "../../stores/stores";
     import {compiler} from "../../compiler/compiler";
 </script>
 
@@ -43,6 +43,7 @@
         padding: .1rem 1rem;
         margin: 0;
         color: gray;
+        user-select: none;
     }
 </style>
 
@@ -52,9 +53,12 @@
             <li class="notClickable">{$projectName}</li>
             <li on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> Krok</li>
             <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => compiler.stepBack()}><i class="fas fa-step-backward"></i> Krok späť</li>
-            <li on:click={() => compiler.run()}><i class="fas fa-play"></i> Spustiť</li>
-            <li><i class="fas fa-pause"></i> Pozastaviť</li>
-            <li  on:click={() => compiler.reset()}><i class="fas fa-stop"></i> Zresetovať</li>
+            {#if $programIsRunning}
+                <li on:click={() => compiler.pause()}><i class="fas fa-pause"></i> Pozastaviť</li>
+            {:else}
+                <li class="{$currentlyExecutedLine === -1 ? 'deactivated' : ''}" on:click={() => compiler.run()}><i class="fas fa-play"></i> Spustiť</li>
+            {/if}
+            <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => compiler.reset()}><i class="fas fa-stop"></i> Zresetovať</li>
         </ul>
     </div>
     <div id="navInfo">
@@ -67,7 +71,7 @@
 </nav>
 
 {#if $debugMode}
-    <p>REŽIM LADENIA: automatické ukladanie je počas ladenia vypnuté. Do klasického režimu sa vrátite stlačením tlačidla "Zresetovať", po ktorom bude obsah registrov a pamäte vrátený</p>
+    <p>REŽIM LADENIA: automatické ukladanie je počas ladenia vypnuté. Do klasického režimu sa vrátite stlačením tlačidla "Zresetovať", po ktorom bude obsah registrov a pamäte vrátený naspäť</p>
 {:else}
     <p>&nbsp;</p>
 {/if}

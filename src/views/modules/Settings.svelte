@@ -1,5 +1,7 @@
 <script>
     import {settings} from "../../stores/settings";
+    import {MAX_EXECUTED_INSTRUCTION_COUNT} from "../../stores/config";
+
 
     let formats = [
         {id: 'hex', text: `16-ková sústava`},
@@ -13,6 +15,10 @@
 <style>
     #settingsContainer {
         padding: 2rem;
+    }
+
+    input {
+        max-width: 300px;
     }
 </style>
 
@@ -40,4 +46,11 @@
         <input class="form-check-input" type="checkbox" id="flexSwitchDeveloperMode" bind:checked={$settings.developerMode}>
         <label class="form-check-label" for="flexSwitchDeveloperMode">Developer mode</label>
     </div>
+
+    <div class="mb-3">
+        <label for="delayInput" class="form-label">Oneskorenie vykonávania inštrukcií (v ms)</label>
+        <input type="number" min="0" class="form-control" id="delayInput" aria-describedby="emailHelp" bind:value={$settings.codeExecutionDelay}>
+        <div id="delayInputHelp" class="form-text">0 pre žiadne oneskorenie. Ak je nastavené na 0, tak maximum vykonaných inštrukcií je {MAX_EXECUTED_INSTRUCTION_COUNT} ako prevencie nekonečného cyklu</div>
+    </div>
+
 </div>

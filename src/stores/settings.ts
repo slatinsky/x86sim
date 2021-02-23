@@ -3,7 +3,8 @@ import {createWritableStore} from "./createWritableStore";
 const defaultSettings = {
     debug: false,
     selectedFormat: 'hex',
-    darkTheme: false
+    darkTheme: false,
+    codeExecutionDelay: 1
 }
 
 export const settings = createWritableStore('settings', defaultSettings)

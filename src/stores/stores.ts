@@ -1,5 +1,5 @@
 import { throttle } from 'lodash-es';
-import {code, currentlyExecutedLine, compiledInstructions, debugMode} from "../compiler/compiler"
+import {code, currentlyExecutedLine, compiledInstructions, debugMode, programIsRunning} from "../compiler/compiler"
 import {programs, projectName} from "./programs"
 import {registers} from "./registers"
 import {memory} from "./memory"
@@ -22,7 +22,7 @@ registers.subscribe(_ => {
 memory.subscribe(_ => {
     throttledSaveCurrentProject()
 });
-export {registers, memory, programs, projectName, code, currentlyExecutedLine, compiledInstructions, debugMode}
+export {registers, memory, programs, projectName, code, currentlyExecutedLine, compiledInstructions, debugMode, programIsRunning}
 export {settings} from "./settings"
 export {appState} from "./appState"
 
