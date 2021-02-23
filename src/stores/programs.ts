@@ -1,5 +1,5 @@
 import {get, writable} from "svelte/store";
-import {code, memory, registers} from "./stores";
+import {code, debugMode, memory, registers} from "./stores";
 import {createWritableStore} from "./createWritableStore";
 
 function createProjectName() {
@@ -62,26 +62,28 @@ function createProjects() {
     const thisStore = {
         subscribe,
         saveCurrentProject: () => {
-            update(projects => {
-                let projectToSave = {
-                    version: 1,
-                    name: get(projectName),
-                    registers: registers.reduce(),
-                    memory: memory.reduce(),
-                    code: get(code)
-                }
+            if (!get(debugMode)) {
+                update(projects => {
+                    let projectToSave = {
+                        version: 1,
+                        name: get(projectName),
+                        registers: registers.reduce(),
+                        memory: memory.reduce(),
+                        code: get(code)
+                    }
 
-                //Find index of specific object using findIndex method.
-                let projectIndex = projects.findIndex((project => project.name == get(projectName)));  // single brackets mutate array - https://stackoverflow.com/a/41938641/14409632
+                    //Find index of specific object using findIndex method.
+                    let projectIndex = projects.findIndex((project => project.name == get(projectName)));  // single brackets mutate array - https://stackoverflow.com/a/41938641/14409632
 
-                if (projectIndex === -1) {  // project name not yet in array
-                    projects = [...projects, projectToSave]
-                }
-                else {
-                    projects = [...projects.slice(0, projectIndex), projectToSave, ...projects.slice(projectIndex + 1)]
-                }
-                return projects
-            })
+                    if (projectIndex === -1) {  // project name not yet in array
+                        projects = [...projects, projectToSave]
+                    }
+                    else {
+                        projects = [...projects.slice(0, projectIndex), projectToSave, ...projects.slice(projectIndex + 1)]
+                    }
+                    return projects
+                })
+            }
         },
         getCurrentProject: () => {
             let projects = get(thisStore)

@@ -21,6 +21,7 @@ body {
 	--body-background: white;
 	--text-color: #161616;
 	--white-text-color: white;
+	--white-deactivated-text-color: #cfcfcf;
 	--link-color: #0d6efd;
 	--visited-link-color: rgb(0,80,160);
 	--input-background: white;
@@ -37,6 +38,7 @@ html.dark {
 	--body-background: #161616;
 	--text-color: #d6d6d6;
 	--white-text-color: #d6d6d6;
+	--white-deactivated-text-color: #868686;
 	--link-color: #8f8f8f;
 	--visited-link-color: #727272;
 	--input-background: #282828;

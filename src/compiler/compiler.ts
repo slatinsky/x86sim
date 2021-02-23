@@ -15,6 +15,11 @@ export const compiledInstructions = readable([], (set) => {
     setCompiledInstructions = set
 });
 
+var setDebugMode = (val) => {}
+export const debugMode = readable(false, (set) => {
+    setDebugMode = set
+});
+
 // var i = 0
 // setInterval(()=> {
 //     setCurrentlyExecutedLine(i++)
@@ -41,6 +46,8 @@ class Compiler {
         registers.subscribe(updatedRegisters => {
             this.updateCurrentlyExecutedLine()
         });
+
+        this.updateDebugModeStatus()
     }
 
     updateCurrentlyExecutedLine() {
@@ -50,6 +57,15 @@ class Compiler {
         }
         else {
             setCurrentlyExecutedLine(-1)
+        }
+    }
+
+    updateDebugModeStatus() {
+        if (this.history.length > 0) {
+            setDebugMode(true)
+        }
+        else {
+            setDebugMode(false)
         }
     }
 
@@ -76,7 +92,6 @@ class Compiler {
         }
 
         this.history.push(snapshot)
-        console.log("history", this.history)
     }
 
     stepBack() {
@@ -85,9 +100,11 @@ class Compiler {
             registers.load(snapshot.registers)
             memory.load(snapshot.memory)
         }
+        this.updateDebugModeStatus()
     }
 
     step() {
+        setDebugMode(true)  // needed, because history is empty now, but we need to set debug mode before instruction is executed to stop autosaving dirty memory and registers
         let currentInstruction = this.instructions[registers.get('ip')]
         if (currentInstruction) {
             this.pushToHistory()
@@ -96,6 +113,7 @@ class Compiler {
             currentInstruction = this.instructions[registers.get('ip')]
             this.updateCurrentlyExecutedLine()
         }
+        this.updateDebugModeStatus()
     }
 
 
@@ -115,6 +133,7 @@ class Compiler {
             memory.load(firstSnapshot.memory)
             this.history = []
         }
+        this.updateDebugModeStatus()
     }
 }
 
