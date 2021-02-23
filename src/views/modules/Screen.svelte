@@ -44,7 +44,7 @@
 <div>
     <b>Obrazovka:</b><br>
 
-    {#if $settings.debug}
+    {#if $settings.developerMode}
         <textarea bind:value={text}></textarea>
     {/if}
 

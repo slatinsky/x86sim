@@ -37,7 +37,7 @@
     </div>
 
     <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="flexSwitchDeveloperMode" bind:checked={$settings.debug}>
+        <input class="form-check-input" type="checkbox" id="flexSwitchDeveloperMode" bind:checked={$settings.developerMode}>
         <label class="form-check-label" for="flexSwitchDeveloperMode">Developer mode</label>
     </div>
 </div>

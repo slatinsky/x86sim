@@ -32,7 +32,7 @@
         <Register bind:value={$registers.sp} label="sp" bcolor="red"/>
     </div>
 </div>
-{#if $settings.debug}
+{#if $settings.developerMode}
     <button on:click={registers.reset}>DEBUG: Prenastav registre</button>
     <br>
     {decValues}
