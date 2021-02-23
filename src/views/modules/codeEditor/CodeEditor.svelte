@@ -140,7 +140,7 @@
 
     :global(.ace_current_line) {
         position:absolute;
-        background:rgba(100,200,100,0.5);
+        background: rgba(100, 200, 100, 0.5);
         z-index:20
     }
 </style>

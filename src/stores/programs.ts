@@ -27,10 +27,10 @@ function createProjects() {
 
     const defaultProject = {
         "version":1,
-        "name": "default",
-        "registers":{"ip":18,"ax":21,"bx":6,"sp":32,"bp":32},
+        "name":"default",
+        "registers":{"sp":32,"bp":32},
         "memory":{},
-        "code":"inc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\n"
+        "code":"inc ax\r\ninc bx\r\ninc cx\r\nmov ax, ax\r\n\r\n\r\nnavestie2:\r\n    inc ax\r\n    jmp navestie3\r\n\r\nnavestie1:\r\n    push bx\r\n    mov bx, 10\r\n    mov [bx-5], ax\r\n    dec bx\r\n    pop bx\r\n    jmp pushAndPopall\r\n\r\nnavestie3:\r\n    inc dx  ;toto je komentar\r\n    dec bx\r\n    jmp navestie1\r\n     \r\npushAndPopall:\r\n    ; save registers to stack\r\n    push ax\r\n    push bx\r\n    push cx\r\n    push dx\r\n    \r\n    ; restore registers from stack\r\n    pop dx\r\n    pop cx\r\n    pop bx\r\n    pop ax\r\n    jmp navestie2\r\n    \r\n    xor ax, ax\r\n"
     }
 
     // get saved projects from localStorage

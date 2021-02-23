@@ -19,7 +19,7 @@
 <b>Registre:</b>
 <div class="regContainer">
     <div>
-        <Register bind:value={$registers.ip} label="ip" bcolor="DARKSLATEGRAY"/>
+        <Register bind:value={$registers.ip} label="ip" bcolor="#64C864"/>
         <Register bind:value={$registers.ax} label="ax" bcolor="DARKSLATEGRAY"/>
         <Register bind:value={$registers.bx} label="bx"/>
         <Register bind:value={$registers.cx} label="cx"/>
