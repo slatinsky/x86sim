@@ -1,7 +1,7 @@
 import {memory, registers} from "../stores/stores";
 import {opcodes, jumps} from "./opcodes";
 import type {register} from "../types/types";
-import {forEach} from "lodash-es";
+import {allIntelRegisters} from "../config"
 
 interface Operand {
     get(): number,
@@ -53,6 +53,23 @@ function cleanupWhitespaceAndComments(instruction: string): string {
     'mov ax, bx'
     */
     instruction = instruction.replace(/ *;.*$/, '')
+
+    /*
+    cleanup space near commas
+
+    before
+    'mov ax, bx
+
+    after
+    'mov ax,bx'
+    */
+    instruction = instruction.replace(/ *, */, ',')
+
+
+    /*
+    * To lowercase
+    * */
+    instruction = instruction.toLowerCase()
 
     return instruction
 }
@@ -117,7 +134,7 @@ const prepareOperand = (location: string): Operand => {
         return {
             get: (): number => value,
             set: (valueToSet: number): void => {
-                throw "ERROR: prepareLocation - you can't write to immediate!"
+                throw "ERROR: you can't write to immediate!"
                 // console.error("prepareLocation - you can't write to immediate!")
             },
             type: "immediate"
@@ -178,7 +195,7 @@ const prepareOperand = (location: string): Operand => {
         }
     }
     else {
-        throw `ERROR: prepareLocation - can't parse operand '${location}'!`
+        throw `ERROR: can't parse operand '${location}'!`
     }
 }
 
@@ -198,11 +215,24 @@ function prepareLabel(labelName: string, labels: any[]): Operand {
 function parseInstruction(opcode, operands, labels: []) {
     // check if opcode is implemented
     if (!Object.keys(opcodes).includes(opcode)) {
-        throw `ERROR: parseInstruction - opcode '${opcode}' isn't implemented`
+        if (opcode.includes(',')) {  // handles mov, ax, bx  <- bad comma placement
+            throw `ERROR: replace first comma with space:\n'${opcode}' -> ${opcode.replace(',', ' ')}`
+        }
+        else
+        {
+            if (allIntelRegisters.includes(opcode)) {
+                throw `ERROR: Intel instruction set contains instruction '${opcode}', but that instruction isn't implemented by this simulator\n\nAvailable instructions:\n${Object.keys(opcodes).join('\n')}`
+            }
+            else {
+                throw `ERROR: opcode '${opcode}' isn't a valid intel instruction.\nFormatting as comment:\n;${opcode}\n\nFormatting as label:\n${opcode}:\n\nAvailable instructions:\n${Object.keys(opcodes).join('\n')}`
+            }
+
+        }
+
     }
     // and if it has correct amount of operands
     else if (opcodes[opcode].run.length !== operands.length) {
-        throw `ERROR: parseInstruction - opcode '${opcode}' has incorrect amount of operands: ${opcodes[opcode].run.length} required, but only ${operands.length} provided`
+        throw `ERROR: instruction '${opcode}' has incorrect amount of operands: ${opcodes[opcode].run.length} required, but only ${operands.length} provided`
     }
 
 
@@ -231,16 +261,34 @@ function parseInstruction(opcode, operands, labels: []) {
         // validate operand types
         if (operands.length === 2) {
             if (preparedOperand1.type === "immediate") {
-                throw "First operand can't be immediate"
+                throw `First operand can't be immediate (provided: ${operand1}) if instruction requires 2 operands`
             }
 
             if (preparedOperand1.type === "memory" && preparedOperand2.type === "memory") {
-                throw "You can't access two memory places in the same instruction"
+
+                // TODO: this can be 100% simplified
+                let tempRegisterName = 'ax'
+                if (operand1.includes('ax') || operand2.includes('ax')) {
+                    tempRegisterName = 'bx'
+                    if (operand1.includes('bx') || operand2.includes('bx')) {
+                        tempRegisterName = 'cx'
+                        if (operand1.includes('cx') || operand2.includes('cx')) {
+                            tempRegisterName = 'dx'
+                        }
+                    }
+                }
+
+                let generatedHint = `push ${tempRegisterName}
+mov ${tempRegisterName}, ${operand2}
+${opcode} ${operand1}, ${tempRegisterName}
+pop ${tempRegisterName}`
+
+                throw `Intel processor can't access two memory places in the same instruction:\n\nPossible solution:\n${generatedHint}`
             }
         }
         else if (operands.length === 1) {
             if (preparedOperand1.type === "immediate" && opcodes[opcode].writesTo.includes('operand1')) {
-                throw `Can't write to immediate ${operand1}`
+                throw `Can't write to immediate ${operand1}. Instruction ${opcode} requires register or memory address as a first parameter`
             }
         }
     }
