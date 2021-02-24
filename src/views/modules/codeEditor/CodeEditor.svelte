@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { debounce } from 'lodash-es';
-    import { AceEditor } from "svelte-ace";
-    import * as ace from "brace";
-    import "brace/mode/assembly_x86";
-    import "brace/theme/dracula";
-    import "brace/ext/language_tools";
-    import {code, currentlyExecutedLine, compiledInstructions} from "../../../stores/stores";
+    import { debounce } from 'lodash-es'
+    import { AceEditor } from "svelte-ace"
+    import * as ace from "brace"
+    import "brace/mode/assembly_x86"
+    import "brace/theme/dracula"
+    import "brace/ext/language_tools"
+    import {code, currentlyExecutedLine, compiledInstructions} from "../../../stores/stores"
     import {mainCompleter, snippetsCompleter} from "./completers"
     import {breakpoints} from "../../../compiler/compiler"
     import {annotate} from "./annotations.js"
@@ -15,6 +15,12 @@
 
     let lineAddressMapping = {}
     let editorFocused = false
+
+    let EMPTY_GUTTER = "   "
+
+    function isBreakpointPlaceableAtRow(rowNumber) {
+        return editor.session.gutterRenderer.getText(editor.session, rowNumber) !== EMPTY_GUTTER  // if gutter is empty, breakpoint should not be placed
+    }
 
     function init(e) {
         editor = e
@@ -32,21 +38,21 @@
                     return lineAddressMapping[row]
                 }
                 else {
-                    return "   "
+                    return EMPTY_GUTTER
                 }
             }
-        };
+        }
 
         // add autocomplete to the editor
         // https://stackoverflow.com/a/30047705/14409632
         // https://github.com/thlorenz/brace/issues/19#issuecomment-74065730
-        var langTools = ace.acequire("ace/ext/language_tools");
+        var langTools = ace.acequire("ace/ext/language_tools")
 
         // langTools.addCompleter(staticWordCompleter);
         langTools.setCompleters([mainCompleter, snippetsCompleter])
 
         // hide vertical ruler (after 80 characters in the editor)
-        editor.setShowPrintMargin(false);
+        editor.setShowPrintMargin(false)
 
         // larger font
         editor.setOptions({
@@ -61,38 +67,56 @@
         // https://ourcodeworld.com/articles/read/1052/how-to-add-toggle-breakpoints-on-the-ace-editor-gutter
         // TODO: save breakpoints in a project file
         editor.on("guttermousedown", function(e) {
-            var target = e.domEvent.target;
+            var target = e.domEvent.target
             if (target.className.indexOf("ace_gutter-cell") == -1)
-                return;
-            // if (!editor.isFocused())
-            //     return;
+                return
 
             // allow setting breakpoints only on the left side of editor gutter
             if (e.clientX > 25 + target.getBoundingClientRect().left)
-                return;
+                return
 
-            let breakpointsTemp = e.editor.session.getBreakpoints(row, 0);
+            let breakpointsTemp = e.editor.session.getBreakpoints(rowNumber, 0)
 
-            var row = e.getDocumentPosition().row;
-            if(breakpointsTemp[row] === undefined)
-                e.editor.session.setBreakpoint(row);
-            else
-                e.editor.session.clearBreakpoint(row);
-            e.stop();
+            var rowNumber = e.getDocumentPosition().row  // row = current line number
 
-            $breakpoints = e.editor.session.getBreakpoints();
+
+            if(breakpointsTemp[rowNumber] === undefined && isBreakpointPlaceableAtRow(rowNumber)) {
+                e.editor.session.setBreakpoint(rowNumber)
+            }
+            else {
+                e.editor.session.clearBreakpoint(rowNumber)
+            }
+            e.stop()
+
+            $breakpoints = e.editor.session.getBreakpoints()
         })
+
+        // TODO: can be probably refactored to not use setInterval
+        // check for useless breakpoints (on empty or incorrect lines = unreachable lines) and remove them
+        setInterval(()=> {
+            let breakpointsArray = editor.session.getBreakpoints()
+
+            for (const key of Object.keys(breakpointsArray)) {
+                let breakpointRow = parseInt(key)
+                if (!isBreakpointPlaceableAtRow(breakpointRow)) {
+                    editor.session.clearBreakpoint(breakpointRow)
+
+                    // update the array after change
+                    $breakpoints = breakpointsArray
+                }
+            }
+        }, 100)
 
         // watch code changes and move breakpoints to the correct place (or delete breakpoints)
         // modified https://github.com/ajaxorg/ace/issues/1282, works for multiple breakpoints
         editor.on("change", function (e) {
             if (e.lines.length > 1 && (e.action==='insert' || e.action==='remove')){
-                const breakpointsArrayOld = editor.session.getBreakpoints();
-                let breakpointsArrayNew = [];
+                const breakpointsArrayOld = editor.session.getBreakpoints()
+                let breakpointsArrayNew = []
 
-                const amountOfLinesAffected = e.lines.length - 1;
-                const startRow = e.start.row;
-                const endRow = e.end.row;
+                const amountOfLinesAffected = e.lines.length - 1
+                const startRow = e.start.row
+                const endRow = e.end.row
 
                 for (const key of Object.keys(breakpointsArrayOld)) {
                     let breakpointRow = parseInt(key)
@@ -125,13 +149,13 @@
                 // remove all old breakpoints
                 for (const key of Object.keys(breakpointsArrayOld)) {
                     let breakpointRow = parseInt(key)
-                    editor.session.clearBreakpoint(breakpointRow);
+                    editor.session.clearBreakpoint(breakpointRow)
                 }
 
                 // add all new breakpoints
                 for (const key of Object.keys(breakpointsArrayNew)) {
                     let breakpointRow = parseInt(key)
-                    editor.session.setBreakpoint(breakpointRow);
+                    editor.session.setBreakpoint(breakpointRow)
                 }
 
                 $breakpoints = breakpointsArrayNew
@@ -150,16 +174,16 @@
         currentlyExecutedLine.subscribe(lineNumber => {
             if(currentMarker) {  // remove marker if it exists
                 // https://stackoverflow.com/questions/33324361/ace-editor-cant-get-rid-of-marker
-                editor.session.removeMarker(currentMarker);
+                editor.session.removeMarker(currentMarker)
             }
 
             let from = lineNumber
             let to = lineNumber
             const Range = ace.acequire('ace/range').Range
-            currentMarker =  editor.session.addMarker(new Range(from, 0, to, 1), "ace_current_line", "fullLine");
+            currentMarker =  editor.session.addMarker(new Range(from, 0, to, 1), "ace_current_line", "fullLine")
 
             if (!editorFocused) {
-                editor.scrollToLine(lineNumber, true, true, function () {});
+                editor.scrollToLine(lineNumber, true, true, function () {})
             }
         })
 
