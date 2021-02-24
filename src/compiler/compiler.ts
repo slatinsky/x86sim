@@ -6,6 +6,14 @@ import {memory, projectName, registers, settings} from "../stores/stores";
 import {opcodes} from "./opcodes";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "../stores/config";
 
+// called from code editor
+// get errors inside compiled code
+export const getErrors = (instructionToParse) => {
+    let [instructions, errors] = parseInstructionList(instructionToParse)
+    return errors
+}
+
+
 var setCurrentlyExecutedLine = (val) => {}
 export const currentlyExecutedLine = readable(-1, (set) => {
     setCurrentlyExecutedLine = set
@@ -118,7 +126,7 @@ class Compiler {
         let currentInstruction = this.instructions[registers.get('ip')]
         if (currentInstruction) {
             this.pushToHistory()
-            console.log("executed", currentInstruction.line, currentInstruction.cleanedLine)
+            if (DEBUG) console.log("executed", currentInstruction.line, currentInstruction.cleanedLine)
             this.executeInstruction(currentInstruction.parsed.opcode, currentInstruction.parsed.operands)
             currentInstruction = this.instructions[registers.get('ip')]
             this.updateCurrentlyExecutedLine()
@@ -154,7 +162,6 @@ class Compiler {
 
         else {
             this.step()
-            console.log(get(breakpoints))
             if (get(currentlyExecutedLine) === -1) {
                 setProgramIsRunning(false)
                 return

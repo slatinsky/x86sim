@@ -33,6 +33,7 @@
         spinnerLoad(`Načítavam projekt '${programName}'`, () => {
             programs.loadProject(programName)
             toast.success(`Projekt '${programName}' načítaný`)
+            $appState.projectsShown = false
         })
     }
 

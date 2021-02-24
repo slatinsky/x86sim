@@ -254,21 +254,6 @@ function parseLabel(line: string): string {
     return line.replace(/:$/, '')
 }
 
-// function parseInstructionOrLabel(instruction: string): any {
-//     instruction = cleanupWhitespaceAndComments(instruction)
-//     let [opcodeOrLabel, operands] = splitInstruction(instruction)
-//
-//     if (opcodeOrLabel === "") {
-//         return null
-//     }
-//
-//     if (isLabel(opcodeOrLabel)) {
-//         return {label: opcodeOrLabel.replace(':', '')}
-//     } else {
-//         return parseInstruction(opcodeOrLabel, operands)
-//     }
-// }
-
 // splits instruction to opcode and operands
 // generates array of labels
 export const parseInstructionList = (instructionList: string): any => {

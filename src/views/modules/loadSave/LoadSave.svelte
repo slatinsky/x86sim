@@ -1,5 +1,4 @@
 <script>
-    import CurrentProject from "./tabs/CurrentProject.svelte";
     import OpenProject from "./tabs/OpenProject.svelte";
     import Tabs from "../../components/Tabs.svelte";
 
@@ -8,10 +7,6 @@
         { label: "Otvoriť projekt",
             id: 1,
             component: OpenProject
-        },
-        { label: "Aktuálny projekt",
-            id: 2,
-            component: CurrentProject
         }
     ];
 </script>

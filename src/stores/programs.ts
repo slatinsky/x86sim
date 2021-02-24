@@ -33,10 +33,6 @@ function createProjects() {
     // create svelte store
     const {subscribe, set, update} = writable(savedPermanentData);
 
-    // function saveRegistersToLocalStorage() {
-    //     localStorage.setItem('registers', JSON.stringify(thisStore.reduce()))
-    // }
-
     function upgradeProjectVersion(project: Project): Project {
         // reserved for future in case of file format change
         if (project.version !== 1) {
@@ -105,7 +101,10 @@ function createProjects() {
                         }
                         return project
                     })
-                    thisStore.loadProject(newProjectName)
+
+                    if (get(projectName) === oldProjectName) {  // if the renamed project is currently loaded - reload it
+                        thisStore.loadProject(newProjectName)
+                    }
                     return projects
                 })
             }

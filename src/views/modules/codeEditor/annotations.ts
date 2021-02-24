@@ -1,4 +1,4 @@
-import {getErrors} from "../../../compiler/mainLogic";
+import {getErrors} from "../../../compiler/compiler";
 
 export function annotate(editor, code) {
     let errors = getErrors(code)
