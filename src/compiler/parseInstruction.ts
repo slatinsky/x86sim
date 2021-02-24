@@ -22,6 +22,8 @@ interface PreparedInstruction {
     operands?: Operand[]
 }
 
+let DEBUG = false
+
 function cleanupWhitespaceAndComments(instruction: string): string {
     /*
     Change tabs to spaces
@@ -320,8 +322,8 @@ export const parseInstructionList = (instructionList: string): any => {
     })
 
 
-    console.log("Instructions", instructions)
-    console.log("Labels", labels)
-    console.log("Errors", errors)
+    if (DEBUG) console.log("Instructions", instructions)
+    if (DEBUG) console.log("Labels", labels)
+    if (DEBUG) console.log("Errors", errors)
     return [instructions, errors]
 }

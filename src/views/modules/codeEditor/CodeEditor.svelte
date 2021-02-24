@@ -83,6 +83,62 @@
             breakpoints = e.editor.session.getBreakpoints(row, 0);
         })
 
+        // watch code changes and move breakpoints to the correct place (or delete breakpoints)
+        // modified https://github.com/ajaxorg/ace/issues/1282, works for multiple breakpoints
+        editor.on("change", function (e) {
+            if (e.lines.length > 1 && (e.action==='insert' || e.action==='remove')){
+                const breakpointsArrayOld = editor.session.getBreakpoints();
+                let breakpointsArrayNew = [];
+
+                const amountOfLinesAffected = e.lines.length - 1;
+                const startRow = e.start.row;
+                const endRow = e.end.row;
+
+                for (const key of Object.keys(breakpointsArrayOld)) {
+                    let breakpointRow = parseInt(key)
+
+                    if (e.action==='insert') {  // new lines
+                        if (breakpointRow > startRow ){
+                            // breakpoint forward
+                            breakpointsArrayNew[breakpointRow + amountOfLinesAffected] = "ace_breakpoint"
+                        }
+                        else {
+                            // unaffected by insert
+                            breakpointsArrayNew[breakpointRow] = "ace_breakpoint"
+                        }
+                    }
+                    else if (e.action==='remove') {  // removed lines
+                        if (breakpointRow > startRow && breakpointRow <= endRow ){
+                            // breakpoint removed
+                        }
+                        else if (breakpointRow >= endRow ){
+                            // breakpoint behind
+                            breakpointsArrayNew[breakpointRow - amountOfLinesAffected] = "ace_breakpoint"
+                        }
+                        else {
+                            // unaffected by remove
+                            breakpointsArrayNew[breakpointRow] = "ace_breakpoint"
+                        }
+                    }
+                }
+
+                // remove all old breakpoints
+                for (const key of Object.keys(breakpointsArrayOld)) {
+                    let breakpointRow = parseInt(key)
+                    editor.session.clearBreakpoint(breakpointRow);
+                }
+
+                // add all new breakpoints
+                for (const key of Object.keys(breakpointsArrayNew)) {
+                    let breakpointRow = parseInt(key)
+                    editor.session.setBreakpoint(breakpointRow);
+                }
+            }
+        })
+
+
+
+
         // run annotate function first time after load
         setTimeout(()=>annotate(editor, $code), 2000)
 

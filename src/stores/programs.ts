@@ -2,17 +2,6 @@ import {get, writable} from "svelte/store";
 import {code, debugMode, memory, registers} from "./stores";
 import {createWritableStore} from "./createWritableStore";
 
-function createProjectName() {
-    const {subscribe, set, update} = writable(savedPermanentData);
-
-    // extend svelte store
-    const thisStore = {
-        subscribe,
-    }
-
-    return thisStore
-}
-
 export const projectName = createWritableStore('currentProjectName', 'default')
 projectName.useLocalStorage()
 

@@ -31,7 +31,7 @@ export const programIsRunning = readable(false, (set) => {
 //     setCurrentlyExecutedLine(i++)
 // }, 1000)
 
-
+let DEBUG = false
 
 class Compiler {
     instructions
@@ -79,7 +79,7 @@ class Compiler {
 
     // unthrottled
     _compileUnthrottled() {
-        console.log("New compiler - compiled")
+        if (DEBUG) console.log("New compiler - compiled")
         let [instructions, errors] = parseInstructionList(get(code))
         this.instructions = instructions
         this.errors = errors
