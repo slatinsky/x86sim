@@ -118,3 +118,7 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 
 ## Bugs
 - rapidly switching between projects causes autosave to save to the wrong project
+
+## Ideas
+parse constants ending with `h` or begining with `0x` as hex
+better parsing error messages

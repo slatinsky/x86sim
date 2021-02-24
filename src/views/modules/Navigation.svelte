@@ -51,7 +51,7 @@
     <div id="navControls">
         <ul>
             <li class="notClickable">{$projectName}</li>
-            <li on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> Krok</li>
+            <li class="{$currentlyExecutedLine === -1 ? 'deactivated' : ''}" on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> Krok</li>
             <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => compiler.stepBack()}><i class="fas fa-step-backward"></i> Krok späť</li>
             {#if $programIsRunning}
                 <li on:click={() => compiler.pause()}><i class="fas fa-pause"></i> Pozastaviť</li>
