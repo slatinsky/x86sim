@@ -7,11 +7,11 @@
     import "brace/ext/language_tools";
     import {code, currentlyExecutedLine, compiledInstructions} from "../../../stores/stores";
     import {mainCompleter, snippetsCompleter} from "./completers"
+    import {breakpoints} from "../../../compiler/compiler"
     import {annotate} from "./annotations.js"
 
     let editor
     let errorCheckingInterval
-    let breakpoints
 
     let lineAddressMapping = {}
     let editorFocused = false
@@ -80,7 +80,7 @@
                 e.editor.session.clearBreakpoint(row);
             e.stop();
 
-            breakpoints = e.editor.session.getBreakpoints(row, 0);
+            $breakpoints = e.editor.session.getBreakpoints();
         })
 
         // watch code changes and move breakpoints to the correct place (or delete breakpoints)
@@ -133,6 +133,8 @@
                     let breakpointRow = parseInt(key)
                     editor.session.setBreakpoint(breakpointRow);
                 }
+
+                $breakpoints = breakpointsArrayNew
             }
         })
 

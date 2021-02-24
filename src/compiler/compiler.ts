@@ -26,6 +26,9 @@ export const programIsRunning = readable(false, (set) => {
     setProgramIsRunning = set
 });
 
+// breakpoints
+export const breakpoints = writable([])
+
 // var i = 0
 // setInterval(()=> {
 //     setCurrentlyExecutedLine(i++)
@@ -138,6 +141,9 @@ class Compiler {
                 if (get(currentlyExecutedLine) === -1) {
                     break
                 }
+                else if (get(breakpoints).hasOwnProperty(get(currentlyExecutedLine))) {
+                    break
+                }
 
                 if (i === MAX_EXECUTED_INSTRUCTION_COUNT - 1) {
                     alert(`Prevencia nekonečného cyklu: Dosiahnuté maximálne množstvo vykonaných inštrukcií (${MAX_EXECUTED_INSTRUCTION_COUNT}), pravdepodobne niekde v kóde máte nekonečný cyklus`)
@@ -148,8 +154,12 @@ class Compiler {
 
         else {
             this.step()
-
+            console.log(get(breakpoints))
             if (get(currentlyExecutedLine) === -1) {
+                setProgramIsRunning(false)
+                return
+            }
+            else if (get(breakpoints).hasOwnProperty(get(currentlyExecutedLine))) {
                 setProgramIsRunning(false)
                 return
             }
