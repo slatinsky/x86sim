@@ -7,6 +7,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import { string } from "rollup-plugin-string";
+import strip from '@rollup/plugin-strip';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -73,6 +74,7 @@ export default {
 			exclude: ["**/index.html"]
 		}),
 
+
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
 		!production && serve(),
@@ -83,7 +85,21 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
+
+		// strip console logs in production to increase performance
+		// console errors are not stripped, because they are not as frequent and may be needed
+		production && strip({
+			// documentation: https://github.com/rollup/plugins/tree/master/packages/strip
+			include: [  // include - incompatibility fix for svelte https://github.com/rollup/plugins/issues/42
+				'**/*.js',
+				'**/*.ts',
+				'**/*.svelte',
+			],
+			functions: [
+				'console.log',
+			],
+		}),
 	],
 	watch: {
 		clearScreen: false
