@@ -15,7 +15,7 @@
 	<style>
 		/*Simple circle loader*/
 		/*https://www.w3schools.com/howto/howto_css_loader.asp*/
-		.aplicationLoaderSpinner {
+		.applicationLoaderSpinner {
 			border: 16px solid lightgray;
 			border-radius: 50%;
 			border-top: 16px solid midnightblue;
@@ -36,7 +36,7 @@
 			100% { transform: rotate(360deg); }
 		}
 
-		#aplicationLoaderContainer {
+		#applicationLoaderContainer {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -47,18 +47,76 @@
 			color: lightgray;
 		}
 
-		#aplicationLoaderContainer > h1,
-		#aplicationLoaderContainer > div {
+		#applicationLoaderContainerWaiting {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		#applicationLoaderContainerWaiting.applicationLoaderStuckHidden {
+			display: none;
+		}
+
+		#applicationLoaderContainer > h1,
+		#applicationLoaderContainer > div {
 			color: var(--white-text-color)
+		}
+
+		#loadingStuck {
+			margin: 2rem;
+			text-align: center;
+		}
+		#loadingStuck.loadingStuckHidden {
+			display: none;
+		}
+		#loadingStuck a {
+			cursor: pointer;
+		}
+
+		#loadingStuck textarea {
+			text-align: left;
+			max-width: 100%;
+			word-wrap: break-word;
+			width: 90vw
 		}
 	</style>
 </head>
 <body>
 
-<div id="aplicationLoaderContainer">
-	<div class="aplicationLoaderSpinner"></div>
-	<h1>Simulátor sa načítava</h1>
-	<div>čakajte prosím</div>
+<div id="applicationLoaderContainer">
+	<div id="applicationLoaderContainerWaiting">
+		<div class="applicationLoaderSpinner"></div>
+		<h1>Simulátor sa načítava</h1>
+		<div>čakajte prosím</div>
+	</div>
+
+	<div id="loadingStuck" class="loadingStuckHidden">
+		<div>Vypadá to tak, že simulátor sa nenačítal správne :(. V dev konzole (F12) sa možno dozviete viac.</div>
+		<div><b>Zálohujte si vaše programy, ak ich ešte budete potrebovať:</b></div>
+		<textarea id="loadingStuckCodeRecovery" rows="10"></textarea>
+		<div>Ak v simulátore už nemáte dôležité dáta, môžete zresetovať simulátor kliknutím <a href="javascript:void(0)">TU</a></div>
+	</div>
+	<script>
+		window.addEventListener('load', function () {
+
+			setTimeout(()=> {
+				let element = document.getElementById("loadingStuck")
+				if (element) {  // if loader element still exists after full page load - javascript isn't loaded correctly -> probably an error
+					element.classList.remove("loadingStuckHidden");
+					document.getElementById('applicationLoaderContainerWaiting').classList.add("applicationLoaderStuckHidden");
+					if(localStorage.hasOwnProperty('projects')) {
+						document.getElementById('loadingStuckCodeRecovery').innerText = localStorage.getItem('projects')
+					}
+					document.getElementById('applicationLoaderContainerWaiting').classList.add("applicationLoaderStuckHidden");
+					document.querySelector('#loadingStuck a').addEventListener("click", function(){
+						localStorage.clear()
+						location.reload()
+					})
+				}
+			}, 500)
+		})
+	</script>
 </div>
 </body>
 </html>
