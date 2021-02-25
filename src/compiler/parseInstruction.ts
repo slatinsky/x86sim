@@ -1,7 +1,7 @@
 import {memory, registers} from "../stores/stores";
 import {opcodes, jumps} from "./opcodes";
 import type {register} from "../types/types";
-import {allIntelRegisters} from "../config"
+import {allIntelRegisters, allFlags} from "../config"
 
 interface Operand {
     get(): number,
@@ -195,7 +195,12 @@ const prepareOperand = (location: string): Operand => {
         }
     }
     else {
-        throw `ERROR: can't parse operand '${location}'!`
+        if (allFlags.includes(location)) {
+            throw `ERROR: Flags in flag register are indirect results of last executed instruction.\nThey can't be directly modified. You tried to modify flag '${location}'`
+        }
+        else {
+            throw `ERROR: can't parse operand '${location}'!`
+        }
     }
 }
 
