@@ -2,6 +2,7 @@
     import {projectName, appState, programs} from "../../../../stores/stores";
     import Toast from "../../../components/toast";
     import {spinnerLoad} from "../../../../spinnerLoad";
+    import { _} from 'svelte-i18n'
 
     const toast = new Toast()
 
@@ -79,7 +80,7 @@
 
 
 <div id="main">
-    <p>Otvorený projekt je automaticky ukladaný</p>
+    <p>{$_('views.projects.openedProjectAutosaveInfo')}</p>
 
 
     {#if $programs.length > 0}
@@ -94,17 +95,17 @@
                             {#if !(program.name === "default" && $programs.length <= 1)}
                                 <span> <button class="btn btn-outline-danger btn-sm"
                                                on:click|stopPropagation={deleteP(program.name)}><i
-                                        class="fas fa-trash"></i> Vymazať</button></span>
+                                        class="fas fa-trash"></i> {$_('views.projects.delete')}</button></span>
                             {/if}
                             <span><button class="btn btn-outline-primary btn-sm"
-                                          on:click|stopPropagation={renameP(program.name)}><i class="fas fa-italic"></i> Premenovať</button></span>
+                                          on:click|stopPropagation={renameP(program.name)}><i class="fas fa-italic"></i> {$_('views.projects.rename')}</button></span>
                         </div>
                     </div>
                 {/each}
             </div>
         </div>
     {:else}
-        <span class="text">Žiadny projekt ešte nebol uložený - vytvorte ho</span>
+        <span class="text">No project exists, weird</span>
     {/if}
-    <button class="btn btn-outline-primary" on:click={createNewProject}>Vytvoriť nový projekt</button>
+    <button class="btn btn-outline-primary" on:click={createNewProject}>{$_('views.projects.new')}</button>
 </div>

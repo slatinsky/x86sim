@@ -10,6 +10,13 @@
       "settings": "Settings",
       "help": "Help"
     },
+    "projects": {
+      "openedProjectAutosaveInfo": "Opened project is automatically autosaved",
+      "open": "Open project",
+      "new": "Create new project",
+      "rename": "Rename",
+      "delete": "Delete"
+    },
     "modules": {
       "codeEditor": "Code editor",
       "registers": "Registers",

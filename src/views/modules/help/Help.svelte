@@ -6,6 +6,7 @@
     import HelpCodeEditor from "./tabs/HelpCodeEditor.svelte";
     import HelpReadme from "./tabs/HelpReadme.svelte";
     import Tabs from "../../components/Tabs.svelte";
+    import { _} from 'svelte-i18n'
 
     // List of tab items with labels, values and assigned components
     let tabs = [
@@ -36,4 +37,4 @@
     ];
 </script>
 
-<Tabs {tabs} title="Pomocník"/>
+<Tabs {tabs} title={$_('views.navigation.help')}/>

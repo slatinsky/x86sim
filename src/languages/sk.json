@@ -10,6 +10,13 @@
       "settings": "Nastavenia",
       "help": "Pomocník"
     },
+    "projects": {
+      "openedProjectAutosaveInfo": "Otvorený projekt je automaticky ukladaný",
+      "open": "Otvoriť projekt",
+      "new": "Vytvoriť nový projekt",
+      "rename": "Premenovať",
+      "delete": "Vymazať"
+    },
     "modules": {
       "codeEditor": "Editor kódu",
       "registers": "Registre",

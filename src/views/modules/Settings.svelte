@@ -1,6 +1,7 @@
 <script>
     import {settings} from "../../stores/settings";
     import {MAX_EXECUTED_INSTRUCTION_COUNT} from "../../stores/config";
+    import { _} from 'svelte-i18n'
 
 
     let formats = [
@@ -24,7 +25,7 @@
 
 
 <div id="settingsContainer">
-    <h3>Nastavenia</h3>
+    <h3>{$_('views.navigation.settings')}</h3>
 
     <div>
         <label for="selectedFormat">Formát čísel</label>
