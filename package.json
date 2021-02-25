@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
     "@rollup/plugin-strip": "^2.0.0",
     "@rollup/plugin-typescript": "^6.0.0",
@@ -28,6 +29,7 @@
     "svelte": "^3.31.1",
     "svelte-ace": "^1.0.13",
     "svelte-check": "^1.1.36",
+    "svelte-i18n": "^3.3.6",
     "svelte-preprocess": "^4.6.9",
     "svelte-scrollto": "^0.2.0",
     "svelte-toast": "^1.0.0",

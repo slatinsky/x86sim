@@ -13,6 +13,10 @@
 
 	document.body.innerHTML = '';
 
+	// internationalization
+	import "../languages/i18n"
+
+	// ui
 	import Navigation from "./modules/Navigation.svelte"
 	import Registers from "./modules/Registers.svelte";
 	import Screen from "./modules/Screen.svelte";
@@ -20,14 +24,13 @@
 	import Stack from "./modules/Stack.svelte";
 	import LoadSave from "./modules/loadSave/LoadSave.svelte";
 	import Modal from "./components/Modal.svelte";
-
-	import {appState} from "../stores/appState";
-	import {settings} from "../stores/settings";
 	import Settings from "./modules/Settings.svelte";
 	import Spinner from "./modules/Spinner.svelte";
 	import Memory from "./modules/Memory.svelte";
-	import {compiler} from "../compiler/compiler";
-	// import {loadAutosaveAndStartAutosaving} from "../stores/loadSave";
+
+	// stores
+	import {appState} from "../stores/appState";
+	import {settings} from "../stores/settings";
 
 	$: {
 		if ($settings.darkTheme) {
@@ -37,8 +40,6 @@
 		}
 		console.log('darkTheme', $settings.darkTheme)
 	}
-	// loadAutosaveAndStartAutosaving()
-
 </script>
 
 <style>

@@ -1,0 +1,26 @@
+{
+  "views": {
+    "navigation": {
+      "step": "Krok",
+      "stepBack": "Krok späť",
+      "run": "Spustiť",
+      "pause": "Pozastaviť",
+      "reset": "Zresetovať",
+      "projects": "Projekty",
+      "settings": "Nastavenia",
+      "help": "Pomocník"
+    }
+  },
+  "tooltips": {
+    "navigation": {
+      "step": "Vykoná jednu inštrukciu",
+      "stepBack": "Vráti vykonanie jednej inštrukcie naspäť",
+      "run": "Spustí program do konca alebo po najbližší breakpoint",
+      "pause": "Pozastaví vykonávanie programu",
+      "reset": "Vráti naspäť obsah registrov pamäte na stav pred ladením programu",
+      "projects": "V simulátore je možné ukladať viacero projektov naraz",
+      "settings": "Nastavenia simulátora",
+      "help": "Potrebujete pomoc? Prečítajte si ich v pomocníkovi"
+    }
+  }
+}

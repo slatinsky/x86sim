@@ -8,6 +8,7 @@ import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import { string } from "rollup-plugin-string";
 import strip from '@rollup/plugin-strip';
+import json from '@rollup/plugin-json';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -75,6 +76,9 @@ export default {
 		}),
 
 
+		// plugin to import json files in js
+		json(),
+
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
 		!production && serve(),
@@ -99,7 +103,7 @@ export default {
 			functions: [
 				'console.log',
 			],
-		}),
+		})
 	],
 	watch: {
 		clearScreen: false

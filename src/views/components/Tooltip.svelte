@@ -18,7 +18,7 @@
 </style>
 
 <div class="wrapper">
-    <SvelteTooltip class="tooltip" {tip} {active} {left} {right} {bottom} {top}>
+    <SvelteTooltip {tip} {active} {left} {right} {bottom} {top}>
         <slot />
     </SvelteTooltip>
 </div>

@@ -1,6 +1,7 @@
 <script>
     import {appState, projectName, debugMode, currentlyExecutedLine, programIsRunning} from "../../stores/stores";
     import {compiler} from "../../compiler/compiler";
+    import { _, locale} from 'svelte-i18n'
 </script>
 
 <style>
@@ -51,21 +52,23 @@
     <div id="navControls">
         <ul>
             <li class="notClickable">{$projectName}</li>
-            <li class="{$currentlyExecutedLine === -1 || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> Krok</li>
-            <li class="{!$debugMode  || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.stepBack()}><i class="fas fa-step-backward"></i> Krok späť</li>
+            <li class="{$currentlyExecutedLine === -1 || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> {$_('views.navigation.step')}</li>
+            <li class="{!$debugMode  || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.stepBack()}><i class="fas fa-step-backward"></i> {$_('views.navigation.stepBack')}</li>
             {#if $programIsRunning}
-                <li on:click={() => compiler.pause()}><i class="fas fa-pause"></i> Pozastaviť</li>
+                <li on:click={() => compiler.pause()}><i class="fas fa-pause"></i> {$_('views.navigation.pause')}</li>
             {:else}
-                <li class="{$currentlyExecutedLine === -1 ? 'deactivated' : ''}" on:click={() => compiler.run()}><i class="fas fa-play"></i> Spustiť</li>
+                <li class="{$currentlyExecutedLine === -1 ? 'deactivated' : ''}" on:click={() => compiler.run()}><i class="fas fa-play"></i> {$_('views.navigation.run')}</li>
             {/if}
-            <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => compiler.reset()}><i class="fas fa-stop"></i> Zresetovať</li>
+            <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => compiler.reset()}><i class="fas fa-stop"></i> {$_('views.navigation.reset')}</li>
         </ul>
     </div>
     <div id="navInfo">
         <ul>
-            <li class="{$debugMode ? 'deactivated' : ''}" on:click={() => $appState.projectsShown = true}><i class="fas fa-folder-open"></i> Projekty</li>
-            <li on:click={() => $appState.settingsShown = true}><i class="fas fa-cog"></i> Nastavenia</li>
-            <li on:click={() => $appState.helpShown = true}><i class="fas fa-info-circle"></i> Pomocník</li>
+            <li class="{$debugMode ? 'deactivated' : ''}" on:click={() => $appState.projectsShown = true}><i class="fas fa-folder-open"></i> {$_('views.navigation.projects')}</li>
+            <li on:click={() => $appState.settingsShown = true}><i class="fas fa-cog"></i> {$_('views.navigation.settings')}</li>
+            <li on:click={() => $appState.helpShown = true}><i class="fas fa-info-circle"></i> {$_('views.navigation.help')}</li>
+            <li on:click={() => $locale = 'en'}>EN</li>
+            <li on:click={() => $locale = 'sk'}>SK</li>
         </ul>
     </div>
 </nav>
