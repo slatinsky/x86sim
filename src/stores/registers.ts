@@ -13,6 +13,15 @@ function createRegisters() {
         di: number,
         sp: number,
         bp: number,
+        cf: boolean,
+        pf: boolean,
+        af: boolean,
+        zf: boolean,
+        sf: boolean,
+        tf: boolean,
+        if: boolean,
+        df: boolean,
+        of: boolean,
     }
 
     const defaultRegisters: Register = {
@@ -25,6 +34,15 @@ function createRegisters() {
         di: 0,
         sp: MEMORY_SIZE,  // memory size
         bp: MEMORY_SIZE,
+        cf: false,
+        pf: false,
+        af: false,
+        zf: false,
+        sf: false,
+        tf: false,
+        if: false,
+        df: false,
+        of: false,
     }
     const {subscribe, set, update} = writable(Object.assign({}, defaultRegisters));
 

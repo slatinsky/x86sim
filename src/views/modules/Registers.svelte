@@ -31,6 +31,17 @@
         <Register bind:value={$registers.bp} label="bp" bcolor="darkred"/>
         <Register bind:value={$registers.sp} label="sp" bcolor="red"/>
     </div>
+    <div>
+        <Register bind:value={$registers.cf} label="cf" bcolor="#008BC0"/>
+        <Register bind:value={$registers.pf} label="pf" bcolor="#008BC0"/>
+        <Register bind:value={$registers.af} label="af" bcolor="#008BC0"/>
+        <Register bind:value={$registers.zf} label="zf" bcolor="#008BC0"/>
+        <Register bind:value={$registers.sf} label="sf" bcolor="#008BC0"/>
+        <Register bind:value={$registers.tf} label="tf" bcolor="#008BC0"/>
+        <Register bind:value={$registers.if} label="if" bcolor="#008BC0"/>
+        <Register bind:value={$registers.df} label="df" bcolor="#008BC0"/>
+        <Register bind:value={$registers.of} label="of" bcolor="#008BC0"/>
+    </div>
 </div>
 {#if $settings.developerMode}
     <button on:click={registers.reset}>DEBUG: Prenastav registre</button>
