@@ -16,7 +16,6 @@
 	import Navigation from "./modules/Navigation.svelte"
 	import Registers from "./modules/Registers.svelte";
 	import Screen from "./modules/Screen.svelte";
-	import Tooltip from "./global/Tooltip.svelte";
 	import CodeEditor from "./modules/codeEditor/CodeEditor.svelte";
 	import Stack from "./modules/Stack.svelte";
 	import LoadSave from "./modules/loadSave/LoadSave.svelte";
@@ -91,5 +90,3 @@
 		<Help />
 	</Modal>
 </main>
-
-<Tooltip />

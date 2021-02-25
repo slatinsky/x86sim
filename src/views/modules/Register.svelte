@@ -6,11 +6,13 @@
     // console.log("RERENDERED register")
     import {settings} from "../../stores/settings";
     import {baseToIntWrapper, intToBaseWrapper} from "../../formatConverter";
+    import Tooltip from "../components/Tooltip.svelte";
 
     export let bcolor = 'DARKSLATEGRAY'
     export let label = 'ax'     // register label
     let stringValue = '0000'    // value shown inside register input
     export let value = 0        // real integer value
+
 
     export let largeSquare = false
     let focused = false
@@ -47,12 +49,10 @@
         console.log("keyUp")
         if (e.key === "Enter") {
             validate()
-        }
-        else if (e.key === "ArrowUp") {
+        } else if (e.key === "ArrowUp") {
             value++
             updateStringValue(value)
-        }
-        else if (e.key === "ArrowDown") {
+        } else if (e.key === "ArrowDown") {
             value--
             updateStringValue(value)
         }
@@ -95,6 +95,9 @@
 </style>
 
 <div class="input-container">
-    <div class="square {largeSquare ? 'large' : ''}" style="background-color: {bcolor}" data-tooltip="Všeobecný register">{label}</div>
+    <Tooltip tip="Register" bottom>
+        <div class="square {largeSquare ? 'large' : ''}" style="background-color: {bcolor}" data-tooltip="Všeobecný register">{label}</div>
+    </Tooltip>
     <input class="input {$settings.selectedFormat}" maxlength="16" type="string" min="0" bind:value={stringValue} on:blur={validate} on:focus={focusIn} on:keyup={keyUp} />
+
 </div>
