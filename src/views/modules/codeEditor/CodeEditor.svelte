@@ -9,6 +9,7 @@
     import {mainCompleter, snippetsCompleter} from "./completers"
     import {breakpoints} from "../../../compiler/compiler"
     import {annotate} from "./annotations.js"
+    import { _} from 'svelte-i18n'
 
     let editor
     let errorCheckingInterval
@@ -229,7 +230,7 @@
 
 
 <div>
-    <b>Editor kódu:</b>
+    <b>{$_('views.modules.codeEditor')}:</b>
 
     <!--TODO: fix cut copy paste - https://stackoverflow.com/questions/59998538/cut-and-paste-in-ace-editor-->
     <!--https://github.com/nateshmbhat/svelte-ace-->

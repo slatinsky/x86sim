@@ -12,6 +12,7 @@
     export let label = 'ax'     // register label
     let stringValue = '0000'    // value shown inside register input
     export let value = 0        // real integer value
+    export let tooltip = ""
 
 
     export let largeSquare = false
@@ -95,7 +96,7 @@
 </style>
 
 <div class="input-container">
-    <Tooltip tip="Register" bottom>
+    <Tooltip {tooltip} bottom>
         <div class="square {largeSquare ? 'large' : ''}" style="background-color: {bcolor}" data-tooltip="Všeobecný register">{label}</div>
     </Tooltip>
     <input class="input {$settings.selectedFormat}" maxlength="16" type="string" min="0" bind:value={stringValue} on:blur={validate} on:focus={focusIn} on:keyup={keyUp} />

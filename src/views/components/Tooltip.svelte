@@ -1,5 +1,5 @@
 <script>
-    export let tip = "";
+    export let tooltip = "";
     export let top = false;
     export let right = false;
     export let bottom = false;
@@ -18,7 +18,7 @@
 </style>
 
 <div class="wrapper">
-    <SvelteTooltip {tip} {active} {left} {right} {bottom} {top}>
+    <SvelteTooltip tip={tooltip} {active} {left} {right} {bottom} {top}>
         <slot />
     </SvelteTooltip>
 </div>

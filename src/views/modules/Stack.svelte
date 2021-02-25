@@ -5,6 +5,7 @@
     import * as animateScroll from "svelte-scrollto";
     import {memory} from "../../stores/stores";
     import {registers} from "../../stores/stores";
+    import { _} from 'svelte-i18n'
 
 
     let stack = []
@@ -75,7 +76,7 @@
 
 
 <div id="wrapper">
-    <b>Zásobník:</b>
+    <b>{$_('views.modules.stack')}:</b>
     <div id="warnings">
         {#if !spAddressExistsInStack}
             <div class="warning" transition:fade={{ duration: 150 }}>Varovanie: register 'stack pointer' (SP) ukazuje mimo zásobníka</div>

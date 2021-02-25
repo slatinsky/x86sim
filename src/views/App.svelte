@@ -31,6 +31,7 @@
 	// stores
 	import {appState} from "../stores/appState";
 	import {settings} from "../stores/settings";
+	import Keyboard from "./modules/Keyboard.svelte";
 
 	$: {
 		if ($settings.darkTheme) {
@@ -75,6 +76,7 @@
 			</div>
 			<div>
 				<Screen />
+				<Keyboard />
 			</div>
 		</div>
 	</div>

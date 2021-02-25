@@ -1,7 +1,8 @@
 <script>
     import {appState, projectName, debugMode, currentlyExecutedLine, programIsRunning} from "../../stores/stores";
     import {compiler} from "../../compiler/compiler";
-    import { _, locale} from 'svelte-i18n'
+    import {_, locale} from 'svelte-i18n'
+    import Tooltip from "../components/Tooltip.svelte";
 </script>
 
 <style>
@@ -52,23 +53,49 @@
     <div id="navControls">
         <ul>
             <li class="notClickable">{$projectName}</li>
-            <li class="{$currentlyExecutedLine === -1 || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> {$_('views.navigation.step')}</li>
-            <li class="{!$debugMode  || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.stepBack()}><i class="fas fa-step-backward"></i> {$_('views.navigation.stepBack')}</li>
+            <Tooltip tooltip={$_('tooltips.navigation.step')} bottom>
+                <li class="{$currentlyExecutedLine === -1 || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> {$_('views.navigation.step')}</li>
+            </Tooltip>
+
+            <Tooltip tooltip={$_('tooltips.navigation.stepBack')} bottom>
+                <li class="{!$debugMode  || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.stepBack()}><i class="fas fa-step-backward"></i> {$_('views.navigation.stepBack')}</li>
+            </Tooltip>
             {#if $programIsRunning}
-                <li on:click={() => compiler.pause()}><i class="fas fa-pause"></i> {$_('views.navigation.pause')}</li>
+                <Tooltip tooltip={$_('tooltips.navigation.pause')} bottom>
+                    <li on:click={() => compiler.pause()}><i class="fas fa-pause"></i> {$_('views.navigation.pause')}</li>
+                </Tooltip>
             {:else}
-                <li class="{$currentlyExecutedLine === -1 ? 'deactivated' : ''}" on:click={() => compiler.run()}><i class="fas fa-play"></i> {$_('views.navigation.run')}</li>
+                <Tooltip tooltip={$_('tooltips.navigation.run')} bottom>
+                    <li class="{$currentlyExecutedLine === -1 ? 'deactivated' : ''}" on:click={() => compiler.run()}><i class="fas fa-play"></i> {$_('views.navigation.run')}</li>
+                </Tooltip>
             {/if}
-            <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => compiler.reset()}><i class="fas fa-stop"></i> {$_('views.navigation.reset')}</li>
+            <Tooltip tooltip={$_('tooltips.navigation.reset')} bottom>
+                <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => compiler.reset()}><i class="fas fa-stop"></i> {$_('views.navigation.reset')}</li>
+            </Tooltip>
         </ul>
     </div>
     <div id="navInfo">
         <ul>
-            <li class="{$debugMode ? 'deactivated' : ''}" on:click={() => $appState.projectsShown = true}><i class="fas fa-folder-open"></i> {$_('views.navigation.projects')}</li>
-            <li on:click={() => $appState.settingsShown = true}><i class="fas fa-cog"></i> {$_('views.navigation.settings')}</li>
-            <li on:click={() => $appState.helpShown = true}><i class="fas fa-info-circle"></i> {$_('views.navigation.help')}</li>
-            <li on:click={() => $locale = 'en'}>EN</li>
-            <li on:click={() => $locale = 'sk'}>SK</li>
+            <Tooltip tooltip={$_('tooltips.navigation.projects')} bottom>
+                <li class="{$debugMode ? 'deactivated' : ''}" on:click={() => $appState.projectsShown = true}><i class="fas fa-folder-open"></i> {$_('views.navigation.projects')}</li>
+            </Tooltip>
+            <Tooltip tooltip={$_('tooltips.navigation.settings')} bottom>
+                <li on:click={() => $appState.settingsShown = true}><i class="fas fa-cog"></i> {$_('views.navigation.settings')}</li>
+            </Tooltip>
+            <Tooltip tooltip={$_('tooltips.navigation.help')} bottom>
+                <li on:click={() => $appState.helpShown = true}><i class="fas fa-info-circle"></i> {$_('views.navigation.help')}</li>
+            </Tooltip>
+            <Tooltip tooltip="English" bottom>
+                <li on:click={() => $locale = 'en'}>EN</li>
+            </Tooltip>
+            <Tooltip tooltip="Slovensky" left>
+                <li on:click={() => $locale = 'sk'}>SK</li>
+            </Tooltip>
+
+
+
+
+
         </ul>
     </div>
 </nav>

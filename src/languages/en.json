@@ -9,18 +9,46 @@
       "projects": "Projects",
       "settings": "Settings",
       "help": "Help"
+    },
+    "modules": {
+      "codeEditor": "Code editor",
+      "registers": "Registers",
+      "memory": "Memory",
+      "screen": "Screen",
+      "keyboard": "Keyboard",
+      "stack": "Stack"
     }
   },
   "tooltips": {
     "navigation": {
-      "step": "Vykoná jednu inštrukciu",
-      "stepBack": "Vráti vykonanie jednej inštrukcie naspäť",
-      "run": "Spustí program do konca alebo po najbližší breakpoint",
-      "pause": "Pozastaví vykonávanie programu",
-      "reset": "Vráti naspäť obsah registrov pamäte na stav pred ladením programu",
-      "projects": "V simulátore je možné ukladať viacero projektov naraz",
-      "settings": "Nastavenia simulátora",
-      "help": "Potrebujete pomoc? Prečítajte si ich v pomocníkovi"
+      "step": "Runs one instruction",
+      "stepBack": "Rollbacks last executed instruction",
+      "run": "Runs assembly program till the end or till the next breakpoint",
+      "pause": "Pauses program execution",
+      "reset": "Resets program execution",
+      "projects": "Simulator can manage multiple projects",
+      "settings": "Simulator specific setting",
+      "help": "Do you need help? Read it in help"
+    },
+    "registers": {
+      "ip": "Instruction pointer register",
+      "ax": "General register ax",
+      "bx": "General register bx",
+      "cx": "General register cx",
+      "dx": "General register dx",
+      "si": "Source index register",
+      "di": "Destination index register",
+      "bp": "Base pointer register",
+      "sp": "Stack pointer register",
+      "cf": "Carry flag",
+      "pf": "Parity flag",
+      "af": "Auxiliary carry flag",
+      "zf": "Zero flag",
+      "sf": "Sign flag",
+      "tf": "Trap flag",
+      "if": "Interrupt enable flag",
+      "df": "Direction flag (for string instructions)",
+      "of": "Overflow flag"
     }
   }
 }

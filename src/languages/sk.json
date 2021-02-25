@@ -9,6 +9,14 @@
       "projects": "Projekty",
       "settings": "Nastavenia",
       "help": "Pomocník"
+    },
+    "modules": {
+      "codeEditor": "Editor kódu",
+      "registers": "Registre",
+      "memory": "Pamäť",
+      "screen": "Obrazovka",
+      "keyboard": "Klávesnica",
+      "stack": "Zásobník"
     }
   },
   "tooltips": {
@@ -21,6 +29,26 @@
       "projects": "V simulátore je možné ukladať viacero projektov naraz",
       "settings": "Nastavenia simulátora",
       "help": "Potrebujete pomoc? Prečítajte si ich v pomocníkovi"
+    },
+    "registers": {
+      "ip": "Instruction pointer register",
+      "ax": "Všeobecný register ax",
+      "bx": "Všeobecný register bx",
+      "cx": "Všeobecný register cx",
+      "dx": "Všeobecný register dx",
+      "si": "Source index register",
+      "di": "Destination index register",
+      "bp": "Base pointer register",
+      "sp": "Stack pointer register",
+      "cf": "Carry flag",
+      "pf": "Parity flag",
+      "af": "Auxiliary carry flag",
+      "zf": "Zero flag",
+      "sf": "Sign flag",
+      "tf": "Trap flag",
+      "if": "Interrupt enable flag",
+      "df": "Direction flag (pre reťazcové inštrukcie)",
+      "of": "Overflow flag (pretečenie)"
     }
   }
 }

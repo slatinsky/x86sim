@@ -1,9 +1,10 @@
 <script>
     import {memory, settings} from "../../stores/stores";
+    import { _} from 'svelte-i18n'
 </script>
 
 <div>
-    <b>Pamäť:</b>
+    <b>{$_('views.modules.memory')}:</b>
     {#each $memory as memoryCell}
         <div>{memoryCell}</div>
     {/each}
