@@ -18,7 +18,8 @@
       "open": "Open project",
       "new": "Create new project",
       "rename": "Rename",
-      "delete": "Delete"
+      "delete": "Delete",
+      "download": "Download"
     },
     "modules": {
       "codeEditor": "Code editor",

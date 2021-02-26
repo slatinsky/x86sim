@@ -73,7 +73,7 @@ function createRegisters() {
             Object.entries(registersCopy).map((registerEntry) => {
                 let registerName = registerEntry[0]
                 let value = registerEntry[1]
-                if (value === 0)
+                if (value === 0 || value === false)
                     delete registersCopy[registerName]
             })
             return registersCopy

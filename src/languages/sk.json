@@ -18,7 +18,8 @@
       "open": "Otvoriť projekt",
       "new": "Vytvoriť nový projekt",
       "rename": "Premenovať",
-      "delete": "Vymazať"
+      "delete": "Vymazať",
+      "download": "Stiahnuť"
     },
     "modules": {
       "codeEditor": "Editor kódu",

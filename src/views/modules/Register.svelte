@@ -25,9 +25,12 @@
 
     $: {
         if (!focused) {
-            updateStringValue(value)
+            // Comma operator (,) - calls updateStringValue only if store changed https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_Operator
+            $settings.selectedFormat, updateStringValue(value)
         }
     }
+
+
 
     // validate input and try to correct the format
     function validate() {
@@ -100,5 +103,4 @@
         <div class="square {largeSquare ? 'large' : ''}" style="background-color: {bcolor}" data-tooltip="Všeobecný register">{label}</div>
     </Tooltip>
     <input class="input {$settings.selectedFormat}" maxlength="16" type="string" min="0" bind:value={stringValue} on:blur={validate} on:focus={focusIn} on:keyup={keyUp} />
-
 </div>

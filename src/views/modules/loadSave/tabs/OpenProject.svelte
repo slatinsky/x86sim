@@ -48,6 +48,10 @@
         }
     }
 
+    function downloadP(projectNameToSave) {
+        programs.downloadProject(projectNameToSave)
+    }
+
 </script>
 
 <style>
@@ -97,8 +101,8 @@
                                                on:click|stopPropagation={deleteP(program.name)}><i
                                         class="fas fa-trash"></i> {$_('views.projects.delete')}</button></span>
                             {/if}
-                            <span><button class="btn btn-outline-primary btn-sm"
-                                          on:click|stopPropagation={renameP(program.name)}><i class="fas fa-italic"></i> {$_('views.projects.rename')}</button></span>
+                            <span><button class="btn btn-outline-primary btn-sm" on:click|stopPropagation={renameP(program.name)}><i class="fas fa-italic"></i> {$_('views.projects.rename')}</button></span>
+                            <span><button class="btn btn-outline-secondary btn-sm" on:click|stopPropagation={downloadP(program.name)}><i class="fas fa-file-download"></i> {$_('views.projects.download')}</button></span>
                         </div>
                     </div>
                 {/each}

@@ -145,6 +145,18 @@ function createProjects() {
         loadCurrentProject: () => {
             thisStore.loadProject(get(projectName))
         },
+        downloadProject: (projectName: string) => {
+            // modified https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
+            let filename = projectName + ".json"
+            let fileContent = JSON.stringify(get(thisStore).filter(project => project.name === projectName)[0], null, 2)
+            let element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileContent));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
         // reset: () => set([{...defaultProject}]),
     }
 
