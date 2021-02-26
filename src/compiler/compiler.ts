@@ -43,7 +43,7 @@ export const breakpoints = writable([])
 //     setCurrentlyExecutedLine(i++)
 // }, 1000)
 
-let DEBUG = false
+let DEBUG = true
 
 class Compiler {
     instructions

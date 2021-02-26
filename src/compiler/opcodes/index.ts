@@ -20,6 +20,8 @@ import jmp from "./jmp";
 import test from "./test";
 import je from "./je";
 import jz from "./je";
+import jne from "./jne";
+import jnz from "./jne";
 
 
 export const jumps = {
@@ -41,6 +43,8 @@ export const opcodes = {
     test,
     je,
     jz,
+    jne,
+    jnz,
 }
 
 export const opcodes_0_operands = []
