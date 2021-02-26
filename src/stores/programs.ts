@@ -157,7 +157,7 @@ function createProjects() {
             element.click();
             document.body.removeChild(element);
         },
-        uploadProject: (jsonContent: string) => {
+        uploadProject: (jsonContent: string, isLast:boolean=false) => {
             update(projects => {
                 let newProject
                 try {
@@ -173,11 +173,13 @@ function createProjects() {
                 // Add project only if that project doesn't exist yet
                 if (projects.filter(project => project.name === newProject.name).length === 0) {
 
-                    setTimeout(()=>thisStore.loadProject(newProject.name), 0)  // delay the loading, project doesn't exist now yet
+                    if (isLast) {  // we need to load only last dropped project, because autosave may glitch out and overwrite wrong project
+                        setTimeout(()=>thisStore.loadProject(newProject.name), 0)  // delay the loading, project doesn't exist now yet
+                    }
                     return [...projects, newProject]
                 }
                 else {
-                    alert(`Nahratie projektu neúspešné. Rovnaký projekt s názvom '${newProject.name}' už existuje`)
+                    alert(`Nahratie projektu '${newProject.name}' neúspešné. Projekt s takýmto názvom už existuje`)
                     return projects
                 }
             })

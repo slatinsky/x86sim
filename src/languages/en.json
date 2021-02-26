@@ -20,7 +20,7 @@
       "rename": "Rename",
       "delete": "Delete",
       "download": "Download",
-      "upload": "drag .json file here"
+      "upload": "drag & drop .json file here"
     },
     "modules": {
       "codeEditor": "Code editor",

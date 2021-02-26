@@ -50,6 +50,11 @@
         opacity: .7;
         pointer-events: auto;  /*Disable click throught*/
     }
+
+    h1 {
+        margin: 1rem;
+        color: lightgray;
+    }
 </style>
 
 

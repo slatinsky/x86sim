@@ -67,18 +67,18 @@
     document.ondrop = function(e) {
         this.className = '';
         e.preventDefault();
+        let lastItemIndex = Object.keys(e.dataTransfer.files).length - 1
+        let i = 0
+        for (const file of Object.values(e.dataTransfer.files)) {  // supports multiple files drag and drop
+            let reader = new FileReader()
+            reader.onload = function(event) {
+                let isLast = lastItemIndex === i
+                programs.uploadProject(event.target.result, isLast)
+            };
+            reader.readAsText(file);
 
-        var file = e.dataTransfer.files[0],
-            reader = new FileReader();
-        reader.onload = function(event) {
-            // console.log(event.target);
-            programs.uploadProject(event.target.result)
-            // load_database(event.target.result, "json_string");
-            // holder.innerText = event.target.result;
-        };
-        console.log(file);
-        reader.readAsText(file);
-
+            i++
+        }
         return false;
     };
 
