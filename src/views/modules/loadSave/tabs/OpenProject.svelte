@@ -74,7 +74,7 @@
         for (const file of Object.values(e.dataTransfer.files)) {  // supports multiple files drag and drop
             let reader = new FileReader()
             reader.onload = function(event) {
-                let isLast = lastItemIndex === 
+                let isLast = lastItemIndex === i
                 i++
                 programs.uploadProject(event.target.result, isLast)
 
