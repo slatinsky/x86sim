@@ -51,7 +51,7 @@
     <div class="mb-3">
         <label for="delayInput" class="form-label">Oneskorenie vykonávania inštrukcií (v ms)</label>
         <input type="number" min="0" class="form-control" id="delayInput" aria-describedby="emailHelp" bind:value={$settings.codeExecutionDelay}>
-        <div id="delayInputHelp" class="form-text">0 pre žiadne oneskorenie. Ak je nastavené na 0, tak maximum vykonaných inštrukcií je {MAX_EXECUTED_INSTRUCTION_COUNT} ako prevencie nekonečného cyklu</div>
+        <div id="delayInputHelp" class="form-text">0 pre žiadne oneskorenie. Ak je nastavené na 0, tak maximum vykonaných inštrukcií je {MAX_EXECUTED_INSTRUCTION_COUNT} ako prevencia nekonečného cyklu</div>
     </div>
 
 </div>

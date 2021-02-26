@@ -69,15 +69,19 @@
         e.preventDefault();
         let lastItemIndex = Object.keys(e.dataTransfer.files).length - 1
         let i = 0
+
+
         for (const file of Object.values(e.dataTransfer.files)) {  // supports multiple files drag and drop
             let reader = new FileReader()
             reader.onload = function(event) {
-                let isLast = lastItemIndex === i
+                let isLast = lastItemIndex === 
+                i++
                 programs.uploadProject(event.target.result, isLast)
+
             };
             reader.readAsText(file);
 
-            i++
+
         }
         return false;
     };
