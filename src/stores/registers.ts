@@ -1,6 +1,7 @@
 import {get, writable} from "svelte/store";
 import type {register} from "../types/types";
 import {MEMORY_SIZE} from "./config";
+import {calculateFlags} from "../compiler/calculateFlags";
 
 function createRegisters() {
     interface Register {
@@ -62,15 +63,8 @@ function createRegisters() {
             })
         },
         setWithFlags: (attributeName:any, newValue) => {
-            thisStore.resetFlags()
             thisStore.set(attributeName, newValue)
-            if (newValue == 0) {
-                // Simple tutorial, how flags ar set https://www.geeksforgeeks.org/flag-register-8085-microprocessor/#:~:text=In%208085%20microprocessor%2C%20flag%20register,flag%20becomes%20set%2C%20i.e.%201.
-                thisStore.set('zf', 1)
-
-                // TODO: implement c, p, a, s, t, i, d, o
-                // TODO: implement in memory too
-            }
+            calculateFlags(newValue)
         },
         reset: () => set(Object.assign({}, defaultRegisters)),
         get: (registerName: register): number => get(thisStore)[registerName],

@@ -1,5 +1,6 @@
 import {get, writable} from "svelte/store";
 import {MEMORY_SIZE} from "./config";
+import {calculateFlags} from "../compiler/calculateFlags";
 
 function createMemory() {
     const size = MEMORY_SIZE  // memory size
@@ -18,6 +19,10 @@ function createMemory() {
                 // TODO: handle overflow here
                 return memory
             })
+        },
+        setWithFlags: (address:any, newValue) => {
+            thisStore.set(address, newValue)
+            calculateFlags(newValue)
         },
         reset: () => set([...defaultMemory]),
         get: (address: number): number => get(thisStore)[address],
