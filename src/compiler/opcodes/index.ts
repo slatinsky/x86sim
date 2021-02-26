@@ -18,6 +18,8 @@ import push from "./push";
 import pop from "./pop";
 import jmp from "./jmp";
 import test from "./test";
+import je from "./je";
+import jz from "./je";
 
 
 export const jumps = {
@@ -36,7 +38,9 @@ export const opcodes = {
     push,
     pop,
     jmp,
-    test
+    test,
+    je,
+    jz,
 }
 
 export const opcodes_0_operands = []
