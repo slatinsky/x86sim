@@ -19,7 +19,8 @@
       "new": "Vytvoriť nový projekt",
       "rename": "Premenovať",
       "delete": "Vymazať",
-      "download": "Stiahnuť"
+      "download": "Stiahnuť",
+      "upload": "pretiahni .json súbor sem"
     },
     "modules": {
       "codeEditor": "Editor kódu",

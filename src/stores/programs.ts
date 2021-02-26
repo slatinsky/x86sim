@@ -156,6 +156,31 @@ function createProjects() {
             document.body.appendChild(element);
             element.click();
             document.body.removeChild(element);
+        },
+        uploadProject: (jsonContent: string) => {
+            update(projects => {
+                let newProject
+                try {
+                    newProject = JSON.parse(jsonContent)
+                }
+                catch (e) {
+                    alert('Neplatný súbor. Nahrávajte prosím iba json súbory s projektom')
+                    return projects
+                }
+
+                // TODO: add better verification, if uploaded .json is real project made using this simulator
+
+                // Add project only if that project doesn't exist yet
+                if (projects.filter(project => project.name === newProject.name).length === 0) {
+
+                    setTimeout(()=>thisStore.loadProject(newProject.name), 0)  // delay the loading, project doesn't exist now yet
+                    return [...projects, newProject]
+                }
+                else {
+                    alert(`Nahratie projektu neúspešné. Rovnaký projekt s názvom '${newProject.name}' už existuje`)
+                    return projects
+                }
+            })
         }
         // reset: () => set([{...defaultProject}]),
     }

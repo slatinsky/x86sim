@@ -52,6 +52,36 @@
         programs.downloadProject(projectNameToSave)
     }
 
+
+    // drag and drop
+    // modified from http://html5demos.com/file-api and https://stackoverflow.com/questions/11313414/html5-drag-and-drop-load-text-file-in-a-textbox-with-javascript
+    let holder = document.getElementById('holder')
+    document.ondragover = function() {  // prevent default
+        this.className = 'hover';
+        return false;
+    };
+    document.ondragend = function() {
+        this.className = '';
+        return false;
+    };
+    document.ondrop = function(e) {
+        this.className = '';
+        e.preventDefault();
+
+        var file = e.dataTransfer.files[0],
+            reader = new FileReader();
+        reader.onload = function(event) {
+            // console.log(event.target);
+            programs.uploadProject(event.target.result)
+            // load_database(event.target.result, "json_string");
+            // holder.innerText = event.target.result;
+        };
+        console.log(file);
+        reader.readAsText(file);
+
+        return false;
+    };
+
 </script>
 
 <style>
@@ -79,6 +109,16 @@
     .program:hover,
     .program.active {
         background-color: var(--active-secondary-background);
+    }
+
+    #holder {
+        border: 2px dashed #bbb;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        padding: 50px;
+        text-align: center;
+        font: 21pt bold;
+        color: #bbb;
     }
 </style>
 
@@ -112,4 +152,7 @@
         <span class="text">No project exists, weird</span>
     {/if}
     <button class="btn btn-outline-primary" on:click={createNewProject}>{$_('views.projects.new')}</button>
+
+    <div id="holder" class="mb-3" >{$_('views.projects.upload')}</div>
+
 </div>
