@@ -1,4 +1,7 @@
 {
+  "compiler": {
+    "infiniteLoop": "Prevencia nekonečného cyklu: Dosiahnuté maximálne množstvo vykonaných inštrukcií {maxInstructionCount}, pravdepodobne niekde v kóde máte nekonečný cyklus"
+  },
   "views": {
     "navigation": {
       "step": "Krok",

@@ -57,7 +57,7 @@ export default  {
     // available values (must be lowercase):
     // writesTo: ['operand1']
     // writesTo: []             // if it doesn't write to anything - for example nop
-    // writesTo: ['ip']         // if it is jump
+    // writesTo: ['ip']         // if it is jump. If it contains 'ip', ip register isn't autoincremented after instruction execution
     writesTo: ['operand1'],
 
     // if instruction uses two operands, change signature to
@@ -74,6 +74,8 @@ export default  {
 
         // if the instruction signature is for example 'POP AX', operand1 will contain 'pointer' to AX register. but it also can be direct or indirect memory address, for example '[ax-4]'
         // setting this value will set that value passed in. If user passed in AX register, AX register will be changed. If user passed in '[ax-4]', the memory cell at the address of AX-4 will be set.
+        // if the instrution you are implementing is an arithmetic instruction, use operand1.setWithFlags(value) instead - it will update the flag register
+        // if you use operand1.set(value), flag register will stay untouched
         operand1.set(valueFromStack)
 
         // set the memory at the address of 'sp' to zero

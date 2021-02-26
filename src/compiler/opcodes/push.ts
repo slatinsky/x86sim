@@ -8,6 +8,5 @@ export default  {
         let sp = registers.get('sp')
         memory.set(sp - 1, valueToPush)
         registers.set('sp', sp - 1)
-        registers.inc('ip')
     },
 }

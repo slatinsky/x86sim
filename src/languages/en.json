@@ -1,4 +1,7 @@
 {
+  "compiler": {
+    "infiniteLoop": "Infinite loop prevention: You have reached max amount of executed instructions {maxInstructionCount}, probably somewhere in your code you have infinite loop"
+  },
   "views": {
     "navigation": {
       "step": "Step",

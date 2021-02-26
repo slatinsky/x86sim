@@ -32,15 +32,16 @@
         <Register bind:value={$registers.sp} label="sp" tooltip={$_('tooltips.registers.sp')} bcolor="red"/>
     </div>
     <div>
-        <Register bind:value={$registers.cf} label="cf" tooltip={$_('tooltips.registers.cf')} bcolor="#008BC0"/>
-        <Register bind:value={$registers.pf} label="pf" tooltip={$_('tooltips.registers.pf')} bcolor="#008BC0"/>
-        <Register bind:value={$registers.af} label="af" tooltip={$_('tooltips.registers.af')} bcolor="#008BC0"/>
+<!--        commented out are flags not yet implemented-->
+<!--        <Register bind:value={$registers.cf} label="cf" tooltip={$_('tooltips.registers.cf')} bcolor="#008BC0"/>-->
+<!--        <Register bind:value={$registers.pf} label="pf" tooltip={$_('tooltips.registers.pf')} bcolor="#008BC0"/>-->
+<!--        <Register bind:value={$registers.af} label="af" tooltip={$_('tooltips.registers.af')} bcolor="#008BC0"/>-->
         <Register bind:value={$registers.zf} label="zf" tooltip={$_('tooltips.registers.zf')} bcolor="#008BC0"/>
-        <Register bind:value={$registers.sf} label="sf" tooltip={$_('tooltips.registers.sf')} bcolor="#008BC0"/>
-        <Register bind:value={$registers.tf} label="tf" tooltip={$_('tooltips.registers.tf')} bcolor="#008BC0"/>
-        <Register bind:value={$registers.if} label="if" tooltip={$_('tooltips.registers.if')} bcolor="#008BC0"/>
-        <Register bind:value={$registers.df} label="df" tooltip={$_('tooltips.registers.df')} bcolor="#008BC0"/>
-        <Register bind:value={$registers.of} label="of" tooltip={$_('tooltips.registers.of')} bcolor="#008BC0"/>
+<!--        <Register bind:value={$registers.sf} label="sf" tooltip={$_('tooltips.registers.sf')} bcolor="#008BC0"/>-->
+<!--        <Register bind:value={$registers.tf} label="tf" tooltip={$_('tooltips.registers.tf')} bcolor="#008BC0"/>-->
+<!--        <Register bind:value={$registers.if} label="if" tooltip={$_('tooltips.registers.if')} bcolor="#008BC0"/>-->
+<!--        <Register bind:value={$registers.df} label="df" tooltip={$_('tooltips.registers.df')} bcolor="#008BC0"/>-->
+<!--        <Register bind:value={$registers.of} label="of" tooltip={$_('tooltips.registers.of')} bcolor="#008BC0"/>-->
     </div>
 </div>
 {#if $settings.developerMode}

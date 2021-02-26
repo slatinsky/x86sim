@@ -17,6 +17,7 @@ import dec from "./dec";
 import push from "./push";
 import pop from "./pop";
 import jmp from "./jmp";
+import test from "./test";
 
 
 export const jumps = {
@@ -34,7 +35,8 @@ export const opcodes = {
     dec,
     push,
     pop,
-    jmp
+    jmp,
+    test
 }
 
 export const opcodes_0_operands = []

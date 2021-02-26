@@ -10,6 +10,5 @@ export default  {
 
         memory.set(sp, 0)
         registers.set('sp', sp + 1)
-        registers.inc('ip')
     },
 }

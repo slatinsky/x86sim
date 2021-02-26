@@ -53,40 +53,25 @@ function createRegisters() {
 
     const thisStore = {
         subscribe,
-        set: (arg1:any, arg2) => {
-            // if (typeof arg2 !== "undefined") {
-                // alternative way to set attribute by name
-            let attributeName = arg1
-            let newValue = arg2
+        set: (attributeName:any, newValue) => {
             update(storeObj => {
                 storeObj[attributeName] = newValue
 
                 // TODO: handle overflow here
                 return storeObj
             })
-
-
-                // autosave
-            // saveRegistersToLocalStorage()
-            // }
-            // else {
-            //     default svelte call
-                // set(arg1)
-            // }
         },
-        // // sets passed in register to a value manually
-        // set: (registerName: register, newValue: number) => {
-        //     console.log("SET")
-        //     update((registers: Register) => {
-        //         registers[registerName] = newValue
-        //
-        //         // TODO: handle overflow here
-        //         return registers
-        //     })
-        //
-        //     // autosave
-        //     saveRegistersToLocalStorage()
-        // },
+        setWithFlags: (attributeName:any, newValue) => {
+            thisStore.resetFlags()
+            thisStore.set(attributeName, newValue)
+            if (newValue == 0) {
+                // Simple tutorial, how flags ar set https://www.geeksforgeeks.org/flag-register-8085-microprocessor/#:~:text=In%208085%20microprocessor%2C%20flag%20register,flag%20becomes%20set%2C%20i.e.%201.
+                thisStore.set('zf', 1)
+
+                // TODO: implement c, p, a, s, t, i, d, o
+                // TODO: implement in memory too
+            }
+        },
         reset: () => set(Object.assign({}, defaultRegisters)),
         get: (registerName: register): number => get(thisStore)[registerName],
         reduce: () => {  // returns all non zero registers
@@ -113,6 +98,17 @@ function createRegisters() {
         dec: (registerName: register) => {        // decrement
             let val = thisStore.get(registerName)
             thisStore.set(registerName, val - 1)
+        },
+        resetFlags() {
+            thisStore.set('cf', 0)
+            thisStore.set('pf', 0)
+            thisStore.set('af', 0)
+            thisStore.set('zf', 0)
+            thisStore.set('sf', 0)
+            thisStore.set('tf', 0)
+            thisStore.set('if', 0)
+            thisStore.set('df', 0)
+            thisStore.set('of', 0)
         }
     }
 

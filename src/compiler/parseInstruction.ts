@@ -7,6 +7,7 @@ interface Operand {
     get(): number,
 
     set(valueToSet: number): void,
+    setWithFlags(valueToSet: number): void,
 
     type: "immediate" | "register" | "memory" | "jump";
 }
@@ -125,6 +126,9 @@ const prepareOperand = (location: string): Operand => {
             set: (valueToSet: number): void => {
                 registers.set(<register>registerName, valueToSet)
             },
+            setWithFlags: (valueToSet: number): void => {
+                registers.setWithFlags(<register>registerName, valueToSet)
+            },
             type: "register"
         }
     }
@@ -134,6 +138,10 @@ const prepareOperand = (location: string): Operand => {
         return {
             get: (): number => value,
             set: (valueToSet: number): void => {
+                throw "ERROR: you can't write to immediate!"
+                // console.error("prepareLocation - you can't write to immediate!")
+            },
+            setWithFlags: (valueToSet: number): void => {
                 throw "ERROR: you can't write to immediate!"
                 // console.error("prepareLocation - you can't write to immediate!")
             },
@@ -191,6 +199,9 @@ const prepareOperand = (location: string): Operand => {
             set: (valueToSet: number): void => {
                 memory.set(getAddress(), valueToSet)
             },
+            setWithFlags: (valueToSet: number): void => {
+                memory.setWithFlags(getAddress(), valueToSet)
+            },
             type: "memory"
         }
     }
@@ -211,6 +222,9 @@ function prepareLabel(labelName: string, labels: any[]): Operand {
             return labels.filter(label => label.labelName === labelName)[0].address
         },
         set: (valueToSet: number): void => {
+            throw `ERROR: Cannot set label`
+        },
+        setWithFlags: (valueToSet: number): void => {
             throw `ERROR: Cannot set label`
         },
         type: "jump"

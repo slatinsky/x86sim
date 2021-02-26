@@ -5,6 +5,7 @@ import {parseInstructionList} from "./parseInstruction";
 import {memory, projectName, registers, settings} from "../stores/stores";
 import {opcodes} from "./opcodes";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "../stores/config";
+import {_} from 'svelte-i18n'
 
 // called from code editor
 // get errors inside compiled code
@@ -101,6 +102,9 @@ class Compiler {
     // if opcode is implemented is validated during parsing - it doesn't need to be checked here
     executeInstruction(opcode: string, operands) {
         opcodes[opcode].run(...operands)
+        if (!opcodes[opcode].writesTo.includes('ip')) {  // if not jump, autoincrement ip
+            registers.inc('ip')
+        }
     }
 
     pushToHistory() {
@@ -154,7 +158,11 @@ class Compiler {
                 }
 
                 if (i === MAX_EXECUTED_INSTRUCTION_COUNT - 1) {
-                    alert(`Prevencia nekonečného cyklu: Dosiahnuté maximálne množstvo vykonaných inštrukcií (${MAX_EXECUTED_INSTRUCTION_COUNT}), pravdepodobne niekde v kóde máte nekonečný cyklus`)
+                    alert(get(_)("compiler.infiniteLoop", {
+                        values: {
+                            maxInstructionCount: MAX_EXECUTED_INSTRUCTION_COUNT
+                        }
+                    }))
                 }
             }
             setProgramIsRunning(false)
