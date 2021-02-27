@@ -3,9 +3,9 @@
     import {onMount, afterUpdate} from 'svelte';
     import Register from "./Register.svelte";
     import * as animateScroll from "svelte-scrollto";
-    import {memory} from "../../stores/stores";
-    import {registers} from "../../stores/stores";
+    import {memory, registers, settings} from "../../stores/stores";
     import { _} from 'svelte-i18n'
+    import {intToFormattedString} from "../../formatConverter";
 
 
     let stack = []
@@ -89,13 +89,13 @@
         {#each $memory as value, address}
             {#if address > $registers.sp - 10}
                 {#if address === $registers.sp}
-                    <span class="stackSP"><Register bind:value={value} label={address} bcolor="red" largeSquare={true}/></span>
+                    <span class="stackSP"><Register bind:value={value} label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="red" largeSquare={true}/></span>
                 {:else if address === $registers.bp}
-                    <Register bind:value={value} bits="16" label={address} bcolor="darkred" largeSquare={true}/>
+                    <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="darkred" largeSquare={true}/>
                 {:else if address < $registers.sp}
-                    <Register bind:value={value} bits="16" label={address} bcolor="gray" largeSquare={true}/>
+                    <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="gray" largeSquare={true}/>
                 {:else}
-                    <Register bind:value={value} bits="16" label={address} largeSquare={true}/>
+                    <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} largeSquare={true}/>
                 {/if}
             {/if}
         {/each}
