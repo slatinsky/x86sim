@@ -91,11 +91,11 @@
                 {#if address === $registers.sp}
                     <span class="stackSP"><Register bind:value={value} label={address} bcolor="red" largeSquare={true}/></span>
                 {:else if address === $registers.bp}
-                    <Register bind:value={value} label={address} bcolor="darkred" largeSquare={true}/>
+                    <Register bind:value={value} bits="16" label={address} bcolor="darkred" largeSquare={true}/>
                 {:else if address < $registers.sp}
-                    <Register bind:value={value} label={address} bcolor="gray" largeSquare={true}/>
+                    <Register bind:value={value} bits="16" label={address} bcolor="gray" largeSquare={true}/>
                 {:else}
-                    <Register bind:value={value} label={address} largeSquare={true}/>
+                    <Register bind:value={value} bits="16" label={address} largeSquare={true}/>
                 {/if}
             {/if}
         {/each}

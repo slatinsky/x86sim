@@ -3,65 +3,17 @@
 <!--https://svelte.dev/repl/052c877eb34c45ee8f773a8bf8475347?version=3.12.1-->
 
 <script>
-    // console.log("RERENDERED register")
-    import {settings} from "../../stores/settings";
-    import {baseToIntWrapper, intToBaseWrapper} from "../../formatConverter";
     import Tooltip from "../components/Tooltip.svelte";
+    import FormatInput from "../components/FormatInput.svelte";
 
-    export let bcolor = 'DARKSLATEGRAY'
-    export let label = 'ax'     // register label
-    let stringValue = '0000'    // value shown inside register input
     export let value = 0        // real integer value
+    export let bits
+
+    // square styling
+    export let bcolor = 'DARKSLATEGRAY'
+    export let label            // register label
     export let tooltip = ""
-
-
     export let largeSquare = false
-    let focused = false
-
-    // if register value was changes from "outside" or it was changed using "validate() - transform it to internal "stringValue"
-    function updateStringValue(value) {
-        stringValue = intToBaseWrapper(value, $settings.selectedFormat)
-    }
-
-    $: {
-        if (!focused) {
-            // Comma operator (,) - calls updateStringValue only if store changed https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_Operator
-            $settings.selectedFormat, updateStringValue(value)
-        }
-    }
-
-
-
-    // validate input and try to correct the format
-    function validate() {
-        console.log("validate", value)
-
-        value = NaN                   // force rerender even if the value resolves to the same value
-        value = baseToIntWrapper(stringValue, $settings.selectedFormat, 16)
-        focused = false
-    }
-
-    function focusIn(e) {
-        if ($settings.selectedFormat !== 'bin') {
-            e.target.focus();
-            e.target.setSelectionRange(0, 32);
-        }
-        focused = true
-    }
-
-    function keyUp(e) {
-        console.log("keyUp")
-        if (e.key === "Enter") {
-            validate()
-        } else if (e.key === "ArrowUp") {
-            value++
-            updateStringValue(value)
-        } else if (e.key === "ArrowDown") {
-            value--
-            updateStringValue(value)
-        }
-    }
-
 </script>
 
 <style>
@@ -102,5 +54,5 @@
     <Tooltip {tooltip} bottom>
         <div class="square {largeSquare ? 'large' : ''}" style="background-color: {bcolor}" data-tooltip="Všeobecný register">{label}</div>
     </Tooltip>
-    <input class="input {$settings.selectedFormat}" maxlength="16" type="string" min="0" bind:value={stringValue} on:blur={validate} on:focus={focusIn} on:keyup={keyUp} />
+    <FormatInput bind:value={value} {bits}  />
 </div>
