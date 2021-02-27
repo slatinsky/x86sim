@@ -1,6 +1,6 @@
 <script>
     import {settings} from "../../stores/settings";
-    import {baseToIntWrapper, intToBaseWrapper} from "../../formatConverter";
+    import {baseToIntWrapper, intToBaseWrapper, splitSelectedFormat} from "../../formatConverter";
     export let bits             // how many bits can value hold
 
     let stringValue = ''        // value shown inside register input
@@ -9,28 +9,30 @@
 
     // if register value was changes from "outside" or it was changed using "validate() - transform it to internal "stringValue"
     function updateStringValue(value) {
-        stringValue = intToBaseWrapper(value, $settings.selectedFormat)
+        stringValue = intToBaseWrapper(value, $settings.selectedFormat, parseInt(bits))
     }
 
+    // try to correct the format of input after losing focus
+    $: {
+        if (!focused) {
+            // Comma operator (,) - calls updateStringValue only if store changed https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_Operator
+            $settings.selectedFormat, updateStringValue(value)
+        }
+    }
 
-    $: console.log("stringValue", stringValue)
     $: stringValue, updateValue()
-
-    // Comma operator (,) - calls updateStringValue only if store changed https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_Operator
-    $: $settings.selectedFormat, updateStringValue(value)
 
     // tries to parse signed integer from value
     function updateValue() {
         value = NaN                 // force rerender even if the value resolves to the same value
-        value = baseToIntWrapper(stringValue, $settings.selectedFormat, bits)
+        value = baseToIntWrapper(stringValue, $settings.selectedFormat, parseInt(bits))
         console.log("new value", value, stringValue)
     }
 
-    // after focus, automatically select all text inside
     function focusIn(e) {
         if ($settings.selectedFormat !== 'bin') {
             e.target.focus();
-            e.target.setSelectionRange(0, 32);
+            e.target.setSelectionRange(0, 32);      // after focus, automatically select all text inside
         }
         focused = true
     }
@@ -65,8 +67,12 @@
     input.hex {
         width: 50px;
     }
+
+    input.boolean {
+        width: 20px;
+    }
 </style>
 
-<input class="input {$settings.selectedFormat}" maxlength="16" type="string" bind:value={stringValue} on:blur={focusOut} on:focus={focusIn} on:keyup={keyUp} />
+<input class="input {$settings.selectedFormat} {parseInt(bits) === 1 ? 'boolean' : ''}" maxlength="16" type="string" bind:value={stringValue} on:blur={focusOut} on:focus={focusIn} on:keyup={keyUp} />
 
 {value}

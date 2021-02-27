@@ -1,12 +1,13 @@
 // all integers stored are signed shorts if else not specified
 import type {typeBase, typeSelectedFormat} from "./types/types";
+import error from "svelte/types/compiler/utils/error";
 
 function signedToUnsignedInt(signedInt, bits) {
     if (bits === 16) {
         // more info https://stackoverflow.com/a/26537349/14409632
         return (new Uint16Array([signedInt]))[0]
     }
-    else if (bits === 2){
+    else if (bits === 1){
         return signedInt
     }
     else {
@@ -19,7 +20,7 @@ function unsignedToSignedInt(unsignedInt, bits) {
     if (bits === 16) {
         return (new Int16Array([unsignedInt]))[0]
     }
-    else if (bits === 2){
+    else if (bits === 1){
         return unsignedInt
     }
     else {
@@ -152,7 +153,7 @@ export function baseToIntWrapper(baseString: string, selectedFormat: typeSelecte
  * Accepts selectedFormat: 'bin' | 'hex' | 'signed' | 'unsigned'
  * Returns [base: 2 | 10 | 16, isDecSigned: boolean]
  */
-function splitSelectedFormat(selectedFormat: typeSelectedFormat): [typeBase, boolean] {
+export function splitSelectedFormat(selectedFormat: typeSelectedFormat): [typeBase, boolean] {
     if (selectedFormat === 'bin') {
         return [2, false]
     }
