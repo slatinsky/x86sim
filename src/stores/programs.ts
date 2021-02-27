@@ -164,11 +164,15 @@ function createProjects() {
                     newProject = JSON.parse(jsonContent)
                 }
                 catch (e) {
-                    alert('Neplatný súbor. Nahrávajte prosím iba json súbory s projektom')
+                    alert('Neplatný súbor. Tento súbor neobsahuje platný json formát')
                     return projects
                 }
 
-                // TODO: add better verification, if uploaded .json is real project made using this simulator
+                // simple validation if uploaded .json was created by this simulator. If not, abort
+                if (!(newProject.hasOwnProperty('version') && newProject.hasOwnProperty('name') && newProject.hasOwnProperty('registers') && newProject.hasOwnProperty('memory') && newProject.hasOwnProperty('code'))) {
+                    alert('Neplatný .json súbor. Nahrávajte prosím iba json súbory vytvorené týmto simulátorom')
+                    return projects
+                }
 
                 // Add project only if that project doesn't exist yet
                 if (projects.filter(project => project.name === newProject.name).length === 0) {

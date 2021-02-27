@@ -121,7 +121,7 @@
         border-radius: 5px;
         padding: 50px;
         text-align: center;
-        font: 21pt bold;
+        font-size: 21pt;
         color: #bbb;
     }
 </style>
