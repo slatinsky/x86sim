@@ -87,7 +87,7 @@
     </div>
     <div id="stack">
         {#each $memory as value, address}
-            {#if address > $registers.sp - 10}
+            {#if address > $registers.sp - 10 && address < $registers.sp + 20}
                 {#if address === $registers.sp}
                     <span class="stackSP">
                         <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="red" largeSquare={true}/>
@@ -97,7 +97,7 @@
                 {:else if address < $registers.sp}
                     <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="gray" largeSquare={true}/>
                 {:else}
-                    <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} largeSquare={true}/>
+                    <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="darkslategray" largeSquare={true}/>
                 {/if}
             {/if}
         {/each}

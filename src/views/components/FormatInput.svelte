@@ -3,7 +3,7 @@
     import {formattedStringToInt, intToFormattedString, splitSelectedFormat} from "../../formatConverter";
     export let bits             // how many bits can value hold
 
-    let stringValue = ''        // value shown inside register input
+    let stringValue = '0'        // value shown inside register input
     export let value = 0        // signed integer value
     let focused = false         // is element currently focused?
 

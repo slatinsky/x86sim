@@ -32,7 +32,7 @@
 	import Spinner from "./modules/Spinner.svelte";
 	import Memory from "./modules/Memory.svelte";
 	import Keyboard from "./modules/Keyboard.svelte";
-	// import SimpleMemory from "./modules/SimpleMemory.svelte";
+	import SimpleMemory from "./modules/SimpleMemory.svelte";
 
 
 	$: {
@@ -74,9 +74,9 @@
 				<Stack />
 				<Memory />
 			</div>
-<!--			<div>-->
-<!--				<SimpleMemory />-->
-<!--			</div>-->
+			<div>
+				<SimpleMemory />
+			</div>
 			<div>
 				<Screen />
 				<Keyboard />

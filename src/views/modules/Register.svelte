@@ -10,7 +10,7 @@
     export let bits
 
     // square styling
-    export let bcolor = 'DARKSLATEGRAY'
+    export let bcolor = 'darkslategray'
     export let label            // register label
     export let tooltip = ""
     export let largeSquare = false
