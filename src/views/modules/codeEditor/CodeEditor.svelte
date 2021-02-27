@@ -5,11 +5,12 @@
     import "brace/mode/assembly_x86"
     import "brace/theme/dracula"
     import "brace/ext/language_tools"
-    import {code, currentlyExecutedLine, compiledInstructions} from "../../../stores/stores"
+    import {code, currentlyExecutedLine, compiledInstructions, settings} from "../../../stores/stores"
     import {mainCompleter, snippetsCompleter} from "./completers"
     import {breakpoints} from "../../../compiler/compiler"
     import {annotate} from "./annotations.js"
     import { _} from 'svelte-i18n'
+    import {intToFormattedString} from "../../../formatConverter";
 
     let editor
     let errorCheckingInterval
@@ -36,7 +37,7 @@
 
                 // console.log(editor.session.getLine(4))  //get fourth line, will be usefull later
                 if (lineAddressMapping.hasOwnProperty(row)) {
-                    return lineAddressMapping[row]
+                    return intToFormattedString(lineAddressMapping[row], $settings.selectedFormat, 16)
                 }
                 else {
                     return EMPTY_GUTTER
