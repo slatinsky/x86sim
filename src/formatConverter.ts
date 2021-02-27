@@ -1,5 +1,5 @@
 // all integers stored are signed shorts if else not specified
-
+import type {typeBase, typeSelectedFormat} from "./types/types";
 
 function signedToUnsignedInt(signedInt, bits) {
     if (bits === 16) {
@@ -39,26 +39,8 @@ function handleOverflow(signedInt, bits) {
     return signedIntWithoutOverflow
 }
 
-export function intToBaseWrapper(int, selectedFormat, bits) {
-    if (selectedFormat === 'bin') {
-        return intToBase(int, 2, bits)
-    }
-    else if (selectedFormat === 'hex') {
-        return intToBase(int, 16, bits)
-    }
-    else if (selectedFormat === 'signed') {
-        return intToBase(int, 10, bits, false)
-    }
-    else if (selectedFormat === 'unsigned') {
-        return intToBase(int, 10, bits, true)
-    }
-    else {
-        console.error('intToBaseWrapper - wrong selectedFormat:', selectedFormat)
-    }
-}
-
 // unsigned parameter is used only if base is 10
-function intToBase(int, base= 16, bits = 16, unsigned= true) {
+function intToBase(int, base: typeBase= 16, bits = 16, isDecSigned= false) {
     // signed char range -128 to 127
     // signed short range -32,768 to 32,767
     // Math.pow(2, 15) = 32768
@@ -72,7 +54,7 @@ function intToBase(int, base= 16, bits = 16, unsigned= true) {
         let unsignedInt = signedToUnsignedInt(int, bits)
         return unsignedInt.toString(16).padStart(Math.ceil(bits / 4), '0')
     } else if (base === 10) {
-        if (unsigned) {
+        if (!isDecSigned) {
             return signedToUnsignedInt(int, bits)
         }
         else {
@@ -88,25 +70,9 @@ function intToBase(int, base= 16, bits = 16, unsigned= true) {
     }
 }
 
-export function baseToIntWrapper(baseString, selectedFormat, bits) {
-    if (selectedFormat === 'bin') {
-        return baseToInt(baseString, 2, bits)
-    }
-    else if (selectedFormat === 'hex') {
-        return baseToInt(baseString, 16, bits)
-    }
-    else if (selectedFormat === 'signed') {
-        return baseToInt(baseString, 10, bits, false)
-    }
-    else if (selectedFormat === 'unsigned') {
-        return baseToInt(baseString, 10, bits, true)
-    }
-    else {
-        console.error('baseToIntWrapper - wrong selectedFormat:', selectedFormat)
-    }
-}
 
-function baseToInt(baseString, base= 16, bits = 16, unsigned= true) {
+
+function baseToInt(baseString, base: typeBase = 16, bits = 16, isDecSigned= false) {
     let characterBlacklistRegex;
     let allowedCharacterCount;
 
@@ -114,18 +80,18 @@ function baseToInt(baseString, base= 16, bits = 16, unsigned= true) {
     // --- settings based on parameters ---
 
     if (base === 16) {
-        unsigned = true
+        isDecSigned = false
         // remove characters other than numbers and a-f
         characterBlacklistRegex = /[^0-9a-f]/gm
         allowedCharacterCount = Math.ceil(bits / 4)
     }
     else if (base === 2) {
-        unsigned = true
+        isDecSigned = false
         characterBlacklistRegex = /[^0-1]/gm
         allowedCharacterCount = bits
     }
     else if (base === 10) {
-        if (unsigned) {
+        if (isDecSigned) {
             characterBlacklistRegex = /[^0-9]/gm
         }
         else {
@@ -170,3 +136,60 @@ function baseToInt(baseString, base= 16, bits = 16, unsigned= true) {
 }
 
 
+export function intToBaseWrapper(int: number, selectedFormat: typeSelectedFormat, bits: number) {
+    const [base, isDecSigned] = splitSelectedFormat(selectedFormat)
+    return intToBase(int, base, bits, isDecSigned)
+}
+
+
+export function baseToIntWrapper(baseString: string, selectedFormat: typeSelectedFormat, bits: number) {
+    const [base, isDecSigned] = splitSelectedFormat(selectedFormat)
+    return baseToInt(baseString, base, bits, isDecSigned)
+}
+
+
+/**
+ * Accepts selectedFormat: 'bin' | 'hex' | 'signed' | 'unsigned'
+ * Returns [base: 2 | 10 | 16, isDecSigned: boolean]
+ */
+function splitSelectedFormat(selectedFormat: typeSelectedFormat): [typeBase, boolean] {
+    if (selectedFormat === 'bin') {
+        return [2, false]
+    }
+    else if (selectedFormat === 'hex') {
+        return [16, false]
+    }
+    else if (selectedFormat === 'signed') {
+        return [10, true]
+    }
+    else if (selectedFormat === 'unsigned') {
+        return [10, false]
+    }
+    else {  // if invalid, return default
+        console.error('splitSelectedFormat - invalid selectedFormat:', selectedFormat)
+        return [10, true]
+    }
+}
+
+/**
+ * Accepts base: 2 | 10 | 16, isDecSigned: boolean
+ * Returns selectedFormat: 'bin' | 'hex' | 'signed' | 'unsigned'
+ */
+function mergeSelectedFormat(base: typeBase, decSigned: boolean): typeSelectedFormat {
+    if (base === 2) {
+        return 'bin'
+    }
+    else if (base === 16) {
+        return 'hex'
+    }
+    else if (base === 10 && !decSigned) {
+        return 'unsigned'
+    }
+    else if (base === 10 && decSigned) {
+        return 'signed'
+    }
+    else {
+        console.error('splitSelectedFormat - invalid base or decSigned:', base, decSigned)
+        return 'signed'
+    }
+}
