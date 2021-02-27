@@ -8,7 +8,7 @@
     let focused = false         // is element currently focused?
 
     // if register value was changes from "outside" or it was changed using "validate() - transform it to internal "stringValue"
-    function updateStringValue(value) {
+    function updateStringValue() {
         stringValue = intToFormattedString(value, $settings.selectedFormat, parseInt(bits))
     }
 
@@ -75,4 +75,4 @@
 
 <input class="input {$settings.selectedFormat} {parseInt(bits) === 1 ? 'boolean' : ''}" maxlength="16" type="string" bind:value={stringValue} on:blur={focusOut} on:focus={focusIn} on:keyup={keyUp} />
 
-{value}
+<!--{value}-->

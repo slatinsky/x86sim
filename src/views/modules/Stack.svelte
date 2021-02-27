@@ -89,7 +89,9 @@
         {#each $memory as value, address}
             {#if address > $registers.sp - 10}
                 {#if address === $registers.sp}
-                    <span class="stackSP"><Register bind:value={value} label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="red" largeSquare={true}/></span>
+                    <span class="stackSP">
+                        <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="red" largeSquare={true}/>
+                    </span>
                 {:else if address === $registers.bp}
                     <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="darkred" largeSquare={true}/>
                 {:else if address < $registers.sp}

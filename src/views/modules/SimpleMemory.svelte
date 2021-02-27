@@ -1,22 +1,12 @@
 <script>
     import {memory, settings} from "../../stores/stores";
-    import {_} from 'svelte-i18n'
-    import FormatInput from "../components/FormatInput.svelte";
+    import { _} from 'svelte-i18n'
 </script>
 
-<style>
-    span {
-        margin: .2rem
-    }
-</style>
-
 <div>
-    <b>{$_('views.modules.memory')}:</b><br>
+    <b>{$_('views.modules.memory')}:</b>
     {#each $memory as memoryCell}
-        <span>
-            <FormatInput bind:value={memoryCell} bits="16" />
-        </span>
-
+        <div>{memoryCell}</div>
     {/each}
 </div>
 

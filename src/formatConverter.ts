@@ -20,7 +20,7 @@ function signedToUnsignedInt(signedInt, bits) {
         return (new Uint32Array([signedInt]))[0]
     }
     else {
-        alert('signedToUnsignedInt - unsupported bits amount - ' +  bits)
+        console.error('signedToUnsignedInt - unsupported bits amount - ' +  bits)
         return signedInt
     }
 }
@@ -42,7 +42,7 @@ function unsignedToSignedInt(unsignedInt, bits) {
         return (new Int32Array([unsignedInt]))[0]
     }
     else {
-        alert('unsignedToSignedInt - unsupported bits amount - ' +  bits)
+        console.error('unsignedToSignedInt - unsupported bits amount - ' +  bits)
         return unsignedInt
     }
 }

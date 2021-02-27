@@ -16,6 +16,10 @@
 	// internationalization
 	import "../languages/i18n"
 
+	// stores
+	import {appState} from "../stores/appState";
+	import {settings} from "../stores/settings";
+
 	// ui
 	import Navigation from "./modules/Navigation.svelte"
 	import Registers from "./modules/Registers.svelte";
@@ -27,11 +31,9 @@
 	import Settings from "./modules/Settings.svelte";
 	import Spinner from "./modules/Spinner.svelte";
 	import Memory from "./modules/Memory.svelte";
-
-	// stores
-	import {appState} from "../stores/appState";
-	import {settings} from "../stores/settings";
 	import Keyboard from "./modules/Keyboard.svelte";
+	// import SimpleMemory from "./modules/SimpleMemory.svelte";
+
 
 	$: {
 		if ($settings.darkTheme) {
@@ -70,10 +72,11 @@
 			<div>
 				<Registers />
 				<Stack />
-			</div>
-			<div>
 				<Memory />
 			</div>
+<!--			<div>-->
+<!--				<SimpleMemory />-->
+<!--			</div>-->
 			<div>
 				<Screen />
 				<Keyboard />
