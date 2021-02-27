@@ -1,6 +1,6 @@
 <script>
     import {settings} from "../../stores/settings";
-    import {baseToIntWrapper, intToBaseWrapper, splitSelectedFormat} from "../../formatConverter";
+    import {formattedStringToInt, intToFormattedString, splitSelectedFormat} from "../../formatConverter";
     export let bits             // how many bits can value hold
 
     let stringValue = ''        // value shown inside register input
@@ -9,7 +9,7 @@
 
     // if register value was changes from "outside" or it was changed using "validate() - transform it to internal "stringValue"
     function updateStringValue(value) {
-        stringValue = intToBaseWrapper(value, $settings.selectedFormat, parseInt(bits))
+        stringValue = intToFormattedString(value, $settings.selectedFormat, parseInt(bits))
     }
 
     // try to correct the format of input after losing focus
@@ -25,8 +25,8 @@
     // tries to parse signed integer from value
     function updateValue() {
         value = NaN                 // force rerender even if the value resolves to the same value
-        value = baseToIntWrapper(stringValue, $settings.selectedFormat, parseInt(bits))
-        console.log("new value", value, stringValue)
+        value = formattedStringToInt(stringValue, $settings.selectedFormat, parseInt(bits))
+        // console.log("new value", value, stringValue)
     }
 
     function focusIn(e) {

@@ -39,6 +39,7 @@
 <!--        <Register bind:value={$registers.pf} bits="1" label="pf" tooltip={$_('tooltips.registers.pf')} bcolor="#008BC0"/>-->
 <!--        <Register bind:value={$registers.af} bits="1" label="af" tooltip={$_('tooltips.registers.af')} bcolor="#008BC0"/>-->
         <Register bind:value={$registers.zf} bits="1" label="zf" tooltip={$_('tooltips.registers.zf')} bcolor="#008BC0"/>
+        <Register value="-128" bits="8" label="8b" tooltip={$_('tooltips.registers.zf')} bcolor="#008BC0"/>
 <!--        <Register bind:value={$registers.sf} bits="1" label="sf" tooltip={$_('tooltips.registers.sf')} bcolor="#008BC0"/>-->
 <!--        <Register bind:value={$registers.tf} bits="1" label="tf" tooltip={$_('tooltips.registers.tf')} bcolor="#008BC0"/>-->
 <!--        <Register bind:value={$registers.if} bits="1" label="if" tooltip={$_('tooltips.registers.if')} bcolor="#008BC0"/>-->

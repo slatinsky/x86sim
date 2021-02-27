@@ -1,151 +1,109 @@
 // all integers stored are signed shorts if else not specified
 import type {typeBase, typeSelectedFormat} from "./types/types";
-import error from "svelte/types/compiler/utils/error";
+import {parseInt as baseConverter} from 'all-your-base';
 
+/**
+ * converts signed integer to unsigned integer
+ */
 function signedToUnsignedInt(signedInt, bits) {
     if (bits === 16) {
         // more info https://stackoverflow.com/a/26537349/14409632
         return (new Uint16Array([signedInt]))[0]
     }
+    else if (bits === 8) {
+        return (new Uint8Array([signedInt]))[0]
+    }
     else if (bits === 1){
-        return signedInt
+        return Math.abs(signedInt)
+    }
+    else if (bits === 32) {
+        return (new Uint32Array([signedInt]))[0]
     }
     else {
-        console.error('signedToUnsignedInt - unsuported bits amount - ', bits)
+        alert('signedToUnsignedInt - unsupported bits amount - ' +  bits)
         return signedInt
     }
 }
 
+/**
+ * converts unsigned integer to signed integer
+ */
 function unsignedToSignedInt(unsignedInt, bits) {
     if (bits === 16) {
         return (new Int16Array([unsignedInt]))[0]
     }
+    else if (bits === 8) {
+        return (new Int8Array([unsignedInt]))[0]
+    }
     else if (bits === 1){
         return unsignedInt
     }
+    else if (bits === 32) {
+        return (new Int32Array([unsignedInt]))[0]
+    }
     else {
-        console.error('unsignedToSignedInt - unsuported bits amount - ', bits)
+        alert('unsignedToSignedInt - unsupported bits amount - ' +  bits)
         return unsignedInt
     }
 }
 
-// How is overflow handled?:
-// signed -> unsigned
-// calculate division remainder
-// unsigned -> signed
+/**
+ * Calculates overflow in signed integer based on available bits
+ */
 function handleOverflow(signedInt, bits) {
+    // How is overflow handled?:
+    // signed -> unsigned
+    // calculate division remainder
+    // unsigned -> signed
     let unsignedInt = signedToUnsignedInt(signedInt, bits)
     let unsignedIntWithoutOverflow = unsignedInt % Math.pow(2, bits)
     let signedIntWithoutOverflow = unsignedToSignedInt(unsignedIntWithoutOverflow, bits)
     return signedIntWithoutOverflow
 }
 
-// unsigned parameter is used only if base is 10
-function intToBase(int, base: typeBase= 16, bits = 16, isDecSigned= false) {
-    // signed char range -128 to 127
-    // signed short range -32,768 to 32,767
-    // Math.pow(2, 15) = 32768
-    // Math.pow(2, 16) = 65536
-
-    // int = (int + Math.pow(2, bits - 1)) % Math.pow(2, bits) - Math.pow(2, bits - 1)
+/**
+ * signed integer to formatted string
+ */
+export function intToFormattedString(int: number, selectedFormat: typeSelectedFormat, bits: number) {
+    const [base, isDecSigned] = splitSelectedFormat(selectedFormat)
     int = handleOverflow(int, bits)
-    // TODO: return overflow bool alongside value if int before and after is different
-
-    if (base === 16) {
-        let unsignedInt = signedToUnsignedInt(int, bits)
-        return unsignedInt.toString(16).padStart(Math.ceil(bits / 4), '0')
-    } else if (base === 10) {
-        if (!isDecSigned) {
-            return signedToUnsignedInt(int, bits)
-        }
-        else {
-            return int
-        }
-    } else if (base === 2) {
-        let unsignedInt = signedToUnsignedInt(int, bits)
-        return unsignedInt.toString(2).padStart(bits, '0')
+    if (base === 10 && isDecSigned) {
+        return int.toString()
+    }
+    else if (base === 10 && !isDecSigned) {
+        return signedToUnsignedInt(int, bits).toString()
     }
     else {
-        console.error("baseToInt - unsupported base:", base)
-        return NaN
+        // console.log("intToBaseWrapper", int, 10, base)
+        let formattedString = baseConverter(signedToUnsignedInt(int, bits), 10, base)
+        if (formattedString === "")
+            return "0"
+        else
+            return formattedString
     }
 }
 
-
-
-function baseToInt(baseString, base: typeBase = 16, bits = 16, isDecSigned= false) {
-    let characterBlacklistRegex;
-    let allowedCharacterCount;
-
-
-    // --- settings based on parameters ---
-
-    if (base === 16) {
-        isDecSigned = false
-        // remove characters other than numbers and a-f
-        characterBlacklistRegex = /[^0-9a-f]/gm
-        allowedCharacterCount = Math.ceil(bits / 4)
+/**
+ * formatted string to signed integer
+ */
+export function formattedStringToInt(baseString: string, selectedFormat: typeSelectedFormat, bits: number) {
+    const [base, isDecSigned] = splitSelectedFormat(selectedFormat)
+    let parsedValue
+    if (base === 10 && isDecSigned) {
+        // signed int (in base 10) is default - just convert string to int
+        parsedValue = parseInt(baseString)
     }
-    else if (base === 2) {
-        isDecSigned = false
-        characterBlacklistRegex = /[^0-1]/gm
-        allowedCharacterCount = bits
-    }
-    else if (base === 10) {
-        if (isDecSigned) {
-            characterBlacklistRegex = /[^0-9]/gm
-        }
-        else {
-            characterBlacklistRegex = /[^0-9-]/gm
-        }
+    else if (base === 10 && !isDecSigned) {
+        // convert unsigned int (represented as string) to signed int
+        parsedValue = unsignedToSignedInt(parseInt(baseString), bits)
     }
     else {
-        console.error("baseToInt - unsupported base:", base)
-        return NaN
+        // console.log("baseToIntWrapper", baseString, base, 10)
+        let convertedInt = baseConverter(baseString, base, 10)
+        parsedValue = unsignedToSignedInt(convertedInt, bits)
     }
-
-    // --- run convertion ---
-
-    let newValue = baseString
-
-
-    //convert to string if it isn't already string
-    newValue = newValue.toString()
-
-    // remove disallowed characters
-    newValue = newValue.replaceAll(characterBlacklistRegex, '')
-
-    // remove zeros from the beginning
-    newValue = newValue.replaceAll(/^0+/gm, '')
-
-
-    if (allowedCharacterCount) {
-        // allow only first x characters
-        newValue = newValue.substring(0, allowedCharacterCount)
-    }
-
-    // if resulting string value is empty string, make it zero
-    if (newValue.length === 0) {
-        newValue = '0'
-    }
-
-    // parse string to integer
-    let newValueInteger = parseInt(newValue, base)
-    return newValueInteger
-
-    //TODO: handle unsigned to signed convertion
-}
-
-
-export function intToBaseWrapper(int: number, selectedFormat: typeSelectedFormat, bits: number) {
-    const [base, isDecSigned] = splitSelectedFormat(selectedFormat)
-    return intToBase(int, base, bits, isDecSigned)
-}
-
-
-export function baseToIntWrapper(baseString: string, selectedFormat: typeSelectedFormat, bits: number) {
-    const [base, isDecSigned] = splitSelectedFormat(selectedFormat)
-    return baseToInt(baseString, base, bits, isDecSigned)
+    // return parsedValue
+    return handleOverflow(parsedValue, bits)
 }
 
 
@@ -194,3 +152,20 @@ function mergeSelectedFormat(base: typeBase, decSigned: boolean): typeSelectedFo
         return 'signed'
     }
 }
+
+// TODO: port ugly tests to test library
+// console.log("test 1", signedToUnsignedInt(-1, 16), "=", 65535)
+// console.log("test 2", unsignedToSignedInt(65535, 16), "=", -1)
+// console.log("test 3", formattedStringToInt('fe0c', 'hex', 16), "=", -500)
+// console.log("test 4", formattedStringToInt('ffff', 'hex', 16), "=", -1)
+// console.log("test 5", formattedStringToInt('8000', 'hex', 16), "=", -32768)
+// console.log("test 6", formattedStringToInt('7fff', 'hex', 16), "=", 32767)
+// console.log("test 7", intToFormattedString(-500, 'hex', 16), "=", 'fe0c')
+// console.log("test 8", intToFormattedString(-1, 'hex', 16), "=", 'ffff')
+// console.log("test 9", intToFormattedString(-32768, 'hex', 16), "=", '8000')
+// console.log("test 10", intToFormattedString(32767, 'hex', 16), "=", '7fff')
+//
+// console.log("test 11", formattedStringToInt('0', 'unsigned', 16), "=", 0)
+// console.log("test 12", formattedStringToInt('65535', 'unsigned', 16), "=", -1)
+// console.log("test 13", intToFormattedString(0, 'unsigned', 16), "=", '0')
+// console.log("test 14", intToFormattedString(-1, 'unsigned', 16), "=", '65535')
