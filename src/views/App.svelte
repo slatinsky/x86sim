@@ -75,7 +75,7 @@
 				<Memory />
 			</div>
 			<div>
-				<SimpleMemory />
+<!--				<SimpleMemory />-->
 			</div>
 			<div>
 				<Screen />

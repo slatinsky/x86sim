@@ -18,15 +18,16 @@
     <b>{$_('views.modules.memory')}:</b><br>
     {#if $memory}
         {#each $memory as memoryCell, address}
-
-            <span>
-                {#if address % 4 === 0}
-                    <b>{address}</b>
+            {#if address < 32}
+                <span>
+                    {#if address % 4 === 0}
+                        <b>{address}</b>
+                    {/if}
+                    <FormatInput bind:value={memoryCell} bits="16" />
+                </span>
+                {#if address % 4 === 3}
+                    <br>
                 {/if}
-                <FormatInput bind:value={memoryCell} bits="16" />
-            </span>
-            {#if address % 4 === 3}
-                <br>
             {/if}
         {/each}
     {/if}

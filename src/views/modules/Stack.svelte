@@ -2,7 +2,6 @@
     import { fade } from 'svelte/transition';
     import {onMount, afterUpdate} from 'svelte';
     import Register from "./Register.svelte";
-    import * as animateScroll from "svelte-scrollto";
     import {memory, registers, settings} from "../../stores/stores";
     import { _} from 'svelte-i18n'
     import {intToFormattedString} from "../../formatConverter";
@@ -10,6 +9,8 @@
 
     let stack = []
 
+    let STACK_UPPER_BORDER = 32
+    let STACK_LOWER_BORDER = 256
 
     // does address referenced by stack pointer exist in stack?
     // $: spAddressExistsInStack = stack.filter(stackItem => stackItem.address === $sp).length
@@ -20,12 +21,25 @@
 
     function scrollToSP() {
         if (spAddressExistsInStack) {
-            // https://www.npmjs.com/package/svelte-scrollto
-            animateScroll.scrollTo({
-                container: '#stack',
-                element: '.stackSP',
-                offset: -150
-            })
+            let stackSPel = document.getElementById("stackSP")
+            if (stackSPel !== null) {
+                // spAddressExistsInStack = true
+                if (stackSPel?.scrollIntoViewIfNeeded) {  // not supported in every browser
+                    stackSPel?.scrollIntoViewIfNeeded(true);
+                }
+                else {
+                    try {
+                        stackSPel?.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
+                    } catch (error) {  // safari + older browsers - https://stackoverflow.com/a/52393930/14409632
+                        //fallback to prevent browser crashing
+                        stackSPel?.scrollIntoView(true)
+                    }
+
+                }
+            }
+            else {
+                // spAddressExistsInStack = false
+            }
         }
     }
 
@@ -87,9 +101,9 @@
     </div>
     <div id="stack">
         {#each $memory as value, address}
-            {#if address > $registers.sp - 10 && address < $registers.sp + 20}
+            {#if address > $registers.sp - STACK_UPPER_BORDER && address < $registers.sp + STACK_LOWER_BORDER}
                 {#if address === $registers.sp}
-                    <span class="stackSP">
+                    <span id="stackSP">
                         <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="red" largeSquare={true}/>
                     </span>
                 {:else if address === $registers.bp}
@@ -99,6 +113,11 @@
                 {:else}
                     <Register bind:value={value} bits="16" label={intToFormattedString(address, $settings.selectedFormat, 16)} bcolor="darkslategray" largeSquare={true}/>
                 {/if}
+            {/if}
+            {#if address === $registers.sp + STACK_LOWER_BORDER}
+                <div>
+                    <b>Entire stack is not shown, because it is larger than {STACK_LOWER_BORDER}</b>
+                </div>
             {/if}
         {/each}
     </div>

@@ -32,7 +32,6 @@
     "svelte-check": "^1.1.36",
     "svelte-i18n": "^3.3.6",
     "svelte-preprocess": "^4.6.9",
-    "svelte-scrollto": "^0.2.0",
     "svelte-toast": "^1.0.0",
     "svelte-tooltip": "^1.2.0",
     "tslib": "^2.1.0",
