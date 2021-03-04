@@ -107,12 +107,15 @@ class Compiler {
         }
     }
 
-    pushToHistory() {
-        let snapshot = {
+    makeSnapshot() {
+        return {
             registers: registers.reduce(),
             memory: memory.reduce(),
         }
+    }
 
+    pushToHistory() {
+        let snapshot = this.makeSnapshot()
         this.history.push(snapshot)
     }
 
@@ -141,6 +144,7 @@ class Compiler {
 
 
     run() {
+        clearTimeout(this.nextStepTimeout)  // in case user double click the button before it is disabled
         setProgramIsRunning(true)
         // TODO: don't execute more, if we are at the end
 
@@ -148,7 +152,20 @@ class Compiler {
 
         if (codeExecutionDelay <= 0) {
             for (let i=0; i < MAX_EXECUTED_INSTRUCTION_COUNT; i++) {
-                this.step()
+                try {
+                    this.step()
+                }
+                catch (e) {
+                    setProgramIsRunning(false)
+                    if (e !== "keyboard_buffer_empty") {
+                        console.log("Runtime error: " + JSON.stringify(e))
+                    }
+                    else {
+                        setTimeout(this.run.bind(this), 50)  // keyboard buffer is empty now, try to check again in 50 ms
+                    }
+                    break
+                }
+
 
                 if (get(currentlyExecutedLine) === -1) {
                     break
@@ -169,7 +186,16 @@ class Compiler {
         }
 
         else {
-            this.step()
+            try {
+                this.step()
+            }
+            catch (e) {
+                setProgramIsRunning(false)
+                if (e !== "keyboard_buffer_empty") {
+                    console.log("Runtime error: " + JSON.stringify(e))
+                }
+                this.history.pop()  // undo
+            }
             if (get(currentlyExecutedLine) === -1) {
                 setProgramIsRunning(false)
                 return

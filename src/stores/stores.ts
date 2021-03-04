@@ -3,6 +3,7 @@ import {code, currentlyExecutedLine, compiledInstructions, debugMode, programIsR
 import {programs, projectName} from "./programs"
 import {registers} from "./registers"
 import {memory} from "./memory"
+import {writable} from "svelte/store";
 
 // note: code in this file runs only one
 
@@ -25,4 +26,6 @@ memory.subscribe(_ => {
 export {registers, memory, programs, projectName, code, currentlyExecutedLine, compiledInstructions, debugMode, programIsRunning}
 export {settings} from "./settings"
 export {appState} from "./appState"
+
+export let keycodes = writable([])
 

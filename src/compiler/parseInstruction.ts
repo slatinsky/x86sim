@@ -133,7 +133,7 @@ const prepareOperand = (location: string): Operand => {
         }
     }
     // if location is number only
-    else if (/^[0-9]+$/i.test(location)) {
+    else if (/^-?[0-9]+$/i.test(location)) {
         let value = parseInt(location)
         return {
             get: (): number => value,

@@ -19,9 +19,8 @@ import pop from "./pop";
 import jmp from "./jmp";
 import test from "./test";
 import je from "./je";
-import jz from "./je";
 import jne from "./jne";
-import jnz from "./jne";
+import input from "./in";  // in is special keyword in javascipt
 
 
 export const jumps = {
@@ -42,9 +41,10 @@ export const opcodes = {
     jmp,
     test,
     je,
-    jz,
+    jz: je,
     jne,
-    jnz,
+    jnz: jne,
+    in: input,
 }
 
 export const opcodes_0_operands = []
