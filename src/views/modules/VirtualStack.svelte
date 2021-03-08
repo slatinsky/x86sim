@@ -4,14 +4,11 @@
     // documentation https://github.com/sveltejs/svelte-virtual-list
     import VirtualList from '@sveltejs/svelte-virtual-list';
     import {MEMORY_SIZE} from "../../stores/config";
-    import {range} from "lodash-es";
 
     // const things = [...Array(500).keys()].map(value => {
     //     return { name: value, number: value }
     // })
-    // const rangeOfIntegers = [...Array(MEMORY_SIZE).keys()]
-    const COLUMNS = 4
-    const rangeOfIntegers = range(0, MEMORY_SIZE, COLUMNS)
+    const rangeOfIntegers = [...Array(MEMORY_SIZE).keys()]
 
     let start
     let end
@@ -29,16 +26,11 @@
 <div class="virtualContainer">
     <VirtualList items={rangeOfIntegers} let:item={index} bind:start bind:end>
         <!-- this will be rendered for each currently visible item -->
-        <div>
-            <b>{index}</b>
-            {#each Array(COLUMNS) as _, offset}
-                {#if $memory.hasOwnProperty(index + offset)}
-                    <span>{$memory[index + offset]} </span>
-                {:else}
-                    <span>0 </span>
-                {/if}
-            {/each}
-        </div>
+        {#if $memory.hasOwnProperty(index)}
+            <div><b>{index}</b> {$memory[index]}</div>
+        {:else}
+            <div><b>{index}</b> 0</div>
+        {/if}
 
     </VirtualList>
     <p>showing {start}-{end} of {MEMORY_SIZE} rows</p>

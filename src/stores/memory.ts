@@ -41,7 +41,15 @@ function createMemory() {
         reset: () => {
             set({})
         },
-        get: (address: number): number => get(thisStore)[address],
+        get: (address: number): number => {
+            let memoryObj = get(thisStore)
+                if (memoryObj.hasOwnProperty(address)) {
+                    return memoryObj[address]
+                }
+                else {
+                    return 0
+                }
+        },
         reduce: (fullMemoryArray) => {  // returns copy of memory object
             return Object.assign({}, get(thisStore))
         },
