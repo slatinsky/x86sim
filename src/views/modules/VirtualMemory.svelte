@@ -1,5 +1,5 @@
 <script>
-    import {memory} from "../../stores/stores";
+    import {memory, programs} from "../../stores/stores";
 
     // documentation https://github.com/sveltejs/svelte-virtual-list
     import VirtualList from '@sveltejs/svelte-virtual-list';
@@ -15,6 +15,25 @@
 
     let start
     let end
+
+    import Toast from "../components/toast";
+    const toast = new Toast()
+
+    function changeValue(address) {
+        let currentValue = memory.get(address)
+        console.log(address, currentValue)
+
+        let newValue = parseInt(prompt(`Prosím zadajte novú hodnotu pre adresu ${address}`, currentValue));
+
+        if (newValue != null && Number.isInteger(newValue)) {
+            memory.set(address, newValue)  // TODO: handle convertion and overflow
+        }
+        else {
+            toast.error(`Zmena hodnoty neúspešná`)
+        }
+    }
+
+    // TODO: implement scroll to index: https://svelte.dev/repl/bdf5ceb63f6e45f7bb14b90dbd2c11d9?version=3.35.0
 </script>
 
 <style>
@@ -41,7 +60,11 @@
     }
 
     .hexEditorRow-cell {
+        color: var(--text-color);
         width: 80px;
+    }
+    .hexEditorRow-cell:hover {
+        background-color: var(--active-secondary-background);
     }
 </style>
 
@@ -55,9 +78,9 @@
 
             {#each Array(COLUMNS) as _, offset}
                 {#if $memory.hasOwnProperty(index + offset)}
-                    <div class="hexEditorRow-cell">{$memory[index + offset]} </div>
+                    <div class="hexEditorRow-cell" on:click={() => changeValue(index + offset)}>{$memory[index + offset]} </div>
                 {:else}
-                    <div class="hexEditorRow-cell">0 </div>
+                    <div class="hexEditorRow-cell" on:click={() => changeValue(index + offset)}>0 </div>
                 {/if}
             {/each}
         </div>
