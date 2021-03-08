@@ -33,6 +33,8 @@
 	import Memory from "./modules/Memory.svelte";
 	import Keyboard from "./modules/Keyboard.svelte";
 	import SimpleMemory from "./modules/SimpleMemory.svelte";
+	import VirtualMemory from "./modules/VirtualMemory.svelte";
+	import {memory} from "../stores/stores";
 
 
 	$: {
@@ -43,6 +45,8 @@
 		}
 		console.log('darkTheme', $settings.darkTheme)
 	}
+
+
 </script>
 
 <style>
@@ -71,13 +75,16 @@
 			<CodeEditor />
 			<div>
 				<Registers />
-				<Stack />
-				<Memory />
+<!--				<Stack />-->
+<!--				<Memory />-->
+
 			</div>
 			<div>
 <!--				<SimpleMemory />-->
 			</div>
 			<div>
+				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>
+				<VirtualMemory />
 				<Screen />
 				<Keyboard />
 			</div>
