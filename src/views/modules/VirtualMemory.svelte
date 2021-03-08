@@ -23,19 +23,41 @@
         border-bottom: 1px solid #333;
         min-height: 200px;
         height: calc(100vh - 15em);
+
+        max-width: 320px;
+    }
+
+    .hexEditorRow {
+        display: flex;
+
+        justify-content: space-between;
+    }
+
+    .hexEditorRow-address {
+        display: flex;
+        width: 80px;
+        justify-content: flex-end;
+        margin-right: 1rem;
+    }
+
+    .hexEditorRow-cell {
+        width: 80px;
     }
 </style>
 
 <div class="virtualContainer">
-    <VirtualList items={rangeOfIntegers} let:item={index} bind:start bind:end>
+    <VirtualList items={rangeOfIntegers} let:item={index} bind:start bind:end itemHeight={24}>
         <!-- this will be rendered for each currently visible item -->
-        <div>
-            <b>{index}</b>
+        <div class="hexEditorRow">
+            <div class="hexEditorRow-address">
+                <b>{index}:</b>
+            </div>
+
             {#each Array(COLUMNS) as _, offset}
                 {#if $memory.hasOwnProperty(index + offset)}
-                    <span>{$memory[index + offset]} </span>
+                    <div class="hexEditorRow-cell">{$memory[index + offset]} </div>
                 {:else}
-                    <span>0 </span>
+                    <div class="hexEditorRow-cell">0 </div>
                 {/if}
             {/each}
         </div>

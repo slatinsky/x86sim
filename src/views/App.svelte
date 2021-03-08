@@ -84,7 +84,7 @@
 			</div>
 			<div>
 				<Keyboard />
-				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>
+<!--				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>-->
 				<VirtualMemory />
 				<Screen />
 			</div>
