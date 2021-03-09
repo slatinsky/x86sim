@@ -43,33 +43,48 @@
         min-height: 200px;
         height: calc(100vh - 15em);
 
-        max-width: 320px;
+        max-width: 500px;
+        font-family: monospace;
     }
 
     .hexEditorRow {
         display: flex;
 
-        justify-content: space-between;
+        justify-content: flex-start;
     }
 
     .hexEditorRow-address {
         display: flex;
-        width: 80px;
+        min-width: 80px;
         justify-content: flex-end;
         margin-right: 1rem;
     }
 
     .hexEditorRow-cell {
         color: var(--text-color);
-        width: 80px;
+        min-width: 5ch;
     }
-    .hexEditorRow-cell:hover {
+    .hexEditorRow-cell:hover,
+    .hexEditorRow-ascii:hover{
         background-color: var(--active-secondary-background);
+    }
+
+    .hexEditorRow-asciiWrapper {
+        display: flex;
+    }
+
+    .hexEditorRow-ascii {
+        color: var(--text-color);
+        min-width: 1ch;
+    }
+
+    .hexEditorRow-ascii-deactivated {
+        color: var(--white-deactivated-text-color);
     }
 </style>
 
 <div class="virtualContainer">
-    <VirtualList items={rangeOfIntegers} let:item={index} bind:start bind:end itemHeight={24}>
+    <VirtualList items={rangeOfIntegers} let:item={index} bind:start bind:end itemHeight={19}>
         <!-- this will be rendered for each currently visible item -->
         <div class="hexEditorRow">
             <div class="hexEditorRow-address">
@@ -83,6 +98,15 @@
                     <div class="hexEditorRow-cell" on:click={() => changeValue(index + offset)}>0 </div>
                 {/if}
             {/each}
+            <div class="hexEditorRow-asciiWrapper">
+                {#each Array(COLUMNS) as _, offset}
+                    {#if $memory.hasOwnProperty(index + offset)}
+                        <div class="hexEditorRow-ascii" on:click={() => changeValue(index + offset)}>{String.fromCharCode($memory[index + offset])} </div>
+                    {:else}
+                        <div class="hexEditorRow-ascii hexEditorRow-ascii-deactivated" on:click={() => changeValue(index + offset)}>.</div>
+                    {/if}
+                {/each}
+            </div>
         </div>
 
     </VirtualList>

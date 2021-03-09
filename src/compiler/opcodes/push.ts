@@ -6,7 +6,6 @@ export default  {
     run: (operand1) => {
         let valueToPush = operand1.get()
         let sp = registers.get('sp')
-        console.log("valueToPush", valueToPush, sp)
         memory.set(sp - 1, valueToPush)
         registers.set('sp', sp - 1)
     },
