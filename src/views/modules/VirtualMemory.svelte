@@ -10,7 +10,7 @@
     //     return { name: value, number: value }
     // })
     // const rangeOfIntegers = [...Array(MEMORY_SIZE).keys()]
-    const COLUMNS = 4
+    const COLUMNS = 16
     const rangeOfIntegers = range(0, MEMORY_SIZE, COLUMNS)
 
     let start
@@ -38,13 +38,14 @@
 
 <style>
     .virtualContainer {
-        border-top: 1px solid #333;
-        border-bottom: 1px solid #333;
+        /*border-top: 1px solid #333;*/
+        /*border-bottom: 1px solid #333;*/
         min-height: 200px;
         height: calc(100vh - 15em);
 
         max-width: 500px;
         font-family: monospace;
+        margin-bottom: 1rem;
     }
 
     .hexEditorRow {
@@ -62,11 +63,18 @@
 
     .hexEditorRow-cell {
         color: var(--text-color);
-        min-width: 5ch;
+        min-width: 3ch;
     }
     .hexEditorRow-cell:hover,
     .hexEditorRow-ascii:hover{
         background-color: var(--active-secondary-background);
+    }
+
+    .hexEditorRow-legend {
+        font-weight: bold;
+    }
+    .hexEditorRow-legend:hover {
+        background-color: var(--body-background);
     }
 
     .hexEditorRow-asciiWrapper {
@@ -84,11 +92,20 @@
 </style>
 
 <div class="virtualContainer">
+    <div class="hexEditorRow">
+        <div class="hexEditorRow-address"><b>Offset</b></div>
+        {#each Array(COLUMNS) as _, offset}
+            <div class="hexEditorRow-cell hexEditorRow-legend">{offset.toString().padStart(2, '0')}</div>
+        {/each}
+        <div class="hexEditorRow-asciiWrapper hexEditorRow-legend">
+            <div>Decoded text</div>
+        </div>
+    </div>
     <VirtualList items={rangeOfIntegers} let:item={index} bind:start bind:end itemHeight={19}>
         <!-- this will be rendered for each currently visible item -->
         <div class="hexEditorRow">
-            <div class="hexEditorRow-address">
-                <b>{index}:</b>
+            <div class="hexEditorRow-address hexEditorRow-legend">
+                {index}:
             </div>
 
             {#each Array(COLUMNS) as _, offset}
@@ -110,5 +127,5 @@
         </div>
 
     </VirtualList>
-    <p>showing {start}-{end} of {MEMORY_SIZE} rows</p>
+<!--    <p>showing {start}-{end} of {MEMORY_SIZE} rows</p>-->
 </div>
