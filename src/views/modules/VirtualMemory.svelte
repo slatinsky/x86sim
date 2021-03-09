@@ -6,10 +6,6 @@
     import {MEMORY_SIZE} from "../../stores/config";
     import {range} from "lodash-es";
 
-    // const things = [...Array(500).keys()].map(value => {
-    //     return { name: value, number: value }
-    // })
-    // const rangeOfIntegers = [...Array(MEMORY_SIZE).keys()]
     const COLUMNS = 16
     const rangeOfIntegers = range(0, MEMORY_SIZE, COLUMNS)
 
@@ -17,21 +13,58 @@
     let end
 
     import Toast from "../components/toast";
+    import {formattedStringToInt, intToFormattedString} from "../../formatConverter";
     const toast = new Toast()
 
     function changeValue(address) {
-        let currentValue = memory.get(address)
-        console.log(address, currentValue)
+        changeCurrentlyEditedAddress(address)
+        inputElement.focus()
+    }
 
-        let newValue = parseInt(prompt(`Prosím zadajte novú hodnotu pre adresu ${address}`, currentValue));
+    let inputValue
+    let inputElement
+    let currentlyEditedAddress = -1
 
-        if (newValue != null && Number.isInteger(newValue)) {
-            memory.set(address, newValue)  // TODO: handle convertion and overflow
+    function changeCurrentlyEditedAddress(toAddress) {
+        if (toAddress < -1)
+            toAddress = -1
+
+        if (toAddress >= MEMORY_SIZE)
+            toAddress = MEMORY_SIZE -1
+
+        inputValue = ""
+        currentlyEditedAddress = toAddress
+    }
+
+    function changeValueInput(e) {
+        if (e.key === 'Escape') {
+            changeCurrentlyEditedAddress(-1)
         }
-        else {
-            toast.error(`Zmena hodnoty neúspešná`)
+        else if (e.key === 'ArrowDown') {
+            changeCurrentlyEditedAddress(currentlyEditedAddress + COLUMNS)
+        }
+        else if (e.key === 'ArrowUp') {
+            changeCurrentlyEditedAddress(currentlyEditedAddress - COLUMNS)
+        }
+        else if (e.key === 'ArrowLeft') {
+            changeCurrentlyEditedAddress(currentlyEditedAddress - 1)
+        }
+        else if (e.key === 'ArrowRight' || e.key === 'Tab') {
+            changeCurrentlyEditedAddress(currentlyEditedAddress + 1)
+        }
+        else if (e.key === 'Backspace') {
+            inputValue = intToFormattedString(memory.get(currentlyEditedAddress), 'hex', 8).slice(0, -1)
+            memory.set(currentlyEditedAddress, formattedStringToInt(inputValue, 'hex', 8))
+        }
+        if (inputValue.length > 0 && currentlyEditedAddress !== -1) {
+            memory.set(currentlyEditedAddress, formattedStringToInt(inputValue, 'hex', 8))
+
+            if (inputValue.length >= 2) {
+                changeCurrentlyEditedAddress(currentlyEditedAddress + 1)
+            }
         }
     }
+
 
     // TODO: implement scroll to index: https://svelte.dev/repl/bdf5ceb63f6e45f7bb14b90dbd2c11d9?version=3.35.0
 </script>
@@ -42,8 +75,9 @@
         /*border-bottom: 1px solid #333;*/
         min-height: 200px;
         height: calc(100vh - 15em);
+        max-height: 600px;
 
-        max-width: 500px;
+        max-width: 600px;
         font-family: monospace;
         margin-bottom: 1rem;
     }
@@ -63,10 +97,12 @@
 
     .hexEditorRow-cell {
         color: var(--text-color);
-        min-width: 3ch;
+        min-width: 2ch;
+        padding: 0 .5ch;
     }
     .hexEditorRow-cell:hover,
-    .hexEditorRow-ascii:hover{
+    .hexEditorRow-ascii:hover,
+    .hexEditorRow-cell-editing{
         background-color: var(--active-secondary-background);
     }
 
@@ -89,13 +125,27 @@
     .hexEditorRow-ascii-deactivated {
         color: var(--white-deactivated-text-color);
     }
+
+    .focusableHiddenInput {
+        width: 1px;
+        height: 1px;
+        position: absolute;
+        opacity: 0;
+    }
 </style>
 
+{#if currentlyEditedAddress !== -1}
+    <div>Práve editujete pamäť na adrese: {currentlyEditedAddress}. Esc pre ukončenie</div>
+{:else}
+    <br>
+{/if}
+
+<input class="focusableHiddenInput" type="text" bind:value={inputValue} bind:this={inputElement} on:keyup={changeValueInput} on:blur={()=> changeCurrentlyEditedAddress(-1)}>
 <div class="virtualContainer">
     <div class="hexEditorRow">
         <div class="hexEditorRow-address"><b>Offset</b></div>
         {#each Array(COLUMNS) as _, offset}
-            <div class="hexEditorRow-cell hexEditorRow-legend">{offset.toString().padStart(2, '0')}</div>
+            <div class="hexEditorRow-cell hexEditorRow-legend">{intToFormattedString(offset, 'hex', 8).padStart(2, '0')}</div>
         {/each}
         <div class="hexEditorRow-asciiWrapper hexEditorRow-legend">
             <div>Decoded text</div>
@@ -109,11 +159,13 @@
             </div>
 
             {#each Array(COLUMNS) as _, offset}
-                {#if $memory.hasOwnProperty(index + offset)}
-                    <div class="hexEditorRow-cell" on:click={() => changeValue(index + offset)}>{$memory[index + offset]} </div>
-                {:else}
-                    <div class="hexEditorRow-cell" on:click={() => changeValue(index + offset)}>0 </div>
-                {/if}
+                    <div class="hexEditorRow-cell {currentlyEditedAddress === index + offset ? 'hexEditorRow-cell-editing' : ''}" on:click={() => changeValue(index + offset)}>
+                        {#if $memory.hasOwnProperty(index + offset)}
+                            {intToFormattedString($memory[index + offset], 'hex', 8).padStart(2, '0')}
+                        {:else}
+                            00
+                        {/if}
+                    </div>
             {/each}
             <div class="hexEditorRow-asciiWrapper">
                 {#each Array(COLUMNS) as _, offset}
