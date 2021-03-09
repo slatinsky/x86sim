@@ -7,6 +7,7 @@
     import {range} from "lodash-es";
 
     const COLUMNS = 16
+    const ROW_HEIGHT = 19
     const rangeOfIntegers = range(0, MEMORY_SIZE, COLUMNS)
 
     let start
@@ -66,7 +67,14 @@
     }
 
 
-    // TODO: implement scroll to index: https://svelte.dev/repl/bdf5ceb63f6e45f7bb14b90dbd2c11d9?version=3.35.0
+    let virtualContainer
+    let scrollTo
+
+    function jumpToOffset() {
+        if (scrollTo) {
+            virtualContainer.querySelector('.virtualContainer svelte-virtual-list-viewport').scrollTop = scrollTo * ROW_HEIGHT / COLUMNS;
+        }
+    }
 </script>
 
 <style>
@@ -140,8 +148,10 @@
     <br>
 {/if}
 
+
+Skočiť na offset: <input type="number" bind:value={scrollTo} on:keyup={jumpToOffset}>
 <input class="focusableHiddenInput" type="text" bind:value={inputValue} bind:this={inputElement} on:keyup={changeValueInput} on:blur={()=> changeCurrentlyEditedAddress(-1)}>
-<div class="virtualContainer">
+<div class="virtualContainer" bind:this={virtualContainer}>
     <div class="hexEditorRow">
         <div class="hexEditorRow-address"><b>Offset</b></div>
         {#each Array(COLUMNS) as _, offset}
@@ -151,7 +161,7 @@
             <div>Decoded text</div>
         </div>
     </div>
-    <VirtualList items={rangeOfIntegers} let:item={index} bind:start bind:end itemHeight={19}>
+    <VirtualList items={rangeOfIntegers} let:item={index} bind:start bind:end itemHeight={ROW_HEIGHT}>
         <!-- this will be rendered for each currently visible item -->
         <div class="hexEditorRow">
             <div class="hexEditorRow-address hexEditorRow-legend">
