@@ -1,4 +1,5 @@
 <script>
+    import { _} from 'svelte-i18n'
     import {memory, programs, settings} from "../../stores/stores";
 
     // documentation https://github.com/sveltejs/svelte-virtual-list
@@ -148,13 +149,13 @@
 </style>
 
 {#if currentlyEditedAddress !== -1}
-    <div>Práve editujete pamäť na adrese: {intToFormattedString(currentlyEditedAddress, $settings.selectedFormat, 16)}. Esc pre ukončenie</div>
+    <div>{$_('views.memory.currentlyEditing')}: {intToFormattedString(currentlyEditedAddress, $settings.selectedFormat, 16)}. {$_('views.memory.escToExit')}</div>
 {:else}
     <br>
 {/if}
 
 
-Skočiť na offset: <input type="text" bind:value={scrollTo} on:keyup={jumpToOffset}>
+{$_('views.memory.jumpToOffset')}: <input type="text" bind:value={scrollTo} on:keyup={jumpToOffset}>
 <input class="focusableHiddenInput" type="text" bind:value={inputValue} bind:this={inputElement} on:keyup={changeValueInput} on:blur={()=> changeCurrentlyEditedAddress(-1)}>
 <div class="virtualContainer" bind:this={virtualContainer}>
     <div class="hexEditorRow">
@@ -163,7 +164,7 @@ Skočiť na offset: <input type="text" bind:value={scrollTo} on:keyup={jumpToOff
             <div class="hexEditorRow-cell hexEditorRow-legend">{intToFormattedString(offset, $settings.selectedFormat, 8).padStart(2, '0')}</div>
         {/each}
         <div class="hexEditorRow-asciiWrapper hexEditorRow-legend">
-            <div>Decoded text</div>
+            <div>{$_('views.memory.decodedText')}</div>
         </div>
     </div>
     <VirtualList items={rangeOfIntegers} let:item={index} bind:start bind:end itemHeight={ROW_HEIGHT}>

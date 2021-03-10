@@ -73,15 +73,14 @@
 <div>
     <b>{$_('views.modules.keyboard')}
         {#if inputFocused}
-            (currently active)
-        {/if}
-        :</b>
+            ({$_('views.general.currentlyActive')})
+        {/if}:</b>
     <div class="keyboardWrapper">
         <div class="keyboardText {inputFocused ? 'active' : ''}">
             <input class="focusableHiddenInput" type="text" on:focus={()=>inputFocused = true} on:blur={()=>inputFocused = false}  bind:value={alwaysEmptyValue} bind:this={inputElement} on:keydown|preventDefault={keyup}>
-            <p><b>Numeric:</b><br> {keycodesNumeric}&nbsp;</p>
-            <p><b>Ascii:</b><br> {keycodesAscii}&nbsp;</p>
-            <button class="btn btn-outline-secondary {$keycodes.length === 0 ? 'disabled' : ''}" on:click={()=> {$keycodes = []}}>Clear buffer</button>
+            <p><b>{$_('views.keyboard.scanCodes')}:</b><br> {keycodesNumeric}&nbsp;</p>
+            <p><b>{$_('views.keyboard.ascii')}:</b><br> {keycodesAscii}&nbsp;</p>
+            <button class="btn btn-outline-secondary {$keycodes.length === 0 ? 'disabled' : ''}" on:click={()=> {$keycodes = []}}>{$_('views.keyboard.clearBuffer')}</button>
         </div>
         <img class="{inputFocused ? 'active' : ''}" src="/keyboard.png" alt="Keyboard input" on:click={()=>inputElement.focus()}>
     </div>

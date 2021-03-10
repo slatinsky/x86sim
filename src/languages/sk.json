@@ -3,6 +3,9 @@
     "infiniteLoop": "Prevencia nekonečného cyklu: Dosiahnuté maximálne množstvo vykonaných inštrukcií {maxInstructionCount}, pravdepodobne niekde v kóde máte nekonečný cyklus"
   },
   "views": {
+    "general": {
+      "currentlyActive": "aktívne"
+    },
     "navigation": {
       "step": "Krok",
       "stepBack": "Krok späť",
@@ -29,6 +32,17 @@
       "screen": "Obrazovka",
       "keyboard": "Klávesnica",
       "stack": "Zásobník"
+    },
+    "keyboard": {
+      "scanCodes": "Scan kódy",
+      "clearBuffer": "Vyčistiť medzipamäť klávesnice",
+      "ascii": "Dekódovaný text"
+    },
+    "memory": {
+      "jumpToOffset": "Skočiť na offset",
+      "currentlyEditing": "Práve editujete pamäť na adrese",
+      "escToExit": "Esc pre ukončenie",
+      "decodedText": "Dekódovaný text"
     }
   },
   "tooltips": {

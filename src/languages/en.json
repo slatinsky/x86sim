@@ -3,6 +3,9 @@
     "infiniteLoop": "Infinite loop prevention: You have reached max amount of executed instructions {maxInstructionCount}, probably somewhere in your code you have infinite loop"
   },
   "views": {
+    "general": {
+      "currentlyActive": "active"
+    },
     "navigation": {
       "step": "Step",
       "stepBack": "Step back",
@@ -29,6 +32,17 @@
       "screen": "Screen",
       "keyboard": "Keyboard",
       "stack": "Stack"
+    },
+    "keyboard": {
+      "scanCodes": "Scan codes",
+      "clearBuffer": "Clear buffer",
+      "ascii": "Decoded text"
+    },
+    "memory": {
+      "jumpToOffset": "Jump to offset",
+      "currentlyEditing": "You are currently editing address",
+      "escToExit": "Esc to exit",
+      "decodedText": "Decoded text"
     }
   },
   "tooltips": {
