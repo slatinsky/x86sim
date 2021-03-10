@@ -4,20 +4,20 @@
     import {memory} from "../../stores/stores";
     import {signedToUnsignedInt} from "../../formatConverter";
 
-    let OFFSET = 10  // from which memory address is screen mapped
-    let COLUMNS = 60
-    let ROWS = 10
+    let OFFSET = 0  // from which memory address is screen mapped
+    let COLUMNS = 80
+    let ROWS = 25
     const addresses = range(OFFSET, OFFSET + COLUMNS * ROWS * 2, 2)
 
     function getColorsClasses(signedByteInt) {
+        if (!signedByteInt)
+            return
+
         let byteInt = signedToUnsignedInt(signedByteInt, 8)
 
         // 4 bits = 16 color combinations
-        console.log("byteInt", byteInt)
         let backgroundColor = (byteInt & 0xf0) >>> 4
         let foregroundColor = byteInt & 0x0f
-        console.log("backgroundColor", backgroundColor)
-        console.log("foregroundColor", foregroundColor)
 
         return `color-${foregroundColor} b-color-${backgroundColor}`
     }
@@ -28,15 +28,15 @@
 <style>
     #screen {
         display: grid;
-        grid-template-columns: repeat(60, 1ch); /* 60 = COLUMNS */
+        grid-template-columns: repeat(80, 1ch); /* 80 = COLUMNS */
 
         background-color: black;
         padding: .5rem .5rem;
+        width: calc(80ch + 2 * .5rem);
 
         font-family: monospace;
-        font-size: 16px;
+        font-size: 13px;
         text-align: left;
-
     }
 
     /* colors from http://www.osdever.net/bkerndev/Docs/printing.htm */
@@ -139,17 +139,17 @@
     }
 </style>
 
-<!--TODO: screen rendering is slow, optimize-->
-
 <div>
     <b>{$_('views.modules.screen')}:</b><br>
     <div id="screen">
         {#each addresses as address}
-            {#if $memory.hasOwnProperty(address + 1)}
-                <span class="{getColorsClasses($memory?.[address] ?? 0)}">{String.fromCharCode($memory[address + 1])}</span>
-            {:else}
-                <span class="{getColorsClasses($memory?.[address] ?? 0)}">&nbsp;</span>
-            {/if}
+            <span class="{getColorsClasses($memory?.[address])}">
+                {#if $memory.hasOwnProperty(address + 1)}
+                    {String.fromCharCode($memory[address + 1])}
+                {:else}
+                    &nbsp;
+                {/if}
+            </span>
         {/each}
     </div>
 </div>
