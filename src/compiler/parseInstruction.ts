@@ -108,9 +108,14 @@ function splitInstruction(instruction: string): any {
 // if current instruction is label, it contains ':' character at the end
 // pass in cleaned instruction by cleanupWhitespaceAndComments()
 function isLabel(instruction: string): boolean {
-    return /:$/.test(instruction)
+    return /(:| proc)$/.test(instruction)
 }
 
+
+
+function parseLabel(line: string): string {
+    return line.replace(/(:| proc)$/, '')
+}
 
 // fetches the correct values from location supplied
 // location: string
@@ -317,8 +322,10 @@ pop ${tempRegisterName}`
 }
 
 
-function parseLabel(line: string): string {
-    return line.replace(/:$/, '')
+
+// ignore unnecessary lines
+function isUnnecessaryLine(cleanedLine) {
+    return /^endp$/.test(cleanedLine)
 }
 
 // splits instruction to opcode and operands
@@ -337,6 +344,9 @@ export const parseInstructionList = (instructionList: string): any => {
         let cleanedLine = cleanupWhitespaceAndComments(originalLine)
 
         if (cleanedLine === "")  // ignore empty lines
+            return
+
+        if (isUnnecessaryLine(cleanedLine))  // ignore unnecessary lines
             return
 
         if (isLabel(cleanedLine)) {

@@ -14,9 +14,9 @@
         else {
             lines = []
         }
-
-
     }
+
+    // how is written to screen memory using assembly: https://retrocomputing.stackexchange.com/questions/3053/how-to-write-directly-to-video-memory-in-ms-dos
 </script>
 
 <style>

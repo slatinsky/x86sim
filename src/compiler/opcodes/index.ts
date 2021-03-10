@@ -20,6 +20,8 @@ import jmp from "./jmp";
 import test from "./test";
 import je from "./je";
 import jne from "./jne";
+import ret from "./ret";
+import call from "./call";
 import input from "./in";  // in is special keyword in javascipt
 
 
@@ -41,6 +43,8 @@ export const opcodes = {
     jmp,
     test,
     je,
+    ret,
+    call,
     jz: je,
     jne,
     jnz: jne,

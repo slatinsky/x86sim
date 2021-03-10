@@ -50,7 +50,11 @@
         else if (e.key === 'ArrowLeft') {
             changeCurrentlyEditedAddress(currentlyEditedAddress - 1)
         }
-        else if (e.key === 'ArrowRight' || e.key === 'Tab') {
+        else if (e.key === 'ArrowRight') {
+            changeCurrentlyEditedAddress(currentlyEditedAddress + 1)
+        }
+        else if (e.key === 'Delete') {
+            memory.set(currentlyEditedAddress, 0)
             changeCurrentlyEditedAddress(currentlyEditedAddress + 1)
         }
         else if (e.key === 'Backspace') {
@@ -165,7 +169,7 @@ Skočiť na offset: <input type="number" bind:value={scrollTo} on:keyup={jumpToO
         <!-- this will be rendered for each currently visible item -->
         <div class="hexEditorRow">
             <div class="hexEditorRow-address hexEditorRow-legend">
-                {index}:
+                {intToFormattedString(index, 'hex', 16)}:
             </div>
 
             {#each Array(COLUMNS) as _, offset}

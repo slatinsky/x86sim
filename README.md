@@ -4,6 +4,24 @@ Simulator of x86 intel computer in the real mode.
 
 Made in [svelte](https://svelte.dev/) - [sveltejs/component-template](https://github.com/sveltejs/component-template)
 
+
+## User guide
+### Code editor
+**Keybings**
+https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts
+
+### Added functionality to code editor
+Add/remove breakpoint by clicking next to line number
+
+### Memory editor
+**Keybings**
+
+ - ArrowDown ArrowUp ArrowLeft ArrowRight -> change currently edited memory adress using keyboard
+ - Delete -> set current memory cell to zero and move to next address
+ - Escape -> exits from exitation mode
+ - Backspace -> removes the least significant digit and shifts the value by one character
+ - [0-9a-f] -> change value. Moves automatically to the next memory address if necessary
+
 ## Installation guide
 ### Development environment
 #### First setup
