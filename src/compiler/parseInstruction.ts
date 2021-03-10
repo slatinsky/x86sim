@@ -10,6 +10,7 @@ interface Operand {
     setWithFlags(valueToSet: number): void,
 
     type: "immediate" | "register" | "memory" | "jump";
+    labelName?: string
 }
 
 interface PreparedOperand {
@@ -23,7 +24,7 @@ interface PreparedInstruction {
     operands?: Operand[]
 }
 
-let DEBUG = false
+let DEBUG = true
 
 function cleanupWhitespaceAndComments(instruction: string): string {
     /*
@@ -232,7 +233,8 @@ function prepareLabel(labelName: string, labels: any[]): Operand {
         setWithFlags: (valueToSet: number): void => {
             throw `ERROR: Cannot set label`
         },
-        type: "jump"
+        type: "jump",
+        labelName: labelName
     }
 }
 
@@ -328,6 +330,93 @@ function isUnnecessaryLine(cleanedLine) {
     return /^endp$/.test(cleanedLine)
 }
 
+/**
+ * Checks if
+ * - declared labels that are never used exists
+ * - if labels can somewhere be called that don't exist yet
+ * - if any label is declared more than once
+ * @param labels
+ * @param instructions
+ * @param errors
+ */
+function checkLabels(labels, instructions, errors) {
+    let labelNameAndEditorLineMap = []  // we need to know, which label is on which line in editor, so we can map errors back to line numbers
+    let labelNamesFromLabels: string[]= labels.map(label => {
+        labelNameAndEditorLineMap.push({
+            line: label.line,
+            labelName: label.labelName
+        })
+        return label.labelName
+    })
+    let labelNamesFromJumps: string[] = instructions.filter(instruction => instruction.parsed.operands?.[0]?.type === "jump" && instruction.parsed.operands[0].labelName)  // if it is jump/call instruction
+        .map(instruction => {
+            labelNameAndEditorLineMap.push({
+                line: instruction.line,
+                labelName: instruction.parsed.operands[0].labelName
+            })
+            return instruction.parsed.operands[0].labelName
+        })  // get label name, where it jumps
+    labelNamesFromJumps = [...new Set(labelNamesFromJumps)]  // only unique allowed
+
+    // modified https://stackoverflow.com/a/33034768/14409632
+    let allowedLabelNames = labelNamesFromLabels.filter(x => labelNamesFromJumps.includes(x));  // values in both arrays
+
+    let labelErrors = []
+
+    labelNamesFromLabels.map(labelName => {
+        if (!allowedLabelNames.includes(labelName)) {
+            labelErrors.push({
+                labelName: labelName,
+                content: "label " + labelName + " declared, but never used"
+            })
+        }
+    })
+
+    labelNamesFromJumps.map(labelName => {
+        if (!allowedLabelNames.includes(labelName)) {
+            labelErrors.push({
+                labelName: labelName,
+                content: "label " + labelName + " doesn't exist"
+            })
+        }
+    })
+
+    // return only duplicates from array - https://stackoverflow.com/a/32122760/14409632
+    let duplicateLabels = labelNamesFromLabels.filter((e, i, a) => a.indexOf(e) !== i)
+    duplicateLabels.map(labelName => labelErrors.push({
+        labelName: labelName,
+        content: "label " + labelName + " must be defined only once"
+    }))
+
+    console.log("labelErrors", labelErrors)
+    labelErrors.map(labelError => {
+        labelNameAndEditorLineMap.map(labelNameAndEditorLine => {
+            if (labelNameAndEditorLine.labelName === labelError.labelName) {
+                errors.push({
+                    line: labelNameAndEditorLine.line,
+                    content: labelError.content
+                })
+            }
+        })
+    })
+
+    // add labels to the errors editor and find line numbers
+    // let labelErrorsOnlyNames = labelErrors.map(labelError => labelError.labelName)
+    // labels.map(label => {
+    //     if (labelErrorsOnlyNames.includes(label.labelName)) {
+    //         errors.push({
+    //             line: label.line,
+    //             content: "label " + labelName + " declared, but never used"
+    //         })
+    //     }
+    //
+    // })
+
+    if (DEBUG) console.log("labelNamesFromLabels", labelNamesFromLabels)
+    if (DEBUG) console.log("labelNamesFromJumps", labelNamesFromJumps)
+    if (DEBUG) console.log("allowedLabelNames", allowedLabelNames)
+}
+
 // splits instruction to opcode and operands
 // generates array of labels
 export const parseInstructionList = (instructionList: string): any => {
@@ -382,6 +471,13 @@ export const parseInstructionList = (instructionList: string): any => {
             }
         }
     })
+
+    checkLabels(labels, instructions, errors)
+
+
+
+    // let usableLabelNames = arr1.filter(x => arr2.includes(x));
+    // let usableLabelNames = arr1.filter(x => arr2.includes(x));
 
 
     if (DEBUG) console.log("Instructions", instructions)

@@ -6,7 +6,7 @@ export function annotate(editor, code) {
     let annotations = errors.map(error => {
         if (typeof error.content !== 'string') {
             console.error(error)
-            error.content = "CODE PARSER CRASHED while parsing this line.\nPlease report this as bug and include your project files, so it can be fixed. Thanks:\n\n" + error.content.toString() + "\n\n" + error?.message?.toString()
+            error.content = "CODE PARSER CRASHED while parsing this line.\nPlease report this bug on github as issue and include your project files, so it can be fixed. Thanks:\n\n" + error.content.toString() + "\n\n" + error?.message?.toString()
         }
         return {
             row: error.line,
