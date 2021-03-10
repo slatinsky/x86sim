@@ -47,12 +47,17 @@
         top: 1rem;
         left: 1rem;
         z-index: 10;
+        pointer-events: none;
     }
     .keyboardText.active * {
         color: white;
+
     }
 
-
+    .keyboardText button {
+        pointer-events: all;
+    }
+    
     img {
         width: 100%;
         filter: brightness(1.5);
