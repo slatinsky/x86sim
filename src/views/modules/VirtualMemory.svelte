@@ -1,5 +1,5 @@
 <script>
-    import {memory, programs} from "../../stores/stores";
+    import {memory, programs, settings} from "../../stores/stores";
 
     // documentation https://github.com/sveltejs/svelte-virtual-list
     import VirtualList from '@sveltejs/svelte-virtual-list';
@@ -76,7 +76,8 @@
 
     function jumpToOffset() {
         if (scrollTo) {
-            virtualContainer.querySelector('.virtualContainer svelte-virtual-list-viewport').scrollTop = scrollTo * ROW_HEIGHT / COLUMNS;
+            let scrollToInt = formattedStringToInt(scrollTo, $settings.selectedFormat, 32)
+            virtualContainer.querySelector('.virtualContainer svelte-virtual-list-viewport').scrollTop = scrollToInt * ROW_HEIGHT / COLUMNS;
         }
     }
 </script>
@@ -147,19 +148,19 @@
 </style>
 
 {#if currentlyEditedAddress !== -1}
-    <div>Práve editujete pamäť na adrese: {currentlyEditedAddress}. Esc pre ukončenie</div>
+    <div>Práve editujete pamäť na adrese: {intToFormattedString(currentlyEditedAddress, $settings.selectedFormat, 16)}. Esc pre ukončenie</div>
 {:else}
     <br>
 {/if}
 
 
-Skočiť na offset: <input type="number" bind:value={scrollTo} on:keyup={jumpToOffset}>
+Skočiť na offset: <input type="text" bind:value={scrollTo} on:keyup={jumpToOffset}>
 <input class="focusableHiddenInput" type="text" bind:value={inputValue} bind:this={inputElement} on:keyup={changeValueInput} on:blur={()=> changeCurrentlyEditedAddress(-1)}>
 <div class="virtualContainer" bind:this={virtualContainer}>
     <div class="hexEditorRow">
         <div class="hexEditorRow-address"><b>Offset</b></div>
         {#each Array(COLUMNS) as _, offset}
-            <div class="hexEditorRow-cell hexEditorRow-legend">{intToFormattedString(offset, 'hex', 8).padStart(2, '0')}</div>
+            <div class="hexEditorRow-cell hexEditorRow-legend">{intToFormattedString(offset, $settings.selectedFormat, 8).padStart(2, '0')}</div>
         {/each}
         <div class="hexEditorRow-asciiWrapper hexEditorRow-legend">
             <div>Decoded text</div>
@@ -169,7 +170,7 @@ Skočiť na offset: <input type="number" bind:value={scrollTo} on:keyup={jumpToO
         <!-- this will be rendered for each currently visible item -->
         <div class="hexEditorRow">
             <div class="hexEditorRow-address hexEditorRow-legend">
-                {intToFormattedString(index, 'hex', 16)}:
+                {intToFormattedString(index, $settings.selectedFormat, 32)}:
             </div>
 
             {#each Array(COLUMNS) as _, offset}
