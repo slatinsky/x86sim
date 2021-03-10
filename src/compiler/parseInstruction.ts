@@ -24,7 +24,7 @@ interface PreparedInstruction {
     operands?: Operand[]
 }
 
-let DEBUG = true
+let DEBUG = false
 
 function cleanupWhitespaceAndComments(instruction: string): string {
     /*
@@ -388,7 +388,6 @@ function checkLabels(labels, instructions, errors) {
         content: "label " + labelName + " must be defined only once"
     }))
 
-    console.log("labelErrors", labelErrors)
     labelErrors.map(labelError => {
         labelNameAndEditorLineMap.map(labelNameAndEditorLine => {
             if (labelNameAndEditorLine.labelName === labelError.labelName) {
@@ -415,12 +414,48 @@ function checkLabels(labels, instructions, errors) {
     if (DEBUG) console.log("labelNamesFromLabels", labelNamesFromLabels)
     if (DEBUG) console.log("labelNamesFromJumps", labelNamesFromJumps)
     if (DEBUG) console.log("allowedLabelNames", allowedLabelNames)
+    if (DEBUG) console.log("labelErrors", labelErrors)
+}
+
+/**
+ * If the instruction is not in errors, add  address attribute to them
+ * Ignores invalid instructions
+ * Expects input instructions to be in correct order
+ * Also adds address to labels
+ *
+ * Returns updated instructions, where invalid instructions are removed
+ * Returns updated labels with added address attribute
+ */
+function addAddressAttribute(instructions, labels, errors) {
+    const lineNumbersWithErrors = errors.map(error => error.line)
+
+    // add address attribute to instructions
+    let currentAddress = 0
+    instructions = instructions.filter(instruction => {  // filter out invalid instructions
+        let isInstructionValid = !lineNumbersWithErrors.includes(instruction.line)
+
+        if (isInstructionValid) {
+            instruction.address = currentAddress
+            currentAddress += 1
+        }
+
+        return isInstructionValid
+    })
+
+
+    // add address attribute to labels
+    let lineNumbersWithoutErrors = instructions.map(instruction => instruction.line)
+    labels.map(label => {
+        let nextInstructionLine = lineNumbersWithoutErrors.find(lineNumber => lineNumber > label.line)
+        label.address = instructions.find(instruction => instruction.line === nextInstructionLine)?.address ?? (instructions?.[instructions.length - 1].address + 1) // find position based on next instruction ?? handle if no next instruction after label exists
+    })
+
+    return [instructions, labels]
 }
 
 // splits instruction to opcode and operands
 // generates array of labels
 export const parseInstructionList = (instructionList: string): any => {
-    let currentAddress = 0
     let currentLine = -1
     let instructions = []
     let labels = []
@@ -444,7 +479,6 @@ export const parseInstructionList = (instructionList: string): any => {
                 originalLine: originalLine,          // original code line content
                 cleanedLine: cleanedLine,            // cleaned instruction content (normalized whitespace, removed comments)
                 labelName: parseLabel(cleanedLine),
-                address: currentAddress              // label points to address of before the next instruction
             })
         }
         else {  // else is instruction
@@ -458,9 +492,7 @@ export const parseInstructionList = (instructionList: string): any => {
                     originalLine: originalLine,          // original code line
                     cleanedLine: cleanedLine,            // cleaned instruction (normalized whitespace, removed comments)
                     parsed: parsed,
-                    address: currentAddress
                 })
-                currentAddress += 1                      // TODO: variable instruction length
             }
             catch (e) {  // catch any syntax errors during parsing
                 errors.push({
@@ -473,7 +505,9 @@ export const parseInstructionList = (instructionList: string): any => {
     })
 
     checkLabels(labels, instructions, errors)
-
+    let [instructionsNew, labelsNew] = addAddressAttribute(instructions, labels, errors)
+    instructions = instructionsNew
+    labels = labelsNew
 
 
     // let usableLabelNames = arr1.filter(x => arr2.includes(x));
