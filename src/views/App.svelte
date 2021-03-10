@@ -75,6 +75,7 @@
 			<CodeEditor />
 			<div>
 				<Registers />
+				<Screen />
 <!--				<Stack />-->
 <!--				<Memory />-->
 
@@ -86,7 +87,7 @@
 				<Keyboard />
 <!--				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>-->
 				<VirtualMemory />
-				<Screen />
+
 			</div>
 		</div>
 	</div>
