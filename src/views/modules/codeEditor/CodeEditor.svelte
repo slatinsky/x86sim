@@ -227,6 +227,15 @@
         background: rgba(100, 200, 100, 0.5);
         z-index:20
     }
+
+    /* fixes shaking while code is executed - because empty gutter (line number legend) has different size*/
+    :global(.ace_gutter-layer) {
+        min-width: 60px !important;
+    }
+
+    /* fixed ace-dracula theme bug, where selection is not visible */
+    :global(.ace-dracula .ace_marker-layer .ace_selection) {
+        background: #214283 !important;}
 </style>
 
 

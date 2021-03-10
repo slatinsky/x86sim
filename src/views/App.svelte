@@ -60,7 +60,7 @@
 
 	@media (min-width: 992px) {
 		#grid {
-			grid-template-columns: 450px auto auto auto;
+			grid-template-columns: 500px auto auto auto;
 		}
 	}
 </style>
