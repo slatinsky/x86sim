@@ -5,7 +5,7 @@ import {parseInt as baseConverter} from 'all-your-base';
 /**
  * converts signed integer to unsigned integer
  */
-function signedToUnsignedInt(signedInt, bits) {
+export function signedToUnsignedInt(signedInt, bits) {
     if (bits === 16) {
         // more info https://stackoverflow.com/a/26537349/14409632
         return (new Uint16Array([signedInt]))[0]
