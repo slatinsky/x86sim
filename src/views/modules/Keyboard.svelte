@@ -32,15 +32,58 @@
             }
         }).join(' ')
     }
+
+    let inputElement
+    let inputFocused = false
 </script>
 
-<div>
-    <b>{$_('views.modules.keyboard')}:</b>
+<style>
+    .keyboardWrapper {
+        position: relative;
+    }
 
-    <input type="text" bind:value={alwaysEmptyValue} on:keydown|preventDefault={keyup}>
-    <button on:click={()=>$keycodes = []}>Clear buffer</button>
-    <p><b>Numeric:</b><br> {keycodesNumeric}</p>
-    <p><b>Ascii:</b><br> {keycodesAscii}</p>
-    <p>{JSON.stringify($keycodes)}</p>
+    .keyboardText {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 10;
+    }
+    .keyboardText.active * {
+        color: white;
+    }
+
+
+    img {
+        width: 100%;
+        filter: brightness(1.5);
+    }
+
+    img.active {
+        filter: brightness(.5);
+    }
+
+    .focusableHiddenInput {
+        width: 1px;
+        height: 1px;
+        position: absolute;
+        opacity: 0;
+    }
+</style>
+
+<div>
+    <b>{$_('views.modules.keyboard')}
+        {#if inputFocused}
+            (currently active)
+        {/if}
+        :</b>
+    <div class="keyboardWrapper">
+        <div class="keyboardText {inputFocused ? 'active' : ''}">
+            <input class="focusableHiddenInput" type="text" on:focus={()=>inputFocused = true} on:blur={()=>inputFocused = false}  bind:value={alwaysEmptyValue} bind:this={inputElement} on:keydown|preventDefault={keyup}>
+            <p><b>Numeric:</b><br> {keycodesNumeric}&nbsp;</p>
+            <p><b>Ascii:</b><br> {keycodesAscii}&nbsp;</p>
+            <button class="btn btn-outline-secondary {$keycodes.length === 0 ? 'disabled' : ''}" on:click={()=> {$keycodes = []}}>Clear buffer</button>
+        </div>
+        <img class="{inputFocused ? 'active' : ''}" src="/keyboard.png" alt="Keyboard input" on:click={()=>inputElement.focus()}>
+    </div>
 </div>
 

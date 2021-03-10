@@ -76,6 +76,7 @@
 			<div>
 				<Registers />
 				<Screen />
+				<Keyboard />
 <!--				<Stack />-->
 <!--				<Memory />-->
 
@@ -84,7 +85,7 @@
 <!--				<SimpleMemory />-->
 			</div>
 			<div>
-				<Keyboard />
+
 <!--				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>-->
 				<VirtualMemory />
 
