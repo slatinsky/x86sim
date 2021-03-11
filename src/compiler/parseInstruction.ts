@@ -2,6 +2,7 @@ import {memory, registers} from "../stores/stores";
 import {opcodes, jumps} from "./opcodes";
 import type {register} from "../types/types";
 import {allIntelRegisters, allFlags} from "../config"
+import {formattedStringToInt} from "../formatConverter";
 
 interface Operand {
     get(): number,
@@ -67,11 +68,63 @@ function cleanupWhitespaceAndComments(instruction: string): string {
     */
     instruction = instruction.replace(/ *, */, ',')
 
+    /*
+        Convert char to ascii
+        matches this format:
+            'c' -> 99
+            'A' -> 65
+            'a' -> 97
+
+        Needs to be done before code is converted to lowercase
+     */
+    instruction = instruction.replace(/'(.)'/g, function (fullMatch:string, capturedChar: string) {
+        if (capturedChar) {
+            return capturedChar.charCodeAt(0)
+        }
+    });
+
 
     /*
     * To lowercase
     * */
     instruction = instruction.toLowerCase()
+
+    /*
+        Convert 16-bit hex string to signed dec string
+        matches these two hex formats:
+            0xaa5a  ->  -21926
+            aa5ah   ->  -21926
+
+        Info: can create double negative, if we are subtracting hex value that translates to negative signed integer. This will be fixed in the next step
+        TODO: can replace unrelated code 'setRegistersTo0x5678:' -> setRegistersTo22136:
+     */
+    instruction = instruction.replace(/0x([0-9a-f]+)|([0-9a-f]+)h/g, function (fullMatch:string, capturedHex1: string, capturedHex2: string) {
+        let capturedHex =  capturedHex1 ?? capturedHex2
+        if (capturedHex) {
+            return formattedStringToInt(capturedHex, 'hex', 16)
+        }
+    });
+
+    /*
+        Convert 16bit binary string to signed dec string
+        matches this format:
+            0b101110 -> 46
+
+        Info: can create double negative too
+        TODO: can replace unrelated code too
+     */
+    instruction = instruction.replace(/0b([01]+)/g, function (fullMatch:string, capturedBin: string) {
+        if (capturedBin) {
+            return formattedStringToInt(capturedBin, 'bin', 16)
+        }
+    });
+
+
+    /*
+    Fix double negative
+    replaces '--' with '+'
+     */
+    instruction = instruction.replaceAll('--', '+')
 
     return instruction
 }
