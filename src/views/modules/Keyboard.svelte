@@ -57,7 +57,7 @@
     .keyboardText button {
         pointer-events: all;
     }
-    
+
     img {
         width: 100%;
         filter: brightness(1.5);

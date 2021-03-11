@@ -148,6 +148,7 @@
     }
 </style>
 
+<b>{$_('views.modules.memory')}:</b><br>
 {#if currentlyEditedAddress !== -1}
     <div>{$_('views.memory.currentlyEditing')}: {intToFormattedString(currentlyEditedAddress, $settings.selectedFormat, 16)}. {$_('views.memory.escToExit')}</div>
 {:else}
