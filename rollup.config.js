@@ -9,6 +9,7 @@ import css from 'rollup-plugin-css-only';
 import { string } from "rollup-plugin-string";
 import strip from '@rollup/plugin-strip';
 import json from '@rollup/plugin-json';
+const { generateSW } = require('rollup-plugin-workbox');  // https://www.npmjs.com/package/rollup-plugin-workbox
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -103,6 +104,11 @@ export default {
 			functions: [
 				'console.log',
 			],
+		}),
+
+		generateSW({
+			swDest: 'public/sw.js',
+			globDirectory: 'public/',
 		})
 	],
 	watch: {

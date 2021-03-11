@@ -91,6 +91,7 @@ function createProjects() {
             registers.load(projectToLoad.registers)
             memory.load(projectToLoad.memory)
             code.set(projectToLoad.code)
+            document.title = `${projectToLoad.name} | x86sim`
         },
         renameProject: (oldProjectName: string, newProjectName: string) => {
             if (oldProjectName !== newProjectName) {

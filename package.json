@@ -35,9 +35,9 @@
     "svelte-toast": "^1.0.0",
     "svelte-tooltip": "^1.2.0",
     "tslib": "^2.1.0",
-    "typescript": "^3.9.9"
+    "typescript": "^3.9.9",
+    "@sveltejs/svelte-virtual-list": "^3.0.1",
+    "rollup-plugin-workbox": "^6.1.1"
   },
-  "dependencies": {
-    "@sveltejs/svelte-virtual-list": "^3.0.1"
-  }
+  "dependencies": {}
 }

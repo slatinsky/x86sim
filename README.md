@@ -1,4 +1,6 @@
-# x86realSim
+# x86sim
+
+![Alt text](public/128.png?raw=true "Realsim")
 
 Simulator of x86 intel computer in the real mode.
 
