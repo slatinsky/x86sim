@@ -107,8 +107,10 @@ export default {
 		}),
 
 		generateSW({
+			globPatterns: ["**/*.{jpg,png,html,js,css,json}"],
 			swDest: 'public/sw.js',
 			globDirectory: 'public/',
+			// handler: 'staleWhileRevalidate'
 		})
 	],
 	watch: {
