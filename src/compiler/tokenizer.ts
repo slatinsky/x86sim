@@ -1,5 +1,5 @@
 import {allIntelOpcodes, allIntelRegisters} from "../config"
-type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'opcode' |'literalCharacter' | 'identifier'
+type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' |'literalCharacter' | 'identifier'
 
 interface iToken {
     row: number,
@@ -30,9 +30,12 @@ function getTokenType(tokenContent: string): tTokenType {
     else if (/^[+*/-]$/i.test(tokenContent)) {
         return 'operator'
     }
+    else if (/^;.*$/i.test(tokenContent)) {
+        return 'comment'
+    }
     else {
         if (tokenContent.length !== 1) {
-            throw `token '${tokenContent}' doesn't have length 1`
+            throw `token '${tokenContent}' doesn't have length 1`  // this should never happen
         }
         else {
             return 'identifier'
@@ -60,12 +63,13 @@ export function tokenize(instructionList: string): iToken[] {
     [0-9a-f]h       hex second variant                                      b800h
     [a-z0-9]+       any alphanumeric word                                   labelWithNumbers123
     '.'             one literal character                                   'c'
+    ;[^\n]*         comment                                                 ; this is a comment that should be ignored
     \n              new line
     \S              if no match found, match next non empty character
 
     regex is case insensitive (i option)
      */
-    const reToken = /0b[01]+|0x[0-9a-f]|[0-9a-f]h|[a-z0-9]+|'.'|\n|\S/ig
+    const reToken = /0b[01]+|0x[0-9a-f]|[0-9a-f]h|[a-z0-9]+|'.'|;[^\n]*|\n|\S/ig
     // const reToken = /[0-9]+(\.[0-9]*)?([eE][\+\-]?[0-9]+)?|[A-Za-z_][A-Za-z_0-9]*|\S/g;
     while(true) {
         const match = reToken.exec(instructionList)
@@ -87,8 +91,10 @@ export function tokenize(instructionList: string): iToken[] {
                 type: getTokenType(match[0])
             }
 
-            tokenList.push(token)
-            console.log(token)
+            if (token.type !== 'comment') {  // ignore comments
+                tokenList.push(token)
+                console.log(token)
+            }
         }
     }
 
