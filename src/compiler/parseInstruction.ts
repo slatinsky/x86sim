@@ -124,7 +124,7 @@ function cleanupWhitespaceAndComments(instruction: string): string {
     Fix double negative
     replaces '--' with '+'
      */
-    instruction = instruction.replaceAll('--', '+')
+    instruction = instruction.replace(/--/g, '+')
 
     return instruction
 }
@@ -291,7 +291,7 @@ function prepareLabel(labelName: string, labels: any[]): Operand {
     }
 }
 
-function parseInstruction(opcode, operands, labels: []) {
+function parseInstruction(opcode, operands, labels: any[]) {
     // check if opcode is implemented
     if (!Object.keys(opcodes).includes(opcode)) {
         if (opcode.includes(',')) {  // handles mov, ax, bx  <- bad comma placement

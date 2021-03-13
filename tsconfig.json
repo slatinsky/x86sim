@@ -4,5 +4,9 @@
   "include": ["src/**/*"],
   "exclude": ["node_modules/*", "__sapper__/*", "public/*"],
   "sourceMap": true,
-  "resolveJsonModule": true
+  "compilerOptions": {
+    "target": "es2020",
+    "strict": false,
+    "resolveJsonModule": true
+  }
 }

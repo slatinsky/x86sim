@@ -1,6 +1,6 @@
 # x86sim
 
-![Alt text](public/128.png?raw=true "Realsim")
+![x86sim](public/assets/128.png?raw=true "x86sim")
 
 Simulator of x86 intel computer in the real mode.
 
@@ -39,6 +39,12 @@ If you're using [Visual Studio Code](https://code.visualstudio.com/), installati
 To start [Rollup](https://rollupjs.org) development server in live reloading mode, run `npm run dev`. Then navigate to [localhost:5000](http://localhost:5000) in your browser. If you make any changes in `src`, page will be automatically reloaded.
 
 
+#### Service worker is disabled in development builds or localhost
+To make builds quicker, service worker is disabled:
+- if you are on localhost
+- or in development builds
+
+To debug service worker, change `USE_SERVICE_WORKER` variable in `rollup.config.js` and using [hosts](https://en.wikipedia.org/wiki/Hosts_(file)) file access localhost under different domain
 
 ### Production
 To create optimized production build, compile using `npm run build`. After compilation, production build will be created inside `public` folder. Upload it's content to your web server. Only static files are generated, so it will work in almost any server which serves static files, for example [apache](https://httpd.apache.org/). 

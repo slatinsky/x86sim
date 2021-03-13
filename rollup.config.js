@@ -162,6 +162,6 @@ export default {
 
 	],
 	watch: {
-		clearScreen: true
-	}
+		clearScreen: false
+	},
 };

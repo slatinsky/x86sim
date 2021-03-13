@@ -36,18 +36,6 @@
     .square.large {
         width: 3rem;
     }
-
-    .input {
-        width: 100px;
-    }
-
-    input.bin {
-        width: 160px;
-    }
-
-    input.hex {
-        width: 50px;
-    }
 </style>
 
 <div class="input-container">

@@ -50,7 +50,7 @@ function createMemory() {
                     return 0
                 }
         },
-        reduce: (fullMemoryArray) => {  // returns copy of memory object
+        reduce: () => {  // returns copy of memory object
             return Object.assign({}, get(thisStore))
         },
         load: (reducedMemory) => {  // loads object returned by reduce
