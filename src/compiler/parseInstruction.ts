@@ -4,6 +4,7 @@ import type {register} from "../types/types";
 import {allIntelOpcodes, allFlags} from "../config"
 import {formattedStringToInt} from "../formatConverter";
 import {tokenize} from "./tokenizer";
+import {createParseTree} from "./createParseTree";
 
 interface Operand {
     get(): number,
@@ -515,7 +516,14 @@ export const parseInstructionList = (instructionList: string): any => {
     let labels = []
     let errors = []
 
-    tokenize(instructionList)
+    try {
+        let tokens = tokenize(instructionList)
+        createParseTree(tokens)
+    }
+    catch (e) {
+        console.error(e)
+    }
+
 
     // split instructions by lines and parse them
     // catch parse errors

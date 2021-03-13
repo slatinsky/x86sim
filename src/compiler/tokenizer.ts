@@ -1,36 +1,27 @@
 import {allIntelOpcodes, allIntelRegisters} from "../config"
-type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' |'literalCharacter' | 'identifier'
-
-interface iToken {
-    row: number,
-    col: number,
-    index: number,  // character index from the beginning
-    type: tTokenType,
-    content: string
-}
 
 function getTokenType(tokenContent: string): tTokenType {
-    if (/^0b[01]+|0x[0-9a-f]|[0-9a-f]h|[0-9]$/i.test(tokenContent)) {  // 'binary' | 'hex1' | 'hex2' | 'number'
+    if (/^((0b[01]+)|(0x[0-9a-f]+)|([0-9a-f]+h)|([0-9]+))$/i.test(tokenContent)) {  // 'binary' | 'hex1' | 'hex2' | 'number'
         return 'numeric'
     }
     else if (/^[a-z0-9]+$/i.test(tokenContent)) {
-        if (allIntelRegisters.includes(tokenContent)) {
+        if (allIntelRegisters.includes(tokenContent.toLowerCase())) {
             return 'register'
         }
-        else if (allIntelOpcodes.includes(tokenContent)) {
+        else if (allIntelOpcodes.includes(tokenContent.toLowerCase())) {
             return 'opcode'
         }
         else {
             return 'alphanumeric'
         }
     }
-    else if (/^'.'$/i.test(tokenContent)) {
-        return 'literalCharacter'
+    else if (/^'.'$/i.test(tokenContent)) {  // char is number too :)
+        return 'numeric'
     }
     else if (/^[+*/-]$/i.test(tokenContent)) {
         return 'operator'
     }
-    else if (/^;.*$/i.test(tokenContent)) {
+    else if (/^;.*\r?$/i.test(tokenContent)) {
         return 'comment'
     }
     else {
@@ -59,8 +50,8 @@ export function tokenize(instructionList: string): iToken[] {
     regex           explanation                                             example
     -----           -----------                                             -----------
     0b[01]+         binary                                                  0b01000101
-    0x[0-9a-f]      hex first variant                                       0xb800
-    [0-9a-f]h       hex second variant                                      b800h
+    0x[0-9a-f]+     hex first variant                                       0xb800
+    [0-9a-f]+h      hex second variant                                      b800h
     [a-z0-9]+       any alphanumeric word                                   labelWithNumbers123
     '.'             one literal character                                   'c'
     ;[^\n]*         comment                                                 ; this is a comment that should be ignored
@@ -69,7 +60,7 @@ export function tokenize(instructionList: string): iToken[] {
 
     regex is case insensitive (i option)
      */
-    const reToken = /0b[01]+|0x[0-9a-f]|[0-9a-f]h|[a-z0-9]+|'.'|;[^\n]*|\n|\S/ig
+    const reToken = /0b[01]+|0x[0-9a-f]+|[0-9a-f]+h|[a-z0-9]+|'.'|;[^\n]*|\n|\S/ig
     // const reToken = /[0-9]+(\.[0-9]*)?([eE][\+\-]?[0-9]+)?|[A-Za-z_][A-Za-z_0-9]*|\S/g;
     while(true) {
         const match = reToken.exec(instructionList)
@@ -77,8 +68,8 @@ export function tokenize(instructionList: string): iToken[] {
             break
         }
 
-        // if new line
-        if (match[0] == '\n'){
+
+        if (match[0] == '\n'){  // each new line, rowNumber is incremented
             rowNumber++
             colOffset = match.index
         }
@@ -93,11 +84,11 @@ export function tokenize(instructionList: string): iToken[] {
 
             if (token.type !== 'comment') {  // ignore comments
                 tokenList.push(token)
-                console.log(token)
+                // console.log(token)
             }
         }
     }
 
-    console.log(tokenList)
+    console.log("tokenList", JSON.stringify(tokenList))
     return tokenList
 }
