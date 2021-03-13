@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",
+    "prod": "rollup -c",
     "dev": "rollup -c -w",
+    "watch": "rollup -c -w",
     "start": "sirv public",
     "validate": "svelte-check"
   },
