@@ -52,7 +52,7 @@
 <nav>
     <div id="navControls">
         <ul>
-            <li class="notClickable">{$projectName}---.....ddd</li>
+            <li class="notClickable">{$projectName}</li>
             <Tooltip tooltip={$_('tooltips.navigation.step')} bottom>
                 <li class="{$currentlyExecutedLine === -1 || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> {$_('views.navigation.step')}</li>
             </Tooltip>

@@ -1,8 +1,9 @@
 import {memory, registers} from "../stores/stores";
 import {opcodes, jumps} from "./opcodes";
 import type {register} from "../types/types";
-import {allIntelRegisters, allFlags} from "../config"
+import {allIntelOpcodes, allFlags} from "../config"
 import {formattedStringToInt} from "../formatConverter";
+import {tokenize} from "./tokenizer";
 
 interface Operand {
     get(): number,
@@ -299,7 +300,7 @@ function parseInstruction(opcode, operands, labels: any[]) {
         }
         else
         {
-            if (allIntelRegisters.includes(opcode)) {
+            if (allIntelOpcodes.includes(opcode)) {
                 throw `ERROR: Intel instruction set contains instruction '${opcode}', but that instruction isn't implemented by this simulator\n\nAvailable instructions:\n${Object.keys(opcodes).join('\n')}`
             }
             else {
@@ -513,6 +514,8 @@ export const parseInstructionList = (instructionList: string): any => {
     let instructions = []
     let labels = []
     let errors = []
+
+    tokenize(instructionList)
 
     // split instructions by lines and parse them
     // catch parse errors
