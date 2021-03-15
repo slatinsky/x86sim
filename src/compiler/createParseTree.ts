@@ -1,15 +1,10 @@
 import ret from "./opcodes/ret";
 
-
-interface iError {
-    message: string,
-    token: iToken
-}
-
-function errorObject(token: iToken, message: string): iError {
+export function errorObject(token: iToken, message: string, type: tErrorType = 'error'): iError {
     return {
         message,
-        token
+        token,
+        type
     }
 }
 
@@ -117,7 +112,7 @@ function parseOperand(operandTokens: iToken[]): iOperand {
         throw errorObject(operandTokens[0], "Missing closing bracket ']'")
     }
     else if (operandTokens[operandTokens.length - 1].content === ']') {
-        throw errorObject(operandTokens[0], "Missing opening bracket ']'")
+        throw errorObject(operandTokens[operandTokens.length - 1], "Missing opening bracket '['")
     }
     else if (operandTokens[0].type === 'numeric') {
         type = 'immediate'
@@ -197,7 +192,7 @@ export function createParseTree(tokens: iToken[]): [iRow[], iError[]] {
     console.log("rowsNew", tokensGroupedByRow)
 
     let rows: iRow[] = []
-    let errors: iError = []
+    let errors: iError[] = []
 
     for (const tokensRow of tokensGroupedByRow) {
         try {

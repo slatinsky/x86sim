@@ -5,6 +5,7 @@ import {allIntelOpcodes, allFlags} from "../config"
 import {formattedStringToInt} from "../formatConverter";
 import {tokenize} from "./tokenizer";
 import {createParseTree} from "./createParseTree";
+import {validateParseTree} from "./validateParseTree";
 
 interface Operand {
     get(): number,
@@ -519,7 +520,7 @@ export const parseInstructionList = (instructionList: string): any => {
 
     let tokens = tokenize(instructionList)
     const [rowsNew, errorsNew] = createParseTree(tokens)
-
+    let errorsNew2 = validateParseTree(rowsNew)
 
 
     // split instructions by lines and parse them
@@ -579,6 +580,6 @@ export const parseInstructionList = (instructionList: string): any => {
     if (DEBUG) console.log("Labels", labels)
     if (DEBUG) console.log("Errors", errors)
 
-    errors = errors.concat(errorsNew)
+    errors = [].concat(errorsNew).concat(errorsNew2)  // TODO: errors from old compiler are intentionally removed
     return [instructions, errors]
 }

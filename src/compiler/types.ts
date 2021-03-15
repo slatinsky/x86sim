@@ -1,3 +1,10 @@
+type tErrorType = 'error' | 'warning' | 'information'
+interface iError {
+    message: string,
+    token: iToken,
+    type: tErrorType
+}
+
 type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' | 'identifier'
 
 interface iToken {

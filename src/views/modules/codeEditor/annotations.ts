@@ -20,14 +20,30 @@ export function annotate(editor, code) {
                     row: error.token.row,
                     column: error.token.col - 1,
                     text: error.message,
-                    type: "error" // also can be warning or information
+                    type: error.type // also can be warning or information
+                }
+            }
+            else if (error.hasOwnProperty('line')) {
+                markers.push(editor.session.addMarker(new Range(error.line, 0, error.line, 1), "ace_error_line", "fullLine"))
+                return {
+                    row: error.line,
+                    column: 0,
+                    text: error.message,
+                    type: error.type // also can be warning or information
                 }
             }
             else {
-                console.error("annotation error", error)
+                return {
+                    row: error.row,
+                    column: 0,
+                    text: JSON.stringify(error),
+                    type: "error" // also can be warning or information
+                }
+
+                // console.error("annotation error", error)
                 // error.content = "CODE PARSER CRASHED while parsing this line.\nPlease report this bug on github as issue and include your project files, so it can be fixed. Thanks:\n\n" + error.content.toString() + "\n\n" + error?.message?.toString()
             }
-            error.content = 'error'
+
         }
         return {
             row: error.line,
