@@ -71,7 +71,7 @@ export function tokenize(instructionList: string): iToken[] {
 
         if (match[0] == '\n'){  // each new line, rowNumber is incremented
             rowNumber++
-            colOffset = match.index
+            colOffset = match.index + 1
         }
         else {
             let token: iToken = {

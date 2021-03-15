@@ -516,13 +516,10 @@ export const parseInstructionList = (instructionList: string): any => {
     let labels = []
     let errors = []
 
-    try {
-        let tokens = tokenize(instructionList)
-        createParseTree(tokens)
-    }
-    catch (e) {
-        console.error(e)
-    }
+
+    let tokens = tokenize(instructionList)
+    const [rowsNew, errorsNew] = createParseTree(tokens)
+
 
 
     // split instructions by lines and parse them
@@ -581,5 +578,7 @@ export const parseInstructionList = (instructionList: string): any => {
     if (DEBUG) console.log("Instructions", instructions)
     if (DEBUG) console.log("Labels", labels)
     if (DEBUG) console.log("Errors", errors)
+
+    errors = errors.concat(errorsNew)
     return [instructions, errors]
 }

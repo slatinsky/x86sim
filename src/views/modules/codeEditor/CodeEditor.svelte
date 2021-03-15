@@ -184,6 +184,8 @@
             const Range = ace.acequire('ace/range').Range
             currentMarker =  editor.session.addMarker(new Range(from, 0, to, 1), "ace_current_line", "fullLine")
 
+
+
             if (!editorFocused) {
                 editor.scrollToLine(lineNumber, true, true, function () {})
             }
@@ -198,7 +200,9 @@
     }
 
     // debounce annotate function - don't interrupt user while he is typing. Show/update errors only when user stops typing the code
-    const debouncedAnnotate = debounce(() => annotate(editor, $code), 400)
+    // const debouncedAnnotate = debounce(() => annotate(editor, $code), 400)
+    const debouncedAnnotate = debounce(() => annotate(editor, $code), 0)
+
 
     $: console.log("breakpoints", breakpoints)
 
@@ -225,6 +229,11 @@
     :global(.ace_current_line) {
         position:absolute;
         background: rgba(100, 200, 100, 0.5);
+        z-index:20
+    }
+    :global(.ace_error_line) {
+        position:absolute;
+        background: rgb(200, 100, 123, 0.5);
         z-index:20
     }
 

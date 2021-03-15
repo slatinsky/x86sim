@@ -1,6 +1,12 @@
 import ret from "./opcodes/ret";
 
-function errorObject(token: iToken, message: string) {
+
+interface iError {
+    message: string,
+    token: iToken
+}
+
+function errorObject(token: iToken, message: string): iError {
     return {
         message,
         token
@@ -80,45 +86,56 @@ function splitTokensByIdentifier(tokens: iToken[], identifierContent: string): i
 }
 
 
+
 function nextToken(tokens: iToken[]): iToken {
     return tokens.shift();
 }
 
+/**
+ * parses one operand and sets its type
+ * at least one token inside operandTokens is expected to always be supplied to this function
+ *
+ */
 function parseOperand(operandTokens: iToken[]): iOperand {
-    console.log("parseOperand", operandTokens)
+    if (operandTokens.length === 0) {
+        throw "no operands supplied to parseOperand function, you should never see this error"
+    }
 
-    let type
-
+    // console.log("parseOperand", operandTokens)
     // type iOperand = {
     //     type: 'immediate' | 'register' | 'memory' | 'label'
     //     tokens: iToken[]
     // }
 
-    if (operandTokens.length === 1) {
-        if (operandTokens[0].type === 'numeric') {
-            type = 'immediate'
-        }
-        else if (operandTokens[0].type === 'register') {
-            type = 'register'
-        }
-        else if (operandTokens[0].type === 'alphanumeric') {
-            type = 'label'
-        }
+    let type
+
+    if (operandTokens[0].content === '[' && operandTokens[operandTokens.length - 1].content === ']') {
+        operandTokens = operandTokens.slice(1, -1)
+        type = 'memory'
     }
-    else if (operandTokens.length > 1) {
-        if (operandTokens[0].content === ',') {
-            throw errorObject(operandTokens[0], "replace first comma with space")          // for example mov,ax,bx -> mov ax,bx
-        }
-        if (operandTokens[0].content === '[' && operandTokens[operandTokens.length - 1].content === ']') {
-            operandTokens = operandTokens.slice(1, -1)
-            type = 'label'
-        }
-        else {
-            throw `can't parse operand '${JSON.stringify(operandTokens)}' (1)`
-        }
+    else if (operandTokens[0].content === '[') {
+        throw errorObject(operandTokens[0], "Missing closing bracket ']'")
+    }
+    else if (operandTokens[operandTokens.length - 1].content === ']') {
+        throw errorObject(operandTokens[0], "Missing opening bracket ']'")
+    }
+    else if (operandTokens[0].type === 'numeric') {
+        type = 'immediate'
+    }
+    else if (operandTokens[0].type === 'register') {
+        type = 'register'
+    }
+    else if (operandTokens[0].type === 'alphanumeric') {
+        type = 'label'
     }
     else {
-        // throw `no operands '${JSON.stringify(operandTokens)}' (2)`
+        throw `can't parse operand '${JSON.stringify(operandTokens)}' (1)`
+    }
+
+    // chech common errors
+    if (operandTokens.find(token => token.content === '[' || token.content === ']')) {
+        let invalidToken = operandTokens.find(token => token.content === '[' || token.content === ']')
+        throw errorObject(invalidToken, `Invalid use of '${invalidToken.content}'`)
     }
 
     return {
@@ -135,6 +152,9 @@ function splitOperands(tokens: iToken[]): iToken[][] {
  * parseRow will always get one or more tokens
  */
 function parseRow(tokens: iToken[]): iRow {
+    if (tokens?.[1]?.content === ',') {
+        throw errorObject(tokens[1], "Replace comma with space")    // for example mov,ax,bx -> mov ax,bx
+    }
     if (tokens.length === 2 && tokens[0].type === 'alphanumeric' && tokens[1].content === ':') {
         return {
             type: "label",
@@ -162,28 +182,33 @@ function parseRow(tokens: iToken[]): iRow {
         }
         return instruction
     }
+    else if (tokens.length >= 1 && tokens[0].type !== 'opcode') {
+        throw errorObject(tokens[0], `'${tokens[0].content}' isn't valid opcode`)
+    }
     else {
-        throw "parseRow should always get one or more tokens, but that didn't happen, weird"
+        throw "you should never see this message, because parseRow should always receive one or more tokens - you should never see this error"
     }
 }
 
 
-export function createParseTree(tokens: iToken[]): iRow[] {
+export function createParseTree(tokens: iToken[]): [iRow[], iError[]] {
 
     let tokensGroupedByRow: iToken[][] = groupNeighbours(tokens, (token: iToken): number => token.row)
     console.log("rowsNew", tokensGroupedByRow)
 
     let rows: iRow[] = []
+    let errors: iError = []
 
     for (const tokensRow of tokensGroupedByRow) {
         try {
             rows.push(parseRow(tokensRow))
         }
         catch (e) {
-            console.error(e)
+            console.error("line:", tokensRow?.[0].row, e)
+            errors.push(e)
         }
     }
 
     console.log("createParseTree", rows)
-    return rows
+    return [rows, errors]
 }
