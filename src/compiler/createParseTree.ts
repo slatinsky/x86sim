@@ -1,5 +1,85 @@
 import ret from "./opcodes/ret";
 
+function errorObject(token: iToken, message: string) {
+    return {
+        message,
+        token
+    }
+}
+
+/**
+ *  Groups neighboring tokens, for which groupBy function returns the same value
+ */
+function groupNeighbours(tokens: iToken[], groupBy: (token: iToken) => number): iToken[][] {
+    if (tokens.length === 0) {
+        return []
+    }
+
+    let splitTokens: iToken[][] = []
+    let currentTokenGroup: iToken[] = []
+    let lastInsertedToken = tokens[0]
+    for (const token of tokens) {
+        if (groupBy(lastInsertedToken) !== groupBy(token)) {
+            // this token is not from the same group as token inserted before
+            // create new group
+
+            if (currentTokenGroup.length > 0) {
+                splitTokens.push(currentTokenGroup)  // push current group content
+            }
+            currentTokenGroup = []                   // new group
+        }
+
+        currentTokenGroup.push(token)
+        lastInsertedToken = token
+    }
+
+    if (currentTokenGroup.length > 0) {
+        splitTokens.push(currentTokenGroup)
+    }
+    return splitTokens
+}
+
+
+
+
+/**
+ * splits tokens to groups based on a separator token
+ * removes separator token that separates those groups
+ *
+ * as input expects:
+ * - tokens array
+ * - function that tells if input token is separator token
+ */
+function splitTokensBy(tokens: iToken[], isTokenSeparator: (token: iToken) => boolean): iToken[][] {
+    let splitTokens: iToken[][] = []
+    let currentTokenGroup: iToken[] = []
+    for (const token of tokens) {
+        if (isTokenSeparator(token)) {
+            if (currentTokenGroup.length > 0) {
+                splitTokens.push(currentTokenGroup)
+            }
+            currentTokenGroup = []
+        }
+        else {
+            currentTokenGroup.push(token)
+        }
+    }
+    if (currentTokenGroup.length > 0) {
+        splitTokens.push(currentTokenGroup)
+    }
+    return splitTokens
+}
+
+/**
+ * wrapper to split tokens by identifier
+ */
+function splitTokensByIdentifier(tokens: iToken[], identifierContent: string): iToken[][] {
+    return splitTokensBy(tokens, (token: iToken): boolean => {
+        return token.type === 'identifier' && token.content === identifierContent
+    })
+}
+
+
 function nextToken(tokens: iToken[]): iToken {
     return tokens.shift();
 }
@@ -9,7 +89,7 @@ function parseOperand(operandTokens: iToken[]): iOperand {
 
     let type
 
-    // {
+    // type iOperand = {
     //     type: 'immediate' | 'register' | 'memory' | 'label'
     //     tokens: iToken[]
     // }
@@ -27,7 +107,7 @@ function parseOperand(operandTokens: iToken[]): iOperand {
     }
     else if (operandTokens.length > 1) {
         if (operandTokens[0].content === ',') {
-            throw "replace first comma with space"          // for example mov,ax,bx -> mov ax,bx
+            throw errorObject(operandTokens[0], "replace first comma with space")          // for example mov,ax,bx -> mov ax,bx
         }
         if (operandTokens[0].content === '[' && operandTokens[operandTokens.length - 1].content === ']') {
             operandTokens = operandTokens.slice(1, -1)
@@ -38,7 +118,7 @@ function parseOperand(operandTokens: iToken[]): iOperand {
         }
     }
     else {
-        throw `can't parse operand '${JSON.stringify(operandTokens)}' (2)`
+        // throw `no operands '${JSON.stringify(operandTokens)}' (2)`
     }
 
     return {
@@ -48,28 +128,14 @@ function parseOperand(operandTokens: iToken[]): iOperand {
 }
 
 function splitOperands(tokens: iToken[]): iToken[][] {
-    let output = []
-    let operandTokens = []
-    let token: iToken
-    while (token = nextToken(tokens)) {   // split tokens to rows and execute parseRow for each row
-        if (token.type === "identifier" && token.content === ',' && operandTokens.length > 0) {
-            output.push(operandTokens)
-            operandTokens = []
-        }
-        else {
-            operandTokens.push(token)
-        }
-    }
-
-    if (operandTokens.length > 0) {
-        output.push(operandTokens)
-    }
-
-    return output
+    return splitTokensByIdentifier(tokens, ',')
 }
 
+/**
+ * parseRow will always get one or more tokens
+ */
 function parseRow(tokens: iToken[]): iRow {
-    if (tokens.length === 2 && tokens[0].type === 'alphanumeric' && tokens[1].type === 'identifier' && tokens[1].content === ':') {
+    if (tokens.length === 2 && tokens[0].type === 'alphanumeric' && tokens[1].content === ':') {
         return {
             type: "label",
             name: tokens[0].content,
@@ -95,61 +161,29 @@ function parseRow(tokens: iToken[]): iRow {
             instruction.operands.push(parseOperand(operandTokens))
         }
         return instruction
-        //
-        // let type = 'immediate'
-        // let operand: iOperand = {
-        //     type: '',
-        //     tokens: []
-        // }
-        //
-        // for (const token of tokens.slice(1)) {
-        //     if (token.type === 'identifier' && token.content === ',' && operand.tokens.length > 0)
-        //     operand.tokens.push()
-        // }
-        // return {
-        //     type: 'instruction',
-        //     opcode: tokens[0].content,
-        //     operands: []
-        // }
+    }
+    else {
+        throw "parseRow should always get one or more tokens, but that didn't happen, weird"
     }
 }
 
 
 export function createParseTree(tokens: iToken[]): iRow[] {
-    if (tokens.length === 0) {
-        return []
-    }
+
+    let tokensGroupedByRow: iToken[][] = groupNeighbours(tokens, (token: iToken): number => token.row)
+    console.log("rowsNew", tokensGroupedByRow)
 
     let rows: iRow[] = []
 
-    let currentRow: number = tokens?.[0].row ?? 0
-    let currentRowTokens: iToken[] = []
-
-    let token
-    while (token = nextToken(tokens)) {   // split tokens to rows and execute parseRow for each row
-        if (token.row !== currentRow) {
-            try {
-                rows.push(parseRow(currentRowTokens))
-            }
-            catch (e) {
-                console.error(e)
-            }
-            currentRow = token.row
-            currentRowTokens = []
-        }
-
-        currentRowTokens.push(token)
-    }
-
-    if (currentRowTokens.length !== 0) {  // handle last row
+    for (const tokensRow of tokensGroupedByRow) {
         try {
-            rows.push(parseRow(currentRowTokens))
+            rows.push(parseRow(tokensRow))
         }
         catch (e) {
             console.error(e)
         }
-
     }
 
     console.log("createParseTree", rows)
+    return rows
 }
