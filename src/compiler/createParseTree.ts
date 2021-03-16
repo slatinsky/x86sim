@@ -1,4 +1,42 @@
-import ret from "./opcodes/ret";
+/**
+ * merges two tokens together, so they can be used as one token
+ */
+function mergeTwoTokens(token1: iToken, token2: iToken): iToken {
+    let newToken: iToken = {
+        row: token1.row,
+        col: token1.col,
+        index: token1.index,  // character index from the beginning
+        type: token1.type === token2.type ? token1.type : 'mixed',
+        content: token1.content + ''.padStart(token2.index - token1.index + token1.content.length + token1.content.length, ' ') + token2.content   // pad content of in-between tokens with spaces
+    }
+
+    return newToken
+}
+
+/**
+ * Merges array of tokens together
+ * If no token supplied, returns empty token
+ */
+export function mergeTokens(tokens: iToken[]): iToken {
+    if (tokens.length === 0) {
+        return {
+            row: 0,
+            col: 0,
+            index: 0,
+            type: 'mixed',
+            content: ''
+        }
+    }
+
+    let tokensCopy: iToken[] = [...tokens]
+
+    let mergedToken = tokensCopy.shift()
+    for (const token of tokensCopy) {
+        mergedToken = mergeTwoTokens(mergedToken, token)
+    }
+
+    return mergedToken
+}
 
 export function errorObject(token: iToken, message: string, type: tErrorType = 'error'): iError {
     return {
@@ -105,7 +143,7 @@ function parseOperand(operandTokens: iToken[]): iOperand {
     let type
 
     if (operandTokens[0].content === '[' && operandTokens[operandTokens.length - 1].content === ']') {
-        operandTokens = operandTokens.slice(1, -1)
+        // operandTokens = operandTokens.slice(1, -1)
         type = 'memory'
     }
     else if (operandTokens[0].content === '[') {
@@ -127,11 +165,11 @@ function parseOperand(operandTokens: iToken[]): iOperand {
         throw `can't parse operand '${JSON.stringify(operandTokens)}' (1)`
     }
 
-    // chech common errors
-    if (operandTokens.find(token => token.content === '[' || token.content === ']')) {
-        let invalidToken = operandTokens.find(token => token.content === '[' || token.content === ']')
-        throw errorObject(invalidToken, `Invalid use of '${invalidToken.content}'`)
-    }
+    // check common errors
+    // if (operandTokens.find(token => token.content === '[' || token.content === ']')) {
+    //     let invalidToken = operandTokens.find(token => token.content === '[' || token.content === ']')
+    //     throw errorObject(invalidToken, `Invalid use of '${invalidToken.content}'`)
+    // }
 
     return {
         type: type,
@@ -153,10 +191,7 @@ function parseRow(tokens: iToken[]): iRow {
     if (tokens.length === 2 && tokens[0].type === 'alphanumeric' && tokens[1].content === ':') {
         return {
             type: "label",
-            name: tokens[0].content,
-            row: tokens[0].row,
-            col: tokens[0].col,
-            index: tokens[0].index,
+            token: tokens[0],
         }
     }
     else if (tokens.length >= 1 && tokens[0].type === 'opcode') {
@@ -164,11 +199,8 @@ function parseRow(tokens: iToken[]): iRow {
         let instruction: iInstruction = {
 
             type: 'instruction',
-            opcode: opcodeToken.content,
+            opcode: opcodeToken,
             operands: [],
-            row: opcodeToken.row,
-            col: opcodeToken.col,
-            index: opcodeToken.index,
         }
 
         let tokensSplitByOperands = splitOperands(tokens)

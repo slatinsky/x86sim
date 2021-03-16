@@ -5,7 +5,7 @@ interface iError {
     type: tErrorType
 }
 
-type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' | 'identifier'
+type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' | 'identifier' | 'mixed'   // mixed token is merged token with different types
 
 interface iToken {
     row: number,
@@ -24,17 +24,11 @@ interface iOperand {
 
 interface iLabel {
     type: 'label',
-    name: string
-    row: number,
-    col: number,
-    index: number
+    token: iToken
 }
 
 interface iInstruction {
     type: 'instruction',
-    opcode: string
+    opcode: iToken
     operands: iOperand[],
-    row: number,
-    col: number,
-    index: number
 }

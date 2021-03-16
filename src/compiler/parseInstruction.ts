@@ -6,6 +6,7 @@ import {formattedStringToInt} from "../formatConverter";
 import {tokenize} from "./tokenizer";
 import {createParseTree} from "./createParseTree";
 import {validateParseTree} from "./validateParseTree";
+import {compileParseTree} from "./compileParseTree";
 
 interface Operand {
     get(): number,
@@ -521,6 +522,7 @@ export const parseInstructionList = (instructionList: string): any => {
     let tokens = tokenize(instructionList)
     const [rowsNew, errorsNew] = createParseTree(tokens)
     let errorsNew2 = validateParseTree(rowsNew)
+    compileParseTree(rowsNew)
 
 
     // split instructions by lines and parse them

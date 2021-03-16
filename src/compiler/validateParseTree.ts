@@ -1,11 +1,24 @@
-import {errorObject} from "./createParseTree";
+import {errorObject, mergeTokens} from "./createParseTree";
+import {opcodes} from "./opcodes";
+
+/**
+ * merges all tokens from operands, so they can be used in error highlighting
+ * @param operands
+ */
+function mergeOperandsTokens(operands: iOperand[]): iToken {
+    return mergeTokens(operands.map(operand => operand.tokens).flat())
+}
 
 function validateRow(row: iRow) {
     if (row.type === 'instruction') {
-        if (row.operands.length > 2) {
-            throw errorObject(row.operands[2].tokens[0], "More than 2 operands are not supported by any intel instruction")
+        let operandAmountRequired = opcodes[row.opcode.content].run.length
+        let operandAmountProvided = row.operands.length
+        if (opcodes[row.opcode.content].run.length !== row.operands.length) {
+            // validate amount of operands
+            throw errorObject(row.operands.length > 0 ? mergeOperandsTokens(row.operands) : row.opcode, `ERROR: instruction '${row.opcode.content}' has incorrect amount of operands: ${operandAmountRequired} required, but ${operandAmountProvided} provided`)
         }
         else if (row.operands.length === 2 && row.operands[0].type === "memory" && row.operands[1].type === "memory") {
+            // generate hint, if user tries to access two memory locations at the same time (example: mov [bx], [bx+2])
             let operand1 = row.operands[0].tokens.map(token => token.content).join('')
             let operand2 = row.operands[1].tokens.map(token => token.content).join('')
 
@@ -23,10 +36,10 @@ function validateRow(row: iRow) {
 
             let generatedHint = `push ${tempRegisterName}
 mov ${tempRegisterName}, ${operand2}
-${row.opcode} ${operand1}, ${tempRegisterName}
+${row.opcode.content} ${operand1}, ${tempRegisterName}
 pop ${tempRegisterName}`
 
-            throw errorObject(row.operands[0].tokens[0], `Intel processor can't access two memory places in the same instruction:\n\nPossible solution:\n${generatedHint}`)}
+            throw errorObject(mergeOperandsTokens(row.operands), `Intel processor can't access two memory places in the same instruction:\n\nPossible solution:\n${generatedHint}`)}
     }
 }
 

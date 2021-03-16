@@ -14,7 +14,7 @@ export function annotate(editor, code) {
 
     let annotations = errors.map(error => {
         if (typeof error.content !== 'string') {
-            if (error.hasOwnProperty('token')) {
+            if (error.hasOwnProperty('token') && error.token !== null) {
                 markers.push(editor.session.addMarker(new Range(error.token.row, error.token.col, error.token.row, error.token.col + error.token.content.length), "ace_error_line"))
                 return {
                     row: error.token.row,
