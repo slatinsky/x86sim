@@ -1,9 +1,10 @@
 import { throttle } from 'lodash-es';
-import {code, currentlyExecutedLine, compiledInstructions, debugMode, programIsRunning} from "../compiler/compiler"
+import {code, compiledInstructions, debugMode, programIsRunning} from "../compiler/compiler"
 import {programs, projectName} from "./programs"
 import {registers} from "./registers"
 import {memory} from "./memory"
 import {writable} from "svelte/store";
+import { currentlyExecutedLine } from '../compiler/compileParseTree';
 
 // note: code in this file runs only one
 

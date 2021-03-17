@@ -1,5 +1,5 @@
 import {get, writable} from "svelte/store";
-import type {register} from "../types/types";
+import type {tRegister} from "../types/types";
 import {MEMORY_SIZE} from "./config";
 import {calculateFlags} from "../compiler/calculateFlags";
 
@@ -67,7 +67,7 @@ function createRegisters() {
             calculateFlags(newValue)
         },
         reset: () => set(Object.assign({}, defaultRegisters)),
-        get: (registerName: register): number => get(thisStore)[registerName],
+        get: (registerName: tRegister): number => get(thisStore)[registerName],
         reduce: () => {  // returns all non zero registers
             let registersCopy = Object.assign({}, get(thisStore))
             Object.entries(registersCopy).map((registerEntry) => {
@@ -82,14 +82,14 @@ function createRegisters() {
             console.log("LOADING")
             thisStore.reset()
             for (const [registerName, value] of Object.entries(reducedRegisters)) {
-                thisStore.set(<register>registerName, <number>value)
+                thisStore.set(<tRegister>registerName, <number>value)
             }
         },
-        inc: (registerName: register) => {        // increment
+        inc: (registerName: tRegister) => {        // increment
             let val = thisStore.get(registerName)
             thisStore.set(registerName, val + 1)
         },
-        dec: (registerName: register) => {        // decrement
+        dec: (registerName: tRegister) => {        // decrement
             let val = thisStore.get(registerName)
             thisStore.set(registerName, val - 1)
         },

@@ -32,3 +32,18 @@ interface iInstruction {
     opcode: iToken
     operands: iOperand[],
 }
+
+interface iCompiledInstruction {
+    instruction: iInstruction,
+    run: () => Promise<void>,
+}
+
+interface iCompiledOperand {
+    get(): number,
+
+    set(valueToSet: number): void,
+    setWithFlags(valueToSet: number): void,
+
+    type: 'immediate' | 'register' | 'memory' | 'label'
+    labelName?: string
+}

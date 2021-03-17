@@ -513,16 +513,21 @@ function addAddressAttribute(instructions, labels, errors) {
 // splits instruction to opcode and operands
 // generates array of labels
 export const parseInstructionList = (instructionList: string): any => {
-    let currentLine = -1
-    let instructions = []
-    let labels = []
     let errors = []
-
 
     let tokens = tokenize(instructionList)
     const [rowsNew, errorsNew] = createParseTree(tokens)
     let errorsNew2 = validateParseTree(rowsNew)
-    compileParseTree(rowsNew)
+    let instructionsNewCompiled = compileParseTree(rowsNew)
+
+    errors = [].concat(errorsNew).concat(errorsNew2)  // TODO: errors from old compiler are intentionally removed
+    return [instructionsNewCompiled, errors]
+
+    // OLD code
+    let currentLine = -1
+    let instructions = []
+    let labels = []
+
 
 
     // split instructions by lines and parse them
@@ -578,10 +583,9 @@ export const parseInstructionList = (instructionList: string): any => {
     // let usableLabelNames = arr1.filter(x => arr2.includes(x));
 
 
-    if (DEBUG) console.log("Instructions", instructions)
+    if (true) console.log("Instructions", instructions)
     if (DEBUG) console.log("Labels", labels)
     if (DEBUG) console.log("Errors", errors)
 
-    errors = [].concat(errorsNew).concat(errorsNew2)  // TODO: errors from old compiler are intentionally removed
-    return [instructions, errors]
+
 }

@@ -6,6 +6,7 @@ import {memory, projectName, registers, settings} from "../stores/stores";
 import {opcodes} from "./opcodes";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "../stores/config";
 import {_} from 'svelte-i18n'
+import {currentlyExecutedLine} from "./compileParseTree";
 
 // called from code editor
 // get errors inside compiled code
@@ -15,10 +16,9 @@ export const getErrors = (instructionToParse) => {
 }
 
 
-var setCurrentlyExecutedLine = (val) => {}
-export const currentlyExecutedLine = readable(-1, (set) => {
-    setCurrentlyExecutedLine = set
-});
+
+
+
 
 var setCompiledInstructions = (val) => {}
 export const compiledInstructions = readable([], (set) => {
@@ -61,15 +61,11 @@ class Compiler {
             this.compile()
         });
 
-        // watch ip register changes and update currentlyExecutedLine imported by the editor
-        registers.subscribe(updatedRegisters => {
-            this.updateCurrentlyExecutedLine()
-        });
-
         this.updateDebugModeStatus()
     }
 
     updateCurrentlyExecutedLine() {
+        return
         let currentInstruction = this.instructions[registers.get('ip')]
         if (currentInstruction) {
             setCurrentlyExecutedLine(currentInstruction.line)
@@ -134,7 +130,8 @@ class Compiler {
         if (currentInstruction) {
             this.pushToHistory()
             if (DEBUG) console.log("executed", currentInstruction.line, currentInstruction.cleanedLine)
-            this.executeInstruction(currentInstruction.parsed.opcode, currentInstruction.parsed.operands)
+            currentInstruction.run()
+            // this.executeInstruction(currentInstruction.parsed.opcode, currentInstruction.parsed.operands)
             currentInstruction = this.instructions[registers.get('ip')]
             this.updateCurrentlyExecutedLine()
         }
