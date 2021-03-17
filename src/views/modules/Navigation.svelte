@@ -55,11 +55,11 @@
         <ul>
             <li class="notClickable">{$projectName}</li>
             <Tooltip tooltip={$_('tooltips.navigation.step')} bottom>
-                <li class="{$codeRunnerStatus === 'ended' ? 'deactivated' : ''}" on:click={() => codeRunner.step()}><i class="fas fa-step-forward"></i> {$_('views.navigation.step')}</li>
+                <li class="{['ended', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.step()}><i class="fas fa-step-forward"></i> {$_('views.navigation.step')}</li>
             </Tooltip>
 
             <Tooltip tooltip={$_('tooltips.navigation.stepBack')} bottom>
-                <li class="{$codeRunnerStatus === 'stopped' ? '' : ''}" on:click={() => codeRunner.stepBack()}><i class="fas fa-step-backward"></i> {$_('views.navigation.stepBack')}</li>
+                <li class="{['reset', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.stepBack()}><i class="fas fa-step-backward"></i> {$_('views.navigation.stepBack')}</li>
             </Tooltip>
             {#if $codeRunnerStatus === "running"}
                 <Tooltip tooltip={$_('tooltips.navigation.pause')} bottom>
@@ -67,7 +67,7 @@
                 </Tooltip>
             {:else}
                 <Tooltip tooltip={$_('tooltips.navigation.run')} bottom>
-                    <li class="{['stopped', 'paused'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.run()}><i class="fas fa-play"></i> {$_('views.navigation.run')}</li>
+                    <li class="{['reset', 'paused'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.run()}><i class="fas fa-play"></i> {$_('views.navigation.run')}</li>
                 </Tooltip>
             {/if}
             <Tooltip tooltip={$_('tooltips.navigation.reset')} bottom>

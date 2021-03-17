@@ -53,18 +53,33 @@ function prepareOperand(operand: iOperand): iCompiledOperand {
 }
 
 function compile(instruction: iInstruction): () => Promise<void> {
-
-    // prepare operands during "compilation", so it doesn't slow down execution
-    let preparedOperands = instruction.operands.map(operand => prepareOperand(operand))
     let opcode = opcodes[instruction.opcode.content]
 
-    return function run(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            opcode.run(...preparedOperands)
-            registers.inc('ip')  // change for jumps
-            resolve()
-        });
+    if (instruction.operands?.[0]?.type === 'label') {  // jump
+        console.log("Jumps not implemented")
+        return function run(): Promise<void> {
+            return new Promise((resolve, reject) => {
+                let labelObj = {
+                    get: ()=> 3   // SET HERE absolute label address
+                }
+                opcode.run(labelObj)
+                resolve()
+            });
+        }
     }
+    else {
+        // prepare operands during "compilation", so it doesn't slow down execution
+        let preparedOperands = instruction.operands.map(operand => prepareOperand(operand))
+        return function run(): Promise<void> {
+            return new Promise((resolve, reject) => {
+                opcode.run(...preparedOperands)
+                registers.inc('ip')  // change for jumps
+                resolve()
+            });
+        }
+    }
+
+
 }
 
 

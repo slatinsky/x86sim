@@ -23,16 +23,16 @@ interface iHistorySnapshot { // TODO add more strict types
     memory: any
 }
 
-type tCodeRunnerStatus = 'not-runnable' | 'stopped' | 'paused' | 'running' | 'ended'
+type tCodeRunnerStatus = 'not-runnable' | 'reset' | 'paused' | 'running' | 'ended'
 export const codeRunnerStatus = writable<tCodeRunnerStatus>('not-runnable');
 export const debugMode = writable<boolean>(false);
 
 codeRunnerStatus.subscribe((newStatus: tCodeRunnerStatus) => {
     console.log("codeRunnerStatus", newStatus)
-    if (newStatus === 'not-runnable' || newStatus === 'stopped') {
+    if (newStatus === 'not-runnable' || newStatus === 'reset') {
         debugMode.set(false)
     }
-    else if (newStatus === 'paused' || newStatus === 'running') {
+    else if (newStatus === 'paused' || newStatus === 'running' || newStatus === 'ended') {
         debugMode.set(true)
     }
     else {
@@ -79,7 +79,7 @@ class CodeRunner {
         this.instructionsCompiled = instructionsNewCompiled
 
         if (instructionsNewCompiled.length > 0) {
-            codeRunnerStatus.set('stopped')
+            codeRunnerStatus.set('reset')
         }
         else {
             codeRunnerStatus.set('not-runnable')
@@ -109,6 +109,7 @@ class CodeRunner {
     }
 
     step(): void {
+        codeRunnerStatus.set('paused')
         // setDebugMode(true)  // needed, because history is empty now, but we need to set debug mode before instruction is executed to stop autosaving dirty memory and registers
         let currentInstruction = this.instructionsCompiled[registers.get('ip')]
         if (currentInstruction) {
@@ -129,7 +130,13 @@ class CodeRunner {
     }
 
     reset(): void {
-
+        this.pause()
+        if (this.history.length > 0) {
+            let firstSnapshot = this.history[0]
+            registers.load(firstSnapshot.registers)
+            memory.load(firstSnapshot.memory)
+            codeRunnerStatus.set('reset')
+        }
     }
 }
 
