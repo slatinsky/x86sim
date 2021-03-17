@@ -93,13 +93,17 @@
 		<div class="applicationLoaderSpinner"></div>
 		<h1>Simulátor sa načítava</h1>
 		<div>čakajte prosím</div>
+		<div>loading, please wait</div>
 	</div>
 
 	<div id="loadingStuck" class="loadingStuckHidden">
-		<div>Vypadá to tak, že simulátor sa nenačítal správne :(. V dev konzole (F12) sa možno dozviete viac.</div>
+		<div>EN: It seems like the simulator didn't load correctly :(. More information should be in devtools (F12)</div>
+		<div><b>Backup your programs in case you will need them in the future:</b></div>
+		<div>SK: Vypadá to tak, že simulátor sa nenačítal správne :(. V dev konzole (F12) sa možno dozviete viac.</div>
 		<div><b>Zálohujte si vaše programy, ak ich ešte budete potrebovať:</b></div>
 		<textarea id="loadingStuckCodeRecovery" rows="10"></textarea>
-		<div>Ak v simulátore už nemáte dôležité dáta, môžete zresetovať simulátor kliknutím <a href="javascript:void(0)">TU</a></div>
+		<div>EN: In case you don't have saved in simulator any important work, reset it by clicking <a href="javascript:void(0)">HERE</a></div>
+		<div>SK: Ak v simulátore už nemáte dôležité dáta, môžete zresetovať simulátor kliknutím <a href="javascript:void(0)">TU</a></div>
 	</div>
 	<script>
 		window.addEventListener('load', function () {
