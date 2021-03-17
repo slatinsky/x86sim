@@ -52,15 +52,18 @@ function prepareOperand(operand: iOperand): iCompiledOperand {
     }
 }
 
-function compile(instruction: iInstruction): () => Promise<void> {
+function compile(instruction: iInstruction, labels: { [labelName: string]: number }): () => Promise<void> {
     let opcode = opcodes[instruction.opcode.content]
 
     if (instruction.operands?.[0]?.type === 'label') {  // jump
-        console.log("Jumps not implemented")
+        console.warn("Jumps not implemented, but used")
+
+        let labelAddress = labels[instruction.operands[0].tokens[0].content]
+
         return function run(): Promise<void> {
             return new Promise((resolve, reject) => {
                 let labelObj = {
-                    get: ()=> 3   // SET HERE absolute label address
+                    get: ()=> labelAddress
                 }
                 opcode.run(labelObj)
                 resolve()
@@ -83,6 +86,24 @@ function compile(instruction: iInstruction): () => Promise<void> {
 }
 
 
+function parseLabels(rows: iRow[]): {[labelName: string]: number} {
+    // TODO: validate in validator, if duplicate labels exist, or if someone tries to jump to non-existing label
+    let labels: {[labelName: string]: number} = {}  // key is label name, value is address of instruction, where label belongs
+    let rowCounter = rows.filter(row => row.type === 'instruction').length  // amount of instructions in compiled code
+    const reversedRows: iRow[] = [...rows].reverse()
+    for (const row of reversedRows) {
+        if (row.type === 'label') {
+            let labelName = row.token.content
+            labels[labelName] = rowCounter
+        }
+        else {
+            rowCounter--
+        }
+    }
+    return labels
+}
+
+
 /**
  * TODO: add types to opcodes object
  *
@@ -91,6 +112,11 @@ function compile(instruction: iInstruction): () => Promise<void> {
  * if operator + any + operator + ... in operand field
  */
 export function compileParseTree(rows: iRow[]): iCompiledInstruction[] {
+    if (rows.length === 0) {
+        return []
+    }
+
+    const labels = parseLabels(rows)
 
     eLineToEditorLine.updateRows(rows)
 
@@ -102,7 +128,7 @@ export function compileParseTree(rows: iRow[]): iCompiledInstruction[] {
 
             let compiledInstruction: iCompiledInstruction = {
                 instruction: row,
-                run: compile(row)
+                run: compile(row, labels)
             }
 
             compiledInstructions.push(compiledInstruction)
@@ -118,19 +144,6 @@ export function compileParseTree(rows: iRow[]): iCompiledInstruction[] {
 
     return compiledInstructions
 
-    // TODO: parse label addresses firsts
-    // let labels = []
-    // const reversedRows: iRow[] = [...rows].reverse()
 
-    // let lastInstructionRow = reversedRows?.[0].row ?? 0
-    // for (const row of reversedRows) {
-    //     if (row.type === 'label') {
-    //
-    //     }
-    //     else {
-    //         lastInstructionRow = row.row
-    //     }
-    //
-    // }
 
 }
