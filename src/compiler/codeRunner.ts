@@ -1,0 +1,137 @@
+import {DebouncedFunc, throttle} from "lodash-es";
+import {registers} from "../stores/registers";
+import {parseInstructionList} from "./parseInstruction";
+import {get, writable} from "svelte/store";
+import {opcodes} from "./opcodes";
+import {memory} from "../stores/memory";
+import {settings} from "../stores/settings";
+import {MAX_EXECUTED_INSTRUCTION_COUNT} from "../stores/config";
+import {compileParseTree, currentlyExecutedLine} from "./compileParseTree";
+import {_} from "svelte-i18n";
+import {tokenize} from "./tokenizer";
+import {createParseTree} from "./createParseTree";
+import {validateParseTree} from "./validateParseTree";
+
+
+// breakpoints
+export const breakpoints = writable([])
+
+export const code = writable('')
+
+interface iHistorySnapshot { // TODO add more strict types
+    registers: any,
+    memory: any
+}
+
+type tCodeRunnerStatus = 'not-runnable' | 'stopped' | 'paused' | 'running' | 'ended'
+export const codeRunnerStatus = writable<tCodeRunnerStatus>('not-runnable');
+export const debugMode = writable<boolean>(false);
+
+codeRunnerStatus.subscribe((newStatus: tCodeRunnerStatus) => {
+    console.log("codeRunnerStatus", newStatus)
+    if (newStatus === 'not-runnable' || newStatus === 'stopped') {
+        debugMode.set(false)
+    }
+    else if (newStatus === 'paused' || newStatus === 'running') {
+        debugMode.set(true)
+    }
+    else {
+        console.error("codeRunner.ts - codeRunnerStatus subscribe unknown status", newStatus)
+    }
+});
+
+class CodeRunner {
+    get errors(): iError[] {
+        return this._errors;
+    }
+    private compile: DebouncedFunc<(updatedCode: string) => [iCompiledInstruction[], any]>;
+    private history: iHistorySnapshot[];
+    private _errors: iError[];
+    private instructionsAndLabels: iRow[];
+    private instructionsCompiled: iCompiledInstruction[];
+
+    constructor() {
+        this.history = []
+        this.compile = throttle(this._compileUnthrottled, 50);  // .05 sec throttle
+        this._errors = []
+        this.instructionsAndLabels = []
+        this.instructionsCompiled = []
+
+
+        // subscribe for code changes
+        code.subscribe(updatedCode => {
+            this.compile(updatedCode)
+        });
+
+    }
+
+    // unthrottled
+    _compileUnthrottled(updatedCode: string): void {
+        this.pause()
+
+        let tokens = tokenize(updatedCode)
+        const [rowsNew, errorsNew] = createParseTree(tokens)
+        this.instructionsAndLabels = rowsNew
+
+        let errorsNew2 = validateParseTree(rowsNew)
+
+        let instructionsNewCompiled = compileParseTree(rowsNew)
+        this.instructionsCompiled = instructionsNewCompiled
+
+        if (instructionsNewCompiled.length > 0) {
+            codeRunnerStatus.set('stopped')
+        }
+        else {
+            codeRunnerStatus.set('not-runnable')
+        }
+
+        this._errors = [].concat(errorsNew).concat(errorsNew2)  // TODO: errors from old compiler are intentionally removed
+    }
+
+    makeSnapshot(): iHistorySnapshot {
+        return {
+            registers: registers.reduce(),
+            memory: memory.reduce(),
+        }
+    }
+
+    pushToHistory(): void {
+        let snapshot = this.makeSnapshot()
+        this.history.push(snapshot)
+    }
+
+    stepBack(): void {
+        if (this.history.length > 0) {
+            let snapshot = this.history.pop()
+            registers.load(snapshot.registers)
+            memory.load(snapshot.memory)
+        }
+    }
+
+    step(): void {
+        // setDebugMode(true)  // needed, because history is empty now, but we need to set debug mode before instruction is executed to stop autosaving dirty memory and registers
+        let currentInstruction = this.instructionsCompiled[registers.get('ip')]
+        if (currentInstruction) {
+            this.pushToHistory()
+            currentInstruction.run()
+            currentInstruction = this.instructionsCompiled[registers.get('ip')]
+            // this.updateCurrentlyExecutedLine()
+        }
+        // this.updateDebugModeStatus()
+    }
+
+    pause(): void {
+
+    }
+
+    run(): void {
+
+    }
+
+    reset(): void {
+
+    }
+}
+
+
+export const codeRunner = new CodeRunner()

@@ -1,8 +1,9 @@
 <script>
-    import {appState, projectName, debugMode, currentlyExecutedLine, programIsRunning} from "../../stores/stores";
-    import {compiler} from "../../compiler/compiler";
+    import {appState, projectName, debugMode, currentlyExecutedLine} from "../../stores/stores";
     import {_, locale} from 'svelte-i18n'
     import Tooltip from "../components/Tooltip.svelte";
+    import {codeRunner} from "../../compiler/codeRunner";
+    import {codeRunnerStatus} from "../../compiler/codeRunner";
 </script>
 
 <style>
@@ -54,23 +55,23 @@
         <ul>
             <li class="notClickable">{$projectName}</li>
             <Tooltip tooltip={$_('tooltips.navigation.step')} bottom>
-                <li class="{$currentlyExecutedLine === -1 || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.step()}><i class="fas fa-step-forward"></i> {$_('views.navigation.step')}</li>
+                <li class="{$codeRunnerStatus === 'ended' ? 'deactivated' : ''}" on:click={() => codeRunner.step()}><i class="fas fa-step-forward"></i> {$_('views.navigation.step')}</li>
             </Tooltip>
 
             <Tooltip tooltip={$_('tooltips.navigation.stepBack')} bottom>
-                <li class="{!$debugMode  || $programIsRunning ? 'deactivated' : ''}" on:click={() => compiler.stepBack()}><i class="fas fa-step-backward"></i> {$_('views.navigation.stepBack')}</li>
+                <li class="{$codeRunnerStatus === 'stopped' ? '' : ''}" on:click={() => codeRunner.stepBack()}><i class="fas fa-step-backward"></i> {$_('views.navigation.stepBack')}</li>
             </Tooltip>
-            {#if $programIsRunning}
+            {#if $codeRunnerStatus === "running"}
                 <Tooltip tooltip={$_('tooltips.navigation.pause')} bottom>
-                    <li on:click={() => compiler.pause()}><i class="fas fa-pause"></i> {$_('views.navigation.pause')}</li>
+                    <li on:click={() => codeRunner.pause()}><i class="fas fa-pause"></i> {$_('views.navigation.pause')}</li>
                 </Tooltip>
             {:else}
                 <Tooltip tooltip={$_('tooltips.navigation.run')} bottom>
-                    <li class="{$currentlyExecutedLine === -1 ? 'deactivated' : ''}" on:click={() => compiler.run()}><i class="fas fa-play"></i> {$_('views.navigation.run')}</li>
+                    <li class="{['stopped', 'paused'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.run()}><i class="fas fa-play"></i> {$_('views.navigation.run')}</li>
                 </Tooltip>
             {/if}
             <Tooltip tooltip={$_('tooltips.navigation.reset')} bottom>
-                <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => compiler.reset()}><i class="fas fa-stop"></i> {$_('views.navigation.reset')}</li>
+                <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => codeRunner.reset()}><i class="fas fa-stop"></i> {$_('views.navigation.reset')}</li>
             </Tooltip>
         </ul>
     </div>

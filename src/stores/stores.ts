@@ -1,10 +1,13 @@
 import { throttle } from 'lodash-es';
-import {code, compiledInstructions, debugMode, programIsRunning} from "../compiler/compiler"
+// import {code, compiledInstructions, debugMode, programIsRunning} from "../compiler/compiler"
 import {programs, projectName} from "./programs"
 import {registers} from "./registers"
 import {memory} from "./memory"
 import {writable} from "svelte/store";
 import { currentlyExecutedLine } from '../compiler/compileParseTree';
+import {code, debugMode} from "../compiler/codeRunner";
+
+
 
 // note: code in this file runs only one
 
@@ -24,7 +27,9 @@ registers.subscribe(_ => {
 memory.subscribe(_ => {
     throttledSaveCurrentProject()
 });
-export {registers, memory, programs, projectName, code, currentlyExecutedLine, compiledInstructions, debugMode, programIsRunning}
+export {registers, memory, programs, projectName, code, currentlyExecutedLine, debugMode}
+// export {registers, memory, programs, projectName, code, currentlyExecutedLine, compiledInstructions, debugMode, programIsRunning}
+// export {registers, memory, programs, projectName, currentlyExecutedLine}
 export {settings} from "./settings"
 export {appState} from "./appState"
 

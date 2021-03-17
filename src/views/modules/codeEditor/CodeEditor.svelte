@@ -5,12 +5,13 @@
     import "brace/mode/assembly_x86"
     import "brace/theme/dracula"
     import "brace/ext/language_tools"
-    import {code, currentlyExecutedLine, compiledInstructions, settings} from "../../../stores/stores"
+    import {code, currentlyExecutedLine, settings} from "../../../stores/stores"
     import {mainCompleter, snippetsCompleter} from "./completers"
-    import {breakpoints} from "../../../compiler/compiler"
     import {annotate} from "./annotations.js"
     import { _} from 'svelte-i18n'
     import {intToFormattedString} from "../../../formatConverter";
+    import {breakpoints} from "../../../compiler/codeRunner";
+
 
     let editor
     let errorCheckingInterval
@@ -191,12 +192,13 @@
             }
         })
 
-        compiledInstructions.subscribe(instructions => {
-            lineAddressMapping = {}
-            instructions.map(instruction => {
-                lineAddressMapping[instruction.line] = instruction.address
-            })
-        })
+        // TODO: reimplement
+        // compiledInstructions.subscribe(instructions => {
+        //     lineAddressMapping = {}
+        //     instructions.map(instruction => {
+        //         lineAddressMapping[instruction.line] = instruction.address
+        //     })
+        // })
     }
 
     // debounce annotate function - don't interrupt user while he is typing. Show/update errors only when user stops typing the code

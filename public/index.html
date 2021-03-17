@@ -131,7 +131,7 @@
 					})
 				}
 
-				document.getElementById('loadingStuckErrorTextarea').innerHTML   = JSON.stringify(window.loadingErrorString, null, 2)
+				// document.getElementById('loadingStuckErrorTextarea').innerHTML   = JSON.stringify(window.loadingErrorString, null, 2)
 
 				window.onerror = function (msg, url, lineNo, columnNo, error) {
 					// don't listen for errors after load

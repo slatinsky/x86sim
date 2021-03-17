@@ -1,11 +1,12 @@
-import {getErrors} from "../../../compiler/compiler";
+
 import * as ace from "brace";
+import {codeRunner} from "../../../compiler/codeRunner";
 const Range = ace.acequire('ace/range').Range
 
 var markers = []
 
 export function annotate(editor, code) {
-    let errors = getErrors(code)
+    let errors = codeRunner.errors
 
     // remove old syntax error markers
     for (const marker of markers) {
