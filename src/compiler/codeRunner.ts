@@ -17,6 +17,7 @@ import {validateParseTree} from "./validateParseTree";
 export const breakpoints = writable([])
 
 export const code = writable('')
+export const lineAddressMapping = writable<{ [key: number]: number }>({})
 
 interface iHistorySnapshot { // TODO add more strict types
     registers: any,
@@ -44,17 +45,15 @@ class CodeRunner {
     get errors(): iError[] {
         return this._errors;
     }
-    private compile: DebouncedFunc<(updatedCode: string) => [iCompiledInstruction[], any]>;
+    private readonly compile: DebouncedFunc<(updatedCode: string) => [iCompiledInstruction[], any]>;
     private history: iHistorySnapshot[];
     private _errors: iError[];
-    private instructionsAndLabels: iRow[];
     private instructionsCompiled: iCompiledInstruction[];
 
     constructor() {
         this.history = []
         this.compile = throttle(this._compileUnthrottled, 50);  // .05 sec throttle
         this._errors = []
-        this.instructionsAndLabels = []
         this.instructionsCompiled = []
 
 
@@ -65,15 +64,33 @@ class CodeRunner {
 
     }
 
+
+    /**
+     * creates object that maps ip register and editor line, so editor can display expected ip register in line gutter
+     *
+     * lineAddressMapping:
+     *      key = ip register
+     *      value = editor row
+     */
+    private updateLineAddressMapping() {
+        let newLineAddressMapping: { [key: number]: number } = {}
+        console.log("this.instructionsCompiled", this.instructionsCompiled)
+        for (const [ip, instructionCompiled] of Object.entries(this.instructionsCompiled)) {
+            let editorRow = instructionCompiled.instruction.opcode.row
+            newLineAddressMapping[editorRow] = parseInt(ip)
+        }
+        lineAddressMapping.set(newLineAddressMapping)
+    }
+
     // unthrottled
-    _compileUnthrottled(updatedCode: string): void {
+    private _compileUnthrottled(updatedCode: string): void {
         this.pause()
 
         let tokens = tokenize(updatedCode)
         const [rowsNew, errorsNew] = createParseTree(tokens)
-        this.instructionsAndLabels = rowsNew
 
         let errorsNew2 = validateParseTree(rowsNew)
+
 
         let instructionsNewCompiled = compileParseTree(rowsNew)
         this.instructionsCompiled = instructionsNewCompiled
@@ -85,10 +102,12 @@ class CodeRunner {
             codeRunnerStatus.set('not-runnable')
         }
 
+        this.updateLineAddressMapping()
+
         this._errors = [].concat(errorsNew).concat(errorsNew2)  // TODO: errors from old compiler are intentionally removed
     }
 
-    makeSnapshot(): iHistorySnapshot {
+    private makeSnapshot(): iHistorySnapshot {
         return {
             registers: registers.reduce(),
             memory: memory.reduce(),

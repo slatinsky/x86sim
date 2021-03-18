@@ -10,13 +10,12 @@
     import {annotate} from "./annotations.js"
     import { _} from 'svelte-i18n'
     import {intToFormattedString} from "../../../formatConverter";
-    import {breakpoints} from "../../../compiler/codeRunner";
+    import {breakpoints, lineAddressMapping} from "../../../compiler/codeRunner";
 
 
     let editor
     let errorCheckingInterval
 
-    let lineAddressMapping = {}
     let editorFocused = false
 
     let EMPTY_GUTTER = "   "
@@ -35,16 +34,23 @@
                 return lastLineNumber.toString().length * config.characterWidth;
             },
             getText: function(session, row) {
-
-                // console.log(editor.session.getLine(4))  //get fourth line, will be usefull later
-                if (lineAddressMapping.hasOwnProperty(row)) {
-                    return intToFormattedString(lineAddressMapping[row], $settings.selectedFormat, 16)
+                // console.log(editor.session.getLine(4))  //get fourth line, will be useful later
+                if ($lineAddressMapping.hasOwnProperty(row)) {
+                    return intToFormattedString($lineAddressMapping[row], $settings.selectedFormat, 16)
                 }
                 else {
                     return EMPTY_GUTTER
                 }
             }
         }
+
+        // // TODO: reimplement
+        // lineAddressMapping.subscribe(instructions => {
+        //     lineAddressMapping = {}
+        //     instructions.map(instruction => {
+        //         lineAddressMapping[instruction.line] = instruction.address
+        //     })
+        // })
 
         // add autocomplete to the editor
         // https://stackoverflow.com/a/30047705/14409632
@@ -192,13 +198,7 @@
             }
         })
 
-        // TODO: reimplement
-        // compiledInstructions.subscribe(instructions => {
-        //     lineAddressMapping = {}
-        //     instructions.map(instruction => {
-        //         lineAddressMapping[instruction.line] = instruction.address
-        //     })
-        // })
+
     }
 
     // debounce annotate function - don't interrupt user while he is typing. Show/update errors only when user stops typing the code
