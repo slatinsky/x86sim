@@ -2,6 +2,8 @@ import {opcodes} from "./opcodes"
 import {registers} from "../stores/registers"
 import {readable, writable} from "svelte/store"
 import type {tRegister} from "../types/types"
+import { memory } from "../stores/stores"
+import {errorObject} from "./createParseTree";
 
 class executedLineToEditorLine {
     private mapping: {}
@@ -51,7 +53,7 @@ function prepareOperand(operand: iOperand): iCompiledOperand {
         }
     }
     else if (operand.type === 'immediate'){
-        let value = parseInt(operand.tokens[0].content)
+        let value = parseInt(operand.tokens[0].content)  // TODO: convert hex, binary
         return {
             get: (): number => value,
             set: (valueToSet: number): void => {
@@ -63,6 +65,60 @@ function prepareOperand(operand: iOperand): iCompiledOperand {
                 // console.error("prepareLocation - you can't write to immediate!")
             },
             type: "immediate"
+        }
+    }
+    else if (operand.type === 'memory'){
+        let computeAddressFunctions: { (): number } [] = []
+
+        let slicedOperandTokens = operand.tokens.slice(1, -1)
+        let sign = 1
+
+        for (const token of slicedOperandTokens) {
+            if (token.type === 'operator') {
+                if (token.content === '+') {
+                    sign = 1
+                } else if (token.content === '-') {
+                    sign = -1
+                }
+                else {  // TODO: move to validator
+                    throw errorObject(token, "Operator can be only + or -")
+                }
+            }
+            else if (token.type === 'register') {
+                let localSign = sign
+                computeAddressFunctions.push((): number => {
+                    // console.log("sign", localSign, "register", token.content)
+                    return localSign * registers.get(<tRegister>token.content)
+                })
+            }
+            else if (token.type === 'numeric') {
+                let localSign = sign
+                computeAddressFunctions.push((): number => {
+                    // console.log("sign", localSign, "numeric token.content", token.content)
+                    return localSign * parseInt(token.content)  // TODO: convert hex, binary
+                })
+            }
+        }
+
+
+        function getAddress() {
+            let address: number = 0
+            for (const addressFunction of computeAddressFunctions) {
+                address += addressFunction()
+            }
+            return address
+        }
+        return {
+            get: (): number => {
+                return memory.get(getAddress())
+            },
+            set: (valueToSet: number): void => {
+                memory.set(getAddress(), valueToSet)
+            },
+            setWithFlags: (valueToSet: number): void => {
+                memory.setWithFlags(getAddress(), valueToSet)
+            },
+            type: "memory"
         }
     }
 }
@@ -140,15 +196,21 @@ export function compileParseTree(rows: iRow[]): iCompiledInstruction[] {
     for (const row of rows) {
         if (row.type === "instruction") {
             let opcode = row.opcode
+            try {
+                let compiledInstruction: iCompiledInstruction = {
+                    instruction: row,
+                    run: compile(row, labels)
+                }
 
-            let compiledInstruction: iCompiledInstruction = {
-                instruction: row,
-                run: compile(row, labels)
+                compiledInstructions.push(compiledInstruction)
+
+                console.log("opcode", opcodes[opcode.content])
+            }
+            catch (e) {
+                console.error("compiler crashed while compiling. There is not enough validation. Details:" + JSON.stringify(e))
+                return []
             }
 
-            compiledInstructions.push(compiledInstruction)
-
-            console.log("opcode", opcodes[opcode.content])
         }
     }
 

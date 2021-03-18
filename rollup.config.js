@@ -83,7 +83,7 @@ export default {
 		}),
 		commonjs(),
 		typescript({
-			sourceMap: !production,
+			sourceMap: true,  //the project is opensource anyway. No reason not to generate source maps
 			inlineSources: !production
 		}),
 		string({  // https://www.npmjs.com/package/rollup-plugin-string
