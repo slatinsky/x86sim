@@ -4,6 +4,7 @@ import {readable, writable} from "svelte/store"
 import type {tRegister} from "../types/types"
 import { memory } from "../stores/stores"
 import {errorObject} from "./createParseTree";
+import {autodetectToSignedInteger} from "../formatConverter";
 
 class executedLineToEditorLine {
     private mapping: {}
@@ -53,7 +54,7 @@ function prepareOperand(operand: iOperand): iCompiledOperand {
         }
     }
     else if (operand.type === 'immediate'){
-        let value = parseInt(operand.tokens[0].content)  // TODO: convert hex, binary
+        let value = autodetectToSignedInteger(operand.tokens[0].content)
         return {
             get: (): number => value,
             set: (valueToSet: number): void => {
@@ -93,9 +94,10 @@ function prepareOperand(operand: iOperand): iCompiledOperand {
             }
             else if (token.type === 'numeric') {
                 let localSign = sign
+                let localValue = autodetectToSignedInteger(token.content)
                 computeAddressFunctions.push((): number => {
                     // console.log("sign", localSign, "numeric token.content", token.content)
-                    return localSign * parseInt(token.content)  // TODO: convert hex, binary
+                    return localSign * localValue  // TODO: convert hex, binary
                 })
             }
         }
@@ -203,8 +205,6 @@ export function compileParseTree(rows: iRow[]): iCompiledInstruction[] {
                 }
 
                 compiledInstructions.push(compiledInstruction)
-
-                console.log("opcode", opcodes[opcode.content])
             }
             catch (e) {
                 console.error("compiler crashed while compiling. There is not enough validation. Details:" + JSON.stringify(e))

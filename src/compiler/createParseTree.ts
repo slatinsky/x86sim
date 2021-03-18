@@ -238,7 +238,7 @@ function parseRow(tokens: iToken[]): iRow {
         throw errorObject(tokens[0], `'${tokens[0].content}' isn't valid opcode`)
     }
     else {
-        throw "you should never see this message, because parseRow should always receive one or more tokens - you should never see this error"
+        throw "parseRow should always receive one or more tokens - you should never see this error"
     }
 }
 

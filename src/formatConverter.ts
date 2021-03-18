@@ -153,6 +153,31 @@ function mergeSelectedFormat(base: typeBase, decSigned: boolean): typeSelectedFo
     }
 }
 
+/**
+ * tries to parse string from multiple formats to signed dec
+ *
+ * bin -> signed dec
+ * hex -> signed dec
+ * signed dec -> signed dec
+ */
+export function autodetectToSignedInteger(numberString: string): number {
+    if (/^'.'$/i.test(numberString)) {  // char
+        return numberString.charCodeAt(1)
+    }
+    else if (/^0b[01]+$/i.test(numberString)) {
+        return formattedStringToInt(numberString.replace(/^0b/, ''), 'bin', 16)
+    }
+    else if (/^0x[0-9a-f]+$/i.test(numberString)) {
+        return formattedStringToInt(numberString.replace(/^0x/, ''), 'hex', 16)
+    }
+    else if (/^[0-9a-f]+h$/i.test(numberString)) {
+        return formattedStringToInt(numberString.replace(/h$/, ''), 'hex', 16)
+    }
+    else {
+        return parseInt(numberString)
+    }
+}
+
 // TODO: port ugly tests to test library
 // console.log("test 1", signedToUnsignedInt(-1, 16), "=", 65535)
 // console.log("test 2", unsignedToSignedInt(65535, 16), "=", -1)
