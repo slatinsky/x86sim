@@ -87,9 +87,9 @@ class CodeRunner {
         this.pause()
 
         let tokens = tokenize(updatedCode)
-        const [rowsNew, errorsNew] = createParseTree(tokens)
-
-        let errorsNew2 = validateParseTree(rowsNew)
+        let [rowsNew, errorsNew] = createParseTree(tokens)
+        let errorsNew2
+        [errorsNew2, rowsNew] = validateParseTree(rowsNew)
 
 
         let instructionsNewCompiled = compileParseTree(rowsNew)

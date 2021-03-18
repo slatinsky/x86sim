@@ -44,20 +44,25 @@ pop ${tempRegisterName}`
 }
 
 /**
- * Will validate parse tree
+ * Validates parse tree
+ * and removes invalid rows before compilation
  * @param rows
  */
-export function validateParseTree(rows: iRow[]): iError[] {
+export function validateParseTree(rows: iRow[]): [iError[], iRow[]] {
     let errors: iError[] = []
     for (const row of rows) {
         try {
             validateRow(row)
         }
         catch (e) {
-            console.error("line:", row.row, e)
+            console.error("line:", row, e)
             errors.push(e)
         }
-
     }
-    return errors
+
+
+    // remove invalid rows from parse tree
+    let errorRows = errors.map(error => error.token.row)
+    rows = rows.filter(row => !errorRows.includes(row?.token?.row ?? row.opcode.row))
+    return [errors, rows]
 }

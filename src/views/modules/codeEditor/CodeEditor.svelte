@@ -44,14 +44,6 @@
             }
         }
 
-        // // TODO: reimplement
-        // lineAddressMapping.subscribe(instructions => {
-        //     lineAddressMapping = {}
-        //     instructions.map(instruction => {
-        //         lineAddressMapping[instruction.line] = instruction.address
-        //     })
-        // })
-
         // add autocomplete to the editor
         // https://stackoverflow.com/a/30047705/14409632
         // https://github.com/thlorenz/brace/issues/19#issuecomment-74065730
