@@ -33,6 +33,7 @@ interface iInstruction {
     type: 'instruction',
     opcode: iToken
     operands: iOperand[],
+    bits: tTokenBits
 }
 
 interface iCompiledInstruction {

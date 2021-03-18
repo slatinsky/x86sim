@@ -179,6 +179,27 @@ function parseOperand(operandTokens: iToken[]): iOperand {
     }
 }
 
+function opcodesDetectBits(operands: iOperand[]): tTokenBits {
+    let resultingBits:tTokenBits = null
+    let firstToken: iToken
+
+    for (const operand of operands) {
+        for (const token of operand.tokens) {
+            if (token.bits !== null) {
+                if (resultingBits === null) {
+                    resultingBits = token.bits
+                    firstToken = token
+                }
+                else if (token.bits != resultingBits) {
+                    throw errorObject(token, `Can't use ${firstToken.bits}-bit (${firstToken.type} ${firstToken.content}) and ${token.bits}-bit (${token.type} ${token.content}) value/address/register in the same instruction.\nUse 2x 16-bit or 2x 8-bit`)
+                }
+            }
+        }
+    }
+
+    return null
+}
+
 function splitOperands(tokens: iToken[]): iToken[][] {
     return splitTokensByIdentifier(tokens, ',')
 }
@@ -203,12 +224,14 @@ function parseRow(tokens: iToken[]): iRow {
             type: 'instruction',
             opcode: opcodeToken,
             operands: [],
+            bits: null
         }
 
         let tokensSplitByOperands = splitOperands(tokens)
         for (const operandTokens of tokensSplitByOperands) {
             instruction.operands.push(parseOperand(operandTokens))
         }
+        instruction.bits = opcodesDetectBits(instruction.operands)
         return instruction
     }
     else if (tokens.length >= 1 && tokens[0].type !== 'opcode') {
