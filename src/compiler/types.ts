@@ -6,13 +6,15 @@ interface iError {
 }
 
 type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' | 'identifier' | 'mixed'   // mixed token is merged token with different types
+type tTokenBits = null | 8 | 16   // null if unknown
 
 interface iToken {
     row: number,
     col: number,
     index: number,  // character index from the beginning
     type: tTokenType,
-    content: string
+    content: string,
+    bits: tTokenBits
 }
 
 type iRow = iInstruction | iLabel

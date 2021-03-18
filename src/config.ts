@@ -12,6 +12,22 @@ export const allIntelRegisters = [
 ]
 export const allFlags = ['cf', 'pf', 'af', 'zf', 'sf', 'tf', 'if', 'df', 'of']
 
+
+export const allIntel16bitRegisters = [
+    'ax',
+    'bx',
+    'cx',
+    'dx',
+    'si', 'di', 'bp', 'sp', 'f', 'ip'
+]
+
+export const allIntel8bitRegisters = [
+    'al', 'ah',
+    'bl', 'bh',
+    'cl', 'ch',
+    'dl', 'dh',
+]
+
 // source https://gist.github.com/hodgef/e190731ab6c5d297ab22e25811d8fea9
 export let keyCodesToKeyNames = {
     8: "backspace",

@@ -1,4 +1,4 @@
-import {allIntelOpcodes, allIntelRegisters} from "../config"
+import {allIntelOpcodes, allIntelRegisters, allIntel16bitRegisters, allIntel8bitRegisters} from "../config"
 
 function getTokenType(tokenContent: string): tTokenType {
     if (/^((0b[01]+)|(0x[0-9a-f]+)|([0-9a-f]+h)|([0-9]+))$/i.test(tokenContent)) {  // 'binary' | 'hex1' | 'hex2' | 'number'
@@ -15,7 +15,7 @@ function getTokenType(tokenContent: string): tTokenType {
             return 'alphanumeric'
         }
     }
-    else if (/^'.'$/i.test(tokenContent)) {  // char is number too :)
+    else if (/^'.'$/i.test(tokenContent)) {  // char is number too :)  // TODO: validate if char is ascii in validator
         return 'numeric'
     }
     else if (/^[+*/-]$/i.test(tokenContent)) {
@@ -31,6 +31,27 @@ function getTokenType(tokenContent: string): tTokenType {
         else {
             return 'identifier'
         }
+    }
+}
+
+/**
+ * Detects if token is 8bit, 16-bit or can't be determined
+ */
+function getBitSize(tokenType: tTokenType, tokenContent: string): tTokenBits {
+    if (tokenType === "numeric" && /^((0b[01]{16})|(0x[0-9a-f]{4})|([0-9a-f]{4}h))$/i.test(tokenContent)) {  // only 16-bit numeric values
+        return 16
+    }
+    else if (tokenType === "numeric" && /^((0b[01]{8})|(0x[0-9a-f]{2})|([0-9a-f]{2}h)|'[\x00-\x7F]')$/i.test(tokenContent)) {  // only 8-bit numeric values, including ascii-only chars
+        return 8
+    }
+    else if (tokenType === "register" && allIntel16bitRegisters.includes(tokenContent)){
+        return 16
+    }
+    else if (tokenType === "register" && allIntel8bitRegisters.includes(tokenContent)){
+        return 8
+    }
+    else {
+        return null
     }
 }
 
@@ -68,18 +89,22 @@ export function tokenize(instructionList: string): iToken[] {
             break
         }
 
+        let tokenContent = match[0]
 
-        if (match[0] == '\n'){  // each new line, rowNumber is incremented
+
+        if (tokenContent == '\n'){  // each new line, rowNumber is incremented
             rowNumber++
             colOffset = match.index + 1
         }
         else {
+            let tokenType = getTokenType(tokenContent)
             let token: iToken = {
                 row: rowNumber,
                 col: match.index - colOffset,
                 index: match.index,
-                content: match[0],
-                type: getTokenType(match[0])
+                content: tokenContent,
+                type: tokenType,
+                bits: getBitSize(tokenType, tokenContent)
             }
 
             if (token.type !== 'comment') {  // ignore comments

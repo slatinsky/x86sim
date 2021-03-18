@@ -50,6 +50,21 @@ function prepareOperand(operand: iOperand): iCompiledOperand {
             type: "register"
         }
     }
+    else if (operand.type === 'immediate'){
+        let value = parseInt(operand.tokens[0].content)
+        return {
+            get: (): number => value,
+            set: (valueToSet: number): void => {
+                throw "ERROR: you can't write to immediate!"
+                // console.error("prepareLocation - you can't write to immediate!")
+            },
+            setWithFlags: (valueToSet: number): void => {
+                throw "ERROR: you can't write to immediate!"
+                // console.error("prepareLocation - you can't write to immediate!")
+            },
+            type: "immediate"
+        }
+    }
 }
 
 function compile(instruction: iInstruction, labels: { [labelName: string]: number }): () => Promise<void> {

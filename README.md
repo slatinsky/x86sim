@@ -44,7 +44,7 @@ To make builds quicker, service worker is disabled:
 - if you are on localhost
 - or in development builds
 
-To debug service worker, change `USE_SERVICE_WORKER` variable in `rollup.config.js` and using [hosts](https://en.wikipedia.org/wiki/Hosts_(file)) file access localhost under different domain
+To debug service worker, change `USE_SERVICE_WORKER` variable in `rollup.config.ts` and using [hosts](https://en.wikipedia.org/wiki/Hosts_(file)) file access localhost under different domain
 
 ### Production
 To create optimized production build, compile using `npm run build`. After compilation, production build will be created inside `public` folder. Upload it's content to your web server. Only static files are generated, so it will work in almost any server which serves static files, for example [apache](https://httpd.apache.org/). 

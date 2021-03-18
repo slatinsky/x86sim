@@ -7,7 +7,8 @@ function mergeTwoTokens(token1: iToken, token2: iToken): iToken {
         col: token1.col,
         index: token1.index,  // character index from the beginning
         type: token1.type === token2.type ? token1.type : 'mixed',
-        content: token1.content + ''.padStart(token2.index - token1.index + token1.content.length + token1.content.length, ' ') + token2.content   // pad content of in-between tokens with spaces
+        content: token1.content + ''.padStart(token2.index - token1.index + token1.content.length + token1.content.length, ' ') + token2.content,   // pad content of in-between tokens with spaces
+        bits: token1.bits === token2.bits ? token1.bits : null,
     }
 
     return newToken
@@ -24,7 +25,8 @@ export function mergeTokens(tokens: iToken[]): iToken {
             col: 0,
             index: 0,
             type: 'mixed',
-            content: ''
+            content: '',
+            bits: null
         }
     }
 
