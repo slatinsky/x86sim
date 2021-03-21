@@ -114,38 +114,112 @@ class CodeRunner {
         }
     }
 
-    pushToHistory(): void {
-        let snapshot = this.makeSnapshot()
-        this.history.push(snapshot)
+
+
+    async stepBack(): Promise<void> {
+        await this.rollbackPreviousInstruction()
     }
 
-    stepBack(): void {
+    /**
+     * Runs next instruction based on where ip register points to
+     * Saves previous state to history, so rollbackPreviousInstruction() an restore it
+     *
+     * sets status to ended if there is no instruction to execute
+     */
+    async runNextInstruction(): Promise<void> {
+        let currentInstruction = this.instructionsCompiled[registers.get('ip')]
+        if (currentInstruction) {
+            let snapshot = this.makeSnapshot()
+            this.history.push(snapshot)
+            await currentInstruction.run()
+        }
+        else {
+            codeRunnerStatus.set('ended')
+        }
+    }
+
+    /**
+     * Rollbacks previously run instruction from history
+     *
+     * sets codeRunnerStatus to reset if there is no history available
+     */
+    async rollbackPreviousInstruction(): Promise<void> {
         if (this.history.length > 0) {
             let snapshot = this.history.pop()
             registers.load(snapshot.registers)
             memory.load(snapshot.memory)
         }
+
+        if (this.history.length === 0) {
+            codeRunnerStatus.set('reset')
+        }
     }
 
-    step(): void {
+    async step(): Promise<void> {
         codeRunnerStatus.set('paused')
-        // setDebugMode(true)  // needed, because history is empty now, but we need to set debug mode before instruction is executed to stop autosaving dirty memory and registers
-        let currentInstruction = this.instructionsCompiled[registers.get('ip')]
-        if (currentInstruction) {
-            this.pushToHistory()
-            currentInstruction.run()
-            currentInstruction = this.instructionsCompiled[registers.get('ip')]
-            // this.updateCurrentlyExecutedLine()
-        }
-        // this.updateDebugModeStatus()
+        await this.runNextInstruction()
     }
 
     pause(): void {
-
+        codeRunnerStatus.set('paused')
     }
 
-    run(): void {
+    /**
+     * Resolves promise after specified time in ms
+     */
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
+    async runBackwards(): Promise<void> {
+        await this.run(this.rollbackPreviousInstruction.bind(this))
+    }
+
+    async runForwards(): Promise<void> {
+        await this.run(this.runNextInstruction.bind(this))
+    }
+
+    /**
+     * Main instruction runner
+     * Callback is rollbackPreviousInstruction() or runNextInstruction() depending on the way we are running the programm
+     */
+    private async run(callback: () => Promise<void>): Promise<void> {
+        let executedInstructionsCounter = 0
+        let codeExecutionDelay = get(settings).codeExecutionDelay
+        codeRunnerStatus.set('running')
+        while (true) {
+            if (get(codeRunnerStatus) !== 'running') {
+                return
+            }
+            await callback()
+
+
+
+            if (get(breakpoints).hasOwnProperty(get(currentlyExecutedLine))) {
+                break
+            }
+
+            // infinite loop protection
+            if (codeExecutionDelay <= 0) {
+                executedInstructionsCounter++
+
+                if (executedInstructionsCounter >= MAX_EXECUTED_INSTRUCTION_COUNT - 1) {
+                    alert(get(_)("compiler.infiniteLoop", {
+                        values: {
+                            maxInstructionCount: MAX_EXECUTED_INSTRUCTION_COUNT
+                        }
+                    }))
+                    break
+                }
+            }
+            else {
+                codeExecutionDelay = get(settings).codeExecutionDelay   // refresh execution delay only if not already on max speed
+                await this.sleep(codeExecutionDelay);
+            }
+
+
+        }
+        codeRunnerStatus.set('paused')
     }
 
     reset(): void {
@@ -154,8 +228,8 @@ class CodeRunner {
             let firstSnapshot = this.history[0]
             registers.load(firstSnapshot.registers)
             memory.load(firstSnapshot.memory)
-            codeRunnerStatus.set('reset')
         }
+        codeRunnerStatus.set('reset')
     }
 }
 

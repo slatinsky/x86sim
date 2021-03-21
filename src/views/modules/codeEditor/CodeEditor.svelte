@@ -227,7 +227,7 @@
     }
     :global(.ace_error_line) {
         position:absolute;
-        background: rgb(200, 100, 123, 0.5);
+        background: rgba(200, 100, 123, 0.5);
         z-index:20
     }
 

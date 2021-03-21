@@ -67,7 +67,10 @@
                 </Tooltip>
             {:else}
                 <Tooltip tooltip={$_('tooltips.navigation.run')} bottom>
-                    <li class="{['reset', 'paused'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.run()}><i class="fas fa-play"></i> {$_('views.navigation.run')}</li>
+                    <li class="{['ended', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runForwards()}><i class="fas fa-forward"></i> {$_('views.navigation.run')}</li>
+                </Tooltip>
+                <Tooltip tooltip={$_('tooltips.navigation.runBackwards')} bottom>
+                    <li class="{['reset', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runBackwards()}><i class="fas fa-forward fa-rotate-180"></i> {$_('views.navigation.runBackwards')}</li>
                 </Tooltip>
             {/if}
             <Tooltip tooltip={$_('tooltips.navigation.reset')} bottom>
