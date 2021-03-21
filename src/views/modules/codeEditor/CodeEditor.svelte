@@ -61,7 +61,8 @@
             enableBasicAutocompletion: true,
             enableSnippets: false,
             enableLiveAutocompletion: true,
-            useWorker: false
+            useWorker: false,
+            wrap: true
         });
 
         // add breakpoints to ace editor

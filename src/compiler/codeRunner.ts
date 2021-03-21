@@ -83,7 +83,6 @@ class CodeRunner {
 
     // unthrottled
     private _compileUnthrottled(updatedCode: string): void {
-        this.pause()
 
         let tokens = tokenize(updatedCode)
         let [rowsNew, errorsNew] = createParseTree(tokens)
@@ -95,7 +94,9 @@ class CodeRunner {
         this.instructionsCompiled = instructionsNewCompiled
 
         if (instructionsNewCompiled.length > 0) {
-            codeRunnerStatus.set('reset')
+            if (get(codeRunnerStatus) === 'not-runnable') {
+                codeRunnerStatus.set('reset')
+            }
         }
         else {
             codeRunnerStatus.set('not-runnable')

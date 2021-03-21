@@ -148,7 +148,9 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 - rapidly switching between projects causes autosave to save to the wrong project
 
 # todo
+- support binary numeric format 10b   (b ending)
 - multitab support
+- labels can be on the same line
 
 ## Ideas
 parse constants ending with `h` or begining with `0x` as hex

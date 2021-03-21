@@ -11,8 +11,13 @@ function mergeOperandsTokens(operands: iOperand[]): iToken {
 
 function validateRow(row: iRow) {
     if (row.type === 'instruction') {
+        if (!opcodes.hasOwnProperty(row.opcode.content)) {
+            throw errorObject(row.opcode, `Opcode '${row.opcode.content}' isn't implemented by this simulator.\nAvailable opcodes: ${Object.keys(opcodes).sort().join(', ')}`)  // tokenizer says, it is valid intel opcode, just we don't have it implemented
+        }
+
         let operandAmountRequired = opcodes[row.opcode.content].run.length
         let operandAmountProvided = row.operands.length
+
         if (opcodes[row.opcode.content].run.length !== row.operands.length) {
             // validate amount of operands
             throw errorObject(row.operands.length > 0 ? mergeOperandsTokens(row.operands) : row.opcode, `ERROR: instruction '${row.opcode.content}' has incorrect amount of operands: ${operandAmountRequired} required, but ${operandAmountProvided} provided`)
