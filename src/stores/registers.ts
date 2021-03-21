@@ -79,7 +79,6 @@ function createRegisters() {
             return registersCopy
         },
         load: (reducedRegisters) => {  // loads object returned by reduce
-            console.log("LOADING")
             thisStore.reset()
             for (const [registerName, value] of Object.entries(reducedRegisters)) {
                 thisStore.set(<tRegister>registerName, <number>value)

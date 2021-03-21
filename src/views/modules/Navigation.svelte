@@ -48,6 +48,13 @@
         color: gray;
         user-select: none;
     }
+
+    @media (max-width: 1200px) {
+        .navLabel {
+            display: none;
+        }
+    }
+
 </style>
 
 <nav>
@@ -55,39 +62,39 @@
         <ul>
             <li class="notClickable">{$projectName}</li>
             <Tooltip tooltip={$_('tooltips.navigation.step')} bottom>
-                <li class="{['ended', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.step()}><i class="fas fa-step-forward"></i> {$_('views.navigation.step')}</li>
+                <li class="{['ended', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.step()}><i class="fas fa-step-forward"></i> <span class="navLabel">{$_('views.navigation.step')}</span></li>
             </Tooltip>
 
             <Tooltip tooltip={$_('tooltips.navigation.stepBack')} bottom>
-                <li class="{['reset', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.stepBack()}><i class="fas fa-step-backward"></i> {$_('views.navigation.stepBack')}</li>
+                <li class="{['reset', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.stepBack()}><i class="fas fa-step-backward"></i> <span class="navLabel">{$_('views.navigation.stepBack')}</span></li>
             </Tooltip>
             {#if $codeRunnerStatus === "running"}
                 <Tooltip tooltip={$_('tooltips.navigation.pause')} bottom>
-                    <li on:click={() => codeRunner.pause()}><i class="fas fa-pause"></i> {$_('views.navigation.pause')}</li>
+                    <li on:click={() => codeRunner.pause()}><i class="fas fa-pause"></i> <span class="navLabel">{$_('views.navigation.pause')}</span></li>
                 </Tooltip>
             {:else}
                 <Tooltip tooltip={$_('tooltips.navigation.run')} bottom>
-                    <li class="{['ended', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runForwards()}><i class="fas fa-forward"></i> {$_('views.navigation.run')}</li>
+                    <li class="{['ended', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runForwards()}><i class="fas fa-forward"></i> <span class="navLabel">{$_('views.navigation.run')}</span></li>
                 </Tooltip>
                 <Tooltip tooltip={$_('tooltips.navigation.runBackwards')} bottom>
-                    <li class="{['reset', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runBackwards()}><i class="fas fa-forward fa-rotate-180"></i> {$_('views.navigation.runBackwards')}</li>
+                    <li class="{['reset', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runBackwards()}><i class="fas fa-forward fa-rotate-180"></i> <span class="navLabel">{$_('views.navigation.runBackwards')}</span></li>
                 </Tooltip>
             {/if}
             <Tooltip tooltip={$_('tooltips.navigation.reset')} bottom>
-                <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => codeRunner.reset()}><i class="fas fa-stop"></i> {$_('views.navigation.reset')}</li>
+                <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => codeRunner.reset()}><i class="fas fa-stop"></i> <span class="navLabel">{$_('views.navigation.reset')}</span></li>
             </Tooltip>
         </ul>
     </div>
     <div id="navInfo">
         <ul>
             <Tooltip tooltip={$_('tooltips.navigation.projects')} bottom>
-                <li class="{$debugMode ? 'deactivated' : ''}" on:click={() => $appState.projectsShown = true}><i class="fas fa-folder-open"></i> {$_('views.navigation.projects')}</li>
+                <li class="{$debugMode ? 'deactivated' : ''}" on:click={() => $appState.projectsShown = true}><i class="fas fa-folder-open"></i> <span class="navLabel">{$_('views.navigation.projects')}</span></li>
             </Tooltip>
             <Tooltip tooltip={$_('tooltips.navigation.settings')} bottom>
-                <li on:click={() => $appState.settingsShown = true}><i class="fas fa-cog"></i> {$_('views.navigation.settings')}</li>
+                <li on:click={() => $appState.settingsShown = true}><i class="fas fa-cog"></i> <span class="navLabel">{$_('views.navigation.settings')}</span></li>
             </Tooltip>
             <Tooltip tooltip={$_('tooltips.navigation.help')} bottom>
-                <li on:click={() => $appState.helpShown = true}><i class="fas fa-info-circle"></i> {$_('views.navigation.help')}</li>
+                <li on:click={() => $appState.helpShown = true}><i class="fas fa-info-circle"></i> <span class="navLabel">{$_('views.navigation.help')}</span></li>
             </Tooltip>
             <Tooltip tooltip="English" bottom>
                 <li on:click={() => $locale = 'en'}>EN</li>
