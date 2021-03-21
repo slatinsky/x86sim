@@ -54,11 +54,25 @@ function createRegisters() {
 
     const thisStore = {
         subscribe,
-        set: (attributeName:any, newValue) => {
-            update(storeObj => {
-                storeObj[attributeName] = newValue
+        set: (registerName: tRegister, newValue: number): void => {
+            if (/^[a-d]l$/i.test(registerName)) {        // al, bl, cl, dl
+                let highValue = ((thisStore.get(<tRegister>registerName.replace('l', 'h'))) << 8)
+                let lowValue = newValue & 0xff
+                newValue = lowValue + highValue
+                registerName = <tRegister>registerName.replace('l', 'x')
+                // console.log("low register", highValue, lowValue, newValue, registerName)
+            }
+            else if (/^[a-d]h$/i.test(registerName)) {   // ah, bh, ch, dh
+                let lowValue = ((thisStore.get(<tRegister>registerName.replace('h', 'l'))))
+                let highValue = ((newValue & 0xff) << 8)
+                newValue = lowValue + highValue
+                registerName = <tRegister>registerName.replace('h', 'x')
+                // console.log("high register", highValue, lowValue, newValue, registerName)
+            }
 
-                // TODO: handle overflow here
+            update(storeObj => {
+                // @ts-ignore
+                storeObj[registerName] = newValue
                 return storeObj
             })
         },
@@ -67,7 +81,20 @@ function createRegisters() {
             calculateFlags(newValue)
         },
         reset: () => set(Object.assign({}, defaultRegisters)),
-        get: (registerName: tRegister): number => get(thisStore)[registerName],
+        get: (registerName: tRegister): number => {
+            let registerValue = <number>get(thisStore)[registerName.replace(/[lh]$/, 'x')]  // TODO: is it ok to cast boolean to number?
+            if (/[a-d]l/i.test(registerName)) {         // al, bl, cl, dl
+                // console.log("low get", registerName, registerValue)
+                return registerValue & 0xff
+            }
+            else if (/[a-d]h/i.test(registerName)) {    // ah, bh, ch, dh
+                // console.log("high get", registerName, registerValue)
+                return (registerValue & 0xff00) >>> 8
+            }
+            else {
+                return registerValue
+            }
+        },
         reduce: () => {  // returns all non zero registers
             let registersCopy = Object.assign({}, get(thisStore))
             Object.entries(registersCopy).map((registerEntry) => {

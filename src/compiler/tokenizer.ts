@@ -2,7 +2,12 @@ import {allIntelOpcodes, allIntelRegisters, allIntel16bitRegisters, allIntel8bit
 
 function getTokenType(tokenContent: string): tTokenType {
     if (/^((0b[01]+)|(0x[0-9a-f]+)|([0-9a-f]+h)|([0-9]+))$/i.test(tokenContent)) {  // 'binary' | 'hex1' | 'hex2' | 'number'
-        return 'numeric'
+        if ((/^[a-d]h$/i.test(tokenContent))) {  // register ah, bh, ch, dh has priority over ah, bh... hex values
+            return 'register'
+        }
+        else {
+            return 'numeric'
+        }
     }
     else if (/^[a-z0-9]+$/i.test(tokenContent)) {
         if (allIntelRegisters.includes(tokenContent.toLowerCase())) {
