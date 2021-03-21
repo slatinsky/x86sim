@@ -61,7 +61,6 @@ class CodeRunner {
         code.subscribe(updatedCode => {
             this.compile(updatedCode)
         });
-
     }
 
 
@@ -114,11 +113,39 @@ class CodeRunner {
         }
     }
 
+    // ---------- COMMANDS from navbar ----------
+    public pause(): void {
+        codeRunnerStatus.set('paused')
+    }
+
+    public async runForwards(): Promise<void> {
+        await this.run(this.runNextInstruction.bind(this))
+    }
+
+    public async runBackwards(): Promise<void> {
+        await this.run(this.rollbackPreviousInstruction.bind(this))
+    }
 
 
-    async stepBack(): Promise<void> {
+    public reset(): void {
+        this.pause()
+        if (this.history.length > 0) {
+            let firstSnapshot = this.history[0]
+            registers.load(firstSnapshot.registers)
+            memory.load(firstSnapshot.memory)
+        }
+        codeRunnerStatus.set('reset')
+    }
+
+    public async step(): Promise<void> {
+        codeRunnerStatus.set('paused')
+        await this.runNextInstruction()
+    }
+
+    public async stepBack(): Promise<void> {
         await this.rollbackPreviousInstruction()
     }
+    // ---------- end COMMANDS ----------
 
     /**
      * Runs next instruction based on where ip register points to
@@ -126,7 +153,7 @@ class CodeRunner {
      *
      * sets status to ended if there is no instruction to execute
      */
-    async runNextInstruction(): Promise<void> {
+    private async runNextInstruction(): Promise<void> {
         let currentInstruction = this.instructionsCompiled[registers.get('ip')]
         if (currentInstruction) {
             let snapshot = this.makeSnapshot()
@@ -143,7 +170,7 @@ class CodeRunner {
      *
      * sets codeRunnerStatus to reset if there is no history available
      */
-    async rollbackPreviousInstruction(): Promise<void> {
+    private async rollbackPreviousInstruction(): Promise<void> {
         if (this.history.length > 0) {
             let snapshot = this.history.pop()
             registers.load(snapshot.registers)
@@ -155,33 +182,19 @@ class CodeRunner {
         }
     }
 
-    async step(): Promise<void> {
-        codeRunnerStatus.set('paused')
-        await this.runNextInstruction()
-    }
-
-    pause(): void {
-        codeRunnerStatus.set('paused')
-    }
 
     /**
      * Resolves promise after specified time in ms
      */
-    sleep(ms) {
+    private sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    async runBackwards(): Promise<void> {
-        await this.run(this.rollbackPreviousInstruction.bind(this))
-    }
 
-    async runForwards(): Promise<void> {
-        await this.run(this.runNextInstruction.bind(this))
-    }
 
     /**
      * Main instruction runner
-     * Callback is rollbackPreviousInstruction() or runNextInstruction() depending on the way we are running the programm
+     * Callback is rollbackPreviousInstruction() or runNextInstruction() depending on the way we are running the program
      */
     private async run(callback: () => Promise<void>): Promise<void> {
         let executedInstructionsCounter = 0
@@ -222,15 +235,7 @@ class CodeRunner {
         codeRunnerStatus.set('paused')
     }
 
-    reset(): void {
-        this.pause()
-        if (this.history.length > 0) {
-            let firstSnapshot = this.history[0]
-            registers.load(firstSnapshot.registers)
-            memory.load(firstSnapshot.memory)
-        }
-        codeRunnerStatus.set('reset')
-    }
+
 }
 
 

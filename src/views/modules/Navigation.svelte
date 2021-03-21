@@ -105,7 +105,9 @@
 </nav>
 
 {#if $debugMode}
-    <p>REŽIM LADENIA: automatické ukladanie je počas ladenia vypnuté. Do klasického režimu sa vrátite stlačením tlačidla "Zresetovať", po ktorom bude obsah registrov a pamäte vrátený naspäť</p>
+    <Tooltip tooltip={$_('tooltips.navigation.debugMode')} right>
+        <p>{$_('views.navigation.debugMode')} <i class="fas fa-question-circle"></i></p>
+    </Tooltip>
 {:else}
     <p>&nbsp;</p>
 {/if}

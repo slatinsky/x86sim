@@ -10,11 +10,13 @@
       "step": "Krok",
       "stepBack": "Krok späť",
       "run": "Spustiť",
+      "runBackwards": "Pretočiť naspäť",
       "pause": "Pozastaviť",
       "reset": "Zresetovať",
       "projects": "Projekty",
       "settings": "Nastavenia",
-      "help": "Pomocník"
+      "help": "Pomocník",
+      "debugMode": "Automatické ukladanie počas ladenia vypnuté"
     },
     "projects": {
       "openedProjectAutosaveInfo": "Otvorený projekt je automaticky ukladaný",
@@ -50,11 +52,13 @@
       "step": "Vykoná jednu inštrukciu",
       "stepBack": "Vráti vykonanie jednej inštrukcie naspäť",
       "run": "Spustí program do konca alebo po najbližší breakpoint",
+      "runBackwards": "Pretočí spustený program naspäť na začiatok alebo po najbližší breakpoint",
       "pause": "Pozastaví vykonávanie programu",
       "reset": "Vráti naspäť obsah registrov pamäte na stav pred ladením programu",
       "projects": "V simulátore je možné ukladať viacero projektov naraz",
       "settings": "Nastavenia simulátora",
-      "help": "Potrebujete pomoc? Prečítajte si ich v pomocníkovi"
+      "help": "Potrebujete pomoc? Prečítajte si ich v pomocníkovi",
+      "debugMode": "Do klasického režimu sa vrátite stlačením tlačidla \"Zresetovať\", po ktorom bude obsah registrov a pamäte vrátený naspäť do stavu pred spustením ladenia"
     },
     "registers": {
       "ip": "Instruction pointer register",

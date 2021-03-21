@@ -10,11 +10,13 @@
       "step": "Step",
       "stepBack": "Step back",
       "run": "Run",
+      "runBackwards": "Run backwards",
       "pause": "Pause",
       "reset": "Reset",
       "projects": "Projects",
       "settings": "Settings",
-      "help": "Help"
+      "help": "Help",
+      "debugMode": "Autosave disabled while debugging"
     },
     "projects": {
       "openedProjectAutosaveInfo": "Opened project is automatically autosaved",
@@ -50,11 +52,13 @@
       "step": "Runs one instruction",
       "stepBack": "Rollbacks last executed instruction",
       "run": "Runs assembly program till the end or till the next breakpoint",
+      "runBackwards": "Rollbacks previously run assembly program till the beginning or till the next breakpoint",
       "pause": "Pauses program execution",
       "reset": "Resets program execution",
       "projects": "Simulator can manage multiple projects",
       "settings": "Simulator specific setting",
-      "help": "Do you need help? Read it in help"
+      "help": "Do you need help? Read it in help",
+      "debugMode": "To return back to classic mode, click \"Reset\" button. Registers and memory will be returned to state before debug mode was turned on"
     },
     "registers": {
       "ip": "Instruction pointer register",
