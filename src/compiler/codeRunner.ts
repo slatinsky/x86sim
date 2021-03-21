@@ -137,13 +137,13 @@ class CodeRunner {
         codeRunnerStatus.set('reset')
     }
 
-    public async step(): Promise<void> {
+    public step(): void {
         codeRunnerStatus.set('paused')
-        await this.runNextInstruction()
+        this.runNextInstruction()
     }
 
-    public async stepBack(): Promise<void> {
-        await this.rollbackPreviousInstruction()
+    public stepBack(): void {
+        this.rollbackPreviousInstruction()
     }
     // ---------- end COMMANDS ----------
 
@@ -153,12 +153,12 @@ class CodeRunner {
      *
      * sets status to ended if there is no instruction to execute
      */
-    private async runNextInstruction(): Promise<void> {
+    private runNextInstruction(): void {
         let currentInstruction = this.instructionsCompiled[registers.get('ip')]
         if (currentInstruction) {
             let snapshot = this.makeSnapshot()
             this.history.push(snapshot)
-            await currentInstruction.run()
+            currentInstruction.run()
         }
         else {
             codeRunnerStatus.set('ended')
@@ -170,7 +170,7 @@ class CodeRunner {
      *
      * sets codeRunnerStatus to reset if there is no history available
      */
-    private async rollbackPreviousInstruction(): Promise<void> {
+    private rollbackPreviousInstruction(): void {
         if (this.history.length > 0) {
             let snapshot = this.history.pop()
             registers.load(snapshot.registers)
@@ -196,7 +196,7 @@ class CodeRunner {
      * Main instruction runner
      * Callback is rollbackPreviousInstruction() or runNextInstruction() depending on the way we are running the program
      */
-    private async run(callback: () => Promise<void>): Promise<void> {
+    private async run(callback: () => void): Promise<void> {
         let executedInstructionsCounter = 0
         let codeExecutionDelay = get(settings).codeExecutionDelay
         codeRunnerStatus.set('running')
@@ -204,9 +204,8 @@ class CodeRunner {
             if (get(codeRunnerStatus) !== 'running') {
                 return
             }
-            await callback()
 
-
+            callback()  // run next instruction or rollback previous instruction callback
 
             if (get(breakpoints).hasOwnProperty(get(currentlyExecutedLine))) {
                 break
@@ -229,13 +228,9 @@ class CodeRunner {
                 codeExecutionDelay = get(settings).codeExecutionDelay   // refresh execution delay only if not already on max speed
                 await this.sleep(codeExecutionDelay);
             }
-
-
         }
         codeRunnerStatus.set('paused')
     }
-
-
 }
 
 

@@ -125,7 +125,7 @@ function prepareOperand(operand: iOperand): iCompiledOperand {
     }
 }
 
-function compile(instruction: iInstruction, labels: { [labelName: string]: number }): () => Promise<void> {
+function compile(instruction: iInstruction, labels: { [labelName: string]: number }): () => void {
     let opcode = opcodes[instruction.opcode.content]
 
     if (instruction.operands?.[0]?.type === 'label') {  // jump
@@ -133,29 +133,21 @@ function compile(instruction: iInstruction, labels: { [labelName: string]: numbe
 
         let labelAddress = labels[instruction.operands[0].tokens[0].content]
 
-        return function run(): Promise<void> {
-            return new Promise((resolve, reject) => {
-                let labelObj = {
-                    get: ()=> labelAddress
-                }
-                opcode.run(labelObj)
-                resolve()
-            });
+        return function run(): void {
+            let labelObj = {
+                get: ()=> labelAddress
+            }
+            opcode.run(labelObj)
         }
     }
     else {
         // prepare operands during "compilation", so it doesn't slow down execution
         let preparedOperands = instruction.operands.map(operand => prepareOperand(operand))
-        return function run(): Promise<void> {
-            return new Promise((resolve, reject) => {
-                opcode.run(...preparedOperands)
-                registers.inc('ip')  // change for jumps
-                resolve()
-            });
+        return function run(): void {
+            opcode.run(...preparedOperands)
+            registers.inc('ip')  // change for jumps
         }
     }
-
-
 }
 
 

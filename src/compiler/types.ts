@@ -38,7 +38,7 @@ interface iInstruction {
 
 interface iCompiledInstruction {
     instruction: iInstruction,
-    run: () => Promise<void>,
+    run: () => void,
 }
 
 interface iCompiledOperand {
