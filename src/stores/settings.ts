@@ -1,4 +1,5 @@
 import {createWritableStore} from "./createWritableStore";
+import {ensureObjectHasDefaultValues} from "../helperFunctions";
 
 const defaultSettings = {
     debug: false,
@@ -8,4 +9,9 @@ const defaultSettings = {
 }
 
 export const settings = createWritableStore('settings', defaultSettings)
+settings.update(settingsObj => {
+    ensureObjectHasDefaultValues(settingsObj, defaultSettings)
+    return settingsObj
+})
+
 settings.useLocalStorage()

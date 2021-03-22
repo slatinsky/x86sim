@@ -1,6 +1,7 @@
 import {get, writable} from "svelte/store";
 import {code, debugMode, memory, registers} from "./stores";
 import {createWritableStore} from "./createWritableStore";
+import {ensureObjectHasDefaultValues} from "../helperFunctions";
 
 export const projectName = createWritableStore('currentProjectName', 'default')
 projectName.useLocalStorage()
@@ -39,6 +40,7 @@ function createProjects() {
             console.log(project)
             alert('Incompatible version, only version 1 is supported')
         }
+        ensureObjectHasDefaultValues(project, defaultProject)
         return project
     }
 

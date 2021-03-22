@@ -14,6 +14,10 @@ function createRegisters() {
         di: number,
         sp: number,
         bp: number,
+        cs: number,
+        ds: number,
+        ss: number,
+        es: number,
         cf: boolean,
         pf: boolean,
         af: boolean,
@@ -35,6 +39,10 @@ function createRegisters() {
         di: 0,
         sp: MEMORY_SIZE,  // memory size
         bp: MEMORY_SIZE,
+        cs: 0,
+        ds: 0,
+        ss: 0,
+        es: 0,
         cf: false,
         pf: false,
         af: false,
@@ -46,11 +54,6 @@ function createRegisters() {
         of: false,
     }
     const {subscribe, set, update} = writable(Object.assign({}, defaultRegisters));
-
-    // function saveRegistersToLocalStorage() {
-    //     localStorage.setItem('registers', JSON.stringify(thisStore.reduce()))
-    // }
-
 
     const thisStore = {
         subscribe,
@@ -137,3 +140,4 @@ function createRegisters() {
 
 
 export const registers = createRegisters();
+

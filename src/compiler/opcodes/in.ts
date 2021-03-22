@@ -27,8 +27,7 @@ export default  {
                 IBF = 1
             }
 
-
-            operand1.set(0b00010100 | (IBF << 1))           // it's second flag bit from left
+            operand1.set(0b00010100 | (IBF << 1))           // it's second flag bit from right
             return
             // PS/2-compatible mode (from http://www-ug.eecg.toronto.edu/msl/nios_devices/datasheets/PS2%20Keyboard%20Protocol.htm):
             // 128 PERR
