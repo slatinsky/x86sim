@@ -39,7 +39,7 @@ registers.subscribe(updatedRegisters => {
 
 
 
-function prepareOperand(operand: iOperand): iCompiledOperand {
+function prepareOperand(operand: iOperand, bits: tTokenBits): iCompiledOperand {
     if (operand.type === 'register') {
         const registerName = <tRegister>operand.tokens[0].content
         return {
@@ -112,10 +112,10 @@ function prepareOperand(operand: iOperand): iCompiledOperand {
         }
         return {
             get: (): number => {
-                return memory.get(getAddress())
+                return memory.get(getAddress(), bits)
             },
             set: (valueToSet: number): void => {
-                memory.set(getAddress(), valueToSet)
+                memory.set(getAddress(), valueToSet, bits)
             },
             setWithFlags: (valueToSet: number): void => {
                 memory.setWithFlags(getAddress(), valueToSet)
@@ -129,8 +129,6 @@ function compile(instruction: iInstruction, labels: { [labelName: string]: numbe
     let opcode = opcodes[instruction.opcode.content]
 
     if (instruction.operands?.[0]?.type === 'label') {  // jump
-        console.warn("Jumps not implemented, but used")
-
         let labelAddress = labels[instruction.operands[0].tokens[0].content]
 
         return function run(): void {
@@ -142,7 +140,7 @@ function compile(instruction: iInstruction, labels: { [labelName: string]: numbe
     }
     else {
         // prepare operands during "compilation", so it doesn't slow down execution
-        let preparedOperands = instruction.operands.map(operand => prepareOperand(operand))
+        let preparedOperands = instruction.operands.map(operand => prepareOperand(operand, instruction.bits))
         return function run(): void {
             opcode.run(...preparedOperands)
             registers.inc('ip')  // change for jumps

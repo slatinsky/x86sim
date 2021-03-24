@@ -51,7 +51,7 @@ function unsignedToSignedInt(unsignedInt, bits) {
 /**
  * Calculates overflow in signed integer based on available bits
  */
-function handleOverflow(signedInt, bits) {
+export function handleOverflow(signedInt, bits) {
     // How is overflow handled?:
     // signed -> unsigned
     // calculate division remainder
@@ -205,7 +205,7 @@ export function mergeTwo8bitTo16bit(lowValueSigned: number, highValueSigned: num
 
 
 
-// TODO: port ugly tests to test library
+// TODO: port ugly console tests to test library
 // console.log("test 1", signedToUnsignedInt(-1, 16), "=", 65535)
 // console.log("test 2", unsignedToSignedInt(65535, 16), "=", -1)
 // console.log("test 3", formattedStringToInt('fe0c', 'hex', 16), "=", -500)
@@ -222,10 +222,10 @@ export function mergeTwo8bitTo16bit(lowValueSigned: number, highValueSigned: num
 // console.log("test 13", intToFormattedString(0, 'unsigned', 16), "=", '0')
 // console.log("test 14", intToFormattedString(-1, 'unsigned', 16), "=", '65535')
 
-console.log("test 15", split16bitToTwo8bit(-1), "=", '[-1, -1]')
-console.log("test 16", split16bitToTwo8bit(256), "=", '[0, 1]')
-console.log("test 17", split16bitToTwo8bit(99999999), "=", 'does it overflow to range [<-127; 128>, <-127; 128>]?')
-
-console.log("test 18", mergeTwo8bitTo16bit(-1, -1), "=", '-1')
-console.log("test 19", mergeTwo8bitTo16bit(0, 1), "=", '256')
+// console.log("test 15", split16bitToTwo8bit(-1), "=", '[-1, -1]')
+// console.log("test 16", split16bitToTwo8bit(256), "=", '[0, 1]')
+// console.log("test 17", split16bitToTwo8bit(99999999), "=", 'does it overflow to range [<-127; 128>, <-127; 128>]?')
+//
+// console.log("test 18", mergeTwo8bitTo16bit(-1, -1), "=", '-1')
+// console.log("test 19", mergeTwo8bitTo16bit(0, 1), "=", '256')
 

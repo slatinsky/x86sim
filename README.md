@@ -160,6 +160,8 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 - labels can be on the same line
 - validate if 'ah' is correctly handled as register, not as 0xa hex value. Register should have higher priority
 - instruction history is weird, it isn't cleared correctly sometimes - there is bug somewhere
+- add validation warning if trying to write to memory cell and 8/16bit info is unknown in that instruction
+- verify if push and pop always gets 16-bit value
 
 # validation todo
 - mov alphanumeric, 5

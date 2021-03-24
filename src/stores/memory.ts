@@ -1,6 +1,7 @@
 import {get, writable} from "svelte/store";
 import {MEMORY_SIZE} from "./config";
 import {calculateFlags} from "../compiler/calculateFlags";
+import {handleOverflow, mergeTwo8bitTo16bit, split16bitToTwo8bit} from "../formatConverter";
 
 function createMemory() {
     // const defaultMemory = Array(MEMORY_SIZE).fill(0)
@@ -10,7 +11,7 @@ function createMemory() {
         subscribe,
         update,
         // sets passed in register to a value manually
-        set: (address: any, newValue: number) => {
+        set: (address: any, newValue: number, bits: tTokenBits = 8) => {  // by default it writes only to one memory cell
             if (typeof newValue === 'undefined') {  // if svelte calls this function, 'address' is full object to update
                 set(address)
             }
@@ -20,12 +21,32 @@ function createMemory() {
                     return
                 }
                 update((memory) => {
-                    if (newValue === 0 && memory.hasOwnProperty(address)) {
-                        delete memory[address]
+                    console.log("bits", bits)
+
+                    /**
+                     * helper uses local variable "memory"
+                     */
+                    function setMemoryHelper(addressToSet: number, value8Bit: number): any {
+                        if (value8Bit === 0 && memory.hasOwnProperty(addressToSet)) {
+                            delete memory[addressToSet]
+                        }
+                        else {
+                            memory[addressToSet] = handleOverflow(value8Bit, 8)
+                        }
+                    }
+
+                    if (bits === 8) {
+                        setMemoryHelper(address,  newValue)
+                    }
+                    else if (bits === 16) {
+                        const [lowValue, highValue] = split16bitToTwo8bit(newValue)
+                        setMemoryHelper(address, lowValue)
+                        setMemoryHelper(address + 1, highValue)
                     }
                     else {
-                        memory[address] = newValue
+                        throw `runtime error - memory.set() Unknown bits parameter ${bits}`
                     }
+
 
                     memory = memory
 
@@ -41,14 +62,20 @@ function createMemory() {
         reset: () => {
             set({})
         },
-        get: (address: number): number => {
+        get: (address: number, bits: tTokenBits = 8): number => {
             let memoryObj = get(thisStore)
-                if (memoryObj.hasOwnProperty(address)) {
-                    return memoryObj[address]
-                }
-                else {
-                    return 0
-                }
+            console.log("bits", bits)
+            if (bits === 8) {
+                return memoryObj?.[address] ?? 0
+            }
+            else if (bits === 16) {
+                let lowValue = memoryObj?.[address] ?? 0
+                let highValue = memoryObj?.[address + 1] ?? 0
+                return mergeTwo8bitTo16bit(lowValue, highValue)
+            }
+            else {
+                throw `runtime error - memory.get() Unknown bits parameter ${bits}`
+            }
         },
         reduce: () => {  // returns copy of memory object
             return Object.assign({}, get(thisStore))
