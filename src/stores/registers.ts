@@ -2,6 +2,7 @@ import {get, writable} from "svelte/store";
 import type {tRegister} from "../types/types";
 import {MEMORY_SIZE} from "./config";
 import {calculateFlags} from "../compiler/calculateFlags";
+import {mergeTwo8bitTo16bit, split16bitToTwo8bit} from "../formatConverter";
 
 function createRegisters() {
     interface Register {
@@ -59,16 +60,12 @@ function createRegisters() {
         subscribe,
         set: (registerName: tRegister, newValue: number): void => {
             if (/^[a-d]l$/i.test(registerName)) {        // al, bl, cl, dl
-                let highValue = ((thisStore.get(<tRegister>registerName.replace('l', 'h'))) << 8)
-                let lowValue = newValue & 0xff
-                newValue = lowValue + highValue
+                newValue = mergeTwo8bitTo16bit(newValue, thisStore.get(<tRegister>registerName.replace('l', 'h')))
                 registerName = <tRegister>registerName.replace('l', 'x')
                 // console.log("low register", highValue, lowValue, newValue, registerName)
             }
             else if (/^[a-d]h$/i.test(registerName)) {   // ah, bh, ch, dh
-                let lowValue = ((thisStore.get(<tRegister>registerName.replace('h', 'l'))))
-                let highValue = ((newValue & 0xff) << 8)
-                newValue = lowValue + highValue
+                newValue = mergeTwo8bitTo16bit(thisStore.get(<tRegister>registerName.replace('h', 'l')), newValue)
                 registerName = <tRegister>registerName.replace('h', 'x')
                 // console.log("high register", highValue, lowValue, newValue, registerName)
             }
@@ -87,12 +84,12 @@ function createRegisters() {
         get: (registerName: tRegister): number => {
             let registerValue = <number>get(thisStore)[registerName.replace(/[lh]$/, 'x')]  // TODO: is it ok to cast boolean to number?
             if (/[a-d]l/i.test(registerName)) {         // al, bl, cl, dl
-                // console.log("low get", registerName, registerValue)
-                return registerValue & 0xff
+                const [lowValue, highValue] = split16bitToTwo8bit(registerValue)
+                return lowValue
             }
             else if (/[a-d]h/i.test(registerName)) {    // ah, bh, ch, dh
-                // console.log("high get", registerName, registerValue)
-                return (registerValue & 0xff00) >>> 8
+                const [lowValue, highValue] = split16bitToTwo8bit(registerValue)
+                return highValue
             }
             else {
                 return registerValue

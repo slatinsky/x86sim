@@ -1,6 +1,7 @@
 // all integers stored are signed shorts if else not specified
 import type {typeBase, typeSelectedFormat} from "./types/types";
 import {parseInt as baseConverter} from 'all-your-base';
+import {tRegister} from "./types/types";
 
 /**
  * converts signed integer to unsigned integer
@@ -178,6 +179,32 @@ export function autodetectToSignedInteger(numberString: string): number {
     }
 }
 
+/**
+ * splits 16 bit signed value to two 8 bit values
+ * automatically handles overflow
+ *
+ * return [lower 8bit signed, higher 8bit signed]
+ */
+export function split16bitToTwo8bit(input16bit: number): [number, number] {
+    let unsignedInt = signedToUnsignedInt(input16bit, 16)  // handles overflow too, now variable is guaranteed to be in range <0; 65535>
+    let highValueUnsigned = (unsignedInt & 0xff00) >>> 8
+    let lowValueUnsigned = unsignedInt & 0xff
+    return [unsignedToSignedInt(lowValueUnsigned, 8), unsignedToSignedInt(highValueUnsigned, 8)]
+}
+
+/**
+ * merges  [lower 8bit signed, higher 8bit signed] to 16bit signed
+ * automatically handles overflow
+ */
+export function mergeTwo8bitTo16bit(lowValueSigned: number, highValueSigned: number): number {
+    let lowValueUnsigned = signedToUnsignedInt(lowValueSigned, 8)
+    let highValueUnsigned = signedToUnsignedInt(highValueSigned, 8)
+    let merged16bitUnsigned = lowValueUnsigned + (highValueUnsigned << 8)
+    return unsignedToSignedInt(merged16bitUnsigned, 16)
+}
+
+
+
 // TODO: port ugly tests to test library
 // console.log("test 1", signedToUnsignedInt(-1, 16), "=", 65535)
 // console.log("test 2", unsignedToSignedInt(65535, 16), "=", -1)
@@ -194,3 +221,11 @@ export function autodetectToSignedInteger(numberString: string): number {
 // console.log("test 12", formattedStringToInt('65535', 'unsigned', 16), "=", -1)
 // console.log("test 13", intToFormattedString(0, 'unsigned', 16), "=", '0')
 // console.log("test 14", intToFormattedString(-1, 'unsigned', 16), "=", '65535')
+
+console.log("test 15", split16bitToTwo8bit(-1), "=", '[-1, -1]')
+console.log("test 16", split16bitToTwo8bit(256), "=", '[0, 1]')
+console.log("test 17", split16bitToTwo8bit(99999999), "=", 'does it overflow to range [<-127; 128>, <-127; 128>]?')
+
+console.log("test 18", mergeTwo8bitTo16bit(-1, -1), "=", '-1')
+console.log("test 19", mergeTwo8bitTo16bit(0, 1), "=", '256')
+

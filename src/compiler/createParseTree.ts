@@ -206,7 +206,7 @@ function splitOperands(tokens: iToken[]): iToken[][] {
 
 /**
  * returns default segment register if ip, bx, di, si, sp, bp registers are used
- *
+ * TODO: add validation, if multiple different segment types are not present. Currently it returns first
  */
 function getSegment(tokens: iToken[]): tSegment {
     for (const token of tokens) {
