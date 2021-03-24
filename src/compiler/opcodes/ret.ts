@@ -7,7 +7,7 @@ export default  {
         // pop ip
         let sp = registers.get('sp')
         let valueFromStack = memory.get(sp)
-        registers.set('sp', sp + 1)
+        registers.set('sp', sp + 2)
 
         // jump to ip we got from stack
         registers.set('ip', valueFromStack)

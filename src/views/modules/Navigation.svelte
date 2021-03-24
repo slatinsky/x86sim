@@ -12,6 +12,9 @@
         flex-direction: row;
         justify-content: space-between;
         background-color: var(--primary-background);
+        position: sticky;
+        top: 0;
+        z-index: 10;
     }
 
     ul {

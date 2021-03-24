@@ -1,6 +1,6 @@
-# x86sim
+# ![x86sim](public/assets/128.png?raw=true "x86sim") x86sim
 
-![x86sim](public/assets/128.png?raw=true "x86sim")
+---
 
 Simulator of x86 intel computer in the real mode.
 
@@ -23,6 +23,8 @@ Add/remove breakpoint by clicking next to line number
  - Escape -> exits from exitation mode
  - Backspace -> removes the least significant digit and shifts the value by one character
  - [0-9a-f] -> change value. Moves automatically to the next memory address if necessary
+
+---
 
 ## Installation guide
 ### Development environment
@@ -109,8 +111,8 @@ export default  {
         // set the memory at the address of 'sp' to zero
         memory.set(sp, 0)
 
-        // set 'sp' register to sp+1
-        registers.set('sp', sp + 1)
+        // set 'sp' register to sp+2
+        registers.set('sp', sp + 2)
 
         // increment ip register
         registers.inc('ip')
@@ -152,9 +154,8 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 # todo
 - better project object upgrades
 - segment registers
-- 16-bit writes to memory
-- add stack back using virtual memory
-- push to stack / pop only 16 bit values
+- add stack back using virtual memory - show only stack segment inside
+- push to stack / pop only 16 bit values - in validation
 - support binary numeric format 10b   (b ending)
 - multitab support
 - labels can be on the same line

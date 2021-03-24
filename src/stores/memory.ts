@@ -21,8 +21,6 @@ function createMemory() {
                     return
                 }
                 update((memory) => {
-                    console.log("bits", bits)
-
                     /**
                      * helper uses local variable "memory"
                      */
@@ -64,7 +62,6 @@ function createMemory() {
         },
         get: (address: number, bits: tTokenBits = 8): number => {
             let memoryObj = get(thisStore)
-            console.log("bits", bits)
             if (bits === 8) {
                 return memoryObj?.[address] ?? 0
             }

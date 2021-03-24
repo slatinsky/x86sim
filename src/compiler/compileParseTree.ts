@@ -131,6 +131,10 @@ function compile(instruction: iInstruction, labels: { [labelName: string]: numbe
     if (instruction.operands?.[0]?.type === 'label') {  // jump
         let labelAddress = labels[instruction.operands[0].tokens[0].content]
 
+        if (typeof labelAddress === 'undefined') {  // TODO: move to validation
+            throw `Label, where we need to jump doesn't exists ${instruction.operands[0].tokens[0].content}`
+        }
+
         return function run(): void {
             let labelObj = {
                 get: ()=> labelAddress

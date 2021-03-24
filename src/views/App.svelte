@@ -35,6 +35,7 @@
 	import SimpleMemory from "./modules/SimpleMemory.svelte";
 	import VirtualMemory from "./modules/VirtualMemory.svelte";
 	import {memory} from "../stores/stores";
+	import VirtualStack from "./modules/VirtualStack.svelte";
 
 
 	$: {
@@ -83,11 +84,13 @@
 			</div>
 			<div>
 <!--				<SimpleMemory />-->
+				<VirtualStack />
 			</div>
 			<div>
 
 <!--				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>-->
 				<VirtualMemory />
+
 
 			</div>
 		</div>

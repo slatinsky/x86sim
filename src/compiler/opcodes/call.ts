@@ -8,7 +8,7 @@ export default  {
         let valueToPush = registers.get('ip') + 1
         let sp = registers.get('sp')
         memory.set(sp - 1, valueToPush)
-        registers.set('sp', sp - 1)
+        registers.set('sp', sp - 2)
 
         // jump to label
         registers.set('ip', label.get())

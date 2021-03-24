@@ -7,6 +7,6 @@ export default  {
         let valueToPush = operand1.get()
         let sp = registers.get('sp')
         memory.set(sp - 1, valueToPush)
-        registers.set('sp', sp - 1)
+        registers.set('sp', sp - 2)
     },
 }

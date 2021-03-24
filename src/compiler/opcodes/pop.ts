@@ -9,6 +9,6 @@ export default  {
         operand1.set(valueFromStack)
 
         memory.set(sp, 0)
-        registers.set('sp', sp + 1)
+        registers.set('sp', sp + 2)
     },
 }
