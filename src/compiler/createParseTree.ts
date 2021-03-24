@@ -197,11 +197,34 @@ function opcodesDetectBits(operands: iOperand[]): tTokenBits {
         }
     }
 
-    return null
+    return resultingBits
 }
 
 function splitOperands(tokens: iToken[]): iToken[][] {
     return splitTokensByIdentifier(tokens, ',')
+}
+
+/**
+ * returns default segment register if ip, bx, di, si, sp, bp registers are used
+ *
+ */
+function getSegment(tokens: iToken[]): tSegment {
+    for (const token of tokens) {
+        if (token.type === 'register') {
+            if (['ip'].includes(token.content.toLowerCase())) {  // based on a table https://www.geeksforgeeks.org/memory-segmentation-8086-microprocessor/
+                return 'cs'
+            }
+            else if (['bx', 'di', 'si'].includes(token.content.toLowerCase())) {
+                return 'ds'
+            }
+            else if (['sp', 'bp'].includes(token.content.toLowerCase())) {
+                return 'ss'
+            }
+        }
+    }
+
+    // default
+    return 'absolute'
 }
 
 /**
@@ -224,7 +247,8 @@ function parseRow(tokens: iToken[]): iRow {
             type: 'instruction',
             opcode: opcodeToken,
             operands: [],
-            bits: null
+            bits: null,
+            segment: getSegment(tokens)
         }
 
         let tokensSplitByOperands = splitOperands(tokens)

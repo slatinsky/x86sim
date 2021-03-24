@@ -8,6 +8,7 @@ export const allIntelRegisters = [
     'bx', 'bl', 'bh',
     'cx', 'cl', 'ch',
     'dx', 'dl', 'dh',
+    'cs', 'ds', 'ss', 'es',
     'si', 'di', 'bp', 'sp', 'f', 'ip'
 ]
 export const allFlags = ['cf', 'pf', 'af', 'zf', 'sf', 'tf', 'if', 'df', 'of']
@@ -18,6 +19,7 @@ export const allIntel16bitRegisters = [
     'bx',
     'cx',
     'dx',
+    'cs', 'ds', 'ss', 'es',
     'si', 'di', 'bp', 'sp', 'f', 'ip'
 ]
 

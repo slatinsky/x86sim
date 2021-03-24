@@ -152,12 +152,18 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 # todo
 - better project object upgrades
 - segment registers
+- 16-bit writes to memory
+- add stack back using virtual memory
 - push to stack / pop only 16 bit values
 - support binary numeric format 10b   (b ending)
 - multitab support
 - labels can be on the same line
 - validate if 'ah' is correctly handled as register, not as 0xa hex value. Register should have higher priority
 - instruction history is weird, it isn't cleared correctly sometimes - there is bug somewhere
+
+# validation todo
+- mov alphanumeric, 5
+- it shouldn't be possible to move immediate values to segment registers - https://stackoverflow.com/questions/19074666/8086-why-cant-we-move-an-immediate-data-into-segment-register
 
 ## Ideas
 parse constants ending with `h` or begining with `0x` as hex

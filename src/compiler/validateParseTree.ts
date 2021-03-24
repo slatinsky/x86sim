@@ -9,6 +9,18 @@ function mergeOperandsTokens(operands: iOperand[]): iToken {
     return mergeTokens(operands.map(operand => operand.tokens).flat())
 }
 
+function validateOperand(operand: iOperand): void {
+    if (operand.type === 'memory') {
+        for (const token of operand.tokens) {
+
+            if (token.type === 'register' && !['bx','si','si','sp','bp','ip'].includes(token.content.toLowerCase())) {  // is token one of allowed registers during memory access?
+                // example: mov [ax], 5      is invalid
+                throw errorObject(token, `ERROR: only registers bx, si, si, sp, bp, ip and immediate values\ncan be used during memory access,\nyou used '${token.content}'`)
+            }
+        }
+    }
+}
+
 function validateRow(row: iRow) {
     if (row.type === 'instruction') {
         if (!opcodes.hasOwnProperty(row.opcode.content)) {
@@ -44,7 +56,12 @@ mov ${tempRegisterName}, ${operand2}
 ${row.opcode.content} ${operand1}, ${tempRegisterName}
 pop ${tempRegisterName}`
 
-            throw errorObject(mergeOperandsTokens(row.operands), `Intel processor can't access two memory places in the same instruction:\n\nPossible solution:\n${generatedHint}`)}
+            throw errorObject(mergeOperandsTokens(row.operands), `Intel processor can't access two memory places in the same instruction:\n\nPossible solution:\n${generatedHint}`)
+        }
+
+        for (const operand of row.operands) {
+            validateOperand(operand)
+        }
     }
 }
 

@@ -7,6 +7,7 @@ interface iError {
 
 type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' | 'identifier' | 'mixed'   // mixed token is merged token with different types
 type tTokenBits = null | 8 | 16   // null if unknown
+type tSegment = 'absolute' | 'cs' | 'ds' | 'ss' | 'es'   // 'absolute' if unknown
 
 interface iToken {
     row: number,
@@ -33,7 +34,8 @@ interface iInstruction {
     type: 'instruction',
     opcode: iToken
     operands: iOperand[],
-    bits: tTokenBits
+    bits: tTokenBits,
+    segment: tSegment
 }
 
 interface iCompiledInstruction {
