@@ -163,6 +163,7 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 - instruction history is weird, it isn't cleared correctly sometimes - there is bug somewhere
 - add validation warning if trying to write to memory cell and 8/16bit info is unknown in that instruction
 - verify if push and pop always gets 16-bit value
+- verify labels in verification step
 
 # validation todo
 - mov alphanumeric, 5

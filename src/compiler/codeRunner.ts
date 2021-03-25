@@ -181,6 +181,9 @@ class CodeRunner {
         if (this.history.length === 0) {
             codeRunnerStatus.set('reset')
         }
+        else if (get(codeRunnerStatus) === 'ended'){
+            codeRunnerStatus.set('paused')
+        }
     }
 
 
