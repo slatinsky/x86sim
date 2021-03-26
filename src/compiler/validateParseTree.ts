@@ -1,5 +1,6 @@
 import {errorObject, mergeTokens} from "./createParseTree";
 import {opcodes} from "./opcodes";
+import {allIntelSegmentRegisters} from "../config";
 
 /**
  * merges all tokens from operands, so they can be used in error highlighting
@@ -17,6 +18,56 @@ function validateOperand(operand: iOperand): void {
                 // example: mov [ax], 5      is invalid
                 throw errorObject(token, `ERROR: only registers bx, si, si, sp, bp, ip and immediate values\ncan be used during memory access,\nyou used '${token.content}'`)
             }
+        }
+    }
+}
+
+function validateWriteToSegmentRegister(row: iInstruction) {
+    if (row.operands.length === 2) {
+
+        let segmentRegister
+        let otherOperand
+        if (row.operands[0].type === "register" && row.operands[1].type !== "register") {
+            let firstRegisterName = row.operands[0].tokens[0].content.toLowerCase()
+            if (allIntelSegmentRegisters.includes(firstRegisterName)) {
+                // example: mov ds, [0]
+
+                segmentRegister = firstRegisterName
+                otherOperand = mergeTokens(row.operands[1].tokens)
+
+                let generatedHint = `push ax
+mov ax, ${otherOperand.content}
+${row.opcode.content} ${segmentRegister}, ax
+pop ax`
+                throw errorObject(otherOperand, `Write to segment registers can be done using only general purpose register:\n\nPossible solution:\n${generatedHint}`)
+            }
+        }
+        else if (row.operands[0].type !== "register" && row.operands[1].type === "register") {
+            let secondRegisterName = row.operands[1].tokens[0].content.toLowerCase()
+            if (allIntelSegmentRegisters.includes(secondRegisterName)) {
+                // example: mov [0], ds
+
+                segmentRegister = secondRegisterName
+                otherOperand = mergeTokens(row.operands[0].tokens)
+
+                let generatedHint = `push ax
+mov ax, ${segmentRegister}
+${row.opcode.content} ${otherOperand.content}, ax
+pop ax`
+                throw errorObject(otherOperand, `Read from segment registers can be done using only general purpose register:\n\nPossible solution:\n${generatedHint}`)
+            }
+        }
+
+        if (row.operands[0].type === "register" && row.operands[1].type === "register" &&
+            allIntelSegmentRegisters.includes(row.operands[0].tokens[0].content.toLowerCase()) &&
+            allIntelSegmentRegisters.includes(row.operands[1].tokens[0].content.toLowerCase())) {
+            // example: add cs, ds
+
+            let generatedHint = `push ax
+mov ax, ${row.operands[0].tokens[0].content}
+${row.opcode.content} ${row.operands[1].tokens[0].content}, ax
+pop ax`
+            throw errorObject(mergeOperandsTokens(row.operands), `Cannot use two segment registers in the same instruction:\n\nPossible solution:\n${generatedHint}`)
         }
     }
 }
@@ -58,6 +109,7 @@ pop ${tempRegisterName}`
 
             throw errorObject(mergeOperandsTokens(row.operands), `Intel processor can't access two memory places in the same instruction:\n\nPossible solution:\n${generatedHint}`)
         }
+        validateWriteToSegmentRegister(row)
 
         for (const operand of row.operands) {
             validateOperand(operand)
