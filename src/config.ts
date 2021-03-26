@@ -22,6 +22,7 @@ export const allIntel16bitRegisters = [
     'cs', 'ds', 'ss', 'es',
     'si', 'di', 'bp', 'sp', 'f', 'ip'
 ]
+export const allIntelSegmentRegisters = ['cs', 'ds', 'ss', 'es']
 
 export const allIntel8bitRegisters = [
     'al', 'ah',

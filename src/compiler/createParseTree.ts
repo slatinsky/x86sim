@@ -1,6 +1,9 @@
 /**
  * merges two tokens together, so they can be used as one token
  */
+import {allIntelSegmentRegisters} from "../config";
+import ret from "./opcodes/ret";
+
 function mergeTwoTokens(token1: iToken, token2: iToken): iToken {
     let newToken: iToken = {
         row: token1.row,
@@ -224,7 +227,51 @@ function getSegment(tokens: iToken[]): tSegment {
     }
 
     // default
-    return 'absolute'
+    return 'ds'
+}
+
+/**
+ * gets explicit segment register name
+ *
+ * example:
+ * input (assembly):
+ * mov es:[0], 0xfdba
+ *
+ * output:
+ * es
+ * + removed ex and : from tokens
+ *
+ * example:
+ * input (assembly):
+ * mov [0], 0xfdba
+ *
+ * output:
+ * null
+ */
+function getExplicitSegmentRegister(tokens: iToken[]): [tSegment, iToken[]] {
+    let tokensToRemove: iToken[] = []
+
+    for (const token of tokens) {
+        if (token.type === 'register' && allIntelSegmentRegisters.includes(token.content.toLowerCase())) {
+            tokensToRemove.push(token)
+        }
+        else if (tokensToRemove.length === 1 && token.content === ':') {
+            tokensToRemove.push(token)
+        }
+        else if (tokensToRemove.length === 2 && token.content === '[') {
+            let segment = <tSegment>tokensToRemove[0].content.toLowerCase()
+            tokens = tokens.filter(token => !tokensToRemove.includes(token))
+            return [segment, tokens]
+        }
+        else if (tokensToRemove.length === 2) {
+            throw errorObject(tokensToRemove[0], `Invalid usage of segment register.\nExample of correct usage:\nmov ${tokensToRemove[0].content}:[bx], 0`)
+        }
+        else {
+            tokensToRemove = []
+        }
+    }
+
+    return [null, tokens]
 }
 
 /**
@@ -242,13 +289,16 @@ function parseRow(tokens: iToken[]): iRow {
     }
     else if (tokens.length >= 1 && tokens[0].type === 'opcode') {
         let opcodeToken = nextToken(tokens)
+        let explicitSegment
+        [explicitSegment, tokens] = getExplicitSegmentRegister(tokens)
+
         let instruction: iInstruction = {
 
             type: 'instruction',
             opcode: opcodeToken,
             operands: [],
             bits: null,
-            segment: getSegment(tokens)
+            segment: explicitSegment ?? getSegment(tokens)
         }
 
         let tokensSplitByOperands = splitOperands(tokens)
