@@ -1,6 +1,6 @@
 import {opcodes} from "./opcodes"
 import {registers} from "../stores/registers"
-import {readable, writable} from "svelte/store"
+import {get, readable, writable} from "svelte/store"
 import type {tRegister} from "../types/types"
 import { memory } from "../stores/stores"
 import {errorObject} from "./createParseTree";
@@ -209,6 +209,8 @@ export function compileParseTree(rows: iRow[]): iCompiledInstruction[] {
     }
 
     console.log("newCompiledInstructions", compiledInstructions)
+
+    currentlyExecutedLine.set(eLineToEditorLine.convert(get(registers).ip))
 
     // if (compiledInstructions.length > 0)
     //     compiledInstructions[0].run().then(r => console.log(r))
