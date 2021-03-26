@@ -6,7 +6,8 @@ export default  {
     run: (operand1) => {
         let valueToPush = operand1.get()
         let sp = registers.get('sp')
-        memory.set(sp - 1, valueToPush)
+        let address = (registers.get('ss') << 4) + sp
+        memory.set(address - 2, valueToPush, 16)
         registers.set('sp', sp - 2)
     },
 }

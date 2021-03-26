@@ -1,8 +1,6 @@
 import {DebouncedFunc, throttle} from "lodash-es";
 import {registers} from "../stores/registers";
-import {parseInstructionList} from "./parseInstruction";
 import {get, writable} from "svelte/store";
-import {opcodes} from "./opcodes";
 import {memory} from "../stores/memory";
 import {settings} from "../stores/settings";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "../stores/config";
