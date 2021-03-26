@@ -133,6 +133,19 @@
         min-width: 2ch;
         padding: 0 .5ch;
     }
+    .sp {
+        background-color: red;
+        color: white;
+    }
+    .bp {
+        background-color: darkred;
+        color: white;
+    }
+    .bp.sp {
+        background-color: #c50000;  /* red and darkred average*/
+        color: white;
+    }
+
     .hexEditorRow-cell:hover,
     .hexEditorRow-ascii:hover,
     .hexEditorRow-cell-editing{
@@ -165,20 +178,6 @@
         position: absolute;
         opacity: 0;
     }
-
-    .sp {
-        background-color: red;
-        color: white;
-    }
-    .bp {
-        background-color: darkred;
-        color: white;
-    }
-    .bp.sp {
-        background-color: #c50000;  /* red and darkred average*/
-        color: white;
-    }
-
 </style>
 
 
