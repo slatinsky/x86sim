@@ -150,6 +150,7 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 
 ## Bugs
 - rapidly switching between projects causes autosave to save to the wrong project
+- autosave not saving registers after reset
 
 # todo
 - better project object upgrades
@@ -168,6 +169,7 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 - if bit size is not know, autodetect the size during memory write instead of converting it to 8-bit only
 - add #define MACRO_NAME macros
 - add recovery if error is found during compilation - compile again without problematic line
+
 
 # validation todo
 - mov alphanumeric, 5
