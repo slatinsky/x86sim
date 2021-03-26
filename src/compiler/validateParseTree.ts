@@ -23,6 +23,7 @@ function validateOperand(operand: iOperand): void {
 }
 
 function validateWriteToSegmentRegister(row: iInstruction) {
+    // https://stackoverflow.com/questions/19074666/8086-why-cant-we-move-an-immediate-data-into-segment-register
     if (row.operands.length === 2) {
 
         let segmentRegister

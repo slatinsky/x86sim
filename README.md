@@ -153,7 +153,6 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 
 # todo
 - better project object upgrades
-- segment registers
 - add stack back using virtual memory - show only stack segment inside
 - push to stack / pop only 16 bit values - in validation
 - support binary numeric format 10b   (b ending)
@@ -168,10 +167,10 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 - test uppercase/mixed case code, not everything is converted to lowercase correctly yet  
 - if bit size is not know, autodetect the size during memory write instead of converting it to 8-bit only
 - add #define MACRO_NAME macros
+- add recovery if error is found during compilation - compile again without problematic line
 
 # validation todo
 - mov alphanumeric, 5
-- it shouldn't be possible to move immediate values to segment registers - https://stackoverflow.com/questions/19074666/8086-why-cant-we-move-an-immediate-data-into-segment-register
 
 ## Ideas
 parse constants ending with `h` or begining with `0x` as hex

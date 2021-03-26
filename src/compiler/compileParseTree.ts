@@ -39,7 +39,7 @@ registers.subscribe(updatedRegisters => {
 
 
 
-function prepareOperand(operand: iOperand, bits: tTokenBits): iCompiledOperand {
+function prepareOperand(operand: iOperand, bits: tTokenBits, segment: tSegment): iCompiledOperand {
     if (operand.type === 'register') {
         const registerName = <tRegister>operand.tokens[0].content
         return {
@@ -104,7 +104,7 @@ function prepareOperand(operand: iOperand, bits: tTokenBits): iCompiledOperand {
 
 
         function getAddress() {
-            let address: number = 0
+            let address: number = registers.get(<tRegister>segment) << 4
             for (const addressFunction of computeAddressFunctions) {
                 address += addressFunction()
             }
@@ -144,7 +144,7 @@ function compile(instruction: iInstruction, labels: { [labelName: string]: numbe
     }
     else {
         // prepare operands during "compilation", so it doesn't slow down execution
-        let preparedOperands = instruction.operands.map(operand => prepareOperand(operand, instruction.bits))
+        let preparedOperands = instruction.operands.map(operand => prepareOperand(operand, instruction.bits, instruction.segment))
         return function run(): void {
             opcode.run(...preparedOperands)
             registers.inc('ip')  // change for jumps
