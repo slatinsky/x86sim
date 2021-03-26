@@ -1,6 +1,6 @@
 <script>
     import { _} from 'svelte-i18n'
-    import {memory, settings} from "../../stores/stores";
+    import {memory, registers, settings} from "../../stores/stores";
 
     // documentation https://github.com/sveltejs/svelte-virtual-list
     import VirtualList from '@sveltejs/svelte-virtual-list';
@@ -16,6 +16,7 @@
 
     import Toast from "../components/toast";
     import {formattedStringToInt, intToFormattedString} from "../../formatConverter";
+    import {onMount} from "svelte";
     const toast = new Toast()
 
     function changeValue(address) {
@@ -72,20 +73,33 @@
     }
 
 
+
+
+    export let followSp = false
     let virtualContainer
     export let scrollTo
+    let isMounted = false
+
+    $: sp = ($registers.ss << 4) + $registers.sp
+    $: bp = ($registers.ss << 4) + $registers.bp
 
     $: {
-        if (scrollTo) {
-            let scrollToInt = scrollTo ?? 0 // formattedStringToInt(scrollTo, $settings.selectedFormat, 32)
-            let el = virtualContainer.querySelector('.virtualContainer svelte-virtual-list-viewport')
-            if (el)
-                virtualContainer.querySelector('.virtualContainer svelte-virtual-list-viewport').scrollTop = scrollToInt * ROW_HEIGHT / COLUMNS;
-        }
-        else if (scrollTo === '') {
-            virtualContainer.querySelector('.virtualContainer svelte-virtual-list-viewport').scrollTop = 0
+        if (followSp) {
+            scrollTo = sp
         }
     }
+
+    $: if (isMounted && scrollTo) {
+        virtualContainer.querySelector('.virtualContainer svelte-virtual-list-viewport').scrollTop = scrollTo * ROW_HEIGHT / COLUMNS;
+    }
+
+    // TODO: fix this workaround to show it on load
+    // TODO: bug - second update doesn't follow stack
+    onMount(() => {
+        setTimeout(() => {
+            isMounted = true
+        }, 500)
+    })
 </script>
 
 <style>
@@ -151,14 +165,23 @@
         position: absolute;
         opacity: 0;
     }
+
+    .sp {
+        background-color: red;
+        color: white;
+    }
+    .bp {
+        background-color: darkred;
+        color: white;
+    }
+    .bp.sp {
+        background-color: #c50000;  /* red and darkred average*/
+        color: white;
+    }
+
 </style>
 
 
-{#if currentlyEditedAddress !== -1}
-    <div>{$_('views.memory.currentlyEditing')}: {intToFormattedString(currentlyEditedAddress, $settings.selectedFormat, 16)}. {$_('views.memory.escToExit')}</div>
-{:else}
-    <br>
-{/if}
 
 
 <slot />
@@ -183,7 +206,7 @@
             </div>
 
             {#each Array(COLUMNS) as _, offset}
-                <div class="hexEditorRow-cell {currentlyEditedAddress === index + offset ? 'hexEditorRow-cell-editing' : ''}" on:click={() => changeValue(index + offset)}>
+                <div class="hexEditorRow-cell {currentlyEditedAddress === index + offset ? 'hexEditorRow-cell-editing' : ''}  {(index + offset === sp || index + offset === sp + 1) ? 'sp' : ''} {(index + offset === bp || index + offset === bp + 1) ? 'bp' : ''}" on:click={() => changeValue(index + offset)}>
                     {#if $memory.hasOwnProperty(index + offset)}
                         {intToFormattedString($memory[index + offset], 'hex', 8).padStart(2, '0')}
                     {:else}
@@ -203,4 +226,12 @@
         </div>
 
     </VirtualList>
+</div>
+
+<div>
+    {#if currentlyEditedAddress !== -1}
+        <div>{$_('views.memory.currentlyEditing')}: {intToFormattedString(currentlyEditedAddress, $settings.selectedFormat, 16)}. {$_('views.memory.escToExit')}</div>
+    {:else}
+        <br>
+    {/if}
 </div>
