@@ -164,7 +164,6 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 - verify if push and pop always gets 16-bit value
 - verify labels in verification step
 - merge ace editor tokenizer with our tokenizer. Stop using built in assembly tokenizer 
-- test uppercase/mixed case code, not everything is converted to lowercase correctly yet  
 - if bit size is not know, autodetect the size during memory write instead of converting it to 8-bit only
 - add #define MACRO_NAME macros
 - add recovery if error is found during compilation - compile again without problematic line

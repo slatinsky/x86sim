@@ -65,6 +65,7 @@ function getBitSize(tokenType: tTokenType, tokenContent: string): tTokenBits {
  * inspired by and modified https://levelup.gitconnected.com/create-your-own-expression-parser-d1f622077796
  */
 export function tokenize(instructionList: string): iToken[] {
+    instructionList = instructionList.toLowerCase()  // convert everything to lowercase
     let rowNumber = 0
     let colOffset = 0
     let nextTokenIndex = 0
