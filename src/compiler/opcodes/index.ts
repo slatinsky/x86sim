@@ -27,6 +27,8 @@ import jnp from "./jnp";
 import js from "./js";
 import jns from "./jns";
 import neg from "./neg";
+import jo from "./jo";
+import jno from "./jno";
 
 
 export const jumps = {
@@ -60,6 +62,8 @@ export const opcodes = {
     jpo: jnp,
     js,
     jns,
+    jo,
+    jno,
     neg,
 }
 

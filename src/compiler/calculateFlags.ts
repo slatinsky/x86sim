@@ -26,4 +26,5 @@ export function calculateFlags(newValue, storedNewValue) {
     if (newValue !== storedNewValue) {  // if stored value is not the value we wanted to store, overflow occurred
         registers.set('of', 1)
     }
+    // console.log("newValue, storedNewValue", newValue, storedNewValue)
 }
