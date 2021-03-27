@@ -151,11 +151,9 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 ## Bugs
 - rapidly switching between projects causes autosave to save to the wrong project
 - autosave not saving registers after reset
-- second stack update (push then pop) doesn't show in stack window - jumps to zero
 
 # todo
 - better project object upgrades
-- add stack back using virtual memory - show only stack segment inside
 - push to stack / pop only 16 bit values - in validation
 - support binary numeric format 10b   (b ending)
 - multitab support

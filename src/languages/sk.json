@@ -33,7 +33,7 @@
       "memory": "Pamäť",
       "screen": "Obrazovka",
       "keyboard": "Klávesnica",
-      "stack": "Zásobník"
+      "stack": "Zásobníkový segment"
     },
     "keyboard": {
       "scanCodes": "Scan kódy",

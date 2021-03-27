@@ -33,7 +33,7 @@
       "memory": "Memory",
       "screen": "Screen",
       "keyboard": "Keyboard",
-      "stack": "Stack"
+      "stack": "Stack segment"
     },
     "keyboard": {
       "scanCodes": "Scan codes",

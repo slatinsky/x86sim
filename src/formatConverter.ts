@@ -87,7 +87,10 @@ export function intToFormattedString(int: number, selectedFormat: typeSelectedFo
 /**
  * formatted string to signed integer
  */
-export function formattedStringToInt(baseString: string, selectedFormat: typeSelectedFormat, bits: number) {
+export function formattedStringToInt(baseString: string, selectedFormat: typeSelectedFormat, bits: number): number {
+    if (baseString ===  "") {
+        return 0
+    }
     const [base, isDecSigned] = splitSelectedFormat(selectedFormat)
     let parsedValue
     if (base === 10 && isDecSigned) {

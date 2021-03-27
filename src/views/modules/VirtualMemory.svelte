@@ -3,12 +3,14 @@
     import HexEditor from "./HexEditor.svelte";
     import {settings} from "../../stores/stores";
     import {formattedStringToInt} from "../../formatConverter";
+    import {MEMORY_SIZE} from "../../stores/config";
     let columns = 8
     let scrollTo = 0
+
 </script>
 
 <b>{$_('views.modules.memory')}:</b><br>
-<HexEditor COLUMNS={columns} bind:scrollTo>
+<HexEditor COLUMNS={columns} {MEMORY_SIZE} bind:scrollTo>
 <!--    <button on:click={()=>columns = 16}>16</button>-->
 <!--    <button on:click={()=>columns = 8}>8</button>-->
 <!--    <button on:click={()=>columns = 4}>4</button>-->

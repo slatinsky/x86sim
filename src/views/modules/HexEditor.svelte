@@ -4,20 +4,25 @@
 
     // documentation https://github.com/sveltejs/svelte-virtual-list
     import VirtualList from '@sveltejs/svelte-virtual-list';
-    import {MEMORY_SIZE} from "../../stores/config";
     import {range} from "lodash-es";
+
+    export let offsetSegmentValue
+    $: offsetValue = (offsetSegmentValue << 4)
+    export let MEMORY_SIZE
+
+    if (!MEMORY_SIZE) {
+        throw "memory size needs to be defined"
+    }
 
     export let COLUMNS = 16
     const ROW_HEIGHT = 19
-    $: rangeOfIntegers = range(0, MEMORY_SIZE, COLUMNS)
+    $: rangeOfIntegers = range(offsetValue, MEMORY_SIZE + offsetValue, COLUMNS)
 
     let start
     let end
 
-    import Toast from "../components/toast";
     import {formattedStringToInt, intToFormattedString} from "../../formatConverter";
     import {onMount} from "svelte";
-    const toast = new Toast()
 
     function changeValue(address) {
         changeCurrentlyEditedAddress(address)
@@ -89,16 +94,24 @@
         }
     }
 
-    $: if (isMounted && scrollTo) {
-        virtualContainer.querySelector('.virtualContainer svelte-virtual-list-viewport').scrollTop = scrollTo * ROW_HEIGHT / COLUMNS;
+    $: scrollToAbsolute = scrollTo - offsetValue
+
+    $: if (isMounted) {
+        let scrollToPosition = scrollToAbsolute * ROW_HEIGHT / COLUMNS
+        let containerElement = virtualContainer.querySelector('.virtualContainer svelte-virtual-list-viewport')
+        containerElement.scrollTop = scrollToPosition;
+        setTimeout(() => {
+            // dirty fix - set scroll position again after 50 ms if it didn't scroll correctly
+            // if it didn't scroll correctly - scrollTop was set to zero
+            let newPosition = containerElement.scrollTop
+            if (newPosition === 0)  {
+                containerElement.scrollTop = scrollToPosition
+            }
+        }, 50)
     }
 
-    // TODO: fix this workaround to show it on load
-    // TODO: bug - second update doesn't follow stack
     onMount(() => {
-        setTimeout(() => {
-            isMounted = true
-        }, 500)
+        isMounted = true
     })
 </script>
 
@@ -187,7 +200,7 @@
 <input class="focusableHiddenInput" type="text" bind:value={inputValue} bind:this={inputElement} on:keyup={changeValueInput} on:blur={()=> changeCurrentlyEditedAddress(-1)}>
 <div class="virtualContainer" bind:this={virtualContainer}>
     <div class="hexEditorRow">
-        <div class="hexEditorRow-address"><b>Offset</b></div>
+        <div class="hexEditorRow-address"><b></b></div>
         {#each Array(COLUMNS) as _, offset}
             <div class="hexEditorRow-cell hexEditorRow-legend">{intToFormattedString(offset, $settings.selectedFormat, 8).padStart(2, '0')}</div>
         {/each}
