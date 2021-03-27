@@ -78,7 +78,8 @@ function createRegisters() {
         },
         setWithFlags: (attributeName:any, newValue) => {
             thisStore.set(attributeName, newValue)
-            calculateFlags(newValue)
+            let storedNewValue = thisStore.get(attributeName)  // if overflow occurred, actual stored value is different
+            calculateFlags(newValue, storedNewValue)
         },
         reset: () => set(Object.assign({}, defaultRegisters)),
         get: (registerName: tRegister): number => {

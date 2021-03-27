@@ -48,7 +48,7 @@
 <!--        <Register bind:value={$registers.tf} bits="1" label="tf" tooltip={$_('tooltips.registers.tf')} bcolor="#008BC0"/>-->
 <!--        <Register bind:value={$registers.if} bits="1" label="if" tooltip={$_('tooltips.registers.if')} bcolor="#008BC0"/>-->
 <!--        <Register bind:value={$registers.df} bits="1" label="df" tooltip={$_('tooltips.registers.df')} bcolor="#008BC0"/>-->
-<!--        <Register bind:value={$registers.of} bits="1" label="of" tooltip={$_('tooltips.registers.of')} bcolor="#008BC0"/>-->
+        <Register bind:value={$registers.of} bits="1" label="of" tooltip={$_('tooltips.registers.of')} bcolor="#008BC0"/>
     </div>
 </div>
 {#if $settings.developerMode}

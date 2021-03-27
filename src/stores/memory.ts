@@ -55,7 +55,8 @@ function createMemory() {
         },
         setWithFlags: (address:any, newValue, bits: tTokenBits = 8) => {
             thisStore.set(address, newValue, bits)
-            calculateFlags(newValue)
+            let storedNewValue = thisStore.get(address, bits)  // if overflow occurred, actual stored value is different
+            calculateFlags(newValue, storedNewValue)
         },
         reset: () => {
             set({})

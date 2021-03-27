@@ -78,7 +78,7 @@
       "tf": "Trap flag",
       "if": "Interrupt enable flag",
       "df": "Direction flag (pre reťazcové inštrukcie)",
-      "of": "Overflow flag (pretečenie)"
+      "of": "Overflow flag (pretečenie). Nastavené na 1 ak číslo, ktoré je reprezentované ako 'signed' pretieklo."
     }
   }
 }
