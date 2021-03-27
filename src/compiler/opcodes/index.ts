@@ -4,8 +4,6 @@
 // 3) add it to opcodes object
 
 // If rollup throws error after adding new .ts file, restart it
-import {registers, memory} from "../../stores/stores";
-
 import add from "./add"
 import sub from "./sub"
 import mov from "./mov"
@@ -24,6 +22,10 @@ import ret from "./ret";
 import call from "./call";
 import cmp from "./cmp";
 import input from "./in";  // in is special keyword in javascipt
+import jp from "./jp";
+import jnp from "./jnp";
+import js from "./js";
+import jns from "./jns";
 
 
 export const jumps = {
@@ -50,7 +52,13 @@ export const opcodes = {
     jne,
     jnz: jne,
     cmp,
-    in: input
+    in: input,
+    jp,
+    jpe: jp,
+    jnp,
+    jpo: jnp,
+    js,
+    jns,
 }
 
 export const opcodes_0_operands = []

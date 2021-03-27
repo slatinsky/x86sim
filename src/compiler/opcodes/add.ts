@@ -1,5 +1,3 @@
-import {registers, memory} from "../../stores/stores";
-
 // adds two numbers together
 export default  {
     writesTo: ["operand1"],
