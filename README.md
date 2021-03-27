@@ -151,8 +151,10 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 ## Bugs
 - rapidly switching between projects causes autosave to save to the wrong project
 - autosave not saving registers after reset
+- stack register offsets incorrectly handled for ss=0xA000
 
 # todo
+- show changed register/memory values between steps
 - better project object upgrades
 - push to stack / pop only 16 bit values - in validation
 - support binary numeric format 10b   (b ending)

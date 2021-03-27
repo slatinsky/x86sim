@@ -7,7 +7,7 @@
     import {range} from "lodash-es";
 
     export let offsetSegmentValue
-    $: offsetValue = (offsetSegmentValue << 4)
+    $: offsetValue = (signedToUnsignedInt(offsetSegmentValue, 16) << 4)
     export let MEMORY_SIZE
 
     if (!MEMORY_SIZE) {
@@ -21,7 +21,7 @@
     let start
     let end
 
-    import {formattedStringToInt, intToFormattedString} from "../../formatConverter";
+    import {formattedStringToInt, intToFormattedString, signedToUnsignedInt} from "../../formatConverter";
     import {onMount} from "svelte";
 
     function changeValue(address) {
