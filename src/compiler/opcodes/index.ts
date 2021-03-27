@@ -22,6 +22,7 @@ import je from "./je";
 import jne from "./jne";
 import ret from "./ret";
 import call from "./call";
+import cmp from "./cmp";
 import input from "./in";  // in is special keyword in javascipt
 
 
@@ -48,7 +49,8 @@ export const opcodes = {
     jz: je,
     jne,
     jnz: jne,
-    in: input,
+    cmp,
+    in: input
 }
 
 export const opcodes_0_operands = []
