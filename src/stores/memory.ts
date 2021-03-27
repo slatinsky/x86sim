@@ -53,8 +53,8 @@ function createMemory() {
                 })
             }
         },
-        setWithFlags: (address:any, newValue) => {
-            thisStore.set(address, newValue)
+        setWithFlags: (address:any, newValue, bits: tTokenBits = 8) => {
+            thisStore.set(address, newValue, bits)
             calculateFlags(newValue)
         },
         reset: () => {

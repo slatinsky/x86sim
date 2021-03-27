@@ -118,7 +118,7 @@ function prepareOperand(operand: iOperand, bits: tTokenBits, segment: tSegment):
                 memory.set(getAddress(), valueToSet, bits)
             },
             setWithFlags: (valueToSet: number): void => {
-                memory.setWithFlags(getAddress(), valueToSet)
+                memory.setWithFlags(getAddress(), valueToSet, bits)
             },
             type: "memory"
         }
