@@ -32,6 +32,8 @@
         <Register bind:value={$registers.di} bits="16" label="di" tooltip={$_('tooltips.registers.di')}/>
         <Register bind:value={$registers.bp} bits="16" label="bp" tooltip={$_('tooltips.registers.bp')} bcolor="darkred"/>
         <Register bind:value={$registers.sp} bits="16" label="sp" tooltip={$_('tooltips.registers.sp')} bcolor="red"/>
+    </div>
+    <div>
         <Register bind:value={$registers.cs} bits="16" label="cs" tooltip={$_('tooltips.registers.cs')} bcolor="green"/>
         <Register bind:value={$registers.ds} bits="16" label="ds" tooltip={$_('tooltips.registers.ds')} bcolor="green"/>
         <Register bind:value={$registers.ss} bits="16" label="ss" tooltip={$_('tooltips.registers.ss')} bcolor="green"/>

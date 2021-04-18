@@ -51,18 +51,10 @@
 </script>
 
 <style>
-
-
 	#grid {
 		display: grid;
-        grid-template-columns: 300px auto auto auto;
+        grid-template-columns: clamp(300px, 30vw, 500px) clamp(500px, 10vw, 800px) 200px auto;
 		gap: 15px
-	}
-
-	@media (min-width: 992px) {
-		#grid {
-			grid-template-columns: 500px auto auto auto;
-		}
 	}
 </style>
 

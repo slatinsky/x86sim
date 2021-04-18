@@ -35,7 +35,7 @@
         width: calc(80ch + 2 * .5rem);
 
         font-family: monospace;
-        font-size: 13px;
+        font-size: 11px;
         text-align: left;
     }
 

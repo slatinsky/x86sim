@@ -60,7 +60,11 @@
 
     img {
         width: 100%;
+        max-width: 500px;
+        height: 200px;
         filter: brightness(1.5);
+        object-fit: cover;
+        object-position: left;
     }
 
     img.active {

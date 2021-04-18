@@ -7,7 +7,25 @@
     let columns = 8
     let scrollTo = 0
 
+    let innerWidth = 500;
+    $: console.log(innerWidth)
+
+    $: if (innerWidth > 3200) {
+        columns = 64
+    }
+    else if (innerWidth > 2400) {
+        columns = 32
+    }
+    else if (innerWidth > 1950) {
+        columns = 16
+    }
+    else {
+        columns = 8
+    }
+
 </script>
+
+<svelte:window bind:innerWidth={innerWidth}/>
 
 <b>{$_('views.modules.memory')}:</b><br>
 <HexEditor COLUMNS={columns} {MEMORY_SIZE} bind:scrollTo>

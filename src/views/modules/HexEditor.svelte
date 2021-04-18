@@ -121,9 +121,9 @@
         /*border-bottom: 1px solid #333;*/
         min-height: 200px;
         height: calc(100vh - 15em);
-        max-height: 600px;
+        /*max-height: 600px;*/
 
-        max-width: 600px;
+        /*max-width: 600px;*/
         font-family: monospace;
         margin-bottom: 1rem;
     }
@@ -191,6 +191,16 @@
         position: absolute;
         opacity: 0;
     }
+
+    .hex-absolute-warning {
+        backdrop-filter: blur(5px);
+        background-color: rgb(153, 235, 255, 0.67);
+        padding: .5rem 1rem;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+    }
 </style>
 
 
@@ -240,10 +250,9 @@
     </VirtualList>
 </div>
 
-<div>
-    {#if currentlyEditedAddress !== -1}
+{#if currentlyEditedAddress !== -1}
+    <div class="hex-absolute-warning">
         <div>{$_('views.memory.currentlyEditing')}: {intToFormattedString(currentlyEditedAddress, $settings.selectedFormat, 16)}. {$_('views.memory.escToExit')}</div>
-    {:else}
-        <br>
-    {/if}
-</div>
+    </div>
+{/if}
+
