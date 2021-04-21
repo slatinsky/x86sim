@@ -94,7 +94,7 @@ class CodeRunner {
         [errorsNew2, rowsNew] = validateParseTree(rowsNew)
 
 
-        let instructionsNewCompiled = compileParseTree(rowsNew)
+        let [instructionsNewCompiled, errorsNew3] = compileParseTree(rowsNew)
         this.instructionsCompiled = instructionsNewCompiled
 
         if (instructionsNewCompiled.length > 0) {
@@ -108,7 +108,7 @@ class CodeRunner {
 
         this.updateLineAddressMapping()
 
-        this._errors = [].concat(errorsNew).concat(errorsNew2)  // TODO: errors from old compiler are intentionally removed
+        this._errors = [].concat(errorsNew).concat(errorsNew2).concat(errorsNew3)  // TODO: errors from old compiler are intentionally removed
     }
 
     private makeSnapshot(): iHistorySnapshot {

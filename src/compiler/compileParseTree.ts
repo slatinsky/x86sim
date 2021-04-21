@@ -3,7 +3,7 @@ import {registers} from "../stores/registers"
 import {get, readable, writable} from "svelte/store"
 import type {tRegister} from "../types/types"
 import { memory } from "../stores/stores"
-import {errorObject} from "./createParseTree";
+import {errorObject, mergeTokens} from "./createParseTree";
 import {autodetectToSignedInteger} from "../formatConverter";
 
 class executedLineToEditorLine {
@@ -178,9 +178,10 @@ function parseLabels(rows: iRow[]): {[labelName: string]: number} {
  * check if opcode is valid / implemented
  * if operator + any + operator + ... in operand field
  */
-export function compileParseTree(rows: iRow[]): iCompiledInstruction[] {
-    if (rows.length === 0) {
-        return []
+export function compileParseTree(rows: iRow[], pass:number=0): [iCompiledInstruction[], iError[]] {
+    let errors: iError[] = []
+    if (rows.length === 0) { // nothing left to compile
+        return [[], []]
     }
 
     const labels = parseLabels(rows)
@@ -201,8 +202,33 @@ export function compileParseTree(rows: iRow[]): iCompiledInstruction[] {
                 compiledInstructions.push(compiledInstruction)
             }
             catch (e) {
-                console.error("compiler crashed while compiling. There is not enough validation. Details:" + JSON.stringify(e))
-                return []
+
+                // there is a row that causes unexpected compilation error.
+                // Try to compile again with that problematic row removed. It may be successful and at least part of the code may be executable
+                // uses recursion - recursively remove rows until leftover rows are removed or no rows are left
+
+                let problematicRowNumber = row.operands[0].tokens[0].row
+                console.error("compiler crashed while compiling. This should be ideally moved to validation. Details:" + JSON.stringify(e), problematicRowNumber)
+
+                const [compiledInstructionsRepaired, moreErrors] = compileParseTree(rows.filter((row:iRow) => {
+                    if ("operands" in row) {  // opcodes
+                        return row.operands[0].tokens[0].row !== problematicRowNumber
+                    }
+                    else if ("token" in row) {  // labels
+                        return row.token.row !== problematicRowNumber
+                    }
+                    else {  // should never happen
+                        console.error("compileParseTree - unexpected row:", row)
+                        return false
+                    }
+                }), pass + 1)
+
+                errors.push({
+                    message: "compilation error on this line (pass/attempt: " + pass + ").\nCompiler will try to compile your code without this line included.\nTechnical details:\n" + JSON.stringify(e),
+                    token: row.operands[0].tokens[0],
+                    type: 'error'
+                })
+                return [compiledInstructionsRepaired, [...errors, ...moreErrors]]
             }
 
         }
@@ -215,7 +241,7 @@ export function compileParseTree(rows: iRow[]): iCompiledInstruction[] {
     // if (compiledInstructions.length > 0)
     //     compiledInstructions[0].run().then(r => console.log(r))
 
-    return compiledInstructions
+    return [compiledInstructions, errors]
 
 
 
