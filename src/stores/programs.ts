@@ -2,11 +2,14 @@ import {get, writable} from "svelte/store";
 import {code, debugMode, memory, registers} from "./stores";
 import {createWritableStore} from "./createWritableStore";
 import {ensureObjectHasDefaultValues} from "../helperFunctions";
+import {codeRunnerStatus} from "../compiler/codeRunner";
 
 export const projectName = createWritableStore('currentProjectName', 'default')
 projectName.useLocalStorage()
 
 function createProjects() {
+    console.log("PROJECTS CREATED")
+
     interface Project {
         version: number,
         name: string,
@@ -18,14 +21,13 @@ function createProjects() {
     const defaultProject = {
         "version":1,
         "name":"default",
-        "registers":{"sp":32,"bp":32},
+        "registers":{"sp": 0x10000,"bp": 0x10000},
         "memory":{},
-        "code":"inc ax\r\ninc bx\r\ninc cx\r\nmov ax, ax\r\n\r\n\r\nnavestie2:\r\n    inc ax\r\n    jmp navestie3\r\n\r\nnavestie1:\r\n    push bx\r\n    mov bx, 10\r\n    mov [bx-5], ax\r\n    dec bx\r\n    pop bx\r\n    jmp pushAndPopall\r\n\r\nnavestie3:\r\n    inc dx  ;toto je komentar\r\n    dec bx\r\n    jmp navestie1\r\n     \r\npushAndPopall:\r\n    ; save registers to stack\r\n    push ax\r\n    push bx\r\n    push cx\r\n    push dx\r\n    \r\n    ; restore registers from stack\r\n    pop dx\r\n    pop cx\r\n    pop bx\r\n    pop ax\r\n    jmp navestie2\r\n    \r\n    xor ax, ax\r\n"
+        "code":""
     }
 
     // get saved projects from localStorage
 
-    console.log("currentProjectName", get(projectName))
     let savedPermanentData = JSON.parse(localStorage.getItem('projects'))
     if (savedPermanentData === null) {
         savedPermanentData = [{...defaultProject}]
@@ -33,6 +35,7 @@ function createProjects() {
 
     // create svelte store
     const {subscribe, set, update} = writable(savedPermanentData);
+
 
     function upgradeProjectVersion(project: Project): Project {
         // reserved for future in case of file format change
@@ -83,6 +86,7 @@ function createProjects() {
 
         },
         loadProject: (projectNameToLoad: string) => {
+            codeRunnerStatus.set('loading-project')
             let projects = get(thisStore)
             let projectToLoad = projects.filter(project => project.name === projectNameToLoad)?.[0]
             if (!projectToLoad) {
@@ -94,6 +98,7 @@ function createProjects() {
             memory.load(projectToLoad.memory)
             code.set(projectToLoad.code)
             document.title = `${projectToLoad.name} | x86sim`
+            codeRunnerStatus.set('reset')
         },
         renameProject: (oldProjectName: string, newProjectName: string) => {
             if (oldProjectName !== newProjectName) {
@@ -196,8 +201,28 @@ function createProjects() {
 
     // subscribe for changes and save changes in localStorage
     const unsubscribe = thisStore.subscribe(updatedValue => {
-        localStorage.setItem('projects', JSON.stringify(updatedValue))
+        savedPermanentData = JSON.stringify(updatedValue)
+        localStorage.setItem('projects', savedPermanentData)
     });
+
+
+    // if projects were updated in another tab, they have written to localStorage - to keep in sync, load updated data in this tab too
+    // check for updated data every 100 milliseconds
+    // only non focused tab is updated, because only currently focused tab is modifying data created by user
+    setInterval(()=> {
+        if (!document.hasFocus()) {
+            let projectsFromLocalStorage = localStorage.getItem('projects')
+            if (savedPermanentData !== projectsFromLocalStorage) {
+                console.log("Projects changed in another tab, reloading")
+                set(JSON.parse(projectsFromLocalStorage))
+                console.log("projectsFromLocalStorage", JSON.stringify(projectsFromLocalStorage))
+                if (get(projectName)) {
+                    console.warn("projectName", get(projectName))
+                    thisStore.loadProject(get(projectName))
+                }
+            }
+        }
+    }, 100)
 
     return thisStore
 }

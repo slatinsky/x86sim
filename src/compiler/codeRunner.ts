@@ -28,7 +28,7 @@ interface iHistorySnapshot { // TODO add more strict types
     memory: any
 }
 
-type tCodeRunnerStatus = 'not-runnable' | 'reset' | 'paused' | 'running' | 'ended'
+type tCodeRunnerStatus = 'not-runnable' | 'reset' | 'paused' | 'running' | 'ended' | 'loading-project'
 export const codeRunnerStatus = writable<tCodeRunnerStatus>('not-runnable');
 export const debugMode = writable<boolean>(false);
 
@@ -37,7 +37,7 @@ codeRunnerStatus.subscribe((newStatus: tCodeRunnerStatus) => {
     if (newStatus === 'not-runnable' || newStatus === 'reset') {
         debugMode.set(false)
     }
-    else if (newStatus === 'paused' || newStatus === 'running' || newStatus === 'ended') {
+    else if (newStatus === 'paused' || newStatus === 'running' || newStatus === 'ended' || 'loading-project') {
         debugMode.set(true)
     }
     else {
