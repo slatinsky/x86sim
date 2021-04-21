@@ -8,7 +8,6 @@
     let scrollTo = 0
 
     let innerWidth = 500;
-    $: console.log(innerWidth)
 
     $: if (innerWidth > 3200) {
         columns = 64

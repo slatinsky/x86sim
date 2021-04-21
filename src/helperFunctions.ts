@@ -20,3 +20,25 @@ export function ensureObjectHasDefaultValues(object: {}, defaultValues: {}) {
         }
     }
 }
+
+/**
+ * Shallow difference (doesn't recurse into children objects)
+ * Works only with objects, not with arrays
+ * Returns keys of different objects
+ * If one object doesn't contain key and other contains it, they are treated as differen
+ */
+export function objectKeyDifferences(obj1: {}, obj2: {}): any[] {
+    let differences = []
+    let uniqueKeys = [...new Set([...Object.keys(obj1), ...Object.keys(obj2)])]
+
+    for (let uniqueKey of uniqueKeys) {
+        if (obj1.hasOwnProperty(uniqueKey) !== obj2.hasOwnProperty(uniqueKey)) {
+            differences.push(uniqueKey)
+        }
+        else if(obj1[uniqueKey] !== obj2[uniqueKey]) { // now all looped keys exists in both arrays, check if values are different
+            differences.push(uniqueKey)
+        }
+    }
+
+    return differences
+}

@@ -9,10 +9,16 @@ import {_} from "svelte-i18n";
 import {tokenize} from "./tokenizer";
 import {createParseTree} from "./createParseTree";
 import {validateParseTree} from "./validateParseTree";
+import {delete_rule} from "svelte/types/runtime/internal/style_manager";
+import {objectKeyDifferences} from "../helperFunctions";
 
 
 // breakpoints
 export const breakpoints = writable([])
+export const differences = writable({
+    registers: [],
+    memory: [],
+})
 
 export const code = writable('')
 export const lineAddressMapping = writable<{ [key: number]: number }>({})
@@ -112,6 +118,32 @@ class CodeRunner {
         }
     }
 
+    /**
+     * Compares latest snapshot saved in the stack with current (newest) version
+     */
+    private compareWithSnapshot() {
+        if (this.history.length > 0) {
+            let currentVersion = this.makeSnapshot()
+            console.log("currentVersion", currentVersion)
+
+            let latestSnapshot = this.history[this.history.length - 1]
+            console.log("latestSnapshot", latestSnapshot)
+
+            // we will store there names of different registers or memory addresses
+            let newDifferences = {
+                registers: objectKeyDifferences(currentVersion.registers, latestSnapshot.registers),
+                memory: objectKeyDifferences(currentVersion.memory, latestSnapshot.memory),
+            }
+            differences.set(newDifferences)
+        }
+        else {
+            differences.set({
+                registers: [],
+                memory: [],
+            })
+        }
+    }
+
     // ---------- COMMANDS from navbar ----------
     public pause(): void {
         codeRunnerStatus.set('paused')
@@ -132,8 +164,10 @@ class CodeRunner {
             let firstSnapshot = this.history[0]
             registers.load(firstSnapshot.registers)
             memory.load(firstSnapshot.memory)
+            this.history = []  // empty history
         }
         codeRunnerStatus.set('reset')
+        this.compareWithSnapshot()
     }
 
     public step(): void {
@@ -162,6 +196,7 @@ class CodeRunner {
         else {
             codeRunnerStatus.set('ended')
         }
+        this.compareWithSnapshot()
     }
 
     /**
@@ -182,6 +217,7 @@ class CodeRunner {
         else if (get(codeRunnerStatus) === 'ended'){
             codeRunnerStatus.set('paused')
         }
+        this.compareWithSnapshot()
     }
 
 

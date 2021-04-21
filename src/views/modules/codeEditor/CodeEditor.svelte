@@ -223,7 +223,8 @@
 
     :global(.ace_current_line) {
         position:absolute;
-        background: rgba(100, 200, 100, 0.5);
+        background: var(--register-ip);
+        opacity: .5;
         z-index:20
     }
     :global(.ace_error_line) {

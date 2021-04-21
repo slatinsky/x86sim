@@ -8,6 +8,7 @@
 
     export let value = 0        // real integer value
     export let bits
+    export let isDifferent = false
 
     // square styling
     export let bcolor = 'darkslategray'
@@ -42,5 +43,5 @@
     <Tooltip {tooltip} bottom>
         <div class="square {largeSquare ? 'large' : ''}" style="background-color: {bcolor}" data-tooltip="Všeobecný register">{label}</div>
     </Tooltip>
-    <FormatInput bind:value={value} {bits}  />
+    <FormatInput bind:value={value} {bits} {isDifferent} />
 </div>

@@ -26,6 +26,11 @@ body {
 	--visited-link-color: rgb(0,80,160);
 	--input-background: white;
 	--input-border-color: silver;
+	--register-ip: #64C864;
+	--register-sp: #6734e0;
+	--register-spbs: #735bab;  /* sp and bs register color average, because they are often pointing to the same place */
+	--register-bp: #8d76c2;
+	--changed-value: red;
 }
 
 /* Overrides colors in :root */

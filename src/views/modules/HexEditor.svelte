@@ -21,8 +21,12 @@
     let start
     let end
 
+    $: differentMemory = $differences.memory
+    $: console.log("differentMemory", differentMemory)
+
     import {formattedStringToInt, intToFormattedString, signedToUnsignedInt} from "../../formatConverter";
     import {onMount} from "svelte";
+    import {differences} from "../../compiler/codeRunner";
 
     function changeValue(address) {
         changeCurrentlyEditedAddress(address)
@@ -147,15 +151,15 @@
         padding: 0 .5ch;
     }
     .sp {
-        background-color: red;
+        background-color: var(--register-sp);
         color: white;
     }
     .bp {
-        background-color: darkred;
+        background-color: var(--register-bp);
         color: white;
     }
     .bp.sp {
-        background-color: #c50000;  /* red and darkred average*/
+        background-color: var(--register-spbs);
         color: white;
     }
 
@@ -194,12 +198,16 @@
 
     .hex-absolute-warning {
         backdrop-filter: blur(5px);
-        background-color: rgb(153, 235, 255, 0.67);
+        background-color: rgba(153, 235, 255, 0.67);
         padding: .5rem 1rem;
         position: absolute;
         bottom: 0;
         right: 0;
         z-index: 10;
+    }
+
+    .isDifferent {
+        color: var(--changed-value);
     }
 </style>
 
@@ -228,7 +236,7 @@
             </div>
 
             {#each Array(COLUMNS) as _, offset}
-                <div class="hexEditorRow-cell {currentlyEditedAddress === index + offset ? 'hexEditorRow-cell-editing' : ''}  {(index + offset === sp || index + offset === sp + 1) ? 'sp' : ''} {(index + offset === bp || index + offset === bp + 1) ? 'bp' : ''}" on:click={() => changeValue(index + offset)}>
+                <div class="hexEditorRow-cell {currentlyEditedAddress === index + offset ? 'hexEditorRow-cell-editing' : ''} {differentMemory.includes((index + offset).toString()) ? 'isDifferent' : ''}  {(index + offset === sp || index + offset === sp + 1) ? 'sp' : ''} {(index + offset === bp || index + offset === bp + 1) ? 'bp' : ''}" on:click={() => changeValue(index + offset)}>
                     {#if $memory.hasOwnProperty(index + offset)}
                         {intToFormattedString($memory[index + offset], 'hex', 8).padStart(2, '0')}
                     {:else}
@@ -239,9 +247,9 @@
             <div class="hexEditorRow-asciiWrapper">
                 {#each Array(COLUMNS) as _, offset}
                     {#if $memory.hasOwnProperty(index + offset)}
-                        <div class="hexEditorRow-ascii" on:click={() => changeValue(index + offset)}>{String.fromCharCode($memory[index + offset])} </div>
+                        <div class="hexEditorRow-ascii {differentMemory.includes((index + offset).toString()) ? 'isDifferent' : ''}" on:click={() => changeValue(index + offset)}>{String.fromCharCode($memory[index + offset])} </div>
                     {:else}
-                        <div class="hexEditorRow-ascii hexEditorRow-ascii-deactivated" on:click={() => changeValue(index + offset)}>.</div>
+                        <div class="hexEditorRow-ascii {differentMemory.includes((index + offset).toString()) ? 'isDifferent' : ''} hexEditorRow-ascii-deactivated" on:click={() => changeValue(index + offset)}>.</div>
                     {/if}
                 {/each}
             </div>

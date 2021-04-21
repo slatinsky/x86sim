@@ -6,6 +6,7 @@
     let stringValue = '0'        // value shown inside register input
     export let value = 0        // signed integer value
     let focused = false         // is element currently focused?
+    export let isDifferent = false
 
     // if register value was changes from "outside" or it was changed using "validate() - transform it to internal "stringValue"
     function updateStringValue() {
@@ -71,8 +72,12 @@
     input.boolean {
         width: 20px;
     }
+
+    input.isDifferent {
+        color: var(--changed-value);
+    }
 </style>
 
-<input class="input {$settings.selectedFormat} {parseInt(bits) === 1 ? 'boolean' : ''}" maxlength="16" type="string" bind:value={stringValue} on:blur={focusOut} on:focus={focusIn} on:keyup={keyUp} />
+<input class="input {$settings.selectedFormat} {parseInt(bits) === 1 ? 'boolean' : ''} {isDifferent ? 'isDifferent' : ''}" maxlength="16" type="string" bind:value={stringValue} on:blur={focusOut} on:focus={focusIn} on:keyup={keyUp} />
 
 <!--{value}-->
