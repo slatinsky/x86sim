@@ -10,6 +10,6 @@ addMessages('sk', sk);
 
 // en and sk are not available yet
 init({
-    fallbackLocale: 'sk',
+    fallbackLocale: 'en',
     initialLocale: getLocaleFromNavigator(),
 });

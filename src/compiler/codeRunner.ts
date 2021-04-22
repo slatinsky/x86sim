@@ -124,10 +124,8 @@ class CodeRunner {
     private compareWithSnapshot() {
         if (this.history.length > 0) {
             let currentVersion = this.makeSnapshot()
-            console.log("currentVersion", currentVersion)
 
             let latestSnapshot = this.history[this.history.length - 1]
-            console.log("latestSnapshot", latestSnapshot)
 
             // we will store there names of different registers or memory addresses
             let newDifferences = {

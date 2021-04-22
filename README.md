@@ -173,3 +173,4 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 ## Ideas
 parse constants ending with `h` or begining with `0x` as hex
 better parsing error messages
+calculator (bin <-> hex <-> dec <-> unsigned ded). Also segment register + relative address <-> absolute address

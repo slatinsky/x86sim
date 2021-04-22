@@ -25,18 +25,23 @@
 	import Registers from "./modules/Registers.svelte";
 	import Screen from "./modules/Screen.svelte";
 	import CodeEditor from "./modules/codeEditor/CodeEditor.svelte";
-	import Stack from "./modules/Stack.svelte";
 	import LoadSave from "./modules/loadSave/LoadSave.svelte";
 	import Modal from "./components/Modal.svelte";
 	import Settings from "./modules/Settings.svelte";
 	import Spinner from "./modules/Spinner.svelte";
-	import Memory from "./modules/Memory.svelte";
 	import Keyboard from "./modules/Keyboard.svelte";
-	import SimpleMemory from "./modules/SimpleMemory.svelte";
 	import VirtualMemory from "./modules/VirtualMemory.svelte";
-	import {memory} from "../stores/stores";
 	import VirtualStack from "./modules/VirtualStack.svelte";
+	import Calculator from "./modules/Calculator.svelte";
+	import ShowHideModules from "./modules/ShowHideModules.svelte";
 
+	let showCalculator = false
+	let showRegisters = true
+	let showScreen = true
+	let showKeyboard = true
+	let showStack = true
+	let showMemory = true
+	let showCodeEditor = true
 
 	$: {
 		if ($settings.darkTheme) {
@@ -64,26 +69,35 @@
 	<Navigation />
 
 	<div class="container-fluid">
+		<ShowHideModules bind:showCalculator bind:showRegisters bind:showScreen bind:showKeyboard bind:showStack bind:showMemory bind:showCodeEditor />
 		<div id="grid">
-			<CodeEditor />
-			<div>
-				<Registers />
-				<Screen />
-				<Keyboard />
-<!--				<Stack />-->
-<!--				<Memory />-->
-
+			<div style="display: {showCodeEditor ? 'block' : 'none'}"> <!-- CodeEditor doesn't support rerender, we need to just hide it -->
+				<CodeEditor />
 			</div>
 			<div>
-<!--				<SimpleMemory />-->
-				<VirtualStack />
+				{#if showCalculator}
+					<Calculator />
+				{/if}
+				{#if showRegisters}
+					<Registers />
+				{/if}
+				{#if showScreen}
+					<Screen />
+				{/if}
+				{#if showKeyboard}
+					<Keyboard />
+				{/if}
 			</div>
 			<div>
-
+				{#if showStack}
+					<VirtualStack />
+				{/if}
+			</div>
+			<div>
 <!--				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>-->
-				<VirtualMemory />
-
-
+				{#if showMemory}
+					<VirtualMemory />
+				{/if}
 			</div>
 		</div>
 	</div>
