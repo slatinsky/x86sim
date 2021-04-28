@@ -48,6 +48,11 @@
         <label class="form-check-label" for="flexSwitchDeveloperMode">Developer mode</label>
     </div>
 
+    <button class="btn btn-outline-danger" on:click={() => {
+        localStorage.clear()
+        location.reload()
+    }}>zresetovať celý obsah simulátora (vymaže VŠETKY ÚDAJE) </button>
+
     <div class="mb-3">
         <label for="delayInput" class="form-label">Oneskorenie vykonávania inštrukcií (v ms)</label>
         <input type="number" min="0" class="form-control" id="delayInput" aria-describedby="emailHelp" bind:value={$settings.codeExecutionDelay}>

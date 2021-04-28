@@ -5,6 +5,7 @@ import {ensureObjectHasDefaultValues} from "../helperFunctions";
 import {codeRunnerStatus} from "../compiler/codeRunner";
 import defaultProjectsJson from "../defaults/defaultProjects.json"
 import {_} from "svelte-i18n";
+import ret from "../compiler/opcodes/ret";
 
 export const projectName = createWritableStore('currentProjectName', 'default')
 projectName.useLocalStorage()
@@ -28,13 +29,17 @@ function createProjects() {
         "code":""
     }
 
+    const sortProjects = (projects) => {
+        return projects.sort((project1, project2) => project1.name.localeCompare(project2.name))
+    }
+
     // get saved projects from localStorage
 
     let savedPermanentData = JSON.parse(localStorage.getItem('projects'))
     if (savedPermanentData === null) {
         // savedPermanentData = [{...defaultProject}]
         console.log("First load, loading default projects")
-        savedPermanentData = defaultProjectsJson
+        savedPermanentData = sortProjects(defaultProjectsJson)
         localStorage.setItem("projects", JSON.stringify(defaultProjectsJson))
         projectName.set("example 1 - add two numbers together")
 
@@ -123,7 +128,7 @@ function createProjects() {
                     if (get(projectName) === oldProjectName) {  // if the renamed project is currently loaded - reload it
                         thisStore.loadProject(newProjectName)
                     }
-                    return projects
+                    return sortProjects(projects)
                 })
             }
         },
@@ -153,10 +158,10 @@ function createProjects() {
                 if (projects.filter(project => project.name === newProjectName).length === 0) {
                     let newProject = {...defaultProject}
                     newProject.name = newProjectName
-                    return [...projects, newProject]
+                    return sortProjects([...projects, newProject])
                 }
                 else {
-                    return projects
+                    return sortProjects(projects)
                 }
             })
         },
@@ -198,7 +203,7 @@ function createProjects() {
                     if (isLast) {  // we need to load only last dropped project, because autosave may glitch out and overwrite wrong project
                         setTimeout(()=>thisStore.loadProject(newProject.name), 0)  // delay the loading, project doesn't exist now yet
                     }
-                    return [...projects, newProject]
+                    return sortProjects([...projects, newProject])
                 }
                 else {
                     alert(`Nahratie projektu '${newProject.name}' neúspešné. Projekt s takýmto názvom už existuje`)
@@ -208,6 +213,8 @@ function createProjects() {
         }
         // reset: () => set([{...defaultProject}]),
     }
+
+
 
     // subscribe for changes and save changes in localStorage
     const unsubscribe = thisStore.subscribe(updatedValue => {
