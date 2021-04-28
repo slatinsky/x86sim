@@ -52,7 +52,6 @@
 		console.log('darkTheme', $settings.darkTheme)
 	}
 
-
 </script>
 
 <style>

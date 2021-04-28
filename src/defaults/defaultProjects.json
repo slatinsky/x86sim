@@ -1,0 +1,80 @@
+[
+  {
+    "version": 1,
+    "name": "example 1 - add two numbers together",
+    "registers": {
+      "sp": 32,
+      "bp": 32
+    },
+    "memory": {},
+    "code": "; set ax register to 5\nmov ax, 5\n\n; set bx register to 5\nmov bx, 17\n\n; adds ax and bx registers together and stores result in ax register\nadd ax, bx\n\n\n\n; to run the code, press 'step' button in top bar\n\n; look how ip register changes when you step through the program (ip register always points to the address of instruction, that will be executed next)"
+  },
+  {
+    "version": 1,
+    "name": "example 5 - jumps",
+    "registers": {
+      "sp": 32,
+      "bp": 32,
+      "ss": 1280
+    },
+    "memory": {
+      "0": 85,
+      "3": 101,
+      "4": 84,
+      "5": 69,
+      "6": 85,
+      "7": 69
+    },
+    "code": "; set ax register to 5\nmov al, 127\ninc al\nneg al\n\nmov al, 255\ninc al\ndec al\ninc al\n\n; is ax register same as 5?\n; if yes, set zero flag (zf) to 1\n; (internally 'cmp' subtracts '5' - 'ax' and just sets flags)\ncmp ax, 5\njz ifAxIs5\n\n    ; this code will never run because 'jz' will jump over it\n    mov bx, 60\n    \n\nifAxIs5:\n    mov cx, 1\n    \n    ; jmp will always jump to specified label\n    ; in you case to 'alwaysJump'\n    jmp alwaysJump\n    \n    ; this code will never run\n    mov bx, 70\n    \n    \nalwaysJump:\n    mov cx, 2\n\n"
+  },
+  {
+    "version": 1,
+    "name": "example 3 - immediate operand types",
+    "registers": {
+      "sp": 32,
+      "bp": 32
+    },
+    "memory": {},
+    "code": "\n\n; to aid in better readibility, you can use hexadecimal or binary immediate operands\n\n\n; decimal \nmov al, 58\n\n; hex\nmov bl, 0x3a\n\n; alternative hex\nmov cl, 3ah\n\n; binary\nmov dl, 0b00111010\n\n\n"
+  },
+  {
+    "version": 1,
+    "name": "example 2 - low and high registers",
+    "registers": {
+      "sp": 32,
+      "bp": 32
+    },
+    "memory": {},
+    "code": "\n\nmov ax, 0x3a3b\nmov bl, al\nmov cl, ah\n\n; al register is just lower 8 bits of 16 bit ax register\n\n; ax = 0x3a3b\n; al = 0x3b\n; ah = 0x3a\n\n; _________________________\n; | ax                    |\n; |_______________________|\n; | ah        | al        |\n; |___________|___________|\n; | 0011 1010 | 0011 1011 |\n; |___________|___________|\n\n"
+  },
+  {
+    "version": 1,
+    "name": "example 4 - memory operand types",
+    "registers": {
+      "sp": 32,
+      "bp": 32
+    },
+    "memory": {},
+    "code": "\n\n; to write to memory, use [] operand\n\n; let's write 8-bit value 0xfc to address 0:\nmov [0], 0xfc\n\n; in memory viewer, at address\n; 0 value changed from 0 to 0xfc\n\n; let's write 16-bit value 0xfc to address 2:\nmov [2], 0xabcd\n\n; in memory viewer, at address\n; 2 value changed from 0 to 0xcd\n; 3 value changed from 0 to 0xac\n\n; why in this order?\n; because intel processor operates in\n; 'little endian' mode\n; https://en.wikipedia.org/wiki/Endianness\n\n\n\n\n; let's read from memory:\n\n; read 8-bit value from address 2\n; to register al\nmov al, [2]\n\n; read 16-bit value from address 2\n; to register ax\nmov ax, [2]\n\n"
+  },
+  {
+    "version": 1,
+    "name": "example 6 - \"loops\"",
+    "registers": {
+      "sp": 32,
+      "bp": 32
+    },
+    "memory": {},
+    "code": ""
+  },
+  {
+    "version": 1,
+    "name": "example 7 - segment registers",
+    "registers": {
+      "sp": 32,
+      "bp": 32
+    },
+    "memory": {},
+    "code": ""
+  }
+]

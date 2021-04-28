@@ -81,5 +81,8 @@
       "df": "Direction flag (pre reťazcové inštrukcie)",
       "of": "Overflow flag (pretečenie). Nastavené na 1 ak číslo, ktoré je reprezentované ako 'signed' pretieklo."
     }
+  },
+  "tutorial": {
+    "tutorial1": "Vitajte v x86sim! Vidite prvý príklad na obrazovke.\nPre presun na ďalšiu obrazovku -> stlačte 'Projekty' tlačidlo v hlavnom navigačnom menu a vyberte 'Example 2'"
   }
 }

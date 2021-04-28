@@ -1,4 +1,6 @@
 
+
+
 // use service worker only in production
 let USE_SERVICE_WORKER
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
@@ -22,7 +24,6 @@ if ('serviceWorker' in navigator) {
 			registration.unregister()
 		} })
 	}
-
 }
 
 

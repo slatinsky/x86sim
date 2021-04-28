@@ -3,6 +3,8 @@ import {code, debugMode, memory, registers} from "./stores";
 import {createWritableStore} from "./createWritableStore";
 import {ensureObjectHasDefaultValues} from "../helperFunctions";
 import {codeRunnerStatus} from "../compiler/codeRunner";
+import defaultProjectsJson from "../defaults/defaultProjects.json"
+import {_} from "svelte-i18n";
 
 export const projectName = createWritableStore('currentProjectName', 'default')
 projectName.useLocalStorage()
@@ -30,7 +32,15 @@ function createProjects() {
 
     let savedPermanentData = JSON.parse(localStorage.getItem('projects'))
     if (savedPermanentData === null) {
-        savedPermanentData = [{...defaultProject}]
+        // savedPermanentData = [{...defaultProject}]
+        console.log("First load, loading default projects")
+        savedPermanentData = defaultProjectsJson
+        localStorage.setItem("projects", JSON.stringify(defaultProjectsJson))
+        projectName.set("example 1 - add two numbers together")
+
+        setTimeout(()=>{
+            alert(get(_)('tutorial.tutorial1'))
+        }, 2000)
     }
 
     // create svelte store
