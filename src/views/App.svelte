@@ -17,8 +17,8 @@
 	import "../languages/i18n"
 
 	// stores
-	import {appState} from "../stores/appState";
-	import {settings} from "../stores/settings";
+	import {appState} from "../stores/stores";
+	import {settings} from "../stores/stores";
 
 	// ui
 	import Navigation from "./modules/Navigation.svelte"
@@ -68,33 +68,33 @@
 	<Navigation />
 
 	<div class="container-fluid">
-		<ShowHideModules bind:showCalculator bind:showRegisters bind:showScreen bind:showKeyboard bind:showStack bind:showMemory bind:showCodeEditor />
+		<ShowHideModules />
 		<div id="grid">
 			<div style="display: {showCodeEditor ? 'block' : 'none'}"> <!-- CodeEditor doesn't support rerender, we need to just hide it -->
 				<CodeEditor />
 			</div>
 			<div>
-				{#if showCalculator}
+				{#if $settings.shownModules.showCalculator}
 					<Calculator />
 				{/if}
-				{#if showRegisters}
+				{#if $settings.shownModules.showRegisters}
 					<Registers />
 				{/if}
-				{#if showScreen}
+				{#if $settings.shownModules.showScreen}
 					<Screen />
 				{/if}
-				{#if showKeyboard}
+				{#if $settings.shownModules.showKeyboard}
 					<Keyboard />
 				{/if}
 			</div>
 			<div>
-				{#if showStack}
+				{#if $settings.shownModules.showStack}
 					<VirtualStack />
 				{/if}
 			</div>
 			<div>
 <!--				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>-->
-				{#if showMemory}
+				{#if $settings.shownModules.showMemory}
 					<VirtualMemory />
 				{/if}
 			</div>
