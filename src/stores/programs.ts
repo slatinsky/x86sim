@@ -18,7 +18,8 @@ function createProjects() {
         name: string,
         registers: any,
         memory: any,
-        code: string
+        code: string,
+        hide: string[]
     }
 
     const defaultProject = {
@@ -26,7 +27,8 @@ function createProjects() {
         "name":"default",
         "registers":{"sp": 0x10000,"bp": 0x10000},
         "memory":{},
-        "code":""
+        "code":"",
+        "hide": []
     }
 
     const sortProjects = (projects) => {
@@ -54,9 +56,9 @@ function createProjects() {
 
     function upgradeProjectVersion(project: Project): Project {
         // reserved for future in case of file format change
-        if (project.version !== 1) {
-            console.log(project)
-            alert('Incompatible version, only version 1 is supported')
+        if (project.version === 1) {
+            // project.version = 2
+            // .. upgrade project object here
         }
         ensureObjectHasDefaultValues(project, defaultProject)
         return project
@@ -197,18 +199,22 @@ function createProjects() {
                     return projects
                 }
 
-                // Add project only if that project doesn't exist yet
-                if (projects.filter(project => project.name === newProject.name).length === 0) {
-
-                    if (isLast) {  // we need to load only last dropped project, because autosave may glitch out and overwrite wrong project
-                        setTimeout(()=>thisStore.loadProject(newProject.name), 0)  // delay the loading, project doesn't exist now yet
+                
+                // Project we are trying to upload exists? Ask if we should overwrite it
+                if (projects.filter(project => project.name === newProject.name).length !== 0) {
+                    if (confirm(`Projekt s menom '${newProject.name}' už existuje? Prepísať ho?`)) {
+                        projects = projects.filter(project => project.name !== newProject.name)  // remove old project before adding new one
+                    } else {
+                        // user has pressed 'cancel'
+                        return projects
                     }
-                    return sortProjects([...projects, newProject])
                 }
-                else {
-                    alert(`Nahratie projektu '${newProject.name}' neúspešné. Projekt s takýmto názvom už existuje`)
-                    return projects
+
+                // "upload" the project
+                if (isLast) {  // we need to load only last dropped project, because autosave may glitch out and overwrite wrong project
+                    setTimeout(()=>thisStore.loadProject(newProject.name), 0)  // delay the loading, project doesn't exist now yet
                 }
+                return sortProjects([...projects, newProject])
             })
         }
         // reset: () => set([{...defaultProject}]),
