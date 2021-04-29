@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "tutorial 3 - immediate operand types",
+  "registers": {
+    "sp": 32,
+    "bp": 32
+  },
+  "memory": {},
+  "code": "\n\n; to aid in better readibility, you can use hexadecimal or binary immediate operands\n\n\n; decimal \nmov al, 58\n\n; hex\nmov bl, 0x3a\n\n; alternative hex\nmov cl, 3ah\n\n; binary\nmov dl, 0b00111010\n\n\n; all values equal to 0x3a\n\n\n",
+  "shownModules": {
+    "showCalculator": false,
+    "showRegisters": true,
+    "showScreen": false,
+    "showKeyboard": false,
+    "showStack": false,
+    "showMemory": false,
+    "showCodeEditor": true
+  }
+}

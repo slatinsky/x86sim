@@ -23,4 +23,6 @@ settings.update(settingsObj => {
     return settingsObj
 })
 
+
+
 settings.useLocalStorage()

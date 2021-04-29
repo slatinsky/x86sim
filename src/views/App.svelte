@@ -17,7 +17,7 @@
 	import "../languages/i18n"
 
 	// stores
-	import {appState} from "../stores/stores";
+	import {appState, programs, projectName} from "../stores/stores";
 	import {settings} from "../stores/stores";
 
 	// ui
@@ -34,6 +34,8 @@
 	import VirtualStack from "./modules/VirtualStack.svelte";
 	import Calculator from "./modules/Calculator.svelte";
 	import ShowHideModules from "./modules/ShowHideModules.svelte";
+	import Toast from "./components/toast";
+	const toast = new Toast()
 
 	let showCalculator = false
 	let showRegisters = true
@@ -52,6 +54,14 @@
 		console.log('darkTheme', $settings.darkTheme)
 	}
 
+
+	// override ctrl+s  https://michilehr.de/overwrite-cmds-and-ctrls-in-javascript
+	document.addEventListener("keydown", function(e) {
+		if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
+			e.preventDefault();
+			toast.success(`Váš projekt je automaticky ukladaný 😎`)
+		}
+	}, false);
 </script>
 
 <style>
@@ -70,7 +80,7 @@
 	<div class="container-fluid">
 		<ShowHideModules />
 		<div id="grid">
-			<div style="display: {showCodeEditor ? 'block' : 'none'}"> <!-- CodeEditor doesn't support rerender, we need to just hide it -->
+			<div style="display: {$settings.shownModules.showCodeEditor ? 'block' : 'none'}"> <!-- CodeEditor doesn't support rerender, we need to just hide it -->
 				<CodeEditor />
 			</div>
 			<div>

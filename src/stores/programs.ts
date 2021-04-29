@@ -1,11 +1,10 @@
 import {get, writable} from "svelte/store";
-import {code, debugMode, memory, registers} from "./stores";
+import {code, debugMode, memory, registers, settings} from "./stores";
 import {createWritableStore} from "./createWritableStore";
 import {ensureObjectHasDefaultValues} from "../helperFunctions";
 import {codeRunnerStatus} from "../compiler/codeRunner";
-import defaultProjectsJson from "../defaults/defaultProjects.json"
 import {_} from "svelte-i18n";
-import ret from "../compiler/opcodes/ret";
+import defaultProjectsJson, {defaultProjectsName} from "../defaults/defaultProjects";
 
 export const projectName = createWritableStore('currentProjectName', 'default')
 projectName.useLocalStorage()
@@ -19,16 +18,35 @@ function createProjects() {
         registers: any,
         memory: any,
         code: string,
-        hide: string[]
+        shownModules: {
+            showCalculator: boolean,
+            showRegisters: boolean,
+            showScreen: boolean,
+            showKeyboard: boolean,
+            showStack: boolean,
+            showMemory: boolean,
+            showCodeEditor: boolean
+        }
     }
 
+    let currentProjectHide: string[] = []
+
     const defaultProject = {
-        "version":1,
-        "name":"default",
-        "registers":{"sp": 0x10000,"bp": 0x10000},
-        "memory":{},
-        "code":"",
-        "hide": []
+        version:1,
+        name:"default",
+        registers:{"sp": 0x10000,"bp": 0x10000},
+        memory:{},
+        code:"",
+        hide: [],
+        shownModules: {
+            showCalculator: false,
+            showRegisters: true,
+            showScreen: true,
+            showKeyboard: true,
+            showStack: true,
+            showMemory: true,
+            showCodeEditor: true
+        }
     }
 
     const sortProjects = (projects) => {
@@ -43,7 +61,7 @@ function createProjects() {
         console.log("First load, loading default projects")
         savedPermanentData = sortProjects(defaultProjectsJson)
         localStorage.setItem("projects", JSON.stringify(defaultProjectsJson))
-        projectName.set("example 1 - add two numbers together")
+        projectName.set(defaultProjectsName)
 
         setTimeout(()=>{
             alert(get(_)('tutorial.tutorial1'))
@@ -76,7 +94,8 @@ function createProjects() {
                         name: get(projectName),
                         registers: registers.reduce(),
                         memory: memory.reduce(),
-                        code: get(code)
+                        code: get(code),
+                        shownModules: get(settings).shownModules
                     }
 
                     //Find index of specific object using findIndex method.
@@ -115,6 +134,11 @@ function createProjects() {
             memory.load(projectToLoad.memory)
             code.set(projectToLoad.code)
             document.title = `${projectToLoad.name} | x86sim`
+
+            settings.update(currentSettings => {
+                currentSettings.shownModules = projectToLoad.shownModules ?? defaultProject.shownModules
+                return currentSettings
+            })
             codeRunnerStatus.set('reset')
         },
         renameProject: (oldProjectName: string, newProjectName: string) => {
@@ -199,7 +223,7 @@ function createProjects() {
                     return projects
                 }
 
-                
+
                 // Project we are trying to upload exists? Ask if we should overwrite it
                 if (projects.filter(project => project.name === newProject.name).length !== 0) {
                     if (confirm(`Projekt s menom '${newProject.name}' už existuje? Prepísať ho?`)) {

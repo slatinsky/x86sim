@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "tutorial 1 - add two numbers together",
+  "registers": {
+    "sp": 32,
+    "bp": 32
+  },
+  "memory": {},
+  "code": "\n; set ax register to 5\n; pseudocode:\n; AX = 5\nmov ax, 5\n\n; set bx register to 5\nmov bx, 17\n\n; adds ax and bx registers together and stores result in ax register\n; pseudocode:\n; AX = AX + BX\nadd ax, bx\n\n; -------------------\n; to run all the code till the end, press 'run' button\n",
+  "shownModules": {
+    "showCalculator": false,
+    "showRegisters": true,
+    "showScreen": false,
+    "showKeyboard": false,
+    "showStack": false,
+    "showMemory": false,
+    "showCodeEditor": true
+  }
+}

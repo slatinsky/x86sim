@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "name": "tutorial 4 - jumps",
+  "registers": {
+    "sp": 32,
+    "bp": 32,
+    "ss": 1280
+  },
+  "memory": {
+    "0": 85,
+    "3": 101,
+    "4": 84,
+    "5": 69,
+    "6": 85,
+    "7": 69
+  },
+  "code": "mov  ax, 0x0005\n\n; is ax register same as value 0x0005?\n; if yes, set zero flag (zf) to 1\n; (internally 'cmp' subtracts '5' - 'ax' and just sets flags)\ncmp ax, 0x0005\njz ifAxIs5\n\n    ; this code will never run because 'jz' will jump over it\n    mov bx, 60\n    \n\nifAxIs5:\n    mov cx, 1\n    \n    ; jmp will always jump to specified label (in this case to 'alwaysJump')\n    jmp alwaysJump\n    \n    ; this code will never run\n    mov bx, 70\n    \n    \nalwaysJump:\n    mov cx, 2\n\n\n\n\n; if you missed anything, you can press 'Step back' button to step backwards in code execution",
+  "shownModules": {
+    "showCalculator": false,
+    "showRegisters": true,
+    "showScreen": false,
+    "showKeyboard": false,
+    "showStack": false,
+    "showMemory": false,
+    "showCodeEditor": true
+  }
+}

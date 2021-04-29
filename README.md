@@ -149,7 +149,7 @@ On simulator load, `localStorage.autosave` is checked if exists. If exists, it i
 
 
 ## Bugs
-- autosave not saving registers after reset
+- delete current project doesn't work
 - registers object contains '[object Object]'
 
 # todo

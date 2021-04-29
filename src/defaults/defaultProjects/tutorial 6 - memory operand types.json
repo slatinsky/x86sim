@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "tutorial 6 - memory operand types",
+  "registers": {
+    "sp": 32,
+    "bp": 32
+  },
+  "memory": {},
+  "code": "; we are introducingto you the memory module\n\n; to write to memory, use [] operand\n\n; let's write 8-bit value 0xfc to address 0:\nmov [0], 0xfc\n\n; in memory viewer, at address\n; 0 value changed from 0 to 0xfc\n\n; let's write 16-bit value 0xfc to address 2:\nmov [2], 0xabcd\n\n; in memory viewer, at address\n; 2 value changed from 0 to 0xcd\n; 3 value changed from 0 to 0xac\n\n; why in this order?\n; because intel processor operates in\n; 'little endian' mode\n; https://en.wikipedia.org/wiki/Endianness\n\n\n\n\n; let's read from memory:\n\n; read 8-bit value from address 2\n; to register al\nmov al, [2]\n\n; read 16-bit value from address 2\n; to register ax\nmov ax, [2]\n\n",
+  "shownModules": {
+    "showCalculator": false,
+    "showRegisters": true,
+    "showScreen": false,
+    "showKeyboard": false,
+    "showStack": false,
+    "showMemory": true,
+    "showCodeEditor": true
+  }
+}
