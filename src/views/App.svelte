@@ -78,11 +78,16 @@
 	<Navigation />
 
 	<div class="container-fluid">
-		<ShowHideModules />
+<!--		<ShowHideModules />-->
 		<div id="grid">
-			<div style="display: {$settings.shownModules.showCodeEditor ? 'block' : 'none'}"> <!-- CodeEditor doesn't support rerender, we need to just hide it -->
-				<CodeEditor />
-			</div>
+			{#if $settings.shownModules.showCodeEditor}
+				<div>
+					<CodeEditor />
+				</div>
+			{/if}
+<!--			<div style="display: {$settings.shownModules.showCodeEditor ? 'block' : 'none'}"> &lt;!&ndash; CodeEditor doesn't support rerender, we need to just hide it &ndash;&gt;-->
+<!--				<CodeEditor />-->
+<!--			</div>-->
 			<div>
 				{#if $settings.shownModules.showCalculator}
 					<Calculator />

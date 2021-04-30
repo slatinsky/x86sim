@@ -91,7 +91,7 @@
     <div id="navInfo">
         <ul>
             <Tooltip tooltip={$_('tooltips.navigation.projects')} bottom>
-                <li class="{$debugMode ? 'deactivated' : ''}" on:click={() => $appState.projectsShown = true}><i class="fas fa-folder-open"></i> <span class="navLabel">{$_('views.navigation.projects')}</span></li>
+                <li on:click={() => $appState.projectsShown = true}><i class="fas fa-folder-open"></i> <span class="navLabel">{$_('views.navigation.projects')}</span></li>
             </Tooltip>
             <Tooltip tooltip={$_('tooltips.navigation.settings')} bottom>
                 <li on:click={() => $appState.settingsShown = true}><i class="fas fa-cog"></i> <span class="navLabel">{$_('views.navigation.settings')}</span></li>

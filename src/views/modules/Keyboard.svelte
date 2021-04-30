@@ -51,7 +51,10 @@
     }
     .keyboardText.active * {
         color: white;
+    }
 
+    :global(html.dark) .keyboardText.active * {
+        color: black;
     }
 
     .keyboardText button {
@@ -69,6 +72,14 @@
 
     img.active {
         filter: brightness(.5);
+    }
+
+    :global(html.dark) img {
+        filter: brightness(.5);
+    }
+
+    :global(html.dark) img.active {
+        filter: brightness(1.5);
     }
 
     .focusableHiddenInput {

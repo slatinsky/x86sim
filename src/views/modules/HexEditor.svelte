@@ -170,6 +170,7 @@
     }
 
     .hexEditorRow-legend {
+        color: var(--text-color);
         font-weight: bold;
     }
     .hexEditorRow-legend:hover {

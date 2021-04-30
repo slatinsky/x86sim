@@ -4,6 +4,7 @@
     import * as ace from "brace"
     import "brace/mode/assembly_x86"
     import "brace/theme/dracula"
+    import "brace/theme/chrome"
     import "brace/ext/language_tools"
     import {code, currentlyExecutedLine, settings} from "../../../stores/stores"
     import {mainCompleter, snippetsCompleter} from "./completers"
@@ -11,14 +12,16 @@
     import { _} from 'svelte-i18n'
     import {intToFormattedString} from "../../../formatConverter";
     import {breakpoints, lineAddressMapping} from "../../../compiler/codeRunner";
+    import {onDestroy} from "svelte";
 
-
+    $: theme = $settings.darkTheme ? 'dracula' : 'chrome';
     let editor
     let errorCheckingInterval
 
     let editorFocused = false
 
     let EMPTY_GUTTER = "   "
+    let unsubscribeCurrentlyExecutedLine
 
     function isBreakpointPlaceableAtRow(rowNumber) {
         return editor.session.gutterRenderer.getText(editor.session, rowNumber) !== EMPTY_GUTTER  // if gutter is empty, breakpoint should not be placed
@@ -173,7 +176,7 @@
 
         let currentMarker
 
-        currentlyExecutedLine.subscribe(lineNumber => {
+        unsubscribeCurrentlyExecutedLine = currentlyExecutedLine.subscribe(lineNumber => {
             if(currentMarker) {  // remove marker if it exists
                 // https://stackoverflow.com/questions/33324361/ace-editor-cant-get-rid-of-marker
                 editor.session.removeMarker(currentMarker)
@@ -192,6 +195,7 @@
         })
 
 
+
     }
 
     // debounce annotate function - don't interrupt user while he is typing. Show/update errors only when user stops typing the code
@@ -200,14 +204,14 @@
 
 
     $: console.log("breakpoints", breakpoints)
-
+    onDestroy(() => unsubscribeCurrentlyExecutedLine());
 
 </script>
 
 <style>
     :global(.ace_breakpoint) {
         position: relative;
-        background-color: darkred;
+        background-color: rgba(139, 0, 0, 0.33);
     }
 
     /*draw a circle https://stackoverflow.com/a/6937010/14409632*/
@@ -265,7 +269,7 @@
             width='100%'
             height='85vh'
             lang="assembly_x86"
-            theme="dracula"
+            bind:theme={theme}
             bind:value={$code}
     />
 </div>

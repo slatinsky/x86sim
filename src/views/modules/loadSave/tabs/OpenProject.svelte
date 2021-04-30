@@ -1,8 +1,9 @@
 <script>
-    import {projectName, appState, programs} from "../../../../stores/stores";
+    import {projectName, appState, programs, debugMode} from "../../../../stores/stores";
     import Toast from "../../../components/toast";
     import {spinnerLoad} from "../../../../spinnerLoad";
     import { _} from 'svelte-i18n'
+    import {codeRunner} from "../../../../compiler/codeRunner";
 
     const toast = new Toast()
 
@@ -10,7 +11,6 @@
 
     // $: console.log($programs)
     $: isValueInPrograms = !$programs.filter(program => program.name === value).length
-
 
     function renameP(oldProjectName) {
         let newProjectName = prompt("Prosím zadajte nové meno projektu", oldProjectName);
@@ -85,7 +85,6 @@
         }
         return false;
     };
-
 </script>
 
 <style>
@@ -129,6 +128,13 @@
 
 <div id="main">
     <p>{$_('views.projects.openedProjectAutosaveInfo')}</p>
+
+    {#if $debugMode}
+        <div class="alert alert-danger" role="alert">
+            Aktuálne je zapnutý ladiaci režim, počas ktorého nie je automaticky ukladaný váš program. Prepnutím sa na iný projekt môžete neuložené zmeny stratiť.
+            <a href="javascript:void(0)" on:click={() => codeRunner.reset()}>Vypnúť krokovací režim a uložiť zmeny</a>
+        </div>
+    {/if}
 
 
     {#if $programs.length > 0}

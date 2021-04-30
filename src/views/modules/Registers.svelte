@@ -8,7 +8,6 @@
     $: decValues = `DEBUG - ip: ${$registers.ip}, ax: ${$registers.ax}, bx: ${$registers.bx}, cx: ${$registers.cx}, dx: ${$registers.dx}, format: ${$settings.selectedFormat}`
 
     $: differentRegisters = $differences.registers
-    $: console.log("differentRegisters", differentRegisters)
 </script>
 
 <style>

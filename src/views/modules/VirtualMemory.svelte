@@ -24,6 +24,12 @@
 
 </script>
 
+<style>
+    .jumpToOffset-label {
+        color: var(--text-color);
+    }
+</style>
+
 <svelte:window bind:innerWidth={innerWidth}/>
 
 <b>{$_('views.modules.memory')}:</b><br>
@@ -32,8 +38,8 @@
 <!--    <button on:click={()=>columns = 8}>8</button>-->
 <!--    <button on:click={()=>columns = 4}>4</button>-->
 <!--    <br>-->
-
-    {$_('views.memory.jumpToOffset')}:<br><input type="text" on:keyup={(e)=>scrollTo = formattedStringToInt(e.target.value, $settings.selectedFormat, 32)}>
+    <div class="jumpToOffset-label">{$_('views.memory.jumpToOffset')}:</div>
+    <input type="text" on:keyup={(e)=>scrollTo = formattedStringToInt(e.target.value, $settings.selectedFormat, 32)}>
 </HexEditor>
 
 
