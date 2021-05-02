@@ -17,7 +17,7 @@
 	import "../languages/i18n"
 
 	// stores
-	import {appState, programs, projectName} from "../stores/stores";
+	import {appState, debugMode, programs, projectName} from "../stores/stores";
 	import {settings} from "../stores/stores";
 
 	// ui
@@ -62,6 +62,15 @@
 			toast.success(`Váš projekt je automaticky ukladaný 😎`)
 		}
 	}, false);
+
+
+	$: if ($debugMode) {
+		// ask user if they want to leave the page with unsaved changes. (project is not saved in debugging mode)
+		window.onbeforeunload = () => `you are currently using debugging mode and you have have unsaved changes. Press 'Reset' button to save your changes` // this message is not shown to users in modern browsers -  https://stackoverflow.com/a/37782307/14409632
+	}
+	else {
+		window.onbeforeunload = null;
+	}
 </script>
 
 <style>
