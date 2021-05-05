@@ -39,7 +39,7 @@ export default class Toast {
 
         setTimeout(() => {
             t.$set({ type: type + ' ' + 'anim' })
-        }, 0)
+        }, 100)
 
         setTimeout(() => {
             t.$destroy()

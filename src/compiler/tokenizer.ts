@@ -82,8 +82,8 @@ export function tokenize(instructionList: string): iToken[] {
     [a-z0-9]+       any alphanumeric word                                   labelWithNumbers123
     '.'             one literal character                                   'c'
     ;[^\n]*         comment                                                 ; this is a comment that should be ignored
-    \n              new line
-    \S              if no match found, match next non empty character
+    \n              new line                                                new lines are used to count rows
+    \S              if no match found, match next non empty character       *
 
     regex is case insensitive (i option)
      */

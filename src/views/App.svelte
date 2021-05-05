@@ -33,9 +33,9 @@
 	import VirtualMemory from "./modules/VirtualMemory.svelte";
 	import VirtualStack from "./modules/VirtualStack.svelte";
 	import Calculator from "./modules/Calculator.svelte";
-	import ShowHideModules from "./modules/ShowHideModules.svelte";
-	import Toast from "./components/toast";
-	const toast = new Toast()
+	import Toasts from "./modules/Toasts.svelte";
+	import {toastQueue} from "../stores/toastQueue";
+
 
 	let showCalculator = false
 	let showRegisters = true
@@ -56,10 +56,10 @@
 
 
 	// override ctrl+s  https://michilehr.de/overwrite-cmds-and-ctrls-in-javascript
-	document.addEventListener("keydown", function(e) {
-		if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
+	document.addEventListener("keydown", function (e) {
+		if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) && e.keyCode == 83) {
 			e.preventDefault();
-			toast.success(`Váš projekt je automaticky ukladaný 😎`)
+			toastQueue.success(`Váš projekt je automaticky ukladaný 😎`)
 		}
 	}, false);
 
@@ -67,8 +67,7 @@
 	$: if ($debugMode) {
 		// ask user if they want to leave the page with unsaved changes. (project is not saved in debugging mode)
 		window.onbeforeunload = () => `you are currently using debugging mode and you have have unsaved changes. Press 'Reset' button to save your changes` // this message is not shown to users in modern browsers -  https://stackoverflow.com/a/37782307/14409632
-	}
-	else {
+	} else {
 		window.onbeforeunload = null;
 	}
 </script>
@@ -136,4 +135,5 @@
 	<Modal bind:shown={$appState.helpShown}>
 		<Help />
 	</Modal>
+	<Toasts />
 </main>

@@ -1,11 +1,10 @@
 <script>
     import {projectName, appState, programs, debugMode} from "../../../../stores/stores";
-    import Toast from "../../../components/toast";
     import {spinnerLoad} from "../../../../spinnerLoad";
     import { _} from 'svelte-i18n'
     import {codeRunner} from "../../../../compiler/codeRunner";
+    import {toastQueue} from "../../../../stores/toastQueue";
 
-    const toast = new Toast()
 
     let value
 
@@ -18,22 +17,22 @@
         if (newProjectName != null) {
             programs.renameProject(oldProjectName, newProjectName)
             console.log("new name", newProjectName)
-            toast.success(`Projekt '${oldProjectName}' premenovaný na '${newProjectName}'`)
+            toastQueue.success(`Projekt '${oldProjectName}' premenovaný na '${newProjectName}'`)
         }
         else {
-            toast.error(`Premenovanie prerušené`)
+            toastQueue.error(`Premenovanie prerušené`)
         }
     }
 
     function deleteP(programName) {
         programs.deleteProject(programName)
-        toast.success(`Projekt '${programName}' vymazaný`)
+        toastQueue.success(`Projekt '${programName}' vymazaný`)
     }
 
     function loadP(programName) {
         spinnerLoad(`Načítavam projekt '${programName}'`, () => {
             programs.loadProject(programName)
-            toast.success(`Projekt '${programName}' načítaný`)
+            toastQueue.success(`Projekt '${programName}' načítaný`)
             $appState.projectsShown = false
         })
     }
@@ -44,7 +43,7 @@
         if (newProjectName != null) {
             programs.newProject(newProjectName)
         } else {
-            toast.error(`Operácia prerušená`)
+            toastQueue.error(`Operácia prerušená`)
         }
     }
 
