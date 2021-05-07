@@ -211,7 +211,10 @@ export function compileParseTree(rows: iRow[], pass:number=0): [iCompiledInstruc
                 console.error("compiler crashed while compiling. This should be ideally moved to validation. Details:" + JSON.stringify(e), problematicRowNumber)
 
                 const [compiledInstructionsRepaired, moreErrors] = compileParseTree(rows.filter((row:iRow) => {
-                    if ("operands" in row) {  // opcodes
+                    if ("opcode" in row) {  // opcodes
+                        return row.opcode.row !== problematicRowNumber
+                    }
+                    else if ("operands" in row && row.operands.length > 0) {  // opcodes
                         return row.operands[0].tokens[0].row !== problematicRowNumber
                     }
                     else if ("token" in row) {  // labels

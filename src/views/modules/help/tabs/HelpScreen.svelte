@@ -134,11 +134,13 @@ mov es:[bx], 0x5a    ; green text and purple background color
 mov es:[bx+1], 0x55  ; 'U'
 </pre>
 
-<p>Na obrazovke je sa zobrazilo:</p>
-<img src="/assets/help/screen_result.png" alt="" class="img-fluid">
+<p>Na obrazovke sa zapísaný znak zobrazil takto:</p>
+<img src="/assets/help/screen_result.png" alt="" class="img-fluid" style="width: 200px">
 
-<p>V pamäti je:</p>
-<img src="/assets/help/screen_write.png" alt="" class="img-fluid">
+<p>Vysvetlenie zápisu:</p>
+<img src="/assets/help/screen_write.png" alt="" class="img-fluid" style="width: 200px">
+<div>Prvý bajt - 0x5 je farba fialového pozadia, 0xa je farba zeleného textu</div>
+<div>Druhý bajt - 0x55 je ascii hodnota znaku 'U'</div>
 
 <p>Reálna_adresa = segmentový register * 0x10 + offset</p>
 <p>0x50000 = 0x5000 * 0x10 + 0</p>
@@ -151,4 +153,10 @@ mov es:[bx+1], 0x55  ; 'U'
             <div class="b-color-{background} color-{text}">0x{intToFormattedString(background, 'hex', 8) + intToFormattedString(text, 'hex', 8)}</div>
         {/each}
     {/each}
+</div>
+
+<p></p>
+
+<div>
+    Tieto farby si viete nastaviť aj v príkazovom riadku vo Windowse :) . Zadaním <pre>color 5a</pre> napríklad získate rovnakú zelenú farbu textu s fialovým pozadím
 </div>

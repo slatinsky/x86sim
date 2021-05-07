@@ -6,10 +6,11 @@ export default  {
     run: () => {
         // pop ip
         let sp = registers.get('sp')
-        let valueFromStack = memory.get(sp)
+        let address = (registers.get('ss') << 4) + sp
+        let valueFromStack = memory.get(address, 16)
         registers.set('sp', sp + 2)
 
         // jump to ip we got from stack
-        registers.set('ip', valueFromStack)
+        registers.set('ip', valueFromStack - 1)
     },
 }
