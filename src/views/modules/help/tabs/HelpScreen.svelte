@@ -1,28 +1,154 @@
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus turpis in eu mi bibendum neque. Congue quisque egestas diam in. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum. Orci sagittis eu volutpat odio facilisis mauris sit. Magna etiam tempor orci eu. Fames ac turpis egestas sed. Mi quis hendrerit dolor magna eget est lorem. Risus in hendrerit gravida rutrum quisque non tellus orci. Ut pharetra sit amet aliquam id.
+<script>
+    import {range} from "lodash-es"
+    import {intToFormattedString} from "../../../../formatConverter";
+</script>
 
-Ullamcorper eget nulla facilisi etiam dignissim diam quis. Scelerisque purus semper eget duis at. Aliquam nulla facilisi cras fermentum odio eu. Proin sed libero enim sed faucibus turpis in eu mi. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique. Amet purus gravida quis blandit turpis cursus. Tempor commodo ullamcorper a lacus. Imperdiet dui accumsan sit amet nulla. Nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in.
+<style>
+    /* colors from http://www.osdever.net/bkerndev/Docs/printing.htm */
+    .color-0 {
+        color: black;
+    }
+    .color-1 {
+        color: blue;
+    }
+    .color-2 {
+        color: #00FF00;
+    }
+    .color-3 {
+        color: #00FFFF;
+    }
+    .color-4 {
+        color: red;
+    }
+    .color-5 {
+        color: #CC0099;
+    }
+    .color-6 {
+        color: #663300;
+    }
+    .color-7 {
+        color: #CCCCCC;
+    }
+    .color-8 {
+        color: #444444;
+    }
+    .color-9 {
+        color: #3399FF;
+    }
+    .color-10 {
+        color: #99FF66;
+    }
+    .color-11 {
+        color: #CCFFFF;
+    }
+    .color-12 {
+        color: #FF6600;
+    }
+    .color-13 {
+        color: #FF66FF;
+    }
+    .color-14 {
+        color: #CC6600;
+    }
+    .color-15 {
+        color: white;
+    }
 
-In metus vulputate eu scelerisque. Commodo elit at imperdiet dui accumsan sit amet. Porttitor lacus luctus accumsan tortor posuere. Nunc scelerisque viverra mauris in aliquam sem. Sagittis vitae et leo duis ut diam quam nulla porttitor. Dui vivamus arcu felis bibendum ut tristique et. Pellentesque pulvinar pellentesque habitant morbi tristique senectus et. Quis imperdiet massa tincidunt nunc pulvinar sapien et. Sed pulvinar proin gravida hendrerit lectus. A pellentesque sit amet porttitor eget dolor morbi non arcu. Massa tempor nec feugiat nisl pretium fusce. Ultrices in iaculis nunc sed augue.
+    .b-color-0 {
+        background-color: black;
+    }
+    .b-color-1 {
+        background-color: blue;
+    }
+    .b-color-2 {
+        background-color: #00FF00;
+    }
+    .b-color-3 {
+        background-color: #00FFFF;
+    }
+    .b-color-4 {
+        background-color: red;
+    }
+    .b-color-5 {
+        background-color: #CC0099;
+    }
+    .b-color-6 {
+        background-color: #663300;
+    }
+    .b-color-7 {
+        background-color: #CCCCCC;
+    }
+    .b-color-8 {
+        background-color: #444444;
+    }
+    .b-color-9 {
+        background-color: #3399FF;
+    }
+    .b-color-10 {
+        background-color: #99FF66;
+    }
+    .b-color-11 {
+        background-color: #CCFFFF;
+    }
+    .b-color-12 {
+        background-color: #FF6600;
+    }
+    .b-color-13 {
+        background-color: #FF66FF;
+    }
+    .b-color-14 {
+        background-color: #CC6600;
+    }
+    .b-color-15 {
+        background-color: white;
+    }
 
-Magna eget est lorem ipsum dolor sit amet consectetur adipiscing. Massa id neque aliquam vestibulum morbi blandit cursus risus. At lectus urna duis convallis convallis tellus. Id faucibus nisl tincidunt eget nullam non nisi est sit. Donec enim diam vulputate ut pharetra. Quisque sagittis purus sit amet volutpat consequat mauris. Cras adipiscing enim eu turpis egestas pretium aenean. Ut etiam sit amet nisl purus in mollis nunc sed. Consequat id porta nibh venenatis cras sed felis. Et egestas quis ipsum suspendisse. Vitae turpis massa sed elementum. Faucibus pulvinar elementum integer enim neque volutpat ac. Urna molestie at elementum eu. Tincidunt eget nullam non nisi est sit amet. Auctor urna nunc id cursus metus aliquam eleifend. Porta lorem mollis aliquam ut. Ornare quam viverra orci sagittis eu volutpat.
+    #help-colorTable {
+        display: flex;
+        flex-wrap: wrap;
+        font-family: monospace;
+        text-align: left;
+    }
 
-Laoreet sit amet cursus sit amet dictum sit amet justo. A scelerisque purus semper eget duis at. Scelerisque fermentum dui faucibus in ornare quam viverra orci. Et magnis dis parturient montes nascetur ridiculus. Ultricies leo integer malesuada nunc vel risus. Varius vel pharetra vel turpis nunc eget lorem dolor. Posuere morbi leo urna molestie. Amet consectetur adipiscing elit ut. Sit amet volutpat consequat mauris nunc congue nisi vitae suscipit. Dolor sit amet consectetur adipiscing elit ut aliquam purus sit. Tellus mauris a diam maecenas sed enim.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus turpis in eu mi bibendum neque. Congue quisque egestas diam in. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum. Orci sagittis eu volutpat odio facilisis mauris sit. Magna etiam tempor orci eu. Fames ac turpis egestas sed. Mi quis hendrerit dolor magna eget est lorem. Risus in hendrerit gravida rutrum quisque non tellus orci. Ut pharetra sit amet aliquam id.
+    #help-colorTable > div {
+        padding: .5rem .3rem;
+    }
+</style>
 
-Ullamcorper eget nulla facilisi etiam dignissim diam quis. Scelerisque purus semper eget duis at. Aliquam nulla facilisi cras fermentum odio eu. Proin sed libero enim sed faucibus turpis in eu mi. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique. Amet purus gravida quis blandit turpis cursus. Tempor commodo ullamcorper a lacus. Imperdiet dui accumsan sit amet nulla. Nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in.
+<img src="/assets/help/screen.png" alt="" class="img-fluid">
 
-In metus vulputate eu scelerisque. Commodo elit at imperdiet dui accumsan sit amet. Porttitor lacus luctus accumsan tortor posuere. Nunc scelerisque viverra mauris in aliquam sem. Sagittis vitae et leo duis ut diam quam nulla porttitor. Dui vivamus arcu felis bibendum ut tristique et. Pellentesque pulvinar pellentesque habitant morbi tristique senectus et. Quis imperdiet massa tincidunt nunc pulvinar sapien et. Sed pulvinar proin gravida hendrerit lectus. A pellentesque sit amet porttitor eget dolor morbi non arcu. Massa tempor nec feugiat nisl pretium fusce. Ultrices in iaculis nunc sed augue.
+<p>Obrazovka je veľká 80 znakov na šírku a má 25 riadkov</p>
 
-Magna eget est lorem ipsum dolor sit amet consectetur adipiscing. Massa id neque aliquam vestibulum morbi blandit cursus risus. At lectus urna duis convallis convallis tellus. Id faucibus nisl tincidunt eget nullam non nisi est sit. Donec enim diam vulputate ut pharetra. Quisque sagittis purus sit amet volutpat consequat mauris. Cras adipiscing enim eu turpis egestas pretium aenean. Ut etiam sit amet nisl purus in mollis nunc sed. Consequat id porta nibh venenatis cras sed felis. Et egestas quis ipsum suspendisse. Vitae turpis massa sed elementum. Faucibus pulvinar elementum integer enim neque volutpat ac. Urna molestie at elementum eu. Tincidunt eget nullam non nisi est sit amet. Auctor urna nunc id cursus metus aliquam eleifend. Porta lorem mollis aliquam ut. Ornare quam viverra orci sagittis eu volutpat.
+<p>Na obrazovke sa zobrazí text, ak zapisujete od adresy 0x50000 vyššie. Je tu ale nutné poznamenať na vec, že do 16-bitového registra sa vmestí maximálna hodnota 0xffff. Aby sme mohli zapísať na obrazovku, musíme si pomôcť so segmentovými registrami</p>
 
-Laoreet sit amet cursus sit amet dictum sit amet justo. A scelerisque purus semper eget duis at. Scelerisque fermentum dui faucibus in ornare quam viverra orci. Et magnis dis parturient montes nascetur ridiculus. Ultricies leo integer malesuada nunc vel risus. Varius vel pharetra vel turpis nunc eget lorem dolor. Posuere morbi leo urna molestie. Amet consectetur adipiscing elit ut. Sit amet volutpat consequat mauris nunc congue nisi vitae suscipit. Dolor sit amet consectetur adipiscing elit ut aliquam purus sit. Tellus mauris a diam maecenas sed enim.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus turpis in eu mi bibendum neque. Congue quisque egestas diam in. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum. Orci sagittis eu volutpat odio facilisis mauris sit. Magna etiam tempor orci eu. Fames ac turpis egestas sed. Mi quis hendrerit dolor magna eget est lorem. Risus in hendrerit gravida rutrum quisque non tellus orci. Ut pharetra sit amet aliquam id.
+<p>Nastavme e(xtra) s(segment) register na adresu 0x5000:</p>
+<pre>
+mov ax, 0x5000
+mov es, ax
+</pre>
 
-Ullamcorper eget nulla facilisi etiam dignissim diam quis. Scelerisque purus semper eget duis at. Aliquam nulla facilisi cras fermentum odio eu. Proin sed libero enim sed faucibus turpis in eu mi. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique. Amet purus gravida quis blandit turpis cursus. Tempor commodo ullamcorper a lacus. Imperdiet dui accumsan sit amet nulla. Nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in.
+<p>Teraz pomocou ES segmentového registra vieme zapisovať na obrazovku. Poďme zapísať jeden znak:</p>
+<pre>
+mov bx, 0
+mov es:[bx], 0x5a    ; green text and purple background color
+mov es:[bx+1], 0x55  ; 'U'
+</pre>
 
-In metus vulputate eu scelerisque. Commodo elit at imperdiet dui accumsan sit amet. Porttitor lacus luctus accumsan tortor posuere. Nunc scelerisque viverra mauris in aliquam sem. Sagittis vitae et leo duis ut diam quam nulla porttitor. Dui vivamus arcu felis bibendum ut tristique et. Pellentesque pulvinar pellentesque habitant morbi tristique senectus et. Quis imperdiet massa tincidunt nunc pulvinar sapien et. Sed pulvinar proin gravida hendrerit lectus. A pellentesque sit amet porttitor eget dolor morbi non arcu. Massa tempor nec feugiat nisl pretium fusce. Ultrices in iaculis nunc sed augue.
+<p>Na obrazovke je sa zobrazilo:</p>
+<img src="/assets/help/screen_result.png" alt="" class="img-fluid">
 
-Magna eget est lorem ipsum dolor sit amet consectetur adipiscing. Massa id neque aliquam vestibulum morbi blandit cursus risus. At lectus urna duis convallis convallis tellus. Id faucibus nisl tincidunt eget nullam non nisi est sit. Donec enim diam vulputate ut pharetra. Quisque sagittis purus sit amet volutpat consequat mauris. Cras adipiscing enim eu turpis egestas pretium aenean. Ut etiam sit amet nisl purus in mollis nunc sed. Consequat id porta nibh venenatis cras sed felis. Et egestas quis ipsum suspendisse. Vitae turpis massa sed elementum. Faucibus pulvinar elementum integer enim neque volutpat ac. Urna molestie at elementum eu. Tincidunt eget nullam non nisi est sit amet. Auctor urna nunc id cursus metus aliquam eleifend. Porta lorem mollis aliquam ut. Ornare quam viverra orci sagittis eu volutpat.
+<p>V pamäti je:</p>
+<img src="/assets/help/screen_write.png" alt="" class="img-fluid">
 
-Laoreet sit amet cursus sit amet dictum sit amet justo. A scelerisque purus semper eget duis at. Scelerisque fermentum dui faucibus in ornare quam viverra orci. Et magnis dis parturient montes nascetur ridiculus. Ultricies leo integer malesuada nunc vel risus. Varius vel pharetra vel turpis nunc eget lorem dolor. Posuere morbi leo urna molestie. Amet consectetur adipiscing elit ut. Sit amet volutpat consequat mauris nunc congue nisi vitae suscipit. Dolor sit amet consectetur adipiscing elit ut aliquam purus sit. Tellus mauris a diam maecenas sed enim.
-</p>
+<p>Reálna_adresa = segmentový register * 0x10 + offset</p>
+<p>0x50000 = 0x5000 * 0x10 + 0</p>
+<p>0x50000 = 0x5000 * 0x10 + 1</p>
+
+<p><b>Tabuľka farieb:</b></p>
+<div id="help-colorTable">
+    {#each range(0, 16) as background}
+        {#each range(0, 16) as text}
+            <div class="b-color-{background} color-{text}">0x{intToFormattedString(background, 'hex', 8) + intToFormattedString(text, 'hex', 8)}</div>
+        {/each}
+    {/each}
+</div>

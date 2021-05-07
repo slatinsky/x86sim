@@ -1,4 +1,4 @@
-import {DebouncedFunc, throttle} from "lodash-es";
+import {debounce, DebouncedFunc, throttle} from "lodash-es";
 import {registers} from "../stores/registers";
 import {get, writable} from "svelte/store";
 import {memory} from "../stores/memory";
@@ -49,14 +49,15 @@ class CodeRunner {
     get errors(): iError[] {
         return this._errors;
     }
-    private readonly compile: DebouncedFunc<(updatedCode: string) => [iCompiledInstruction[], any]>;
+    private readonly compile: (updatedCode: string) => void;
     private history: iHistorySnapshot[];
     private _errors: iError[];
     private instructionsCompiled: iCompiledInstruction[];
 
     constructor() {
         this.history = []
-        this.compile = throttle(this._compileUnthrottled, 50);  // .05 sec throttle
+        // this.compile = throttle(this._compileUnthrottled, 50);  // .05 sec throttle - not updating correctly last change
+        this.compile = this._compileUnthrottled
         this._errors = []
         this.instructionsCompiled = []
 

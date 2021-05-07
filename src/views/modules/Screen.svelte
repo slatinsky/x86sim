@@ -4,9 +4,9 @@
     import {memory} from "../../stores/stores";
     import {signedToUnsignedInt} from "../../formatConverter";
 
-    let OFFSET = 0  // from which memory address is screen mapped
-    let COLUMNS = 80
-    let ROWS = 25
+    const OFFSET = 0x50000  // from which memory address is screen mapped
+    const COLUMNS = 80
+    const ROWS = 25
     const addresses = range(OFFSET, OFFSET + COLUMNS * ROWS * 2, 2)
 
     function getColorsClasses(signedByteInt) {

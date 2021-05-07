@@ -84,5 +84,36 @@
   },
   "tutorial": {
     "tutorial1": "Welcome in x86sim! You see first example now on your screen.\nTo move to next example -> press Projects button on main navigation bar and select 'Example 2'"
+  },
+  "instructions": {
+    "add": "Adds two operands together",
+    "call": "Similar to JMP, but pushes current address to stack, so RET instruction can continue at that place",
+    "cmp": "compares two operands together. Similar to SUB instruction, but CMP sets only FLAG register",
+    "dec": "Decrements operand by one",
+    "in": "",
+    "inc": "Increments operand by one",
+    "je": "Jumps if zero flag is set to 1",
+    "jmp": "Jumps always",
+    "jne": "Jumps if zero flag is set to 0",
+    "jno": "Jumps if overflow flag is set to 0",
+    "jnp": "Jumps if parity flag is set to 0",
+    "jns": "Jumps if sign flag is set to 0",
+    "jnz": "Jumps if zero flag is set to 0",
+    "jo": "Jumps if overflow flag is set to 1",
+    "jp": "jumps if parity flag is set to 1",
+    "jpe": "(jump parity even) jumps if parity flag is set to 1. Same as JP",
+    "jpo": "(jump parity odd) jumps if parity flag is set to 0. Same as JNP",
+    "js": "Jumps if sign flag is set to 1",
+    "jz": "Jumps if zero flag is set to 0",
+    "mov": "Moves content of second operand to first operand",
+    "mul": "Multiplication. Uses implicit AX as accumulator",
+    "neg": "Bitwise negation",
+    "nop": "No operation",
+    "pop": "Pops 16-bit value from stack to operand",
+    "push": "Pushes 16-bit value from operand to stack",
+    "ret": "Return from CALL",
+    "sub": "Subtracts two operands together",
+    "test": "",
+    "xor": "Applies bitwise xor operation of two operands together"
   }
 }

@@ -1,4 +1,4 @@
-export const registers = ['ax', 'bx', 'cx', 'dx', 'si', 'di', 'bp', 'sp', 'f', 'ip']
+export const registers = ['ip', 'ax', 'bx', 'cx', 'dx', 'si', 'di', 'bp', 'sp', 'f']
 
 // source - first column of this csv file: https://raw.githubusercontent.com/GregoryComer/x86-csv/master/x86.csv
 // csv file was generated from Intel® 64 and IA-32 architectures software developer's manual volume 2 by Gregory Comer

@@ -6,6 +6,8 @@ import {memory} from "./memory"
 import {writable} from "svelte/store";
 import { currentlyExecutedLine } from '../compiler/compileParseTree';
 import {code, debugMode} from "../compiler/codeRunner";
+import {opcodes} from "../compiler/opcodes";
+
 
 
 
@@ -27,7 +29,7 @@ registers.subscribe(_ => {
 memory.subscribe(_ => {
     throttledSaveCurrentProject()
 });
-export {registers, memory, programs, projectName, code, currentlyExecutedLine, debugMode}
+export {registers, memory, programs, projectName, code, currentlyExecutedLine, debugMode, opcodes}
 // export {registers, memory, programs, projectName, code, currentlyExecutedLine, compiledInstructions, debugMode, programIsRunning}
 // export {registers, memory, programs, projectName, currentlyExecutedLine}
 export {settings} from "./settings"

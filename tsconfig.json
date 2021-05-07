@@ -8,6 +8,10 @@
     "target": "es2020",
     "strict": false,
     "resolveJsonModule": true,
-    "isolatedModules": false
+    "isolatedModules": false,
+    "baseUrl": "./",
+    "paths": {
+      "^stores/*": ["src/stores/*"]
+    }
   }
 }

@@ -2,7 +2,6 @@
  * merges two tokens together, so they can be used as one token
  */
 import {allIntelSegmentRegisters} from "../config";
-import ret from "./opcodes/ret";
 
 function mergeTwoTokens(token1: iToken, token2: iToken): iToken {
     let newToken: iToken = {
@@ -335,6 +334,6 @@ export function createParseTree(tokens: iToken[]): [iRow[], iError[]] {
         }
     }
 
-    console.log("createParseTree", rows)
+    console.log("createParseTree", JSON.stringify(rows))
     return [rows, errors]
 }
