@@ -1,7 +1,7 @@
 <script>
     import {_} from "svelte-i18n";
-    import Tooltip from "../../../components/Tooltip.svelte";
-    import {settings} from "../../../../stores/stores";
+    import {settings, projectName} from "../../../../stores/stores";
+    import QuestionCircle from "../../../components/QuestionCircle.svelte";
 </script>
 
 <style>
@@ -9,7 +9,8 @@
 
 
 <div id="main">
-    <p>Zobrazené moduly</p>
+    <p>Tieto nastavenia sa aplikujú len pre práve otvorený projekt "{$projectName}"</p>
+    <p>Zobrazené moduly <QuestionCircle tooltip={"Skryte nepoužívané moduly v aktuálnom projekte"} /></p>
     <div>
         <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="flexSwitch-showCodeEditor" bind:checked={$settings.shownModules.showCodeEditor}>

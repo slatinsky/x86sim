@@ -27,7 +27,7 @@
 	import CodeEditor from "./modules/codeEditor/CodeEditor.svelte";
 	import LoadSave from "./modules/loadSave/LoadSave.svelte";
 	import Modal from "./components/Modal.svelte";
-	import Settings from "./modules/Settings.svelte";
+	import Settings from "./modules/settings/Settings.svelte";
 	import Spinner from "./modules/Spinner.svelte";
 	import Keyboard from "./modules/Keyboard.svelte";
 	import VirtualMemory from "./modules/VirtualMemory.svelte";

@@ -2,7 +2,7 @@
 
 ---
 
-Simulator of x86 intel computer in the real mode.
+Simulator of x86 intel computer in 16-bit real mode.
 
 Made in [svelte](https://svelte.dev/) - [sveltejs/component-template](https://github.com/sveltejs/component-template)
 

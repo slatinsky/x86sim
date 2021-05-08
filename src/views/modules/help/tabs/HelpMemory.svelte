@@ -9,4 +9,6 @@
 
 <p>Pre presun práve editovanej adresy je možné použiť šípky na klávesnici</p>
 
+<p>Pre vynulovanie práve editovanej adresy stlačte klávesu DELETE na klávesnici</p>
+
 <p>Pre ukončenie editovania kliknite mimo modulu editora alebo stlačte klávesu ESC</p>

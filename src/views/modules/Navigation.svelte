@@ -4,6 +4,7 @@
     import Tooltip from "../components/Tooltip.svelte";
     import {codeRunner} from "../../compiler/codeRunner";
     import {codeRunnerStatus} from "../../compiler/codeRunner";
+    import QuestionCircle from "../components/QuestionCircle.svelte";
 </script>
 
 <style>
@@ -115,9 +116,7 @@
 </nav>
 
 {#if $debugMode}
-    <Tooltip tooltip={$_('tooltips.navigation.debugMode')} right>
-        <p>{$_('views.navigation.debugMode')} <i class="fas fa-question-circle"></i></p>
-    </Tooltip>
+    <p>{$_('views.navigation.debugMode')} <QuestionCircle tooltip={$_('tooltips.navigation.debugMode')} /></p>
 {:else}
     <p>&nbsp;</p>
 {/if}

@@ -16,8 +16,8 @@
     }
 </style>
 
-<div class="wrapper">
+<span class="wrapper">
     <SvelteTooltip tip={tooltip} {active} {left} {right} {bottom} {top}>
         <slot />
     </SvelteTooltip>
-</div>
+</span>
