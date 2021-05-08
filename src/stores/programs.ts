@@ -5,6 +5,9 @@ import {ensureObjectHasDefaultValues} from "../helperFunctions";
 import {codeRunnerStatus} from "../compiler/codeRunner";
 import {_} from "svelte-i18n";
 import defaultProjectsJson, {defaultProjectsName} from "../defaults/defaultProjects";
+import JSZip from "jszip";
+import FileSaver from 'file-saver';
+import {toastQueue} from "^stores/toastQueue";
 
 export const projectName = createWritableStore('currentProjectName', 'default')
 projectName.useLocalStorage()
@@ -206,20 +209,47 @@ function createProjects() {
             element.click();
             document.body.removeChild(element);
         },
-        uploadProject: (jsonContent: string, isLast:boolean=false) => {
+        downloadAllProjects: (projectName: string) => {
+            let zip = new JSZip();
+            get(thisStore).map(project => {
+                let filename = project.name + ".json"
+                let fileContent = JSON.stringify(project, null, 2)  // prettify
+                zip.file(filename, fileContent);
+            })
+
+            zip.generateAsync({type: "blob"}).then(function(content) {
+                FileSaver.saveAs(content, (new Date()).toISOString() + " x86sim.zip");
+            });
+        },
+        uploadProject: (jsonContent: string, file, isLast:boolean=false) => {
             update(projects => {
                 let newProject
                 try {
                     newProject = JSON.parse(jsonContent)
                 }
                 catch (e) {
-                    alert('Neplatný súbor. Tento súbor neobsahuje platný json formát')
+                    try {
+                        if (file != null) {
+                            let jsZip = new JSZip();
+                            jsZip.loadAsync(file).then(function (zip) {
+                                Object.keys(zip.files).forEach(function (filename) {
+                                    zip.files[filename].async('string').then(function (fileData) {
+                                        thisStore.uploadProject(fileData, null, false)
+                                    })
+                                })
+                            })
+                        }
+                    }
+                    catch (e) {
+                        alert('Neplatný súbor. Tento súbor neobsahuje platný json formát, ani to nie je zip súbor s json súbormi vo vnútri')
+                    }
+
                     return projects
                 }
 
                 // simple validation if uploaded .json was created by this simulator. If not, abort
                 if (!(newProject.hasOwnProperty('version') && newProject.hasOwnProperty('name') && newProject.hasOwnProperty('registers') && newProject.hasOwnProperty('memory') && newProject.hasOwnProperty('code'))) {
-                    alert('Neplatný .json súbor. Nahrávajte prosím iba json súbory vytvorené týmto simulátorom')
+                    toastQueue.error('Neplatný .json súbor. Nahrávajte prosím iba json súbory vytvorené týmto simulátorom')
                     return projects
                 }
 
@@ -230,6 +260,7 @@ function createProjects() {
                         projects = projects.filter(project => project.name !== newProject.name)  // remove old project before adding new one
                     } else {
                         // user has pressed 'cancel'
+                        toastQueue.error(`Načítanie projektu '${newProject.name}' prerušené používateľom`)
                         return projects
                     }
                 }
@@ -238,10 +269,15 @@ function createProjects() {
                 if (isLast) {  // we need to load only last dropped project, because autosave may glitch out and overwrite wrong project
                     setTimeout(()=>thisStore.loadProject(newProject.name), 0)  // delay the loading, project doesn't exist now yet
                 }
+                toastQueue.success('Úspešne načítaný projekt "' + newProject.name + '"')
                 return sortProjects([...projects, newProject])
             })
-        }
-        // reset: () => set([{...defaultProject}]),
+        },
+        deleteAllProjects: () => {
+            set([{...defaultProject}])
+            thisStore.loadProject(defaultProject.name)
+            toastQueue.success("All projects were deleted")
+        },
     }
 
 

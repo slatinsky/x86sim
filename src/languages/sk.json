@@ -25,7 +25,7 @@
       "rename": "Premenovať",
       "delete": "Vymazať",
       "download": "Stiahnuť",
-      "upload": "pretiahni .json súbor sem"
+      "upload": "pretiahni .json/.zip súbory sem"
     },
     "modules": {
       "codeEditor": "Editor kódu",

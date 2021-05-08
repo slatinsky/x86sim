@@ -6,6 +6,7 @@
     import {toastQueue} from "../../../../stores/toastQueue";
 
 
+
     let value
 
     // $: console.log($programs)
@@ -75,7 +76,7 @@
             reader.onload = function(event) {
                 let isLast = lastItemIndex === i
                 i++
-                programs.uploadProject(event.target.result, isLast)
+                programs.uploadProject(event.target.result, file, isLast)
 
             };
             reader.readAsText(file);
@@ -84,6 +85,10 @@
         }
         return false;
     };
+
+    function downloadAllProjects() {
+        programs.downloadAllProjects()
+    }
 </script>
 
 <style>
@@ -160,8 +165,8 @@
     {:else}
         <span class="text">No project exists, weird</span>
     {/if}
-    <button class="btn btn-outline-primary" on:click={createNewProject}>{$_('views.projects.new')}</button>
+    <button class="btn btn-outline-primary" on:click={createNewProject}><i class="fas fa-plus"></i> {$_('views.projects.new')}</button><button class="btn btn-outline-secondary ms-2" on:click|stopPropagation={()=>downloadAllProjects()}><i class="fas fa-file-download"></i> Download all projects</button>
 
-    <div id="holder" class="mb-3" >{$_('views.projects.upload')}</div>
-
+    <div id="holder">{$_('views.projects.upload')}</div>
+    <br>  <!--  temporary permanent solution to add bottom margin -->
 </div>

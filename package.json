@@ -40,5 +40,8 @@
     "tslib": "^2.1.0",
     "typescript": "^3.9.9"
   },
-  "dependencies": {}
+  "dependencies": {
+    "file-saver": "^2.0.5",
+    "jszip": "^3.6.0"
+  }
 }
