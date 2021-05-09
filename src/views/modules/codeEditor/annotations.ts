@@ -1,6 +1,5 @@
-
 import * as ace from "brace";
-import {codeRunner} from "../../../compiler/codeRunner";
+import {codeRunner} from "@compiler/codeRunner";
 const Range = ace.acequire('ace/range').Range
 
 var markers = []

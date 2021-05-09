@@ -1,15 +1,13 @@
-import {debounce, DebouncedFunc, throttle} from "lodash-es";
-import {registers} from "../stores/registers";
+import {registers} from "@stores/registers";
 import {get, writable} from "svelte/store";
-import {memory} from "../stores/memory";
-import {settings} from "../stores/settings";
-import {MAX_EXECUTED_INSTRUCTION_COUNT} from "../stores/config";
+import {memory} from "@stores/memory";
+import {settings} from "@stores/settings";
+import {MAX_EXECUTED_INSTRUCTION_COUNT} from "@stores/config";
 import {compileParseTree, currentlyExecutedLine} from "./compileParseTree";
 import {_} from "svelte-i18n";
-import {tokenize} from "./tokenizer";
-import {createParseTree} from "./createParseTree";
-import {validateParseTree} from "./validateParseTree";
-import {delete_rule} from "svelte/types/runtime/internal/style_manager";
+import {tokenize} from "@compiler/tokenizer";
+import {createParseTree} from "@compiler/createParseTree";
+import {validateParseTree} from "@compiler/validateParseTree";
 import {objectKeyDifferences} from "../helperFunctions";
 
 

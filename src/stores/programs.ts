@@ -7,7 +7,7 @@ import {_} from "svelte-i18n";
 import defaultProjectsJson, {defaultProjectsName} from "../defaults/defaultProjects";
 import JSZip from "jszip";
 import FileSaver from 'file-saver';
-import {toastQueue} from "^stores/toastQueue";
+import {toastQueue} from "@stores/toastQueue";
 
 export const projectName = createWritableStore('currentProjectName', 'default')
 projectName.useLocalStorage()

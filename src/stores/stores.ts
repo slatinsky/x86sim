@@ -1,12 +1,11 @@
 import { throttle } from 'lodash-es';
-// import {code, compiledInstructions, debugMode, programIsRunning} from "../compiler/compiler"
 import {programs, projectName} from "./programs"
 import {registers} from "./registers"
 import {memory} from "./memory"
 import {writable} from "svelte/store";
-import { currentlyExecutedLine } from '../compiler/compileParseTree';
-import {code, debugMode} from "../compiler/codeRunner";
-import {opcodes} from "../compiler/opcodes";
+import { currentlyExecutedLine } from '@compiler/compileParseTree';
+import {code, debugMode} from "@compiler/codeRunner";
+import {opcodes} from "@compiler/opcodes";
 
 
 

@@ -1,4 +1,4 @@
-import {registers} from "../../stores/stores";
+import {registers} from "@stores/stores";
 
 export default  {
     writesTo: ['ip'], // writes to ip, because it is jump

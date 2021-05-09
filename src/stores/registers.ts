@@ -1,7 +1,7 @@
 import {get, writable} from "svelte/store";
 import type {tRegister} from "../types/types";
 import {MEMORY_SIZE} from "./config";
-import {calculateFlags} from "../compiler/calculateFlags";
+import {calculateFlags} from "@compiler/calculateFlags";
 import {mergeTwo8bitTo16bit, split16bitToTwo8bit} from "../formatConverter";
 
 function createRegisters() {

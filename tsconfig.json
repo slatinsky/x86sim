@@ -11,7 +11,8 @@
     "isolatedModules": false,
     "baseUrl": "./",
     "paths": {
-      "^stores/*": ["src/stores/*"]
+      "@stores/*": ["src/stores/*"],
+      "@compiler/*": ["src/compiler/*"]
     }
   }
 }

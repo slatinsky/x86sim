@@ -1,4 +1,4 @@
-import {registers} from "../../stores/stores";
+import {registers} from "@stores/stores";
 
 // Jumps if parity flag is set
 // (JP) Jump Parity

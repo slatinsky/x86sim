@@ -1,4 +1,4 @@
-import {registers} from "../../stores/stores";
+import {registers} from "@stores/stores";
 
 // Jumps if overflow flag is not set to 1
 // (JNO) Jump If No Overflow

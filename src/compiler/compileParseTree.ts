@@ -1,9 +1,9 @@
 import {opcodes} from "./opcodes"
-import {registers} from "../stores/registers"
-import {get, readable, writable} from "svelte/store"
+import {registers} from "@stores/registers"
+import {get, writable} from "svelte/store"
 import type {tRegister} from "../types/types"
-import { memory } from "../stores/stores"
-import {errorObject, mergeTokens} from "./createParseTree";
+import { memory } from "@stores/memory"
+import {errorObject} from "./createParseTree";
 import {autodetectToSignedInteger} from "../formatConverter";
 
 class executedLineToEditorLine {

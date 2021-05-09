@@ -1,4 +1,4 @@
-import {errorObject, mergeTokens} from "./createParseTree";
+import {errorObject, mergeTokens} from "@compiler/createParseTree";
 import {allIntelSegmentRegisters} from "../config";
 import {opcodes} from "../stores/stores";
 

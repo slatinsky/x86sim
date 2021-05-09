@@ -2,6 +2,10 @@
     import { _} from 'svelte-i18n'
     import {memory, registers, settings} from "../../stores/stores";
 
+    import {formattedStringToInt, intToFormattedString, signedToUnsignedInt} from "../../formatConverter";
+    import {onMount} from "svelte";
+    import {differences} from "../../compiler/codeRunner";
+
     // documentation https://github.com/sveltejs/svelte-virtual-list
     import VirtualList from '@sveltejs/svelte-virtual-list';
     import {range} from "lodash-es";
@@ -22,11 +26,6 @@
     let end
 
     $: differentMemory = $differences.memory
-    $: console.log("differentMemory", differentMemory)
-
-    import {formattedStringToInt, intToFormattedString, signedToUnsignedInt} from "../../formatConverter";
-    import {onMount} from "svelte";
-    import {differences} from "../../compiler/codeRunner";
 
     function changeValue(address) {
         changeCurrentlyEditedAddress(address)

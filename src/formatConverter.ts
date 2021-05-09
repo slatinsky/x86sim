@@ -1,7 +1,6 @@
 // all integers stored are signed shorts if else not specified
 import type {typeBase, typeSelectedFormat} from "./types/types";
 import {parseInt as baseConverter} from 'all-your-base';
-import {tRegister} from "./types/types";
 
 /**
  * converts signed integer to unsigned integer

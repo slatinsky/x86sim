@@ -1,6 +1,6 @@
 import {get, writable} from "svelte/store";
 import {MEMORY_SIZE} from "./config";
-import {calculateFlags} from "../compiler/calculateFlags";
+import {calculateFlags} from "@compiler/calculateFlags";
 import {handleOverflow, mergeTwo8bitTo16bit, split16bitToTwo8bit} from "../formatConverter";
 
 function createMemory() {
