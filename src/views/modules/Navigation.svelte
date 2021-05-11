@@ -5,6 +5,8 @@
     import {codeRunner} from "../../compiler/codeRunner";
     import {codeRunnerStatus} from "../../compiler/codeRunner";
     import QuestionCircle from "../components/QuestionCircle.svelte";
+    import IconUnitedKingdom from "../../assets/icons/united-kingdom.svg";
+    import IconSlovakia from "../../assets/icons/slovakia.svg";
 </script>
 
 <style>
@@ -59,6 +61,11 @@
         }
     }
 
+    .icon {
+        width: 20px;
+        height: 20px;
+    }
+
 </style>
 
 <nav>
@@ -66,11 +73,11 @@
         <ul>
             <li class="notClickable">{$projectName}</li>
             <Tooltip tooltip={$_('tooltips.navigation.step')} bottom>
-                <li class="{['ended', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.step()}><i class="fas fa-step-forward"></i> <span class="navLabel">{$_('views.navigation.step')}</span></li>
+                <li class="{['ended', 'not-runnable', 'running'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.step()}><i class="fas fa-step-forward"></i> <span class="navLabel">{$_('views.navigation.step')}</span></li>
             </Tooltip>
 
             <Tooltip tooltip={$_('tooltips.navigation.stepBack')} bottom>
-                <li class="{['reset', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.stepBack()}><i class="fas fa-step-backward"></i> <span class="navLabel">{$_('views.navigation.stepBack')}</span></li>
+                <li class="{['reset', 'not-runnable', 'running'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.stepBack()}><i class="fas fa-step-backward"></i> <span class="navLabel">{$_('views.navigation.stepBack')}</span></li>
             </Tooltip>
             {#if $codeRunnerStatus === "running"}
                 <Tooltip tooltip={$_('tooltips.navigation.pause')} bottom>
@@ -101,10 +108,10 @@
                 <li on:click={() => $appState.helpShown = true}><i class="fas fa-info-circle"></i> <span class="navLabel">{$_('views.navigation.help')}</span></li>
             </Tooltip>
             <Tooltip tooltip="English" bottom>
-                <li on:click={() => $locale = 'en'}>EN</li>
+                <li on:click={() => $locale = 'en'}><div class="icon"><IconUnitedKingdom /></div></li>
             </Tooltip>
             <Tooltip tooltip="Slovensky" left>
-                <li on:click={() => $locale = 'sk'}>SK</li>
+                <li on:click={() => $locale = 'sk'}><div class="icon"><IconSlovakia /></div></li>
             </Tooltip>
 
 

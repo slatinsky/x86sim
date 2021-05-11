@@ -102,7 +102,7 @@
             <p><b>{$_('views.keyboard.ascii')}:</b><br> {keycodesAscii}&nbsp;</p>
             <button class="btn btn-outline-secondary {$keycodes.length === 0 ? 'disabled' : ''}" on:click={()=> {$keycodes = []}}>{$_('views.keyboard.clearBuffer')}</button>
         </div>
-        <img class="{inputFocused ? 'active' : ''}" src="/assets/keyboard.png" alt="Keyboard input" on:click={()=>inputElement.focus()}>
+        <img class="{inputFocused ? 'active' : ''}" src="assets/keyboard.png" alt="Keyboard input" on:click={()=>inputElement.focus()}>
     </div>
 </div>
 

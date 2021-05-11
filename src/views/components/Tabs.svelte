@@ -5,6 +5,8 @@
     export let activeTabId = 1;
 
     const handleClick = tabId => () => (activeTabId = tabId);
+
+    // export let onClose = null
 </script>
 
 <style>
@@ -51,6 +53,18 @@
         padding: 1rem 1rem 1rem calc(200px + 1rem);
         background-color: var(--body-background);
     }
+
+    .box {
+        position: relative;
+    }
+
+    .box .fa-times {
+        position: absolute;
+        top: 0;
+        right: .5rem;
+        font-size: 2rem;
+        cursor: pointer;
+    }
 </style>
 
 <div class="tabsWrapper">
@@ -67,6 +81,9 @@
             {#if activeTabId === tab.id}
                 <div class="box">
                     <h3>{tab.label}</h3>
+                    <!--{#if onClose != null}-->
+                    <!--    <i class="fas fa-times" on:click={()=>onClose()}></i>-->
+                    <!--{/if}-->
                     <svelte:component this={tab.component}/>
                 </div>
             {/if}

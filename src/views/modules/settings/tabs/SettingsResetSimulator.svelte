@@ -30,4 +30,5 @@
 </div>
 <button class="my-3 btn btn-outline-danger" on:click={() => {
     programs.deleteAllProjects()
-}}>vymazať všetky projekty</button>
+    location.reload()
+}}>vymazať všetky projekty</button> <!-- location.reload() may not be needed, but simulator sometimes freezes without it -->

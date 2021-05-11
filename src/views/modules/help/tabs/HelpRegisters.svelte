@@ -3,7 +3,7 @@
     import {registers} from "../../../../config";
 </script>
 
-<img src="/assets/help/registers.png" alt="">
+<img src="assets/help/registers.png" alt="">
 <table class="table">
     <thead>
     <tr>

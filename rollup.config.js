@@ -10,6 +10,7 @@ import { string } from "rollup-plugin-string";
 import strip from '@rollup/plugin-strip';
 import json from '@rollup/plugin-json';
 const { generateSW } = require('rollup-plugin-workbox');  // https://www.npmjs.com/package/rollup-plugin-workbox
+import svelteSVG from "rollup-plugin-svelte-svg";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -158,8 +159,8 @@ export default {
 			watch: 'public',
 			applyCSSLive: false,
 			applyImgLive: false
-		})
-
+		}),
+		svelteSVG()
 	],
 	watch: {
 		clearScreen: false

@@ -115,7 +115,7 @@
     }
 </style>
 
-<img src="/assets/help/screen.png" alt="" class="img-fluid">
+<img src="assets/help/screen.png" alt="" class="img-fluid">
 
 <p>Obrazovka je veľká 80 znakov na šírku a má 25 riadkov</p>
 
@@ -135,10 +135,10 @@ mov es:[bx+1], 0x55  ; 'U'
 </pre>
 
 <p>Na obrazovke sa zapísaný znak zobrazil takto:</p>
-<img src="/assets/help/screen_result.png" alt="" class="img-fluid" style="width: 200px">
+<img src="assets/help/screen_result.png" alt="" class="img-fluid" style="width: 200px">
 
 <p>Vysvetlenie zápisu:</p>
-<img src="/assets/help/screen_write.png" alt="" class="img-fluid" style="width: 200px">
+<img src="assets/help/screen_write.png" alt="" class="img-fluid" style="width: 200px">
 <div>Prvý bajt - 0x5 je farba fialového pozadia, 0xa je farba zeleného textu</div>
 <div>Druhý bajt - 0x55 je ascii hodnota znaku 'U'</div>
 
