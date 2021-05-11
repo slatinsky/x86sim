@@ -4,7 +4,6 @@ import {get, writable} from "svelte/store"
 import type {tRegister} from "../types/types"
 import { memory } from "@stores/memory"
 import {errorObject} from "./createParseTree";
-import {autodetectToSignedInteger} from "../formatConverter";
 
 class executedLineToEditorLine {
     private mapping: {}
@@ -54,7 +53,7 @@ function prepareOperand(operand: iOperand, bits: tTokenBits, segment: tSegment):
         }
     }
     else if (operand.type === 'immediate'){
-        let value = autodetectToSignedInteger(operand.tokens[0].content)
+        let value = operand.tokens[0].value
         return {
             get: (): number => value,
             set: (valueToSet: number): void => {
@@ -94,7 +93,7 @@ function prepareOperand(operand: iOperand, bits: tTokenBits, segment: tSegment):
             }
             else if (token.type === 'numeric') {
                 let localSign = sign
-                let localValue = autodetectToSignedInteger(token.content)
+                let localValue = token.value
                 computeAddressFunctions.push((): number => {
                     // console.log("sign", localSign, "numeric token.content", token.content)
                     return localSign * localValue  // TODO: convert hex, binary
@@ -211,14 +210,8 @@ export function compileParseTree(rows: iRow[], pass:number=0): [iCompiledInstruc
                 console.error("compiler crashed while compiling. This should be ideally moved to validation. Details:" + JSON.stringify(e), problematicRowNumber)
 
                 const [compiledInstructionsRepaired, moreErrors] = compileParseTree(rows.filter((row:iRow) => {
-                    if ("opcode" in row) {  // opcodes
-                        return row.opcode.row !== problematicRowNumber
-                    }
-                    else if ("operands" in row && row.operands.length > 0) {  // opcodes
-                        return row.operands[0].tokens[0].row !== problematicRowNumber
-                    }
-                    else if ("token" in row) {  // labels
-                        return row.token.row !== problematicRowNumber
+                    if ("position" in row) {
+                        return row.position.row !== problematicRowNumber
                     }
                     else {  // should never happen
                         console.error("compileParseTree - unexpected row:", row)

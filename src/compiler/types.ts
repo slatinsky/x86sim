@@ -15,6 +15,7 @@ interface iToken {
     index: number,  // character index from the beginning
     type: tTokenType,
     content: string,
+    value: null | number,
     bits: tTokenBits
 }
 
@@ -28,10 +29,12 @@ interface iOperand {
 interface iLabel {
     type: 'label',
     token: iToken
+    position: iToken,
 }
 
 interface iInstruction {
     type: 'instruction',
+    position: iToken,
     opcode: iToken
     operands: iOperand[],
     bits: tTokenBits,

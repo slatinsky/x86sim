@@ -1,4 +1,5 @@
 import {allIntelOpcodes, allIntelRegisters, allIntel16bitRegisters, allIntel8bitRegisters} from "../config"
+import {autodetectToSignedInteger} from "../formatConverter";
 
 function getTokenType(tokenContent: string): tTokenType {
     if (/^((0b[01]+)|([01]+b)|(0x[0-9a-f]+)|([0-9a-f]+h)|(-?[0-9]+))$/i.test(tokenContent)) {  // 'binary' | 'hex1' | 'hex2' | 'number'
@@ -106,13 +107,15 @@ export function tokenize(instructionList: string): iToken[] {
         }
         else {
             let tokenType = getTokenType(tokenContent)
+            let bitSize = getBitSize(tokenType, tokenContent)
             let token: iToken = {
                 row: rowNumber,
                 col: match.index - colOffset,
                 index: match.index,
                 content: tokenContent,
                 type: tokenType,
-                bits: getBitSize(tokenType, tokenContent)
+                bits: bitSize,
+                value: (tokenType === 'numeric') ? autodetectToSignedInteger(tokenContent) : null
             }
 
             if (token.type !== 'comment') {  // ignore comments

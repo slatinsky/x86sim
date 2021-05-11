@@ -11,6 +11,7 @@ function mergeTwoTokens(token1: iToken, token2: iToken): iToken {
         type: token1.type === token2.type ? token1.type : 'mixed',
         content: token1.content + ''.padStart(token2.index - token1.index + token1.content.length + token1.content.length, ' ') + token2.content,   // pad content of in-between tokens with spaces
         bits: token1.bits === token2.bits ? token1.bits : null,
+        value: null
     }
 
     return newToken
@@ -28,7 +29,8 @@ export function mergeTokens(tokens: iToken[]): iToken {
             index: 0,
             type: 'mixed',
             content: '',
-            bits: null
+            bits: null,
+            value: null
         }
     }
 
@@ -283,6 +285,7 @@ function parseRow(tokens: iToken[]): iRow {
     if (tokens.length === 2 && tokens[0].type === 'alphanumeric' && tokens[1].content === ':') {
         return {
             type: "label",
+            position: tokens[0],   // first token holding position - TODO: merge tokens
             token: tokens[0],
         }
     }
@@ -292,8 +295,8 @@ function parseRow(tokens: iToken[]): iRow {
         [explicitSegment, tokens] = getExplicitSegmentRegister(tokens)
 
         let instruction: iInstruction = {
-
             type: 'instruction',
+            position: opcodeToken,   // first token holding position - TODO: merge tokens
             opcode: opcodeToken,
             operands: [],
             bits: null,
