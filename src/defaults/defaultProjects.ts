@@ -1,14 +1,15 @@
-import tut0 from "./defaultProjects/tutorial 0 - welcome.json"
-import tut1 from "./defaultProjects/tutorial 1 - add two numbers together.json"
-import tut1a from "./defaultProjects/tutorial 1 try it.json"
-import tut1b from "./defaultProjects/tutorial 1 try it solution.json"
-import tut2 from "./defaultProjects/tutorial 2 - low and high registers.json"
-import tut3 from "./defaultProjects/tutorial 3 - immediate operand types.json"
-import tut4 from "./defaultProjects/tutorial 4 - jumps.json"
-import tut5 from "./defaultProjects/tutorial 5 - loops.json"
-import tut6 from "./defaultProjects/tutorial 6 - memory operand types.json"
-import tut7 from "./defaultProjects/tutorial 7 - segment registers.json"
+import tutorial from "./defaultProjects/tutorial.json"
 
-const defaultProjectsJson = [tut0, tut1, tut1a, tut1b, tut2, tut3, tut4, tut5, tut6, tut7]
-export const defaultProjectsName = "tutorial 0 - welcome"
+/*
+ * Crash course how to modify tutorials:
+ *
+ * 1) open file "./defaultProjects/tutorial.json" and copy it's content to clipboard
+ * 2) open simulator in your browser
+ * 3) open devtools (F12) -> Application -> localstorage
+ * 4) replace content of 'projects' key with tutorials
+ * 5) modify tutorials inside simulator
+ * 6) and copy them back from localstorage to "./defaultProjects/tutorial.json" file
+ */
+const defaultProjectsJson = [...tutorial]
+export const defaultProjectsName = "tutorial 00 - welcome"
 export default defaultProjectsJson

@@ -5,6 +5,7 @@
 
 // If rollup throws error after adding new .ts file, restart it
 import add from "./add"
+import and from "./and"
 import sub from "./sub"
 import mov from "./mov"
 import mul from "./mul"
@@ -37,6 +38,7 @@ export const jumps = {
 
 export const opcodes = {
     add,
+    and,
     sub,
     mov,
     mul,
