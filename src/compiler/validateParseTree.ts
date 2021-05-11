@@ -73,11 +73,25 @@ pop ax`
     }
 }
 
+function validateMemoryAccessWithoutTypeOverride(operands: iOperand[], bits) {
+    if (bits === null) {
+        for (const operand of operands) {
+            for (const token of operand.tokens) {
+                if (token.content === "[") {
+                    throw errorObject(token, `Memory access without type override\nWriting 8-bit value? Use 'byte ptr'\nWriting 16-bit value? Use 'word ptr'\n\nExample of type override usage:\nmov byte ptr [bx], 0\nor if you need to specify segment register\nmov byte ptr es:[bx], 0`)
+                }
+            }
+        }
+    }
+}
+
 function validateRow(row: iRow) {
     if (row.type === 'instruction') {
         if (!opcodes.hasOwnProperty(row.opcode.content)) {
             throw errorObject(row.opcode, `Opcode '${row.opcode.content}' isn't implemented by this simulator.\nAvailable opcodes: ${Object.keys(opcodes).sort().join(', ')}`)  // tokenizer says, it is valid intel opcode, just we don't have it implemented
         }
+
+        validateMemoryAccessWithoutTypeOverride(row.operands, row.bits)
 
         let operandAmountRequired = opcodes[row.opcode.content].run.length
         let operandAmountProvided = row.operands.length
