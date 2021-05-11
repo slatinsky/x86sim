@@ -23,7 +23,7 @@ function createMemory() {
                     return
                 }
                 else if (address < 0) {
-                    console.error(`SEGFAULT. You tried to write to negative address '${address}' :(. This is a simulator bug, please report it.`)
+                    console.error(`SEGFAULT. You tried to write to negative address '${address}' :(. This is a simulator bug, please report it.`)  // this bug should be fixed now. It should never happen
                     toastQueue.error(`SEGFAULT. You tried to write to negative address '${address}' :(. This is a simulator bug, please report it.`)
                     return
                 }

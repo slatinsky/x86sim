@@ -108,7 +108,7 @@ function prepareOperand(operand: iOperand, bits: tTokenBits, segment: tSegment):
             for (const addressFunction of computeAddressFunctions) {
                 address += addressFunction()
             }
-            return address    // TODO: convert this value to unsigned 20 bit value. Because now it can be invalid address 'mov [-1], aah', it should wrap around to 0xfffff
+            return signedToUnsignedInt(address, 20)
         }
         return {
             get: (): number => {

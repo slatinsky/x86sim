@@ -19,6 +19,9 @@ export function signedToUnsignedInt(signedInt, bits) {
     else if (bits === 32) {
         return (new Uint32Array([signedInt]))[0]
     }
+    else if (bits < 32) {
+        return (signedInt << (32 - bits)) >>> (32 - bits)   // >>> = Unsigned right shift
+    }
     else {
         console.error('signedToUnsignedInt - unsupported bits amount - ' +  bits)
         return signedInt
@@ -40,6 +43,11 @@ function unsignedToSignedInt(unsignedInt, bits) {
     }
     else if (bits === 32) {
         return (new Int32Array([unsignedInt]))[0]
+    }
+    else if (bits < 32) {
+        // clever trick from https://stackoverflow.com/questions/15389608/signed-to-unsigned-and-vice-versa-arithmetical :
+        // "As a side note the reason the solution works is because if you bit shift to the right 16 times, the most significant bit of your 16 bit number will actually become the most significant bit of the 32 bit JavaScript integer (so if the most significant bit was a 1, it'd make the number negative), and so when you shift it to the left 16 times it'd shift while keeping the standard 2s complement form and retain the value/sign it gained from being shifted to the right previously, see this Wikipedia article for more: https://en.m.wikipedia.org/wiki/Arithmetic_shift"
+        return (unsignedInt << (32 - bits)) >> (32 - bits)
     }
     else {
         console.error('unsignedToSignedInt - unsupported bits amount - ' +  bits)
