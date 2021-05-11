@@ -3,7 +3,7 @@ import {autodetectToSignedInteger} from "../formatConverter";
 
 function getTokenType(tokenContent: string): tTokenType {
     if (/^(word|byte) ptr$/i.test(tokenContent)) {
-        return 'size'
+        return 'type_override'
     }
     else if (/^((0b[01]+)|([01]+b)|(0x[0-9a-f]+)|([0-9a-f]+h)|(-?[0-9]+))$/i.test(tokenContent)) {  // 'binary' | 'hex1' | 'hex2' | 'number'
         if ((/^[a-d]h$/i.test(tokenContent))) {  // register ah, bh, ch, dh has priority over ah, bh... hex values
@@ -47,10 +47,10 @@ function getTokenType(tokenContent: string): tTokenType {
  * Detects if token is 8bit, 16-bit or can't be determined
  */
 function getBitSize(tokenType: tTokenType, tokenContent: string): tTokenBits {
-    if (tokenType === "size" && tokenContent === "word ptr") {
+    if (tokenType === "type_override" && tokenContent === "word ptr") {
         return 16
     }
-    else if (tokenType === "size" && tokenContent === "byte ptr") {
+    else if (tokenType === "type_override" && tokenContent === "byte ptr") {
         return 8
     }
     else if (tokenType === "numeric" && /^((0b[01]{16})|(0x[0-9a-f]{4})|([0-9a-f]{4}h))$/i.test(tokenContent)) {  // only 16-bit numeric values

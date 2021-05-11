@@ -299,13 +299,22 @@ function getExplicitSegmentRegister(tokens: iToken[]): [tSegment, iToken[]] {
  *
  * example of size tokens: 'word ptr' / 'byte ptr'
  */
-function getExplicitBits(tokens: iToken[]): [tTokenBits, iToken[]] {
+function getTypeOverride(tokens: iToken[]): [tTokenBits, iToken[]] {
+    let index = 0
     for (const token of tokens) {
-        if (token.type === 'size') {
-            let size = token.bits
-            tokens = tokens.filter(token => token.type !== 'size')  // only one size token allowed, but filter out all just in case
-            return [size, tokens]
+        if (token.type === 'type_override') {
+            let typeOverride = token.bits
+            if (tokens.length >= index + 2 && (tokens[index + 2].content === ":" || tokens[index + 1].content === "[")) {    // check next tokens if it type override is used in the correct place - example of correct places: 'mov ${token.content} es:[bx], 0' or 'mov byte ptr [bx], 0'
+                tokens = tokens.filter(token => token.type !== 'type_override')  // only one size token allowed, but filter out all just in case
+                return [typeOverride, tokens]
+            }
+            else {
+                throw errorObject(token, `Invalid usage of type override\n\nExample of correct usage:\nmov ${token.content} [bx], 0\nor if you need to specify segment register\nmov ${token.content} es:[bx], 0`)
+            }
+
+            // TODO: validate, if token.type === 'size' is at the correct place. For example 'mov es:[bx], 0xa byte ptr' should be incorrect and only 'mov byte ptr es:[bx], 0xa' be correct
         }
+        index += 1
     }
 
     return [null, tokens]
@@ -330,7 +339,7 @@ function parseRow(tokens: iToken[]): iRow {
         let explicitSegment
         let explicitBits
         [explicitSegment, tokens] = getExplicitSegmentRegister(tokens);  // one place where ; needs to be. Else it will break
-        [explicitBits, tokens] = getExplicitBits(tokens)
+        [explicitBits, tokens] = getTypeOverride(tokens)
 
         console.log("explicitBits", explicitBits)
         console.log("tokens", tokens)

@@ -5,7 +5,7 @@ interface iError {
     type: tErrorType
 }
 
-type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' | 'identifier' | 'mixed' | 'size'   // mixed token is merged token with different types
+type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' | 'identifier' | 'mixed' | 'type_override'   // mixed token is merged token with different types
 type tTokenBits = null | 8 | 16   // null if unknown
 type tSegment = null | 'cs' | 'ds' | 'ss' | 'es'   // null if unknown
 
