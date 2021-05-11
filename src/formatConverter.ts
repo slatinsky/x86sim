@@ -170,6 +170,9 @@ export function autodetectToSignedInteger(numberString: string): number {
     else if (/^0b[01]+$/i.test(numberString)) {
         return formattedStringToInt(numberString.replace(/^0b/, ''), 'bin', 16)
     }
+    else if (/^[01]+b$/i.test(numberString)) {
+        return formattedStringToInt(numberString.replace(/b$/, ''), 'bin', 16)
+    }
     else if (/^0x[0-9a-f]+$/i.test(numberString)) {
         return formattedStringToInt(numberString.replace(/^0x/, ''), 'hex', 16)
     }
