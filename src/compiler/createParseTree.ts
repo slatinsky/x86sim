@@ -226,19 +226,27 @@ function splitOperands(tokens: iToken[]): iToken[][] {
 }
 
 /**
- * returns default segment register if ip, bx, di, si, sp, bp registers are used
+ * returns default segment register if ip, bx, di, si, sp, bp registers are used inside [memory access]
  * TODO: add validation, if multiple different segment types are not present. Currently it returns first
  */
 function getSegment(tokens: iToken[]): tSegment {
+    let insideMemory: boolean = false
     for (const token of tokens) {
-        if (token.type === 'register') {
-            if (['ip'].includes(token.content.toLowerCase())) {  // based on a table https://www.geeksforgeeks.org/memory-segmentation-8086-microprocessor/
+        if (token.content === "[") {
+            insideMemory = true
+        }
+        else if (token.content === "]") {
+            insideMemory = false
+        }
+
+        if (insideMemory && token.type === 'register') {
+            if (['ip'].includes(token.content)) {  // based on a table https://www.geeksforgeeks.org/memory-segmentation-8086-microprocessor/
                 return 'cs'
             }
-            else if (['bx', 'di', 'si'].includes(token.content.toLowerCase())) {
+            else if (['bx', 'di', 'si'].includes(token.content)) {
                 return 'ds'
             }
-            else if (['sp', 'bp'].includes(token.content.toLowerCase())) {
+            else if (['sp', 'bp'].includes(token.content)) {
                 return 'ss'
             }
         }
