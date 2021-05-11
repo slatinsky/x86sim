@@ -138,6 +138,6 @@ export function validateParseTree(rows: iRow[]): [iError[], iRow[]] {
 
     // remove invalid rows from parse tree
     let errorRows = errors.map(error => error.token.row)
-    rows = rows.filter(row => !errorRows.includes(row?.token?.row ?? row.opcode.row))
+    rows = rows.filter(row => !errorRows.includes(row.position.row))
     return [errors, rows]
 }

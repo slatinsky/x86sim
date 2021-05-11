@@ -186,16 +186,33 @@ function parseOperand(operandTokens: iToken[]): iOperand {
 function opcodesDetectBits(operands: iOperand[]): tTokenBits {
     let resultingBits:tTokenBits = null
     let firstToken: iToken
+    let insideOffset: boolean = false
 
     for (const operand of operands) {
         for (const token of operand.tokens) {
-            if (token.bits !== null) {
-                if (resultingBits === null) {
-                    resultingBits = token.bits
-                    firstToken = token
-                }
-                else if (token.bits != resultingBits) {
-                    throw errorObject(token, `Can't use ${firstToken.bits}-bit (${firstToken.type} ${firstToken.content}) and ${token.bits}-bit (${token.type} ${token.content}) value/address/register in the same instruction.\nUse 2x 16-bit or 2x 8-bit`)
+            /*
+            ; don't validate bits inside offset - [everything inside these brackets shouldn't be validated]:
+            mov al, [bx+2]  ; valid  instruction, offset should be always 16-bit, al is 8-bit
+
+            ; this isn't valid instruction
+            mov ax, cl
+             */
+            if (token.content === "]") {
+                insideOffset = false
+            }
+            if (token.content === "[") {
+                insideOffset = true
+            }
+
+            if (!insideOffset) {
+                if (token.bits !== null) {
+                    if (resultingBits === null) {
+                        resultingBits = token.bits
+                        firstToken = token
+                    }
+                    else if (token.bits != resultingBits) {
+                        throw errorObject(token, `Can't use ${firstToken.bits}-bit (${firstToken.type} ${firstToken.content}) and ${token.bits}-bit (${token.type} ${token.content}) value/address/register in the same instruction.\nUse 2x 16-bit or 2x 8-bit`)
+                    }
                 }
             }
         }
