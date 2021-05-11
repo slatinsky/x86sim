@@ -4,7 +4,7 @@
     import {memory} from "../../stores/stores";
     import {signedToUnsignedInt} from "../../formatConverter";
 
-    const OFFSET = 0x50000  // from which memory address is screen mapped
+    const OFFSET = 0xb8000  // from which memory address is screen mapped
     const COLUMNS = 80
     const ROWS = 25
     const addresses = range(OFFSET, OFFSET + COLUMNS * ROWS * 2, 2)

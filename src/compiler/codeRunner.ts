@@ -131,6 +131,7 @@ class CodeRunner {
                 registers: objectKeyDifferences(currentVersion.registers, latestSnapshot.registers),
                 memory: objectKeyDifferences(currentVersion.memory, latestSnapshot.memory),
             }
+            console.log("newDifferences", newDifferences)
             differences.set(newDifferences)
         }
         else {

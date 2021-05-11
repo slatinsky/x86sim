@@ -119,11 +119,11 @@
 
 <p>Obrazovka je veľká 80 znakov na šírku a má 25 riadkov</p>
 
-<p>Na obrazovke sa zobrazí text, ak zapisujete od adresy 0x50000 vyššie. Je tu ale nutné poznamenať na vec, že do 16-bitového registra sa vmestí maximálna hodnota 0xffff. Aby sme mohli zapísať na obrazovku, musíme si pomôcť so segmentovými registrami</p>
+<p>Na obrazovke sa zobrazí text, ak zapisujete od adresy 0xb8000 vyššie. Je tu ale nutné poznamenať na vec, že do 16-bitového registra sa vmestí maximálna hodnota 0xffff. Aby sme mohli zapísať na obrazovku, musíme si pomôcť so segmentovými registrami</p>
 
-<p>Nastavme e(xtra) s(segment) register na adresu 0x5000:</p>
+<p>Nastavme e(xtra) s(segment) register na adresu 0xb800:</p>
 <pre>
-mov ax, 0x5000
+mov ax, 0xb800
 mov es, ax
 </pre>
 
@@ -143,8 +143,8 @@ mov es:[bx+1], 0x55  ; 'U'
 <div>Druhý bajt - 0x55 je ascii hodnota znaku 'U'</div>
 
 <p>Reálna_adresa = segmentový register * 0x10 + offset</p>
-<p>0x50000 = 0x5000 * 0x10 + 0</p>
-<p>0x50000 = 0x5000 * 0x10 + 1</p>
+<p>0x50000 = 0xb800 * 0x10 + 0</p>
+<p>0x50000 = 0xb800 * 0x10 + 1</p>
 
 <p><b>Tabuľka farieb:</b></p>
 <div id="help-colorTable">

@@ -2,6 +2,7 @@ import {get, writable} from "svelte/store";
 import {MEMORY_SIZE} from "./config";
 import {calculateFlags} from "@compiler/calculateFlags";
 import {handleOverflow, mergeTwo8bitTo16bit, split16bitToTwo8bit} from "../formatConverter";
+import {toastQueue} from "@stores/toastQueue";
 
 function createMemory() {
     // const defaultMemory = Array(MEMORY_SIZE).fill(0)
@@ -18,6 +19,12 @@ function createMemory() {
             else {   // else only one value is being updated
                 if (address >= MEMORY_SIZE) {  // TODO: update this if after one memory cell will span multiple addresses
                     console.error(`SEGFAULT. Memory size ${MEMORY_SIZE}, you tried to access address ${address}`)
+                    toastQueue.error(`SEGFAULT. Memory size ${MEMORY_SIZE}, you tried to access address ${address}`)
+                    return
+                }
+                else if (address < 0) {
+                    console.error(`SEGFAULT. You tried to write to negative address '${address}' :(. This is a simulator bug, please report it.`)
+                    toastQueue.error(`SEGFAULT. You tried to write to negative address '${address}' :(. This is a simulator bug, please report it.`)
                     return
                 }
                 update((memory) => {

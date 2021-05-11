@@ -4,6 +4,7 @@ import {get, writable} from "svelte/store"
 import type {tRegister} from "../types/types"
 import { memory } from "@stores/memory"
 import {errorObject} from "./createParseTree";
+import {signedToUnsignedInt} from "../formatConverter";
 
 class executedLineToEditorLine {
     private mapping: {}
@@ -88,7 +89,7 @@ function prepareOperand(operand: iOperand, bits: tTokenBits, segment: tSegment):
                 let localSign = sign
                 computeAddressFunctions.push((): number => {
                     // console.log("sign", localSign, "register", token.content)
-                    return localSign * registers.get(<tRegister>token.content)
+                    return localSign * signedToUnsignedInt(registers.get(<tRegister>token.content), 16)
                 })
             }
             else if (token.type === 'numeric') {
@@ -103,11 +104,11 @@ function prepareOperand(operand: iOperand, bits: tTokenBits, segment: tSegment):
 
 
         function getAddress() {
-            let address: number = registers.get(<tRegister>segment) << 4
+            let address: number = signedToUnsignedInt(registers.get(<tRegister>segment), 16) << 4
             for (const addressFunction of computeAddressFunctions) {
                 address += addressFunction()
             }
-            return address
+            return address    // TODO: convert this value to unsigned 20 bit value. Because now it can be invalid address 'mov [-1], aah', it should wrap around to 0xfffff
         }
         return {
             get: (): number => {
