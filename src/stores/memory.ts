@@ -49,6 +49,7 @@ function createMemory() {
                         setMemoryHelper(address + 1, highValue)
                     }
                     else {
+                        toastQueue.error(`runtime error - memory.set() Unknown bits parameter ${bits}`)
                         throw `runtime error - memory.set() Unknown bits parameter ${bits}`
                     }
 
@@ -79,6 +80,7 @@ function createMemory() {
                 return mergeTwo8bitTo16bit(lowValue, highValue)
             }
             else {
+                toastQueue.error(`runtime error - memory.get() Unknown bits parameter ${bits}`)
                 throw `runtime error - memory.get() Unknown bits parameter ${bits}`
             }
         },

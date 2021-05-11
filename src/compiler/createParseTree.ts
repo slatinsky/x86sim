@@ -293,6 +293,25 @@ function getExplicitSegmentRegister(tokens: iToken[]): [tSegment, iToken[]] {
 }
 
 /**
+ * returns null if explicit token is not found and returns unmodified tokens arras
+ *
+ * if size token type is found, first is taken and all size tokens are filtered out
+ *
+ * example of size tokens: 'word ptr' / 'byte ptr'
+ */
+function getExplicitBits(tokens: iToken[]): [tTokenBits, iToken[]] {
+    for (const token of tokens) {
+        if (token.type === 'size') {
+            let size = token.bits
+            tokens = tokens.filter(token => token.type !== 'size')  // only one size token allowed, but filter out all just in case
+            return [size, tokens]
+        }
+    }
+
+    return [null, tokens]
+}
+
+/**
  * parseRow will always get one or more tokens
  */
 function parseRow(tokens: iToken[]): iRow {
@@ -309,7 +328,12 @@ function parseRow(tokens: iToken[]): iRow {
     else if (tokens.length >= 1 && tokens[0].type === 'opcode') {
         let opcodeToken = nextToken(tokens)
         let explicitSegment
-        [explicitSegment, tokens] = getExplicitSegmentRegister(tokens)
+        let explicitBits
+        [explicitSegment, tokens] = getExplicitSegmentRegister(tokens);  // one place where ; needs to be. Else it will break
+        [explicitBits, tokens] = getExplicitBits(tokens)
+
+        console.log("explicitBits", explicitBits)
+        console.log("tokens", tokens)
 
         let instruction: iInstruction = {
             type: 'instruction',
@@ -324,7 +348,7 @@ function parseRow(tokens: iToken[]): iRow {
         for (const operandTokens of tokensSplitByOperands) {
             instruction.operands.push(parseOperand(operandTokens))
         }
-        instruction.bits = opcodesDetectBits(instruction.operands)
+        instruction.bits = (explicitBits === null) ? opcodesDetectBits(instruction.operands) : explicitBits
         return instruction
     }
     else if (tokens.length >= 1 && tokens[0].type !== 'opcode') {
