@@ -10,7 +10,7 @@ function getTokenType(tokenContent: string): tTokenType {
             return 'numeric'
         }
     }
-    else if (/^[a-z0-9]+$/i.test(tokenContent)) {
+    else if (/^[a-z0-9_]+$/i.test(tokenContent)) {
         if (allIntelRegisters.includes(tokenContent.toLowerCase())) {
             return 'register'
         }
@@ -82,7 +82,7 @@ export function tokenize(instructionList: string): iToken[] {
     0x[0-9a-f]+     hex first variant                                       0xb800
     [0-9a-f]+h      hex second variant                                      b800h
     -?[0-9]+        decimal number, including negative values               -5
-    [a-z0-9]+       any alphanumeric word                                   labelWithNumbers123
+    [a-z0-9_]+       any alphanumeric word                                   labelWithNumbers123
     '.'             one literal character                                   'c'
     ;[^\n]*         comment                                                 ; this is a comment that should be ignored
     \n              new line                                                new lines are used to count rows
@@ -90,7 +90,7 @@ export function tokenize(instructionList: string): iToken[] {
 
     regex is case insensitive (i option)
      */
-    const reToken = /0b[01]+|[01]+b|0x[0-9a-f]+|[0-9a-f]+h|-?[0-9]+|[a-z0-9]+|'.'|;[^\n]*|\n|\S/ig
+    const reToken = /0b[01]+|[01]+b|0x[0-9a-f]+|[0-9a-f]+h|-?[0-9]+|[a-z0-9_]+|'.'|;[^\n]*|\n|\S/ig
     // const reToken = /[0-9]+(\.[0-9]*)?([eE][\+\-]?[0-9]+)?|[A-Za-z_][A-Za-z_0-9]*|\S/g;
     while(true) {
         const match = reToken.exec(instructionList)

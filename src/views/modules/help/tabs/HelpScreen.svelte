@@ -138,13 +138,13 @@ mov es:[bx+1], 0x55  ; 'U'
 <img src="assets/help/screen_result.png" alt="" class="img-fluid" style="width: 200px">
 
 <p>Vysvetlenie zápisu:</p>
-<img src="assets/help/screen_write.png" alt="" class="img-fluid" style="width: 200px">
+<img src="assets/help/screen_write.png" alt="" class="img-fluid" style="width: 200px"><!-- TODO: zmeň adresu na obrázku na b8000 -->
 <div>Prvý bajt - 0x5 je farba fialového pozadia, 0xa je farba zeleného textu</div>
 <div>Druhý bajt - 0x55 je ascii hodnota znaku 'U'</div>
 
 <p>Reálna_adresa = segmentový register * 0x10 + offset</p>
-<p>0x50000 = 0xb800 * 0x10 + 0</p>
-<p>0x50000 = 0xb800 * 0x10 + 1</p>
+<p>0xb8000 = 0xb800 * 0x10 + 0</p>
+<p>0xb8000 = 0xb800 * 0x10 + 1</p>
 
 <p><b>Tabuľka farieb:</b></p>
 <div id="help-colorTable">
