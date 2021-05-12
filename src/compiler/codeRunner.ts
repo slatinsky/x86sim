@@ -233,7 +233,7 @@ class CodeRunner {
      * Callback is rollbackPreviousInstruction() or runNextInstruction() depending on the way we are running the program
      */
     private async run(callback: () => void): Promise<void> {
-        let executedInstructionsCounter = 0
+        let executedInstructionsCounter = 0  // count of instructions that run without UI rerender
         let codeExecutionDelay = get(settings).codeExecutionDelay
         codeRunnerStatus.set('running')
         while (true) {
@@ -253,7 +253,8 @@ class CodeRunner {
 
                 // nop instruction rerenders the screen :)
                 if (this.instructionsCompiled[registers.get('ip')]?.hasOwnProperty('instruction') && this.instructionsCompiled[registers.get('ip')].instruction.opcode.content === 'nop') {  // is next instruction nop instrucion?
-                    await this.sleep(1);
+                    await this.sleep(1)
+                    executedInstructionsCounter = 0
                 }
 
                 if (executedInstructionsCounter >= MAX_EXECUTED_INSTRUCTION_COUNT - 1) {
