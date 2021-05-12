@@ -1,6 +1,55 @@
 [
   {
     "version": 1,
+    "name": "game - snake",
+    "registers": {
+      "bx": 170,
+      "dx": -21555,
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {
+      "73": 0,
+      "96": 71,
+      "97": -112,
+      "98": 65,
+      "99": -112,
+      "100": 77,
+      "101": -112,
+      "102": 69,
+      "103": -112,
+      "104": 32,
+      "105": -112,
+      "106": 79,
+      "107": -112,
+      "108": 86,
+      "109": -112,
+      "110": 69,
+      "111": -112,
+      "112": 82,
+      "113": -112,
+      "260": 0,
+      "261": 0,
+      "262": 0,
+      "263": 0,
+      "65535": -35,
+      "69632": -52,
+      "69633": -35
+    },
+    "code": "; this code is complex (and slow), please turn off animation in Settings\n\n; CONTROLS:\n; click run button, then click on keyboard and use arrow keys to change snake direction\n\n; HOW TO PLAY\n; You are snake, to grow, collect (red) apples.\n; try not to crash to walls and yourself!\n\nxor ax, ax\n\nmov ax, b800h\nmov es, ax\n\n; variables\nmov byte ptr ds:[0], 20  ; row\nmov byte ptr ds:[1], 4   ; col\nmov byte ptr ds:[2], 39  ; direction\nmov word ptr ds:[4], 450  ; apple address\nmov word ptr ds:[6], 80h  ; start address\nmov word ptr ds:[8], 80h  ; head address\n\ncall startupDrawRectangle\ncall generateApple\n\ncall startupGrowSnake\njmp readNextChar\n\nstartupDrawRectangle:\n    push cx\n    push bx\n    \n    ; draw top line\n    mov cx, 80\n    mov bx, 0\n    startupDrawRectangle_topLine:\n        mov byte ptr es:[bx], 0x99\n        mov byte ptr es:[bx+1], 's'\n        \n        add bx, 2\n        dec cx\n        jnz startupDrawRectangle_topLine\n        \n    ; draw bottom line\n    mov cx, 80\n    mov bx, 3840\n    startupDrawRectangle_bottomLine:\n        mov byte ptr es:[bx], 0x99\n        mov byte ptr es:[bx+1], 's'\n        \n        add bx, 2\n        dec cx\n        jnz startupDrawRectangle_bottomLine\n        \n            \n    ; draw left line\n    mov cx, 25\n    mov bx, 0\n    startupDrawRectangle_leftLine:\n        mov byte ptr es:[bx], 0x99\n        mov byte ptr es:[bx+1], 's'\n        \n        add bx, 160\n        dec cx\n        jnz startupDrawRectangle_leftLine\n    \n    ; draw right line\n    mov cx, 25\n    mov bx, 158\n    startupDrawRectangle_rightLine:\n        mov byte ptr es:[bx], 0x99\n        mov byte ptr es:[bx+1], 's'\n        \n        add bx, 160\n        dec cx\n        jnz startupDrawRectangle_rightLine\n        \n    pop bx\n    pop cx\n    \n    ret 1\n    \nstartupGrowSnake:\n    mov cx, 3   ; grow 3 times\n\n    startupgrowSnake_again:\n        add byte ptr ds:[0], 1\n        call saveCursorPosition\n\n        dec cx\n        jnz startupgrowSnake_again\n    \n    ret 1\n\nreadNextChar:\n    waitForInputLoop:  ; Wait for IBF = 1\n        nop     ; rerender screen\n        ; Read Status byte\n        in al, 64h\n        \n        ; Test IBF flag (Status<1>) = does keyboard have input ready for me?\n        and al, 10b     \n        \n        jz noInput: \n        \n        \n    xor ax, ax\n\n    ; read input to ax\n    in byte ptr ds:[2], 60h\n    \n    \n    noInput:\n        \n        \n    ; arrow up?\n    cmp byte ptr ds:[2], 38\n    jnz notArrowUp\n        ; out of bounds?\n        cmp byte ptr ds:[1], 0\n        jz gameOver\n        \n        sub byte ptr ds:[1], 1\n    notArrowUp:\n    \n    ; arrow down?\n    cmp byte ptr ds:[2], 40\n    jnz notArrowDown\n        cmp byte ptr ds:[1], 24 ; 25 rows on screen\n        jz gameOver\n        \n        add byte ptr ds:[1], 1\n    notArrowDown:\n\n    ; arrow left?\n    cmp byte ptr ds:[2], 37\n    jnz notArrowLeft\n        cmp byte ptr ds:[0], 0\n        jz gameOver\n        \n        sub byte ptr ds:[0], 1\n    notArrowLeft:\n    \n    ; arrow right?\n    cmp byte ptr ds:[2], 39\n    jnz notArrowRight\n        cmp byte ptr ds:[0], 79 ; 80 cols on screen\n        jz gameOver\n        \n        add byte ptr ds:[0], 1\n    notArrowRight:\n    \n    ; if colision, end the game\n    call getCharToAl\n    cmp al, 's'\n    jz gameOver\n    \n\n    \n    \n    \n    call getCharToAl\n    cmp al, 'a' ; is apple at the next cursor position?\n    jz dontCutTail\n        call saveCursorPosition\n        call cutTail\n        jmp readNextChar\n       \n        \ndontCutTail:\n    call saveCursorPosition\n    call generateApple\n    jmp readNextChar\n    \n\n    \n    \n    \n    \nsaveCursorPosition:\n    push bx\n    \n    ; print to screen\n    push 's'\n    call printChar\n    \n    ; save position\n    call getCursorPositionToBx\n    mov ax, bx      ; ax = head address\n    mov bx, ds:[8]  ; head\n    mov [bx], ax\n    add word ptr ds:[8], 2\n    pop bx\n    ret 1\n    \ncutTail:\n    push ax\n    push bx\n    push cx\n    push dx\n    \n    mov bx, ds:[6]  ; tail block to remove\n    mov cx, ds:[bx]\n    \n    mov bx, ds:[6]  ; counter, start at start\n    \n    ; loop to move all addresses by one\n    cutTail_moveNextAddress:\n    cmp ds:[8], bx  ; are we at the end?\n    jz cutTail_end\n        mov ax, ds:[bx+2]\n        mov ds:[bx], ax\n        add bx, 2\n        \n        jmp cutTail_moveNextAddress\n        \n    \n    \n    cutTail_end:\n    \n    mov bx, cx\n\n    ; delete\n    mov byte ptr es:[bx], 0x0\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], 0\n    \n    sub word ptr ds:[8], 2\n    pop dx\n    pop cx\n    pop bx\n    pop ax\n    ret 1\n    \n; read cursor position from memory to BX\ngetCursorPositionToBx:\n    push ax\n    xor bx, bx\n\n    ; row\n    mov ax, byte ptr ds:[0]\n    mul 2\n    mov bx, ax\n\n    ; col\n    mov ax, byte ptr ds:[1]\n    mul 160\n    add bx, ax\n    \n    pop ax\n    ret 1\n\n\ngenerateApple_fixOutOfBounds:\n    sub bx, 2000\n    jmp generateApple_fixedBounds\n\ngenerateApple:\n    push bx\n    \n    mov bx, ds:[4]\n    \n    generateApple_tryNextPlace:\n        add bx, 558\n        \n        cmp bx, 2000    ;80 cols * 25 rows\n        jns generateApple_fixOutOfBounds\n        \n        generateApple_fixedBounds:\n    \n        mov al, es:[bx+1]   ; character at position we want to generate apple\n        cmp al, 0\n        je generateApple_foundEmptyPlace\n        jmp generateApple_tryNextPlace\n\n    generateApple_foundEmptyPlace:\n    ; color \n    mov byte ptr es:[bx], 0x44\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], 'a'\n    \n    mov ds:[4], bx  ; save generated apple address\n    pop bx\n    ret 1\n\n\n; returns char at cursor position to AL\ngetCharToAl:\n    push bx\n    call getCursorPositionToBx\n    mov al, es:[bx+1]\n    pop bx\n    ret 1\n    \n\n\nprintChar:\n    ; store ax and bx values in stack\n    push ax\n    push bx\n    push cx\n    push dx\n\n    call getCursorPositionToBx\n    \n    ; set color to green text + black background\n    mov byte ptr es:[bx], 0xbb\n    \n    ; get pushed ascii value from stack\n    mov dx, [sp+10]\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], dl\n    \n    ; restore ax and bx values from stack\n    pop dx\n    pop cx\n    pop bx\n    pop ax\n    \n    ; ret pops address from stack and jump to it\n    ret 2\n    \n    \ngetRandomNumberToAx:\n    \n    \nprintString:\n    push ax\n    push bx\n    push dx\n    mov bx, 0\n\n    mov dx, [sp+8]  ; read string offset from stack\n    printString_readChar:\n        add bx, dx\n        mov al, ds:[bx]   ; char\n        mov ah, ds:[bx+1] ; color\n        sub bx, dx\n        \n        cmp al, 0\n        jz printString_endOfString\n        \n        mov byte ptr es:[bx+70], ah\n        mov byte ptr es:[bx+71], al\n        \n        add bx, 2\n        \n        jmp printString_readChar\n        \n    printString_endOfString:\n    pop dx\n    pop bx\n    pop ax\n    ret 1\n        \n        \n    \n    \ngameOver:\n    push 0x60\n    call printString\n    \n    ",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": true,
+      "showKeyboard": true,
+      "showStack": true,
+      "showMemory": true,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
     "name": "tutorial 00 - welcome",
     "registers": {
       "ax": -11,

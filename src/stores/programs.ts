@@ -1,5 +1,5 @@
 import {get, writable} from "svelte/store";
-import {code, debugMode, memory, registers, settings} from "./stores";
+import {appState, code, debugMode, memory, registers, settings} from "./stores";
 import {createWritableStore} from "./createWritableStore";
 import {ensureObjectHasDefaultValues} from "../helperFunctions";
 import {codeRunnerStatus} from "../compiler/codeRunner";
@@ -66,9 +66,13 @@ function createProjects() {
         localStorage.setItem("projects", JSON.stringify(defaultProjectsJson))
         projectName.set(defaultProjectsName)
 
+        // first run -> show tutorial
         setTimeout(()=>{
-            alert(get(_)('tutorial.tutorial1'))
-        }, 2000)
+            appState.update(state => {
+                state.helpShown = true
+                return state
+            })
+        }, 1000)
     }
 
     // create svelte store

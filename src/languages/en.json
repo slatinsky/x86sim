@@ -58,7 +58,7 @@
       "reset": "Resets program execution",
       "projects": "Simulator can manage multiple projects",
       "settings": "Simulator specific setting",
-      "help": "Do you need help? Read it in help",
+      "help": "Do you need help? Read the manual",
       "debugMode": "To return back to classic mode, click \"Reset\" button. Registers and memory will be returned to state before debug mode was turned on"
     },
     "registers": {
@@ -81,9 +81,6 @@
       "df": "Direction flag (for string instructions)",
       "of": "Overflow flag. Set to if signed integer has overflown"
     }
-  },
-  "tutorial": {
-    "tutorial1": "Welcome in x86sim! You see first example now on your screen.\nTo move to next example -> press Projects button on main navigation bar and select 'Example 2'"
   },
   "instructions": {
     "add": "Adds two operands together",
