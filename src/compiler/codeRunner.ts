@@ -131,7 +131,7 @@ class CodeRunner {
                 registers: objectKeyDifferences(currentVersion.registers, latestSnapshot.registers),
                 memory: objectKeyDifferences(currentVersion.memory, latestSnapshot.memory),
             }
-            console.log("newDifferences", newDifferences)
+            // console.log("newDifferences", newDifferences)
             differences.set(newDifferences)
         }
         else {
@@ -250,6 +250,11 @@ class CodeRunner {
             // infinite loop protection
             if (codeExecutionDelay <= 0) {
                 executedInstructionsCounter++
+
+                // nop instruction rerenders the screen :)
+                if (this.instructionsCompiled[registers.get('ip')]?.hasOwnProperty('instruction') && this.instructionsCompiled[registers.get('ip')].instruction.opcode.content === 'nop') {  // is next instruction nop instrucion?
+                    await this.sleep(1);
+                }
 
                 if (executedInstructionsCounter >= MAX_EXECUTED_INSTRUCTION_COUNT - 1) {
                     alert(get(_)("compiler.infiniteLoop", {
