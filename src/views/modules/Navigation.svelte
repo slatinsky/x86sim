@@ -7,6 +7,7 @@
     import QuestionCircle from "../components/QuestionCircle.svelte";
     import IconUnitedKingdom from "../../assets/icons/united-kingdom.svg";
     import IconSlovakia from "../../assets/icons/slovakia.svg";
+    import {language} from "../../stores/language";
 </script>
 
 <style>
@@ -108,10 +109,10 @@
                 <li on:click={() => $appState.helpShown = true}><i class="fas fa-info-circle"></i> <span class="navLabel">{$_('views.navigation.help')}</span></li>
             </Tooltip>
             <Tooltip tooltip="English" bottom>
-                <li on:click={() => $locale = 'en'}><div class="icon"><IconUnitedKingdom /></div></li>
+                <li on:click={() => $language = 'en'}><div class="icon"><IconUnitedKingdom /></div></li>
             </Tooltip>
             <Tooltip tooltip="Slovensky" left>
-                <li on:click={() => $locale = 'sk'}><div class="icon"><IconSlovakia /></div></li>
+                <li on:click={() => $language = 'sk'}><div class="icon"><IconSlovakia /></div></li>
             </Tooltip>
 
 

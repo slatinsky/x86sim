@@ -35,6 +35,9 @@
 	import Calculator from "./modules/Calculator.svelte";
 	import Toasts from "./modules/Toasts.svelte";
 	import {toastQueue} from "../stores/toastQueue";
+	import ChooseLanguage from "./modules/ChooseLanguage.svelte";
+	import {locale} from "svelte-i18n";
+	import {language} from "@stores/language";
 
 
 	let showCalculator = false
@@ -82,58 +85,62 @@
 
 
 <main>
-	<Spinner />
-	<Navigation />
+	{#if $language === null}
+		<ChooseLanguage />
+	{:else}
+		<Spinner />
+		<Navigation />
 
-	<div class="container-fluid">
-<!--		<ShowHideModules />-->
-		<div id="grid">
-			{#if $settings.shownModules.showCodeEditor}
+		<div class="container-fluid">
+			<!--		<ShowHideModules />-->
+			<div id="grid">
+				{#if $settings.shownModules.showCodeEditor}
+					<div>
+						<CodeEditor />
+					</div>
+				{/if}
+				<!--			<div style="display: {$settings.shownModules.showCodeEditor ? 'block' : 'none'}"> &lt;!&ndash; CodeEditor doesn't support rerender, we need to just hide it &ndash;&gt;-->
+				<!--				<CodeEditor />-->
+				<!--			</div>-->
 				<div>
-					<CodeEditor />
+					{#if $settings.shownModules.showCalculator}
+						<Calculator />
+					{/if}
+					{#if $settings.shownModules.showRegisters}
+						<Registers />
+					{/if}
+					{#if $settings.shownModules.showScreen}
+						<Screen />
+					{/if}
+					{#if $settings.shownModules.showKeyboard}
+						<Keyboard />
+					{/if}
 				</div>
-			{/if}
-<!--			<div style="display: {$settings.shownModules.showCodeEditor ? 'block' : 'none'}"> &lt;!&ndash; CodeEditor doesn't support rerender, we need to just hide it &ndash;&gt;-->
-<!--				<CodeEditor />-->
-<!--			</div>-->
-			<div>
-				{#if $settings.shownModules.showCalculator}
-					<Calculator />
-				{/if}
-				{#if $settings.shownModules.showRegisters}
-					<Registers />
-				{/if}
-				{#if $settings.shownModules.showScreen}
-					<Screen />
-				{/if}
-				{#if $settings.shownModules.showKeyboard}
-					<Keyboard />
-				{/if}
-			</div>
-			<div>
-				{#if $settings.shownModules.showStack}
-					<VirtualStack />
-				{/if}
-			</div>
-			<div>
-<!--				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>-->
-				{#if $settings.shownModules.showMemory}
-					<VirtualMemory />
-				{/if}
+				<div>
+					{#if $settings.shownModules.showStack}
+						<VirtualStack />
+					{/if}
+				</div>
+				<div>
+					<!--				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>-->
+					{#if $settings.shownModules.showMemory}
+						<VirtualMemory />
+					{/if}
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<Modal bind:shown={$appState.settingsShown}>
-		<Settings />
-	</Modal>
+		<Modal bind:shown={$appState.settingsShown}>
+			<Settings />
+		</Modal>
 
-	<Modal bind:shown={$appState.projectsShown}>
-		<LoadSave />
-	</Modal>
+		<Modal bind:shown={$appState.projectsShown}>
+			<LoadSave />
+		</Modal>
 
-	<Modal bind:shown={$appState.helpShown}>
-		<Help />
-	</Modal>
-	<Toasts />
+		<Modal bind:shown={$appState.helpShown}>
+			<Help />
+		</Modal>
+		<Toasts />
+	{/if}
 </main>
