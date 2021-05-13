@@ -71,7 +71,7 @@
     <ul class="tabMenu">
         <li class="tabMenuMainTitle">{title}</li>
         {#each tabs as tab}
-            <li class="tabMenuTitle {activeTabId === tab.id ? 'active' : ''}" on:click={handleClick(tab.id)}>
+            <li class="tabMenuTitle {activeTabId === tab.id ? 'active' : ''}" style="padding-left: {(tab?.level ?? 0) + 1}rem" on:click={handleClick(tab.id)}>
                 {tab.label}
             </li>
         {/each}

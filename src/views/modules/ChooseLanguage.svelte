@@ -25,6 +25,7 @@
         padding: 2rem;
         background-color: #4c4c4c;
         cursor: pointer;
+        text-align: center;
     }
 
     h1, .chooseLanguage-languageName {
@@ -39,7 +40,7 @@
     }
 
     :global(.chooseLanguage-icon svg) {
-        width: 20vw;
+        width: min(20vw, 30vh);
     }
 </style>
 

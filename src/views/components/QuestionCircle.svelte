@@ -1,6 +1,5 @@
 <script>
     import Tooltip from "./Tooltip.svelte";
-    console.log("slots", $$slots.default)
     export let tooltip
 </script>
 

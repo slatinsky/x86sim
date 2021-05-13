@@ -1,14 +1,20 @@
-<img src="assets/help/memory.png" alt="" class="img-fluid">
+<img src="assets/help/memory/memory.png" alt="" class="img-fluid d-block mx-auto">
 
-<p>Editor pamäte vám dovoľuje editovať obsah pamäte</p>
+<p>Editor pamäte vám dovoľuje editovať obsah operačnej pamäte</p>
+
+<hr>
 
 <p>Pre editáciu hodnoty kliknite na hodnotu. V pravom dolnom rohu sa vám zobrazí informácia, že editujete danú bunku</p>
-<img src="assets/help/memory_editing.png" alt="" class="img-fluid">
+<img src="assets/help/memory/memory_editing.png" alt="" class="img-fluid d-block mx-auto">
 
-<p>Zadajte na klávesnici hodnotu v šestnástkovej sústave od 0 do FF. Po zadaní hodnoty sa kurzor automaticky posunie na ďalšiu adresu</p>
+<div class="mt-3">A taktiež je editovaná hodnota označená kurzorom (šedá farba)</div>
 
-<p>Pre presun práve editovanej adresy je možné použiť šípky na klávesnici</p>
+<img src="assets/help/memory/selected.png" alt="" class="img-fluid d-block mx-auto">
 
-<p>Pre vynulovanie práve editovanej adresy stlačte klávesu DELETE na klávesnici</p>
+<p>Zadajte na klávesnici hodnotu v šestnástkovej sústave od 00 do FF. Po zadaní hodnoty sa kurzor automaticky posunie na ďalšiu adresu</p>
 
-<p>Pre ukončenie editovania kliknite mimo modulu editora alebo stlačte klávesu ESC</p>
+<p>Pre presun kurzora je možné použiť <b>šípky</b> na klávesnici</p>
+
+<p>Pre vynulovanie práve editovanej adresy stlačte klávesu <b>DELETE</b> na klávesnici</p>
+
+<p>Pre ukončenie editovania kliknite mimo modulu editora alebo stlačte klávesu <b>ESC</b></p>
