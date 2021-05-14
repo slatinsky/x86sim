@@ -1,21 +1,28 @@
 <p>K projektom sa dostanete z navigačnej lišty stlačením tlačidla "Projekty":</p>
 <img src="assets/help/projects/navigation_placement.png" alt="" class="img-fluid d-block mx-auto">
 
-<p class="mt-5">Na tejto obrazovke spravujete svoje projekty. Simulátor si ukladá vaše projekty v <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" target="_blank">lokálnom úložisku prehliadača</a>.</p>
+<p class="mt-5">Na tejto obrazovke spravujete svoje projekty.</p>
+
+<div class="alert alert-success" role="alert">
+    Všetky zmeny v simulátore sú automaticky ukladané v lokálnom úložisku prehliadača - nie je potrebné projekt manuálne ukladať.
+</div>
 
 <p>Na obrazovke projektov viete vykonávať nasledujúce činnosti:</p>
 <ul>
     <li>Vytvoriť nový projekt</li>
-    <li>Vymazať konkrétny projekt</li>
-    <li>Premenovať konkrétny projekt</li>
-    <li>Stiahnuť konkrétny projekt (v JSON formáte)</li>
+    <li>Vymazať projekt</li>
+    <li>Premenovať projekt</li>
+    <li>Stiahnuť projekt (v JSON formáte)</li>
     <li>Stiahnuť všetky projekty (ZIP súbor obsahujúci samostatné projekty v JSON formáte)</li>
 </ul>
 
 <img src="assets/help/projects/projects.png" alt="" class="img-fluid w-50 d-block mx-auto">
+<hr>
+<b>Vysvetlenie jednotlivých častí:</b><br>
 
 
-<div class="mt-3">Aktuálne otvorený projekt je vyznačený šedou farbou. Vaše zmeny v tomto projekte sú ukladané automaticky to lokálneho úložiska prekladača:</div>
+
+<div class="mt-3">Aktuálne otvorený projekt je vyznačený šedou farbou.</div>
 <img src="assets/help/projects/opened_project.png" alt="" class="img-fluid d-block mx-auto">
 
 <div class="mt-3">Ostatné projekty majú biele pozadie. Pre prepnutie sa do iného projektu kliknite na názov projektu:</div>

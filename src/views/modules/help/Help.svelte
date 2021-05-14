@@ -21,15 +21,15 @@
             level: 0,
             component: HelpBeginning
         },
-        { label: $_('views.navigation.projects'),
+        { label: "Tutoriál",
             id: 1.2,
             level: 0,
-            component: HelpProjects
-        },
-        { label: "Tutoriál",
-            id: 1.5,
-            level: 1,
             component: HelpTutorial
+        },
+        { label: $_('views.navigation.projects'),
+            id: 1.6,
+            level: 0,
+            component: HelpProjects
         },
         { label: "Krokovanie programu",
             id: 1.7,

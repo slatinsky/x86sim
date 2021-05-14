@@ -158,5 +158,5 @@ mov es:[bx+1], 0x55  ; 'U'
 <p></p>
 
 <div>
-    Tieto farby si viete nastaviť aj v príkazovom riadku vo Windowse :) . Zadaním <pre>color 5a</pre> napríklad získate rovnakú zelenú farbu textu s fialovým pozadím
+    Tieto rovnaké farby si viete nastaviť aj v príkazovom riadku vo Windowse :) . Zadaním <pre>color 5a</pre> napríklad získate rovnakú <span class="b-color-5 color-10">zelenú farbu textu s fialovým pozadím</span>
 </div>

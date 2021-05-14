@@ -5,15 +5,13 @@
 </script>
 {#if $language !== 'sk'}
     <div class="alert alert-danger" role="alert">
-        I am sorry, help isn't fully localized to English yet :(
+        Help isn't fully localized to English yet, sorry :(
     </div>
 {/if}
 
 <p>Vitajte v simulátore x86sim,</p>
 
 <img src="assets/help/snake.png" alt="" class="img-fluid">
-<!--<p class="text-center fw-light">Ukážka všetkých funkcionalít simulátora v projekte "game - snake"</p>-->
-
 
 <br>
 <br>

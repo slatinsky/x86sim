@@ -18,3 +18,11 @@
 <p>Pre vynulovanie práve editovanej adresy stlačte klávesu <b>DELETE</b> na klávesnici</p>
 
 <p>Pre ukončenie editovania kliknite mimo modulu editora alebo stlačte klávesu <b>ESC</b></p>
+
+
+
+
+<div class="alert alert-danger" role="alert">
+    Počas krokovania programu nie je ukladaný obsah pamäte. Ak zmeníte obsah pamäte počas krokovania, vaše zmeny budú vrátené naspäť ukončením krokovania stlačením tlačidla "Zresetovať"<br>
+    <img src="assets/help/running_program/reset.png" alt="" class="img-fluid d-block mx-auto">
+</div>
