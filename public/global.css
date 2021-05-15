@@ -31,6 +31,10 @@ body {
 	--register-spbs: #735bab;  /* sp and bs register color average, because they are often pointing to the same place */
 	--register-bp: #8d76c2;
 	--changed-value: red;
+
+	--bs-alert-info: #cff4fc;
+	--bs-alert-success: #d1e7dd;
+	--bs-alert-danger: #f8d7da;
 }
 
 /* Overrides colors in :root */
@@ -48,6 +52,11 @@ html.dark {
 	--visited-link-color: #727272;
 	--input-background: #282828;
 	--input-border-color: #5d5d5d;
+
+	--bs-alert-info: #043640;
+	--bs-alert-success: #044026;
+	--bs-alert-danger: #440009;
+
 
 	/* Dark theme scrollbar styling - firefox */
 	scrollbar-color: darkgrey rgb(16, 16, 16)
@@ -74,7 +83,14 @@ p,
 b,
 li,
 label,
+th,
+td,
 .text {
+	color: var(--text-color);
+}
+
+/* modal windows */
+.tabsWrapper div {
 	color: var(--text-color);
 }
 
@@ -114,52 +130,31 @@ html.dark *::-webkit-scrollbar-thumb {
 }
 
 
-/*a {*/
-/*	color: rgb(0,100,200);*/
-/*	text-decoration: none;*/
-/*}*/
 
-/*a:hover {*/
-/*	text-decoration: underline;*/
-/*}*/
+/*
+------
+bootstrap 5 dark mode fixes
+------
+*/
+.alert-success {
+	background-color: var(--bs-alert-success) !important;
+}
+.alert-info {
+	background-color: var(--bs-alert-success) !important;
+}
+.alert-danger {
+	background-color: var(--bs-alert-danger) !important;
+}
+.form-select {
+	color: var(--text-color) !important;
+	background-color: var(--body-background) !important;
+}
 
-/*a:visited {*/
-/*	color: rgb(0,80,160);*/
-/*}*/
+html.dark .form-select { /*white chevron */
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
 
-/*label {*/
-/*	display: block;*/
-/*}*/
 
-/*input, button, select, textarea {*/
-/*	font-family: inherit;*/
-/*	font-size: inherit;*/
-/*	-webkit-padding: 0.4em 0;*/
-/*	padding: 0.4em;*/
-/*	margin: 0 0 0.5em 0;*/
-/*	box-sizing: border-box;*/
-/*	border: 1px solid #ccc;*/
-/*	border-radius: 2px;*/
-/*}*/
-
-/*input:disabled {*/
-/*	color: #ccc;*/
-/*}*/
-
-/*button {*/
-/*	color: #333;*/
-/*	background-color: #f4f4f4;*/
-/*	outline: none;*/
-/*}*/
-
-/*button:disabled {*/
-/*	color: #999;*/
-/*}*/
-
-/*button:not(:disabled):active {*/
-/*	background-color: #ddd;*/
-/*}*/
-
-/*button:focus {*/
-/*	border-color: #666;*/
-/*}*/
+html.dark .form-check-input:not(:checked) {
+	background-color: #727272;
+}
