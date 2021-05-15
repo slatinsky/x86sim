@@ -9,8 +9,12 @@
 
 
 <div id="main">
-    <p>Tieto nastavenia sa aplikujú len pre práve otvorený projekt "{$projectName}"</p>
-    <p>Zobrazené moduly <QuestionCircle tooltip={"Skryte nepoužívané moduly v aktuálnom projekte"} /></p>
+    <p>{$_('views.settings.projectSettings.help', {
+        values: {
+            projectName: $projectName
+        }
+    })}</p>
+    <p>{$_('views.settings.projectSettings.labels.shownModules')} <QuestionCircle tooltip={$_('views.settings.projectSettings.questionCircles.shownModules')} /></p>
     <div>
         <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="flexSwitch-showCodeEditor" bind:checked={$settings.shownModules.showCodeEditor}>

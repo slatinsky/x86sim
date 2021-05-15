@@ -36,7 +36,7 @@
 	import Toasts from "./modules/Toasts.svelte";
 	import {toastQueue} from "../stores/toastQueue";
 	import ChooseLanguage from "./modules/ChooseLanguage.svelte";
-	import {locale} from "svelte-i18n";
+	import {_} from "svelte-i18n";
 	import {language} from "@stores/language";
 
 
@@ -62,14 +62,15 @@
 	document.addEventListener("keydown", function (e) {
 		if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) && e.keyCode == 83) {
 			e.preventDefault();
-			toastQueue.success(`Váš projekt je automaticky ukladaný 😎`)
+			toastQueue.success($_('tooltips.autosave'))
 		}
 	}, false);
 
 
 	$: if ($debugMode) {
 		// ask user if they want to leave the page with unsaved changes. (project is not saved in debugging mode)
-		window.onbeforeunload = () => `you are currently using debugging mode and you have have unsaved changes. Press 'Reset' button to save your changes` // this message is not shown to users in modern browsers -  https://stackoverflow.com/a/37782307/14409632
+		// this message is not shown to users in modern browsers -  https://stackoverflow.com/a/37782307/14409632
+		window.onbeforeunload = () => `you are currently using debugging mode and you have have unsaved changes. Press 'Reset' button to save your changes`
 	} else {
 		window.onbeforeunload = null;
 	}
@@ -99,9 +100,6 @@
 						<CodeEditor />
 					</div>
 				{/if}
-				<!--			<div style="display: {$settings.shownModules.showCodeEditor ? 'block' : 'none'}"> &lt;!&ndash; CodeEditor doesn't support rerender, we need to just hide it &ndash;&gt;-->
-				<!--				<CodeEditor />-->
-				<!--			</div>-->
 				<div>
 					{#if $settings.shownModules.showCalculator}
 						<Calculator />

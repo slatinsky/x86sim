@@ -7,15 +7,15 @@
 
     // List of tab items with labels, values and assigned components
     $: tabs = [
-        { label: "Global settings",
+        { label: $_('views.settings.tabNames.globalSettings'),
             id: 1,
             component: SettingsGlobal
         },
-        { label: "Current project settings",
+        { label: $_('views.settings.tabNames.projectSettings'),
             id: 2,
             component: SettingsProject
         },
-        { label: "Reset simulator data",
+        { label: $_('views.settings.tabNames.resetSimulatorData'),
             id: 3,
             component: SettingsResetSimulator
         }

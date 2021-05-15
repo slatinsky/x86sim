@@ -16,12 +16,12 @@
 
     // List of tab items with labels, values and assigned components
     $: tabs = [
-        { label: "Úvod",
+        { label: $_('views.help.tabNames.beginning'),
             id: 1,
             level: 0,
             component: HelpBeginning
         },
-        { label: "Tutoriál",
+        { label: $_('views.help.tabNames.tutorial'),
             id: 1.2,
             level: 0,
             component: HelpTutorial
@@ -31,12 +31,12 @@
             level: 0,
             component: HelpProjects
         },
-        { label: "Krokovanie programu",
+        { label: $_('views.help.tabNames.runningProgram'),
             id: 1.7,
             level: 0,
             component: HelpRunningProgram
         },
-        { label: "Moduly",
+        { label: $_('views.help.tabNames.modules'),
             id: 1.9,
             level: 0,
             component: HelpModules
@@ -46,7 +46,7 @@
             level: 1,
             component: HelpCodeEditor
         },
-        { label: "Dostupné inštrukcie",
+        { label: $_('views.help.tabNames.availableOpcodes'),
             id: 2.5,
             level: 2,
             component: HelpAvailableOpcodes
@@ -71,7 +71,7 @@
             level: 0,
             component: HelpSettings
         },
-        { label: "O simulátore",
+        { label: $_('views.help.tabNames.aboutSim'),
             id: 10,
             level: 0,
             component: HelpAboutSim

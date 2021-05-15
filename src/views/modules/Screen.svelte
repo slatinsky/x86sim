@@ -31,7 +31,8 @@
         grid-template-columns: repeat(80, 1ch); /* 80 = COLUMNS */
 
         background-color: black;
-        padding: .5rem .5rem;
+        padding: 0;
+        border: .5rem solid #3d3d3d;
         width: calc(80ch + 2 * .5rem);
 
         font-family: monospace;

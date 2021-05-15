@@ -4,8 +4,8 @@
     import {_} from 'svelte-i18n'
 
     // List of tab items with labels, values and assigned components
-    let tabs = [
-        { label: "Otvoriť projekt",
+    $: tabs = [
+        { label: $_('views.projects.tabNames.openProject'),
             id: 1,
             component: OpenProject
         }

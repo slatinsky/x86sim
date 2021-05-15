@@ -19,13 +19,31 @@
       "debugMode": "Automatické ukladanie počas ladenia vypnuté"
     },
     "projects": {
+      "tabNames": {
+        "openProject": "Otvoriť projekt"
+      },
+      "unsavedChangesAlert1": "Aktuálne je zapnutý krokovací režim, počas ktorého nie je automaticky ukladaný váš program. Prepnutím sa na iný projekt môžete neuložené zmeny stratiť.",
+      "unsavedChangesAlert2": "Vypnúť krokovací režim a uložiť zmeny",
       "openedProjectAutosaveInfo": "Otvorený projekt je automaticky ukladaný",
       "open": "Otvoriť projekt",
       "new": "Vytvoriť nový projekt",
       "rename": "Premenovať",
       "delete": "Vymazať",
       "download": "Stiahnuť",
-      "upload": "pretiahni .json/.zip súbory sem"
+      "downloadAll": "Stiahnuť všetky projekty",
+      "upload": "pretiahni .json/.zip súbory sem",
+      "toasts": {
+        "renameCanceled": "Premenovanie prerušené",
+        "renamed": "Projekt \"{oldProjectName}\" premenovaný na \"{newProjectName}\"",
+        "deleted": "Projekt \"{programName}\" vymazaný",
+        "loading": "Načítavam projekt \"{programName}\"",
+        "loaded": "Projekt \"{programName}\" načítaný",
+        "canceled": "Operácia prerušená"
+      },
+      "prompts": {
+        "newProject": "Prosím zadajte nové meno projektu",
+        "newProjectDefault": "Nový projekt"
+      }
     },
     "modules": {
       "codeEditor": "Editor kódu",
@@ -46,6 +64,63 @@
       "currentlyEditing": "Práve editujete pamäť na adrese",
       "escToExit": "Esc pre ukončenie",
       "decodedText": "Dekódovaný text"
+    },
+    "help": {
+      "tabNames": {
+        "beginning": "Úvod",
+        "tutorial": "Tutoriál",
+        "runningProgram": "Krokovanie programu",
+        "modules": "Moduly",
+        "availableOpcodes": "Dostupné inštrukcie",
+        "aboutSim": "O simulátore"
+      }
+    },
+    "settings": {
+      "tabNames": {
+        "globalSettings": "Globálne nastavenia",
+        "projectSettings": "Projektové nastavenia",
+        "resetSimulatorData": "Zresetovať dáta simulátora"
+      },
+      "globalSettings": {
+        "help": "Tieto nastavenia budú aplikované pre všetky projekty",
+        "labels": {
+          "selectFormat": "Formát čísel",
+          "animation": "Animovať vykonávanie inštrukcií",
+          "animationSpeed": "Rýchlosť animácie",
+          "fastAnimation": "rýchla",
+          "slowAnimation": "pomalá",
+          "darkTheme": "Tmavá téma"
+        },
+        "questionCircles": {
+          "selectFormat": "Príklad: 10-ková signed: -11, 10-ková unsigned: 65525, 16-ková: 0xFFF5, 2-ková: 1111111111110101",
+          "darkTheme": "Ak je zapnuté, simulátor použije tmavú farebnú paletu",
+          "animation": "Ak je vypnuté, inštrukcie sa vykonajú okamžite bez animácie",
+          "animationSpeed": "Čas čakania medzi vykonávanými inštrukciami (v ms). Menšie číslo = rýchlejšia animácia"
+        },
+        "selectFormat": {
+          "hex": "16-ková sústava",
+          "signed": "10-ková sústava (signed)",
+          "unsigned": "10-ková sústava (unsigned)",
+          "bin": "2-ková sústava"
+        }
+      },
+      "projectSettings": {
+        "help": "Tieto nastavenia sa aplikujú len pre práve otvorený projekt \"{projectName}\"",
+        "labels": {
+          "shownModules": "Zobrazené moduly"
+        },
+        "questionCircles": {
+          "shownModules": "Skryte nepoužívané moduly v aktuálnom projekte"
+        }
+      },
+      "resetSimulatorDataSettings": {
+        "resetAllBlack": "Použite tlačidlo dole na zresetovanie všetkých dát simulátora. Simulátor sa načíta odznova v tutoriálovom režime",
+        "resetAllRed": "Táto akcia vymaže všetky vaše PROJEKTY a nastavenia!",
+        "resetAllBtn": "kompletne zresetovať celý obsah simulátora",
+        "resetProjectsBlack": "Použite tlačidlo dole na vymazanie uložených projektov vo vnútri simulátora. Táto akcia nevymaže nastavenia simulátora ani neobnoví tutoriálové projekty. Užitočné ak chcete napríklad načítať zip súbor s vašimi projektami",
+        "resetProjectsRed": "Táto akcia vymaže všetky vaše PROJEKTY!",
+        "resetProjectsBtn": "vymazať všetky projekty"
+      }
     }
   },
   "tooltips": {
@@ -62,7 +137,7 @@
       "debugMode": "Do klasického režimu sa vrátite stlačením tlačidla \"Zresetovať\", po ktorom bude obsah registrov a pamäte vrátený naspäť do stavu pred spustením ladenia"
     },
     "registers": {
-      "ip": "Instruction pointer register",
+      "ip": "Programové počítadlo",
       "ax": "Všeobecný register ax",
       "bx": "Všeobecný register bx",
       "cx": "Všeobecný register cx",
@@ -71,15 +146,52 @@
       "di": "Destination index register",
       "bp": "Base pointer register",
       "sp": "Stack pointer register",
-      "cf": "Carry flag",
-      "pf": "Parity flag. Nastavené na 1 ak výsledok aritmetickej obsahuje párny počet jednotiek",
-      "af": "Auxiliary carry flag",
-      "zf": "Zero flag. Nastavené na 1 ak výsledok aritmetickej operácie je 0",
-      "sf": "Sign flag. Nastavené na 1 ak najvyšší bit výsledku aritmetickej operácie je 1",
-      "tf": "Trap flag",
-      "if": "Interrupt enable flag",
-      "df": "Direction flag (pre reťazcové inštrukcie)",
-      "of": "Overflow flag (pretečenie). Nastavené na 1 ak číslo, ktoré je reprezentované ako 'signed' pretieklo."
-    }
+      "cf": "Carry príznak. Podobne ako overflow, len pre prácu s nezápornými (unsigned) číslami",
+      "pf": "Parity príznak. Nastavené na 1 ak výsledok aritmetickej obsahuje párny počet jednotiek",
+      "af": "Auxiliary carry príznak. Podobne ako Carry, len pre prácu s BCD (binary coded decimal je kódovanie, kde každá číslica 0-9 čísla v desiatkovej sústave je kódovaná vždy 4 bitmi",
+      "zf": "Zero príznak. Nastavené na 1 ak výsledok aritmetickej operácie je 0",
+      "sf": "Sign príznak. Nastavené na 1 ak najvyšší bit výsledku aritmetickej operácie je 1",
+      "tf": "Trap príznak. Ak je nastavený, tak po každej vykonanej inštrukcii zavolá INT 3, čo dovoľuje debuggeru krokovať program",
+      "if": "Interrupt enable príznak",
+      "df": "Direction príznak (pre reťazcové inštrukcie)",
+      "of": "Overflow príznak (pretečenie). Nastavené na 1 ak číslo, ktoré je reprezentované ako 'signed' pretieklo.",
+      "cs": "Kódový segment. Predvolený segment pre IP register",
+      "ds": "Dátový segment. Predvolený segment pre BX, DI, SI registre",
+      "ss": "Zásobníkový segment. Predvolený segment pre SP, BP registre",
+      "es": "Extra segment. Obvykle používaný pre operácie s reťazcami"
+    },
+    "autosave": "Váš projekt je automaticky ukladaný \uD83D\uDE0E"
+  },
+  "instructions": {
+    "add": "Súčet",
+    "and": "Bitový súčin",
+    "call": "Umožňuje implementáciu funkcií. CALL inštrukcia je podobná inštrukcii JMP, ale vloží obsah IP registra na zásobník, aby RET inštrukcia sa mohla vrátiť na miesto volania",
+    "cmp": "Porovná dva operandy medzi sebou. Podobná SUB inštrukcii, ale nastavuje iba príznaky (flag register)",
+    "dec": "Zníži hodnotu operandu o 1",
+    "in": "Prečíta hodnotu z portu. Simulátor poskytuje port 0x60 a 0x64 na obsluhu klávesnice",
+    "inc": "Zvýši hodnotu operandu o 1",
+    "je": "Skočí na návestie ak ZERO príznak je 1",
+    "jmp": "Vždy skočí na návestie",
+    "jne": "Skočí na návestie ak ZERO príznak je 0",
+    "jno": "Skočí na návestie ak OVERFLOW príznak je 0",
+    "jnp": "Skočí na návestie ak PARITY príznak je 0",
+    "jns": "Skočí na návestie ak SIGN príznak je 0",
+    "jnz": "Skočí na návestie ak ZERO príznak je 0",
+    "jo": "Skočí na návestie ak OVERFLOW príznak je 1",
+    "jp": "Skočí na návestie ak PARITY príznak je 1",
+    "jpe": "(jump parity even) to isté ako inštrukcia JP",
+    "jpo": "(jump parity odd) to isté ako inštrukcia JNP",
+    "js": "Skočí na návestie ak SIGN príznak je 1",
+    "jz": "Skočí na návestie ak ZERO príznak je 1",
+    "mov": "Presunie obsah druhého operandu do prvého operandu",
+    "mul": "Násobenie. Používa AX register ako akumulátor",
+    "neg": "Bitová negácia",
+    "nop": "Žiadna akcia",
+    "pop": "Vyberie 16-bitovú hodnotu zo zásobníka do operandu",
+    "push": "Pushes 16-bit value from operand to stack",
+    "ret": "Return from CALL. Operand is amount of values to remove from stack",
+    "sub": "Subtracts two operands together",
+    "test": "Bitwise and, only flags are set",
+    "xor": "Bitwise xor"
   }
 }

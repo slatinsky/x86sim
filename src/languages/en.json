@@ -19,13 +19,31 @@
       "debugMode": "Autosave disabled while debugging"
     },
     "projects": {
+      "tabNames": {
+        "openProject": "Open project"
+      },
+      "unsavedChangesAlert1": "You are currently in debugging mode, your project isn't automatically saved in this mode. You will lose your changes if you open different project",
+      "unsavedChangesAlert2": "Turn off debugging mode and save changes",
       "openedProjectAutosaveInfo": "Opened project is automatically autosaved",
       "open": "Open project",
       "new": "Create new project",
       "rename": "Rename",
       "delete": "Delete",
       "download": "Download",
-      "upload": "drag & drop .json/.zip files here"
+      "downloadAll": "Download all projects",
+      "upload": "drag & drop .json/.zip files here",
+      "toasts": {
+        "renameCanceled": "Rename action canceled",
+        "renamed": "Project \"{oldProjectName}\" renamed to \"{newProjectName}\"",
+        "deleted": "Project \"{programName}\" deleted",
+        "loading": "Loading project \"{programName}\"",
+        "loaded": "Project \"{programName}\" loaded",
+        "canceled": "Operation canceled"
+      },
+      "prompts": {
+        "newProject": "Please type in new project name",
+        "newProjectDefault": "New project"
+      }
     },
     "modules": {
       "codeEditor": "Code editor",
@@ -46,6 +64,63 @@
       "currentlyEditing": "You are currently editing address",
       "escToExit": "Esc to exit",
       "decodedText": "Decoded text"
+    },
+    "help": {
+      "tabNames": {
+        "beginning": "Beginning",
+        "tutorial": "Tutorial",
+        "runningProgram": "Stepping through the program",
+        "modules": "Modules",
+        "availableOpcodes": "Available opcodes",
+        "aboutSim": "About simulator"
+      }
+    },
+    "settings": {
+      "tabNames": {
+        "globalSettings": "Global settings",
+        "projectSettings": "Current project settings",
+        "resetSimulatorData": "Reset simulator data"
+      },
+      "globalSettings": {
+        "help": "These settings will be applied to all projects",
+        "labels": {
+          "selectFormat": "Number format",
+          "animation": "Animate instruction execution",
+          "animationSpeed": "Animation speed",
+          "fastAnimation": "fast",
+          "slowAnimation": "slow",
+          "darkTheme": "Dark theme"
+        },
+        "questionCircles": {
+          "selectFormat": "Example: base 10 signed: -11, base 10 unsigned: 65525, base 16: 0xFFF5, base 2: 1111111111110101",
+          "darkTheme": "If turned on, simulator will switch to darker color palette",
+          "animation": "If turned off, instructions will be executed without delay",
+          "animationSpeed": "Delay between two executed instructions (in ms). Smaller number = faster animation"
+        },
+        "selectFormat": {
+          "hex": "base 16",
+          "signed": "base 10 signed",
+          "unsigned": "base 10 unsigned",
+          "bin": "base 2"
+        }
+      },
+      "projectSettings": {
+        "help": "These settings are applied only for currently opened project \"{projectName}\"",
+        "labels": {
+          "shownModules": "Shown modules"
+        },
+        "questionCircles": {
+          "shownModules": "Hide unused modules in current project"
+        }
+      },
+      "resetSimulatorDataSettings": {
+        "resetAllBlack": "Use button below to reset simulator data. Simulator will reload again in tutorial mode",
+        "resetAllRed": "This will delete all your PROJECTS and settings!",
+        "resetAllBtn": "fully reset simulator data and settings",
+        "resetProjectsBlack": "Use button below delete currently saved projects inside simulator without clearing settings. Tutorial projects won't be restored. Useful if you want to load .zip file containing all your projects",
+        "resetProjectsRed": "This will delete all your PROJECTS!",
+        "resetProjectsBtn": "delete all projects"
+      }
     }
   },
   "tooltips": {
@@ -79,15 +154,21 @@
       "tf": "Trap flag",
       "if": "Interrupt enable flag",
       "df": "Direction flag (for string instructions)",
-      "of": "Overflow flag. Set to if signed integer has overflown"
-    }
+      "of": "Overflow flag. Set to if signed integer has overflown",
+      "cs": "Code segment. Default segment for IP register",
+      "ds": "Data segment. Default segment for BX, DI, SI registers",
+      "ss": "Stack segment. Default segment for SP, BP registers",
+      "es": "Extra segment. Usually used for string operations"
+    },
+    "autosave": "Your project is automatically saved \uD83D\uDE0E"
   },
   "instructions": {
     "add": "Adds two operands together",
-    "call": "Similar to JMP, but pushes current address to stack, so RET instruction can continue at that place",
+    "and": "Bitwise and",
+    "call": "Similar to JMP, but pushes content of IP to stack, so RET instruction can continue at that place",
     "cmp": "compares two operands together. Similar to SUB instruction, but CMP sets only FLAG register",
     "dec": "Decrements operand by one",
-    "in": "",
+    "in": "Reads value from port. Simulator implements ports 0x60 and 0x64 to read values from keyboard",
     "inc": "Increments operand by one",
     "je": "Jumps if zero flag is set to 1",
     "jmp": "Jumps always",
@@ -108,9 +189,9 @@
     "nop": "No operation",
     "pop": "Pops 16-bit value from stack to operand",
     "push": "Pushes 16-bit value from operand to stack",
-    "ret": "Return from CALL",
+    "ret": "Return from CALL. Operand is amount of values to remove from stack",
     "sub": "Subtracts two operands together",
-    "test": "",
-    "xor": "Applies bitwise xor operation of two operands together"
+    "test": "Bitwise and, only flags are set",
+    "xor": "Bitwise xor"
   }
 }

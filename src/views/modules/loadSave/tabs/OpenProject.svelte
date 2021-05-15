@@ -13,38 +13,38 @@
     $: isValueInPrograms = !$programs.filter(program => program.name === value).length
 
     function renameP(oldProjectName) {
-        let newProjectName = prompt("Prosím zadajte nové meno projektu", oldProjectName);
+        let newProjectName = prompt($_('views.projects.prompts.newProject'), oldProjectName);
 
         if (newProjectName != null) {
             programs.renameProject(oldProjectName, newProjectName)
             console.log("new name", newProjectName)
-            toastQueue.success(`Projekt '${oldProjectName}' premenovaný na '${newProjectName}'`)
+            toastQueue.success($_('views.projects.toasts.renamed', {values: {oldProjectName, newProjectName}}))
         }
         else {
-            toastQueue.error(`Premenovanie prerušené`)
+            toastQueue.error($_('views.projects.toasts.renameCanceled'))
         }
     }
 
     function deleteP(programName) {
         programs.deleteProject(programName)
-        toastQueue.success(`Projekt '${programName}' vymazaný`)
+        toastQueue.success($_('views.projects.toasts.deleted', {values: {programName}}))
     }
 
     function loadP(programName) {
-        spinnerLoad(`Načítavam projekt '${programName}'`, () => {
+        spinnerLoad($_('views.projects.toasts.loading', {values: {programName}}), () => {
             programs.loadProject(programName)
-            toastQueue.success(`Projekt '${programName}' načítaný`)
+            toastQueue.success($_('views.projects.toasts.loaded', {values: {programName}}))
             $appState.projectsShown = false
         })
     }
 
 
     function createNewProject() {
-        let newProjectName = prompt("Prosím zadajte meno nového projektu", "Nový projekt");
+        let newProjectName = prompt($_('views.projects.prompts.newProject'), $_('views.projects.prompts.newProjectDefault'));
         if (newProjectName != null) {
             programs.newProject(newProjectName)
         } else {
-            toastQueue.error(`Operácia prerušená`)
+            toastQueue.error($_('views.projects.toasts.canceled'))
         }
     }
 
@@ -135,8 +135,8 @@
 
     {#if $debugMode}
         <div class="alert alert-danger" role="alert">
-            Aktuálne je zapnutý ladiaci režim, počas ktorého nie je automaticky ukladaný váš program. Prepnutím sa na iný projekt môžete neuložené zmeny stratiť.
-            <a href="javascript:void(0)" on:click={() => codeRunner.reset()}>Vypnúť krokovací režim a uložiť zmeny</a>
+            {$_('views.projects.unsavedChangesAlert1')}
+            <a href="javascript:void(0)" on:click={() => codeRunner.reset()}>{$_('views.projects.unsavedChangesAlert2')}</a>
         </div>
     {/if}
 
@@ -163,9 +163,9 @@
             </div>
         </div>
     {:else}
-        <span class="text">No project exists, weird</span>
+        <span class="text">No project exists, weird</span> <!-- User should never see this message -->
     {/if}
-    <button class="btn btn-outline-primary" on:click={createNewProject}><i class="fas fa-plus"></i> {$_('views.projects.new')}</button><button class="btn btn-outline-secondary ms-2" on:click|stopPropagation={()=>downloadAllProjects()}><i class="fas fa-file-download"></i> Download all projects</button>
+    <button class="btn btn-outline-primary" on:click={createNewProject}><i class="fas fa-plus"></i> {$_('views.projects.new')}</button><button class="btn btn-outline-secondary ms-2" on:click|stopPropagation={()=>downloadAllProjects()}><i class="fas fa-file-download"></i> {$_('views.projects.downloadAll')}</button>
 
     <div id="holder">{$_('views.projects.upload')}</div>
     <br>  <!--  temporary permanent solution to add bottom margin -->

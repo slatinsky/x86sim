@@ -1,5 +1,6 @@
 <script>
     import {programs} from "../../../../stores/stores"
+    import {_} from "svelte-i18n";
 </script>
 
 <style>
@@ -12,23 +13,23 @@
     }
 </style>
 
-<div>Use button below to reset simulator data. Simulator will reload again in tutorial mode</div>
+<div>{$_('views.settings.resetSimulatorDataSettings.resetAllBlack')}</div>
 <div>
-    <strong>This will delete all your PROJECTS and settings!</strong>
+    <strong>{$_('views.settings.resetSimulatorDataSettings.resetAllRed')}</strong>
 </div>
 
 <button class="my-3 btn btn-outline-danger" on:click={() => {
         localStorage.clear()
         location.reload()
-    }}>kompletne zresetovať celý obsah simulátora</button>
+    }}>{$_('views.settings.resetSimulatorDataSettings.resetAllBtn')}</button>
 
 
 
-<div class="mt-5">Use button below delete currently saved projects inside simulator without clearing settings. Tutorial projects won't be restored. Useful if you want to load .zip file containing all your projects</div>
+<div class="mt-5">{$_('views.settings.resetSimulatorDataSettings.resetProjectsBlack')}</div>
 <div>
-    <strong>This will delete all your PROJECTS!</strong>
+    <strong>{$_('views.settings.resetSimulatorDataSettings.resetProjectsRed')}</strong>
 </div>
 <button class="my-3 btn btn-outline-danger" on:click={() => {
     programs.deleteAllProjects()
     location.reload()
-}}>vymazať všetky projekty</button> <!-- location.reload() may not be needed, but simulator sometimes freezes without it -->
+}}>{$_('views.settings.resetSimulatorDataSettings.resetProjectsBtn')}</button> <!-- location.reload() may not be needed, but simulator sometimes freezes without it for some reason -->

@@ -14,7 +14,6 @@
         'add',
         'sub',
         'mul',
-        'and',
         'inc',
         'dec',
         'cmp',
@@ -45,9 +44,48 @@
     let otherInstructions = Object.keys(opcodes).sort().filter(instruction => ![...moveInstructions, ...arithmeticInstructions, ...logicInstructions,  ...jumpInstructions].includes(instruction))
 </script>
 
-<p>Podporovaná je obmedzená podmnožina inštrukcií intel procesora x86. Podporované inštrukcie:</p>
+<p>Vysvetlenie niektorých dôležitých pojmov</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Názov</th>
+        <th scope="col">Vysvetlenie</th>
+        <th scope="col">Príklad</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">Inštrukcia</th>
+            <td>Celý obsah inštrukcie obsahujúci typ inštrukcie a nula až dva operandy</td>
+            <td><pre>MOV AX, BX</pre></td>
+        </tr>
+        <tr>
+            <th scope="row">Typ inštrukcie (opcode)</th>
+            <td>Názov operácie, ktorá sa má vykonať</td>
+            <td><pre>MOV</pre></td>
+        </tr>
+        <tr>
+            <th scope="row">Operand</th>
+            <td>"Parametre", ktoré poskytneme inštrukcii</td>
+            <td><pre>AX, BX</pre></td>
+        </tr>
+        <tr>
+            <th scope="row">Príznak</th>
+            <td>Jeden bit z flag registra. Príznaky sa nastavujú automaticky po vykonaní aritmetickej alebo logickej inštrukcie</td>
+            <td><pre>ZF</pre></td>
+        </tr>
+        <tr>
+            <th scope="row">Návestie</th>
+            <td>Označenie adresy, na ktorú skokové inštrukcie vedia "skočiť". V čase prekladu je zmenená na číselnú hodnotu</td>
+            <td><pre>ukonciCyklus:</pre></td>
+        </tr>
+    </tbody>
+</table>
 
 <hr>
+
+<p>Podporovaná je obmedzená podmnožina inštrukcií intel procesora x86. Podporované inštrukcie:</p>
+
 <b>Presunové:</b><br>
 <p>Presunové inštrukcie majú za úlohu presun dát z jedného miesta (napríklad zo všeobecného registra) na iné miesto.</p>
 <table class="table">
