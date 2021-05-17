@@ -189,7 +189,7 @@
     "nop": "Žiadna akcia",
     "pop": "Vyberie 16-bitovú hodnotu zo zásobníka do operandu",
     "push": "Vloží 16-bitovú hodnotu z operandu do zásobníka",
-    "ret": "Návrat z CALL volania. Operand je počet hodnôt, ktoré treba odstrániť zo zázobníka. Nezabudnite, že treba odstrániť aspoň jednu hodnotu - adresu návratu",
+    "ret": "Návrat z CALL volania. Operand je počet hodnôt, ktoré treba odstrániť zo zásobníka. Nezabudnite, že treba odstrániť aspoň jednu hodnotu - adresu návratu",
     "sub": "Odčítanie",
     "test": "Bitový súčin (and), ale iba príznaky sú nastavené",
     "xor": "Bitový exkluzívny súčet"

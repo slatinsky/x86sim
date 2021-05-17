@@ -15,7 +15,7 @@
 <p>Pre ukončenie editovania kliknite mimo modulu editora alebo stlačte klávesu <b>ESC</b></p>
 
 
-<h4 class="mt-5">Ďašie klávesové skratky</h4>
+<h4 class="mt-5">Ďalšie klávesové skratky</h4>
 <p>Pre presun kurzora je možné použiť <b>šípky</b> na klávesnici</p>
 
 <p>Pre vynulovanie práve editovanej adresy stlačte klávesu <b>DELETE</b> na klávesnici</p>
