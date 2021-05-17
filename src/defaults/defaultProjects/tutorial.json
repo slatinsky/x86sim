@@ -1,7 +1,464 @@
 [
   {
     "version": 1,
-    "name": "game - snake",
+    "name": "tutorial 00 - welcome",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": -18432
+    },
+    "memory": {},
+    "code": "; welcome in x86sim\n; intel 8086 simulator\n; -------------------\n\n\n; -------------------\n; to open tutorial, you need to open tutorial project:\n; 1) press 'Projects' button to see available projects\n; 2) click on 'tutorial 01 - registers' project\n; 3) to open the next tutorial project, repeat this process\n; -------------------\n\n\n\n; -------------------\n; If you don't need tutorial, create new project:\n; 1) press 'Projects' button\n; 2) press 'Create new project' button\n; 3) new project is opened.\n\n\n\n; -------------------\n; if you ever get stuck, press 'Help' button in top right navigation bar",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": false,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 01 - registers",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "; Let's introduce you to registers\n\n; Registers are the fastest memory processor can use\n; ----------------------\n\n; in registers you can see 'ip' register. It point to the next instruction that will be executed\n\n; in this editor is the place where ip register point to highlighted in green\n\n; execute this instruction by pressing 'step' button in top navigation bar.\nmov cx, 0x001A\n\n\n; after mov(e) instruction was executed\n; - value 0x001A was moved to cx register\n; - ip register was incremented and it now points to the next instruction below\n\n; also simulator switched into 'debugging mode'.  After you exit from this mode by pressing 'reset' button, simulator state will return to state before you started the stepping throught the program.\n\n\n; press step again\nmov dx, 0x0006\n\n; dx register now contains value 0x0006\n\n; ----------------------\n; WARNING:\n; You need to exit debugging mode by pressing 'Reset' button to save your changes\n; ----------------------",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 02 - add two numbers together",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "\n; set ax register to value 5\n; pseudocode:\n; AX = 5\nmov ax, 5\n\n; set bx register to value 14 (0xE in HEX)\nmov bx, 14\n\n; adds ax and bx registers together and stores result in ax register\n; pseudocode:\n; AX = AX + BX\nadd ax, bx\n\n; -------------------\n; to run all the code till the end, press 'run' button\n",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 02 try it",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "mov ax, 0x0005\nmov bx, 0x000A\n; registers AX and BX contain values 0x0005 and 0x000A\n\n; add them together and store result in CX register. Do not modify registers AX and BX\n\n",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 02 try it solution",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "mov ax, 0x0005\nmov bx, 0x000A\n; registers AX and BX contain values 0x0005 and 0x000A\n\n; add them together and store result in CX register. Do not modify registers AX and BX\n\n\n; solution:\nmov cx, ax\nadd cx, bx\n",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 03 - low and high registers",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "mov ax, 0x3a3b\nmov bl, al\nmov cl, ah\n\n; al register is just lower 8 bits of 16 bit ax register\n\n; ax = 0x3a3b\n; al = 0x3b\n; ah = 0x3a\n\n; _________________________\n; | ax                    |\n; |_______________________|\n; | ah        | al        |\n; |___________|___________|\n; | 0011 1010 | 0011 1011 |\n; |___________|___________|\n\n\n; only AX, BX, CX and DX can be split up to 8-bit \"parts\"",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 04 - immediate operand types",
+    "registers": {
+      "ax": 80,
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": -18432
+    },
+    "memory": {},
+    "code": "; to aid in better readibility, you can use hexadecimal or binary immediate operands\n\n\n; decimal \nmov al, 58\n\n; hex\nmov bl, 0x3a\n\n; alternative hex\nmov cl, 3ah\n\n; binary\nmov dl, 0b00111010\n\n; alternative binary\nmov si, 00111010b\n\n; all values are equal to 0x3a\n\n; --------------------\n; you can also use character in sigle quotes\n; character 'a' in ascii is 0x61\nmov al, 'a'\n\n\n\n\n\n",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 05 - jmp instruction",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": -18432
+    },
+    "memory": {},
+    "code": "; jump instruction jump to label 'jumpOverIt'\njmp jumpOverIt\n\n    ; this code will never run\n    mov ax, 1\n    mov bx, 2\n    mov cx, 3\n    mov dx, 4\n\njumpOverIt:\n    mov ax, 5",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 06 - conditional jumps",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {
+      "0": 85,
+      "3": 101,
+      "4": 84,
+      "5": 69,
+      "6": 85,
+      "7": 69
+    },
+    "code": "; But if we sometimed don't want to jump.\n; How can we simulate \"IF\" in assembly?\n\n; We use CMP instruction to set flags and we jump if some flag is set or not\n; (internally CMP instruction subtracts second operand from first operand and sets only flags)\n; ----------------------------\n\n\n\nmov ax, 0x0005      ; modify this value to 0x004 and try again :)\n\n; does AX register contain value 0x0005?\n; if yes, set zero flag (zf) to 1\ncmp ax, 0x0005\njz ifAxIs5      ; jz = jump if zero\n\n    ; this code will never run because JZ will jump over it\n    mov bx, 60\n    \nifAxIs5:\n    mov cx, 1\n\n\n; ----------------------------\n; if you missed anything, you can press 'Step back' button to step backwards in code execution",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 07 - conditional jumps without CMP instruction",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": -18432
+    },
+    "memory": {},
+    "code": "; We don't need to always use CMP instruction if we need to set flags\n\nmov ax, 2\n\n; look inside zero flag. There is 0 value inside\n\ndec ax\ndec ax\n\n; now look again inside zero flag. Value 0 was changed to 1\n; all arithmetic and logical instructions set flags automatically\n\njz axIsZero:\n\n    mov dx, 55  ; this won't be executed\n\naxIsZero:\n    mov cx, 44\n\n\n\n; now change code at line \"0\" to \"mov ax, 2\" and try again :)\n\n; --------------------------\n; TIP:\n; red value means that the value was changed after the last instruction was executed\n",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 08 - loops",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "; you can use labels to create loops\n\nmov cx, 0\nagain:\ninc cx\n    add ax, cx\n    cmp cx, 100\n    jne again\n    \n; this program solves 1+2+3+4+...+99+100\n; result is stored in ax register\n; cx is used as counter\n\n\n\n\n; ------------------\n; TIP:\n; simulator supports breakpoints\n;\n; to set one:\n; Click on the blank space next to line number. You will see red circle. Now if you press 'Run', program will run until it hits that breakpoint.\n; To remove breakpoint, click to the right of line number again\n\n; ------------------\n; TIP 2:\n; you can run program backwards by using 'Run backwards' button. Great with breakpoints too",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 09 - memory operand types",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "; Registers allows me to store little variables. I need more!\n; let me introduce you to the memory module!\n; --------------------\n\n; to write to memory, use [] operand\n\n; let's write 8-bit value 0xfc to address 0:\nmov [0], 0xfc\n\n; in memory viewer, at address\n; 0 value changed from 0 to 0xfc\n\n; let's write 16-bit value 0xfc to address 2:\nmov [2], 0xabcd\n\n; in memory viewer, at address\n; 2 value changed from 0 to 0xcd\n; 3 value changed from 0 to 0xac\n\n; why in this order?\n; because intel processor operates in\n; 'little endian' mode\n; https://en.wikipedia.org/wiki/Endianness\n\n\n\n\n; let's read from memory:\n\n; read 8-bit value from address 2\n; to register al\nmov al, [2]\n\n; read 16-bit value from address 2\n; to register ax\nmov ax, [2]\n\n",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": true,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 10 - type override",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": -18432
+    },
+    "memory": {
+      "0": -86,
+      "1": -86,
+      "2": -86,
+      "3": -86,
+      "4": -86,
+      "5": -86,
+      "6": -86,
+      "7": -86,
+      "8": -86,
+      "9": -86,
+      "10": -86,
+      "11": -86,
+      "12": -86,
+      "13": -86,
+      "14": -86,
+      "15": -86,
+      "16": -86,
+      "17": -86,
+      "18": -86,
+      "19": -86,
+      "20": -86,
+      "21": -86,
+      "22": -86,
+      "23": -86,
+      "24": -86,
+      "25": -86,
+      "26": -86,
+      "27": -86,
+      "28": -86,
+      "29": -86,
+      "30": -86,
+      "31": -86
+    },
+    "code": "; why I can't write this value 5 to address 0?\nmov [0], 5\n\n; simulator doesn't know, if you want to write 8-bit value or 16-bit value to address 0. We need to tell it it's type\n\n; -----------\n\n; let's write 8-bit value to address 0, we can use 'BYTE PTR' keyword for that\nmov byte ptr [0], 5\n\n; see in memory, that only 'AA' in addres 0 was overwritten\n\n; -----------\n\n; let's write 16-bit value to address 8 now, we can use 'WORD PTR' keyword for that\nmov word ptr [8], 6\n; did you see that memory cell at adress 8 and at address 9 was overwritten?\n\n; -----------\n\n; why don't we need to use 'WORD PTR' keyword here?\n; Because we already know, that AX register is 16-bit register\nmov ax, 7\nmov [0x10], ax\n\n; and al is 8-bit register\nmov [0x18], al\n\n\n\n; -----------\n; TIP:\n; To quickly comment out large part of code, select it and press CTRL+/\n; Press CTRL+/ again to undo it\n; -----------\n\n\n; -----------\n; TIP 2:\n; read error messages, they are trying to help you\n; -----------\n\n; -----------\n; INFO:\n; simulator will skip instructions with errors . Hover over error icon above with mouse to see more information about how to fix the error.\n; -----------",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": true,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 11 - stack",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": -18432
+    },
+    "memory": {},
+    "code": "; WOOAH. Another module? Stack segment, what is it?\n\n; Don't worry. It is just different view to see the memory\n; ------------------\n\n\n\n; Let me show you how to use the stack\nmov ax, 0x4567\n\n; PUSH copies operand to stack\npush ax\n\n; and POP copies it back\npop cx\n\n\n; ------------------\n; stack is LIFO data structure (LAST IN FIRST OUT)\n; so last PUSHed value is POPed first\n\nmov ax, 1\nmov bx, 2\nmov cx, 3\nmov dx, 4\n\npush ax\npush bx\npush cx\npush dx\n\npop ax\npop bx\npop cx\npop dx\n\n; did you see that we reversed the values?\n\n; --------------\n; TIP:\n; purple background behind memory values mean the place where SP (stack pointer) or BS (base pointer) registers point to\n\n",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": true,
+      "showMemory": true,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 12 - temporarily storing registers using stack",
+    "registers": {
+      "ax": 1,
+      "bx": 2,
+      "cx": 3,
+      "dx": 4,
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {
+      "0": 85,
+      "2": 119
+    },
+    "code": "; you may come to situation, when you need to temporarily store register values and restore them later. Stack is perfect for that!\n\n\n; save registers to stack\npush ax\npush bx\npush cx\npush dx\n\n; here I can use AX and BX registers for my calculation\nmov bx, [0]\nmov ax, [2]\nmul ax\nmov [4], ax\n\n\n; restore registers from stack\npop dx\npop cx\npop bx\npop ax\n",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": true,
+      "showMemory": true,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 13 - segment registers",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "; maybe you wondered, how we are able to use all 1 MB (0x100000) of memory, if the highest value 16-bit registers can store is 0xffff - we use segment registers! \n\n; let's use segment registers:\n; mov(e) value 0x2000 to e(xtra) s(egment)\nmov es, 0x2000\n\n; ehm... there is an error. \n; but why? This works:\nmov ax, 0x2000\n; -------------------------\n\n; x86 processor was just made that way that it doesn't allow anything else to write to segment registers than general puspose registers. We can write to it using two instructions:\nmov ax, 0x2000\nmov es, ax\n\n\n; now we can use it\nmov es:[4], 0xabcd\n\n; type value \"20000\" to \"jump to offset\" input field to see the value we have writen in to memory\n\n\n; ---------------\n; How segment registers work mathematically?\n; real_adress = segment_register * 16 + offset\n\n; in our case it was:\n; 0x20004 = 0x2000 * 16 + 4\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": true,
+      "showMemory": true,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 14 - default segment registers",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": -18432
+    },
+    "memory": {},
+    "code": "; if we don't specify segment register, default one is used based on this table:\n\n; default segment registers table:\n;  _______________________________\n; | segment   | offset registers |\n; |___________|__________________|\n; | cs        | ip               |\n; | ds        | bx, di, si       |\n; | ss        | sp, bp           |\n; | es        |                  |\n; |___________|__________________|\n\n\n; this is how we can override default segment register with es segment register\nmov es:[0], ax\n\n\n\n",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": true,
+      "showMemory": true,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 15 - call and ret",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": -18432
+    },
+    "memory": {},
+    "code": "; You probably already know, how functions work in other programing languages. Let's see, how to use them in assembly:\n\n; function parameter\npush 0x005a\ncall myNewFunction\n; myNewFunction returns here\n\n; lets call it 3 more times\npush 0x005b\ncall myNewFunction\npush 0x005c\ncall myNewFunction\npush 0x005d\ncall myNewFunction\n\njmp end:\n\nmyNewFunction:\n    ; store ax and bx values in stack, so we can restore it later\n    push ax\n    push bx\n    \n    ; read parameter from stack to bx\n    mov bx, ss:[sp+6]\n    \n    ; ....\n    \n    \n    ; restore ax and bx values from stack\n    pop bx\n    pop ax\n    \n    ; ret pops address from stack and jump to it\n    ret 2\n    \n    \n    \n    \nend:",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": true,
+      "showMemory": true,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 16 - screen and hello world",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": 47104
+    },
+    "memory": {},
+    "code": "; There is a screen? Now it's interesting.\n; Let's write \"hello world\" on it!\n; -------------\n\npush 'h'\ncall printChar\npush 'e'\ncall printChar\npush 'l'\ncall printChar\npush 'l'\ncall printChar\npush 'o'\ncall printChar\npush ' '\ncall printChar\npush 'w'\ncall printChar\npush 'o'\ncall printChar\npush 'r'\ncall printChar\npush 'l'\ncall printChar\npush 'd'\ncall printChar\n\njmp end:\n\nprintChar:\n    ; store ax and bx values in stack\n    push ax\n    push bx\n    \n    ; read cursor position from memory\n    mov bx, es:[-2]\n    \n    ; set color to green text + black background\n    mov byte ptr es:[bx], 0xa\n    \n    ; get pushed ascii value from stack\n    mov ax, [sp+6]\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], ax\n    \n    ; increase cursor position\n    add bx, 2           \n    \n    ; store updated cursor to memory\n    mov es:[-2], bx    \n    \n    ; restore ax and bx values from stack\n    pop bx\n    pop ax\n    \n    ; ret pops address from stack and jump to it\n    ret 2\nend:",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": true,
+      "showKeyboard": false,
+      "showStack": true,
+      "showMemory": true,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 17 - keyboard",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "; this is the last part of this tutorial. Every computer needs a keyboard. This one is PS/2 one\n; This simple example reads from keyboard and types it to screen\n\n; ------------\n; Important magic values:\n; 0x64 = keyboard status port. (in other words - does keyboard have input for me. If yes, second lowest bit (IBF flag) is set)\n; 0x60 = port to read input from keyboard\n\n; ------------\n; to use this example\n; 1) press run\n; 2) click on keyboard image\n; 3) press keys\n; 4) your pressed keys will appear on the screen\n; ------------\n; That's all. If you ever get stuck, read the manual by pressing 'Help' button.\n; Now create something awesome!\n; ------------\n\nxor ax, ax\n\nmov ax, b800h\nmov es, ax\n\nreadNextChar:\n    waitForInputLoop:  ; Wait for IBF = 1\n        ; Read Status byte\n        in al, 64h\n        \n        ; Test IBF flag (Status<1>) = does keyboard have input ready for me?\n        and al, 10b     \n        \n        jz     waitForInputLoop    \n        \n    ; read input to ax\n    in al, 60h\n\n    ; print ax\n    push ax\n    call printChar\n    jmp readNextChar\n    \n\nprintChar:\n    ; store ax and bx values in stack\n    push ax\n    push bx\n    \n    ; read cursor position from memory\n    mov bx, es:[-2]\n    \n    ; set color to green text + black background\n    mov byte ptr es:[bx], 0xa\n    \n    ; get pushed ascii value from stack\n    mov ax, [sp+6]\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], ax\n    \n    ; increase cursor position\n    add bx, 2           \n    \n    ; store updated cursor to memory\n    mov es:[-2], bx    \n    \n    ; restore ax and bx values from stack\n    pop bx\n    pop ax\n    \n    ; ret pops address from stack and jump to it\n    ret 2\n    ",
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": true,
+      "showKeyboard": true,
+      "showStack": true,
+      "showMemory": true,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "z - game - snake",
     "registers": {
       "bx": 170,
       "dx": -21555,
@@ -38,274 +495,6 @@
       "69633": -35
     },
     "code": "; this code is complex (and slow), please turn off animation in Settings\n\n; CONTROLS:\n; click run button, then click on keyboard and use arrow keys to change snake direction\n\n; HOW TO PLAY\n; You are snake, to grow, collect (red) apples.\n; try not to crash to walls and yourself!\n\nxor ax, ax\n\nmov ax, b800h\nmov es, ax\n\n; variables\nmov byte ptr ds:[0], 20  ; row\nmov byte ptr ds:[1], 4   ; col\nmov byte ptr ds:[2], 39  ; direction\nmov word ptr ds:[4], 450  ; apple address\nmov word ptr ds:[6], 80h  ; start address\nmov word ptr ds:[8], 80h  ; head address\n\ncall startupDrawRectangle\ncall generateApple\n\ncall startupGrowSnake\njmp readNextChar\n\nstartupDrawRectangle:\n    push cx\n    push bx\n    \n    ; draw top line\n    mov cx, 80\n    mov bx, 0\n    startupDrawRectangle_topLine:\n        mov byte ptr es:[bx], 0x99\n        mov byte ptr es:[bx+1], 's'\n        \n        add bx, 2\n        dec cx\n        jnz startupDrawRectangle_topLine\n        \n    ; draw bottom line\n    mov cx, 80\n    mov bx, 3840\n    startupDrawRectangle_bottomLine:\n        mov byte ptr es:[bx], 0x99\n        mov byte ptr es:[bx+1], 's'\n        \n        add bx, 2\n        dec cx\n        jnz startupDrawRectangle_bottomLine\n        \n            \n    ; draw left line\n    mov cx, 25\n    mov bx, 0\n    startupDrawRectangle_leftLine:\n        mov byte ptr es:[bx], 0x99\n        mov byte ptr es:[bx+1], 's'\n        \n        add bx, 160\n        dec cx\n        jnz startupDrawRectangle_leftLine\n    \n    ; draw right line\n    mov cx, 25\n    mov bx, 158\n    startupDrawRectangle_rightLine:\n        mov byte ptr es:[bx], 0x99\n        mov byte ptr es:[bx+1], 's'\n        \n        add bx, 160\n        dec cx\n        jnz startupDrawRectangle_rightLine\n        \n    pop bx\n    pop cx\n    \n    ret 1\n    \nstartupGrowSnake:\n    mov cx, 3   ; grow 3 times\n\n    startupgrowSnake_again:\n        add byte ptr ds:[0], 1\n        call saveCursorPosition\n\n        dec cx\n        jnz startupgrowSnake_again\n    \n    ret 1\n\nreadNextChar:\n    waitForInputLoop:  ; Wait for IBF = 1\n        nop     ; rerender screen\n        ; Read Status byte\n        in al, 64h\n        \n        ; Test IBF flag (Status<1>) = does keyboard have input ready for me?\n        and al, 10b     \n        \n        jz noInput: \n        \n        \n    xor ax, ax\n\n    ; read input to ax\n    in byte ptr ds:[2], 60h\n    \n    \n    noInput:\n        \n        \n    ; arrow up?\n    cmp byte ptr ds:[2], 38\n    jnz notArrowUp\n        ; out of bounds?\n        cmp byte ptr ds:[1], 0\n        jz gameOver\n        \n        sub byte ptr ds:[1], 1\n    notArrowUp:\n    \n    ; arrow down?\n    cmp byte ptr ds:[2], 40\n    jnz notArrowDown\n        cmp byte ptr ds:[1], 24 ; 25 rows on screen\n        jz gameOver\n        \n        add byte ptr ds:[1], 1\n    notArrowDown:\n\n    ; arrow left?\n    cmp byte ptr ds:[2], 37\n    jnz notArrowLeft\n        cmp byte ptr ds:[0], 0\n        jz gameOver\n        \n        sub byte ptr ds:[0], 1\n    notArrowLeft:\n    \n    ; arrow right?\n    cmp byte ptr ds:[2], 39\n    jnz notArrowRight\n        cmp byte ptr ds:[0], 79 ; 80 cols on screen\n        jz gameOver\n        \n        add byte ptr ds:[0], 1\n    notArrowRight:\n    \n    ; if colision, end the game\n    call getCharToAl\n    cmp al, 's'\n    jz gameOver\n    \n\n    \n    \n    \n    call getCharToAl\n    cmp al, 'a' ; is apple at the next cursor position?\n    jz dontCutTail\n        call saveCursorPosition\n        call cutTail\n        jmp readNextChar\n       \n        \ndontCutTail:\n    call saveCursorPosition\n    call generateApple\n    jmp readNextChar\n    \n\n    \n    \n    \n    \nsaveCursorPosition:\n    push bx\n    \n    ; print to screen\n    push 's'\n    call printChar\n    \n    ; save position\n    call getCursorPositionToBx\n    mov ax, bx      ; ax = head address\n    mov bx, ds:[8]  ; head\n    mov [bx], ax\n    add word ptr ds:[8], 2\n    pop bx\n    ret 1\n    \ncutTail:\n    push ax\n    push bx\n    push cx\n    push dx\n    \n    mov bx, ds:[6]  ; tail block to remove\n    mov cx, ds:[bx]\n    \n    mov bx, ds:[6]  ; counter, start at start\n    \n    ; loop to move all addresses by one\n    cutTail_moveNextAddress:\n    cmp ds:[8], bx  ; are we at the end?\n    jz cutTail_end\n        mov ax, ds:[bx+2]\n        mov ds:[bx], ax\n        add bx, 2\n        \n        jmp cutTail_moveNextAddress\n        \n    \n    \n    cutTail_end:\n    \n    mov bx, cx\n\n    ; delete\n    mov byte ptr es:[bx], 0x0\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], 0\n    \n    sub word ptr ds:[8], 2\n    pop dx\n    pop cx\n    pop bx\n    pop ax\n    ret 1\n    \n; read cursor position from memory to BX\ngetCursorPositionToBx:\n    push ax\n    xor bx, bx\n\n    ; row\n    mov ax, byte ptr ds:[0]\n    mul 2\n    mov bx, ax\n\n    ; col\n    mov ax, byte ptr ds:[1]\n    mul 160\n    add bx, ax\n    \n    pop ax\n    ret 1\n\n\ngenerateApple_fixOutOfBounds:\n    sub bx, 2000\n    jmp generateApple_fixedBounds\n\ngenerateApple:\n    push bx\n    \n    mov bx, ds:[4]\n    \n    generateApple_tryNextPlace:\n        add bx, 558\n        \n        cmp bx, 2000    ;80 cols * 25 rows\n        jns generateApple_fixOutOfBounds\n        \n        generateApple_fixedBounds:\n    \n        mov al, es:[bx+1]   ; character at position we want to generate apple\n        cmp al, 0\n        je generateApple_foundEmptyPlace\n        jmp generateApple_tryNextPlace\n\n    generateApple_foundEmptyPlace:\n    ; color \n    mov byte ptr es:[bx], 0x44\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], 'a'\n    \n    mov ds:[4], bx  ; save generated apple address\n    pop bx\n    ret 1\n\n\n; returns char at cursor position to AL\ngetCharToAl:\n    push bx\n    call getCursorPositionToBx\n    mov al, es:[bx+1]\n    pop bx\n    ret 1\n    \n\n\nprintChar:\n    ; store ax and bx values in stack\n    push ax\n    push bx\n    push cx\n    push dx\n\n    call getCursorPositionToBx\n    \n    ; set color to green text + black background\n    mov byte ptr es:[bx], 0xbb\n    \n    ; get pushed ascii value from stack\n    mov dx, [sp+10]\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], dl\n    \n    ; restore ax and bx values from stack\n    pop dx\n    pop cx\n    pop bx\n    pop ax\n    \n    ; ret pops address from stack and jump to it\n    ret 2\n    \n    \ngetRandomNumberToAx:\n    \n    \nprintString:\n    push ax\n    push bx\n    push dx\n    mov bx, 0\n\n    mov dx, [sp+8]  ; read string offset from stack\n    printString_readChar:\n        add bx, dx\n        mov al, ds:[bx]   ; char\n        mov ah, ds:[bx+1] ; color\n        sub bx, dx\n        \n        cmp al, 0\n        jz printString_endOfString\n        \n        mov byte ptr es:[bx+70], ah\n        mov byte ptr es:[bx+71], al\n        \n        add bx, 2\n        \n        jmp printString_readChar\n        \n    printString_endOfString:\n    pop dx\n    pop bx\n    pop ax\n    ret 1\n        \n        \n    \n    \ngameOver:\n    push 0x60\n    call printString\n    \n    ",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": true,
-      "showKeyboard": true,
-      "showStack": true,
-      "showMemory": true,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 00 - welcome",
-    "registers": {
-      "ax": -11,
-      "sp": 32,
-      "bp": 32
-    },
-    "memory": {},
-    "code": "; welcome in x86sim\n; intel 8086 simulator\n; -------------------\n\n\n; in registers you can see 'ip' register. It point to the next instruction that will be executed\n\n; in this editor is the place where ip register point to highlighted in green\n\n; execute this instruction by pressing 'step' button in top navigation bar.\nmov cx, 0x001A\n\n; after mov(e) instruction was executed\n; - value 0x001A was moved to cx register\n; - ip register was incremented and it now points to the next instruction below\n\n; also simulator switched into 'debugging mode'.  After you exit from this mode by pressing 'reset' button, simulator state will return to state before you started the stepping throught the program.\n\n\n; press step again\nmov dx, 0x0006\n\n; dx register now contains value 0x0006\n\n\n; -------------------\n; to switch to the next tutorial:\n; 1) exit debugging mode by pressing 'Reset' button\n; 2) press 'Projects' button to see projects\n; 3) click on 'tutorial 1' project",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": false,
-      "showMemory": false,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 01 - add two numbers together",
-    "registers": {
-      "sp": 32,
-      "bp": 32
-    },
-    "memory": {},
-    "code": "\n; set ax register to 5\n; pseudocode:\n; AX = 5\nmov ax, 5\n\n; set bx register to 5\nmov bx, 17\n\n; adds ax and bx registers together and stores result in ax register\n; pseudocode:\n; AX = AX + BX\nadd ax, bx\n\n; -------------------\n; to run all the code till the end, press 'run' button\n",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": false,
-      "showMemory": false,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 01 try it",
-    "registers": {
-      "ax": 5,
-      "bx": 10
-    },
-    "memory": {},
-    "code": "; registers AX and BX contain values 0x0005 and 0x000A\n\n; add them together and store result in CX register. Do not modify registers AX and BX\n\n",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": false,
-      "showMemory": false,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 01 try it solution",
-    "registers": {
-      "ax": 5,
-      "bx": 10
-    },
-    "memory": {},
-    "code": "; registers AX and BX contain values 0x0005 and 0x000A\n\n; add them together and store result in CX register. Do not modify registers AX and BX\n\n\n; solution:\nmov cx, ax\nadd cx, bx\n",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": false,
-      "showMemory": false,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 02 - low and high registers",
-    "registers": {
-      "sp": 32,
-      "bp": 32
-    },
-    "memory": {},
-    "code": "\n\nmov ax, 0x3a3b\nmov bl, al\nmov cl, ah\n\n; al register is just lower 8 bits of 16 bit ax register\n\n; ax = 0x3a3b\n; al = 0x3b\n; ah = 0x3a\n\n; _________________________\n; | ax                    |\n; |_______________________|\n; | ah        | al        |\n; |___________|___________|\n; | 0011 1010 | 0011 1011 |\n; |___________|___________|\n\n",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": false,
-      "showMemory": false,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 03 - immediate operand types",
-    "registers": {
-      "sp": 32,
-      "bp": 32
-    },
-    "memory": {},
-    "code": "\n\n; to aid in better readibility, you can use hexadecimal or binary immediate operands\n\n\n; decimal \nmov al, 58\n\n; hex\nmov bl, 0x3a\n\n; alternative hex\nmov cl, 3ah\n\n; binary\nmov dl, 0b00111010\n\n\n; all values equal to 0x3a\n\n\n",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": false,
-      "showMemory": false,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 04 - jumps",
-    "registers": {
-      "sp": 32,
-      "bp": 32,
-      "ss": 1280
-    },
-    "memory": {
-      "0": 85,
-      "3": 101,
-      "4": 84,
-      "5": 69,
-      "6": 85,
-      "7": 69
-    },
-    "code": "mov  ax, 0x0005\n\n; is ax register same as value 0x0005?\n; if yes, set zero flag (zf) to 1\n; (internally 'cmp' subtracts '5' - 'ax' and just sets flags)\ncmp ax, 0x0005\njz ifAxIs5\n\n    ; this code will never run because 'jz' will jump over it\n    mov bx, 60\n    \n\nifAxIs5:\n    mov cx, 1\n    \n    ; jmp will always jump to specified label (in this case to 'alwaysJump')\n    jmp alwaysJump\n    \n    ; this code will never run\n    mov bx, 70\n    \n    \nalwaysJump:\n    mov cx, 2\n\n\n\n\n; if you missed anything, you can press 'Step back' button to step backwards in code execution",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": false,
-      "showMemory": false,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 05 - loops",
-    "registers": {
-      "sp": 32,
-      "bp": 32
-    },
-    "memory": {},
-    "code": "; you can use labels to create loops\n\nmov cx, 0\nagain:\ninc cx\n    add ax, cx\n    cmp cx, 100\n    jne again\n    \n; this program solves 1+2+3+4+...+99+100\n; result is stored in ax register\n; cx is used as counter\n\n\n; tip: you can set breakpoints too.\n; Click on the blank space next to line number. You will see red circle. Now if you press 'Run', program will run until it hits that breakpoint.\n; To remove breakpoint, click to the right of line number again\n\n; tip2:\n; you can run program backwards by using 'Run backwards' button. Great with breakpoints",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": false,
-      "showMemory": false,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 06 - memory operand types",
-    "registers": {
-      "sp": 32,
-      "bp": 32
-    },
-    "memory": {},
-    "code": "; we are introducingto you the memory module\n\n; to write to memory, use [] operand\n\n; let's write 8-bit value 0xfc to address 0:\nmov [0], 0xfc\n\n; in memory viewer, at address\n; 0 value changed from 0 to 0xfc\n\n; let's write 16-bit value 0xfc to address 2:\nmov [2], 0xabcd\n\n; in memory viewer, at address\n; 2 value changed from 0 to 0xcd\n; 3 value changed from 0 to 0xac\n\n; why in this order?\n; because intel processor operates in\n; 'little endian' mode\n; https://en.wikipedia.org/wiki/Endianness\n\n\n\n\n; let's read from memory:\n\n; read 8-bit value from address 2\n; to register al\nmov al, [2]\n\n; read 16-bit value from address 2\n; to register ax\nmov ax, [2]\n\n",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": false,
-      "showMemory": true,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 07 - using stack",
-    "registers": {
-      "ax": 1,
-      "bx": 2,
-      "cx": 3,
-      "dx": 4,
-      "sp": 4096,
-      "bp": 1048576,
-      "ss": 4096
-    },
-    "memory": {
-      "0": 85,
-      "2": 119
-    },
-    "code": "; you may come to situation, when you need to use MUL instruction, but AX register already contains data from other parts of a program.\n\n; these is easy solution to this. Save registers constent temporarily in stack\n\n\n; save registers to stack\npush ax\npush bx\npush cx\npush dx\n\n; here I can use AX and BX registers\nmov bx, [0]\nmov ax, [2]\nmul ax\nmov [4], ax\n\n\n; restore registers from stack\npop dx\npop cx\npop bx\npop ax\n",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": true,
-      "showMemory": true,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 08 - segment registers",
-    "registers": {
-      "sp": 32,
-      "bp": 32
-    },
-    "memory": {},
-    "code": "; maybe you wondered, how we are able to use all 1 MB (0x100000) of memory, if the highest value 16-bit registers can store is 0xffff - we use segment registers! \n\n; let's use segment registers!\n; mov(e) value 0x2000 to e(xtra) s(egment)\nmov es, 0x2000\n\n; ehm... there is an error\n; simulator will skip instructions with errors if you try to execute them and will always show you error message. Hover over error icon above with mouse to see more information and fix the error.\n\n; continue after you have fixed the error\n\n\n\n\n; default segment registers table:\n;  _______________________________\n; | segment   | offset registers |\n; |___________|__________________|\n; | cs        | ip               |\n; | ds        | bx, di, si       |\n; | ss        | sp, bp           |\n; | es        |                  |\n; |___________|__________________|\n\n\n; this is how we can override default segment register with es segment register\nmov es:[0], ax\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": false,
-      "showKeyboard": false,
-      "showStack": true,
-      "showMemory": true,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 09 - call and ret / write to screen",
-    "registers": {
-      "ax": 80,
-      "sp": 4096,
-      "bp": 4096,
-      "ss": 4096,
-      "es": -18432
-    },
-    "memory": {},
-    "code": "push 'a'\ncall printChar\npush 'h'\ncall printChar\npush 'o'\ncall printChar\npush 'j'\ncall printChar\n\njmp end:\n\nprintChar:\n    ; store ax and bx values in stack\n    push ax\n    push bx\n    \n    ; read cursor position from memory\n    mov bx, es:[-2]\n    \n    ; set color to green text + black background\n    mov byte ptr es:[bx], 0xa\n    \n    ; get pushed ascii value from stack\n    mov ax, [sp+6]\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], ax\n    \n    ; increase cursor position\n    add bx, 2           \n    \n    ; store updated cursor to memory\n    mov es:[-2], bx    \n    \n    ; restore ax and bx values from stack\n    pop bx\n    pop ax\n    \n    ; ret pops address from stack and jump to it\n    ret\nend:",
-    "shownModules": {
-      "showCalculator": false,
-      "showRegisters": true,
-      "showScreen": true,
-      "showKeyboard": false,
-      "showStack": true,
-      "showMemory": true,
-      "showCodeEditor": true
-    }
-  },
-  {
-    "version": 1,
-    "name": "tutorial 10 - keyboard",
-    "registers": {
-      "sp": 4096,
-      "bp": 4096,
-      "ss": 4096
-    },
-    "memory": {},
-    "code": "xor ax, ax\n\nmov ax, b800h\nmov es, ax\n\nreadNextChar:\n    waitForInputLoop:  ; Wait for IBF = 1\n        ; Read Status byte\n        in al, 64h\n        \n        ; Test IBF flag (Status<1>) = does keyboard have input ready for me?\n        and al, 10b     \n        \n        jz     waitForInputLoop    \n        \n    ; read input to ax\n    in al, 60h\n    \n    ; print ax\n    push ax\n    call printChar\n    jmp readNextChar\n    \n\nprintChar:\n    ; store ax and bx values in stack\n    push ax\n    push bx\n    \n    ; read cursor position from memory\n    mov bx, es:[-2]\n    \n    ; set color to green text + black background\n    mov byte ptr es:[bx], 0xa\n    \n    ; get pushed ascii value from stack\n    mov ax, [sp+6]\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], ax\n    \n    ; increase cursor position\n    add bx, 2           \n    \n    ; store updated cursor to memory\n    mov es:[-2], bx    \n    \n    ; restore ax and bx values from stack\n    pop bx\n    pop ax\n    \n    ; ret pops address from stack and jump to it\n    ret\n    ",
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,
