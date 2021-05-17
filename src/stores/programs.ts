@@ -37,7 +37,7 @@ function createProjects() {
     const defaultProject = {
         version:1,
         name:"default",
-        registers:{"sp": 0x10000,"bp": 0x10000},
+        registers:{"sp": 0x1000,"bp": 0x1000,"ss": 0x1000, "es": 0xb800},
         memory:{},
         code:"",
         hide: [],
