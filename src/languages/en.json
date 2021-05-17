@@ -189,7 +189,7 @@
     "nop": "No operation",
     "pop": "Pops 16-bit value from stack to operand",
     "push": "Pushes 16-bit value from operand to stack",
-    "ret": "Return from CALL. Operand is amount of values to remove from stack",
+    "ret": "Return from CALL. Operand is amount of values to remove from stack. Don't forget, that return address needs to be removed from stack too",
     "sub": "Subtracts two operands together",
     "test": "Bitwise and, only flags are set",
     "xor": "Bitwise xor"

@@ -11,16 +11,16 @@
 
 <p>Vitajte v simulátore x86sim,</p>
 
-<img src="assets/help/snake.png" alt="" class="img-fluid">
+<img src="assets/help/beginning/snake.png" alt="" class="img-fluid">
 
 <br>
 <br>
-<p>K tomuto pomocníkovi sa dostanete kedykoľvek stlačením tlačidla 'Pomocník' v hornej navičnej lište</p>
-<img src="assets/help/manual_button.png" alt="" class="img-fluid d-block mx-auto">
+<p>K tomuto pomocníkovi sa dostanete kedykoľvek stlačením tlačidla 'Pomocník' v hornej navigačnej lište</p>
+<img src="assets/help/beginning/manual_button.png" alt="" class="img-fluid d-block mx-auto">
 
 <br>
 <br>
 <p>Medzi záložkami pomocníka prepínate v zozname naľavo</p>
-<img src="assets/help/manual_left_menu.png" alt="" class="img-fluid d-block mx-auto">
+<img src="assets/help/beginning/manual_left_menu.png" alt="" class="img-fluid d-block mx-auto">
 
 

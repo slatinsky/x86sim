@@ -188,10 +188,10 @@
     "neg": "Bitová negácia",
     "nop": "Žiadna akcia",
     "pop": "Vyberie 16-bitovú hodnotu zo zásobníka do operandu",
-    "push": "Pushes 16-bit value from operand to stack",
-    "ret": "Return from CALL. Operand is amount of values to remove from stack",
-    "sub": "Subtracts two operands together",
-    "test": "Bitwise and, only flags are set",
-    "xor": "Bitwise xor"
+    "push": "Vloží 16-bitovú hodnotu z operandu do zásobníka",
+    "ret": "Návrat z CALL volania. Operand je počet hodnôt, ktoré treba odstrániť zo zázobníka. Nezabudnite, že treba odstrániť aspoň jednu hodnotu - adresu návratu",
+    "sub": "Odčítanie",
+    "test": "Bitový súčin (and), ale iba príznaky sú nastavené",
+    "xor": "Bitový exkluzívny súčet"
   }
 }

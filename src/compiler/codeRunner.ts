@@ -243,6 +243,9 @@ class CodeRunner {
 
             callback()  // run next instruction or rollback previous instruction callback
 
+            if ((this.history.length % 100000) === 0)
+                console.log("executed", this.history.length / 1000000, "mil instructions")
+
             if (get(breakpoints).hasOwnProperty(get(currentlyExecutedLine))) {
                 break
             }

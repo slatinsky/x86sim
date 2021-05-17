@@ -41,10 +41,11 @@
     ]
 
     // other implemented opcodes
+    // this way if we implement more instructions, we will never forget to add them to help -> because they are added in automatically
     let otherInstructions = Object.keys(opcodes).sort().filter(instruction => ![...moveInstructions, ...arithmeticInstructions, ...logicInstructions,  ...jumpInstructions].includes(instruction))
 </script>
 
-<p>Vysvetlenie niektorých dôležitých pojmov</p>
+<p>Vysvetlenie niektorých dôležitých pojmov na tejto stránke pomocníka:</p>
 <table class="table">
     <thead>
     <tr>
@@ -84,7 +85,7 @@
 
 <hr>
 
-<p>Podporovaná je obmedzená podmnožina inštrukcií intel procesora x86. Podporované inštrukcie:</p>
+<p>Podporovaná je obmedzená podmnožina inštrukcií intel procesora x86. V tomto zozname nájdete všetky implementované inštrukcie v simulátore:</p>
 
 <b>Presunové:</b><br>
 <p>Presunové inštrukcie majú za úlohu presun dát z jedného miesta (napríklad zo všeobecného registra) na iné miesto.</p>

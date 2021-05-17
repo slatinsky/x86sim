@@ -1,8 +1,8 @@
 <script>
     import {_} from "svelte-i18n";
 </script>
-<p>Máme program v editore kódu, ale samotnému programu nerozumieme. Ako to vyriešime? Vykonávanie programu po krokoch odsledujeme. Na to použijeme rôzne ovládacie prvky z navigačnej lišty</p>
-<img src="assets/help/tutorial_left_navigation.png" alt="" class="img-fluid d-block mx-auto mb-5">
+<p>Máme program v editore kódu, ale samotnému programu nerozumieme. Ako to vyriešime? Odsledujeme vykonávanie programu po krokoch, na ktoré použijeme rôzne ovládacie prvky z navigačnej lišty</p>
+<img src="assets/help/running_program/tutorial_left_navigation.png" alt="" class="img-fluid d-block mx-auto mb-5">
 
 <b>Rýchly prehľad:</b><br>
 <table class="table">

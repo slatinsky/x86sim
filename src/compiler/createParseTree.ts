@@ -349,9 +349,6 @@ function parseRow(tokens: iToken[]): iRow {
         [explicitSegment, tokens] = getExplicitSegmentRegister(tokens);  // one place where ; needs to be. Else it will break
         [explicitBits, tokens] = getTypeOverride(tokens)
 
-        console.log("explicitBits", explicitBits)
-        console.log("tokens", tokens)
-
         let instruction: iInstruction = {
             type: 'instruction',
             position: opcodeToken,   // first token holding position - TODO: merge tokens

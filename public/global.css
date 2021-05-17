@@ -140,7 +140,7 @@ bootstrap 5 dark mode fixes
 	background-color: var(--bs-alert-success) !important;
 }
 .alert-info {
-	background-color: var(--bs-alert-success) !important;
+	background-color: var(--bs-alert-info) !important;
 }
 .alert-danger {
 	background-color: var(--bs-alert-danger) !important;

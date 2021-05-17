@@ -1,8 +1,7 @@
 <p>V editore kódu píšete zdrojový kód v jazyku symbolických inštrukcií</p>
 <img src="assets/help/code_editor/code_editor.png" alt="" class="img-fluid d-block mx-auto"><br><br>
-<hr>
 
-<b>Užitočné skratky:</b><br>
+<h4 class="mt-5">Užitočné skratky</h4>
 <table class="table">
     <thead>
     <tr>

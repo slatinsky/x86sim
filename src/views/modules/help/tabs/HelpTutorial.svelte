@@ -18,7 +18,7 @@
 <img src="assets/help/projects/opened_project.png" alt="" class="img-fluid d-block mx-auto"><br><br>
 
 <p>Komentáre v editore kódu vás na začiatku naučia pracovať so simulátorom, neskôr vám ukážu základné konštrukcie v jazyku symbolických inštrukcií</p>
-<img src="assets/help/tutorial_code_editor.png" alt="" class="img-fluid d-block mx-auto">
+<img src="assets/help/tutorial/tutorial_code_editor.png" alt="" class="img-fluid d-block mx-auto">
 
 <p>Ukážkový program si spúšťajte po jednej inštrukcii stláčaním tlačidla "Krok"</p>
 <img src="assets/help/running_program/step_hover.png" alt="" class="img-fluid d-block mx-auto">
@@ -26,7 +26,7 @@
 <!--<p>Ak v nejakej časti budete stratení, odporúčam sa vrátiť k tomuto pomocníkovi</p>-->
 <!--<img src="assets/help/manual_button.png" alt="" class="img-fluid d-block mx-auto">-->
 
-<p>Po pozretí tutoriálového projektu sa prepnite na ďalší projekt</p>
+<p>Po pozretí tutoriálového projektu sa prepnite na ďalší projekt a zopakujte tieto pokyny</p>
 <img src="assets/help/projects/navigation_placement.png" alt="" class="img-fluid d-block mx-auto">
 
 

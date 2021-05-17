@@ -17,8 +17,8 @@
 </ul>
 
 <img src="assets/help/projects/projects.png" alt="" class="img-fluid w-50 d-block mx-auto">
-<hr>
-<b>Vysvetlenie jednotlivých častí:</b><br>
+
+<h4 class="mt-5">Vysvetlenie jednotlivých častí</h4>
 
 
 

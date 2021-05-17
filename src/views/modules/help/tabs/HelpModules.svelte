@@ -8,3 +8,10 @@
     <li>Vstupné zariadenie (klávesnica)</li>
     <li>Kalkulačku</li>
 </ul>
+
+<div class="alert alert-success mt-5" role="alert">
+    <b>Tip:</b>
+    Ak niektoré z modulov nepoužívate, je možné ich skryť v projektových nastaveniach. Viac info v pomocníkovi "Nastavenia"
+    <br><br>
+    <img src="assets/help/settings/project_settings.png" alt="" class="img-fluid d-block mx-auto mb-5">
+</div>

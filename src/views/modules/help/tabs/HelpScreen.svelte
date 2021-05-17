@@ -115,12 +115,15 @@
     }
 </style>
 
-<img src="assets/help/screen.png" alt="" class="img-fluid">
+<img src="assets/help/screen/screen.png" alt="" class="img-fluid d-block mx-auto mt-3">
 
-<p>Obrazovka je veľká 80 znakov na šírku a má 25 riadkov</p>
+<p>Obrazovka je výstupné zariadenie veľké 80 znakov na šírku a 25 riadkov na výšku</p>
 
-<p>Na obrazovke sa zobrazí text, ak zapisujete od adresy 0xb8000 vyššie. Je tu ale nutné poznamenať na vec, že do 16-bitového registra sa vmestí maximálna hodnota 0xffff. Aby sme mohli zapísať na obrazovku, musíme si pomôcť so segmentovými registrami</p>
+<h4 class="mt-5">Menší problém so zápisom na adresu 0xb8000</h4>
+<p>Obrazovka je priamo namapovaná na hlavnú pamäť od adresy 0xb8000 vyššie. Stačí do tejto časti pamäte zapísať a výsledok sa zobrazí na obrazovke.</p>
+<p>Je tu ale nutné poznamenať na vec, že do 16-bitového registra sa vmestí maximálna hodnota 0xffff, ale my potrebujeme zapisovať od adresy 0xb8000 vyššie - Aby sme mohli zapísať na obrazovku, musíme si pomôcť so segmentovými registrami.</p>
 
+<h4 class="mt-5">Zápis jedného znaku na obrazovku</h4>
 <p>Nastavme e(xtra) s(segment) register na adresu 0xb800:</p>
 <pre>
 mov ax, 0xb800
@@ -135,18 +138,19 @@ mov es:[bx+1], 0x55  ; 'U'
 </pre>
 
 <p>Na obrazovke sa zapísaný znak zobrazil takto:</p>
-<img src="assets/help/screen_result.png" alt="" class="img-fluid" style="width: 200px">
+<img src="assets/help/screen/screen_result.png" alt="" class="img-fluid" style="max-width: 200px">
 
 <p>Vysvetlenie zápisu:</p>
-<img src="assets/help/screen_write.png" alt="" class="img-fluid" style="width: 200px"><!-- TODO: zmeň adresu na obrázku na b8000 -->
-<div>Prvý bajt - 0x5 je farba fialového pozadia, 0xa je farba zeleného textu</div>
+<img src="assets/help/screen/screen_write.png" alt="" class="img-fluid" style="max-width: 200px">
+<div>Prvý bajt - 0x5 je farba fialového pozadia, <span class="b-color-5 color-10">0xa</span> je farba zeleného textu</div>
 <div>Druhý bajt - 0x55 je ascii hodnota znaku 'U'</div>
 
 <p>Reálna_adresa = segmentový register * 0x10 + offset</p>
 <p>0xb8000 = 0xb800 * 0x10 + 0</p>
-<p>0xb8000 = 0xb800 * 0x10 + 1</p>
+<p>0xb8001 = 0xb800 * 0x10 + 1</p>
 
-<p><b>Tabuľka farieb:</b></p>
+<h4 class="mt-5">Tabuľka farieb</h4>
+<p>V predchádzajúcej ukážke som použil farbu 0x5a, ale podľa nasledovnej tabuľky si viete zvoliť vlastnú farbu:</p>
 <div id="help-colorTable">
     {#each range(0, 16) as background}
         {#each range(0, 16) as text}
@@ -157,6 +161,8 @@ mov es:[bx+1], 0x55  ; 'U'
 
 <p></p>
 
-<div>
-    Tieto rovnaké farby si viete nastaviť aj v príkazovom riadku vo Windowse :) . Zadaním <pre>color 5a</pre> napríklad získate rovnakú <span class="b-color-5 color-10">zelenú farbu textu s fialovým pozadím</span>
+<div class="alert alert-info mt-5" role="alert">
+    <b>Bonus:</b><br>
+    Tieto rovnaké farby si viete nastaviť aj v príkazovom riadku vo Windowse :) . Zadaním "color 5a" napríklad získate podobnú <span class="b-color-5 color-10">zelenú farbu textu s fialovým pozadím</span><br>
+    <img src="assets/help/screen/windows_color.png" alt="" class="img-fluid d-block mx-auto mt-3">
 </div>
