@@ -146,32 +146,3 @@ Example of the format
 Currently opened program is autosaved to `localStorage.autosave` every 2 seconds
 
 On simulator load, `localStorage.autosave` is checked if exists. If exists, it is loaded. Else simulator loads default values.
-
-
-## Bugs
-- delete current project doesn't work
-- registers object contains '[object Object]'
-
-# todo
-- better project object upgrades
-- push to stack / pop only 16 bit values - in validation
-- support binary numeric format 10b   (b ending)
-- labels can be on the same line
-- merge ace editor tokenizer with our tokenizer. Stop using built in assembly tokenizer 
-- if bit size is not know, autodetect the size during memory write instead of converting it to 8-bit only
-- add #define MACRO_NAME macros
-- show hide modules should be project specific to avoid confusion for beginners
-
-
-# validation todo
-- validate if 'ah' is correctly handled as register, not as 0xa hex value. Register should have higher priority
-- mov alphanumeric, 5
-- 'inc 1' shouldn't be a valid instruction
-- add validation warning if trying to write to memory cell and 8/16bit info is unknown in that instruction
-- verify if push and pop always gets 16-bit value
-- verify labels in verification step
-
-## Ideas
-parse constants ending with `h` or begining with `0x` as hex
-better parsing error messages
-calculator (bin <-> hex <-> dec <-> unsigned ded). Also segment register + relative address <-> absolute address
