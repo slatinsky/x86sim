@@ -42,7 +42,9 @@
     function createNewProject() {
         let newProjectName = prompt($_('views.projects.prompts.newProject'), $_('views.projects.prompts.newProjectDefault'));
         if (newProjectName != null) {
-            programs.newProject(newProjectName)
+            newProjectName = programs.newProject(newProjectName)
+            loadP(newProjectName)
+
         } else {
             toastQueue.error($_('views.projects.toasts.canceled'))
         }

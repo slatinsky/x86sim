@@ -38,11 +38,17 @@
         "deleted": "Projekt \"{programName}\" vymazaný",
         "loading": "Načítavam projekt \"{programName}\"",
         "loaded": "Projekt \"{programName}\" načítaný",
-        "canceled": "Operácia prerušená"
+        "canceled": "Operácia prerušená",
+        "imported": "Úspešne importované \"{programName}\"",
+        "importCanceled": "Import projektu s názvom \"{programName}\" prerušené používateľom",
+        "allDeleted": "All projects were deleted"
       },
       "prompts": {
+        "invalidFile": "Neplatný súbor. Prosím nahrávajte sem iba súbory vygenerované týmto simulátorom",
+        "invalidJson": "Neplatný .json súbor. Prosím nahrávajte sem iba súbory vygenerované týmto simulátorom",
         "newProject": "Prosím zadajte nové meno projektu",
-        "newProjectDefault": "Nový projekt"
+        "newProjectDefault": "Nový projekt",
+        "projectsNotTheSame": "Project s názvom \"{programName}\" už existuje a jeho obsah je rozdielny - napriek tomu načítať projekt zo súboru?"
       }
     },
     "modules": {

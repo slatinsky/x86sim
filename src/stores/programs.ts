@@ -8,6 +8,7 @@ import defaultProjectsJson, {defaultProjectsName} from "../defaults/defaultProje
 import JSZip from "jszip";
 import FileSaver from 'file-saver';
 import {toastQueue} from "@stores/toastQueue";
+import ret from "@compiler/opcodes/ret";
 
 export const projectName = createWritableStore('currentProjectName', 'default')
 projectName.useLocalStorage()
@@ -54,6 +55,34 @@ function createProjects() {
 
     const sortProjects = (projects) => {
         return projects.sort((project1, project2) => project1.name.localeCompare(project2.name))
+    }
+
+    /**
+     * find project name without collision
+     * first tries supplied name. If collision occurs, append number until no colision is found
+     * return non-existing name
+     */
+    //
+    function findProjectNameWithoutCollision(newProjectName: string): string {
+        let counter = 1
+        let newProjectNameSuggestion;
+        while (true) {
+            if (counter === 1) {
+                newProjectNameSuggestion = newProjectName
+                if (!thisStore.projectNameExists(newProjectNameSuggestion)) {
+                    break
+                }
+            }
+            else {
+                newProjectNameSuggestion = newProjectName + " " + counter
+                if (!thisStore.projectNameExists(newProjectNameSuggestion)) {
+                    break
+                }
+            }
+            counter++
+        }
+
+        return newProjectNameSuggestion
     }
 
     // get saved projects from localStorage
@@ -151,6 +180,8 @@ function createProjects() {
         renameProject: (oldProjectName: string, newProjectName: string) => {
             if (oldProjectName !== newProjectName) {
                 update(projects => {
+                    newProjectName = findProjectNameWithoutCollision(newProjectName)
+
                     projects.map(project => {
                         if (project.name === oldProjectName) {
                             project.name = newProjectName
@@ -184,19 +215,18 @@ function createProjects() {
             })
             console.log("deleteProject dummy", projectNameToDelete)
         },
-        newProject: (newProjectName: string) => {
+        projectNameExists: (projectName: string) => {
+            return get(thisStore).filter(project => project.name === projectName).length !== 0
+        },
+        newProject: (newProjectName: string): string => {  // returns created project name
             console.log("newProject dummy", newProjectName)
             update(projects => {
-                // Add project only if that project doesn't exist yet
-                if (projects.filter(project => project.name === newProjectName).length === 0) {
-                    let newProject = {...defaultProject}
-                    newProject.name = newProjectName
-                    return sortProjects([...projects, newProject])
-                }
-                else {
-                    return sortProjects(projects)
-                }
+                newProjectName = findProjectNameWithoutCollision(newProjectName)
+                let newProject = {...defaultProject}
+                newProject.name = newProjectName
+                return sortProjects([...projects, newProject])
             })
+            return newProjectName  // may be different than supplied name if collision
         },
         loadCurrentProject: () => {
             thisStore.loadProject(get(projectName))
@@ -245,7 +275,7 @@ function createProjects() {
                         }
                     }
                     catch (e) {
-                        alert('Neplatný súbor. Tento súbor neobsahuje platný json formát, ani to nie je zip súbor s json súbormi vo vnútri')
+                        alert(get(_)('views.projects.prompts.invalidFile'))
                     }
 
                     return projects
@@ -253,34 +283,47 @@ function createProjects() {
 
                 // simple validation if uploaded .json was created by this simulator. If not, abort
                 if (!(newProject.hasOwnProperty('version') && newProject.hasOwnProperty('name') && newProject.hasOwnProperty('registers') && newProject.hasOwnProperty('memory') && newProject.hasOwnProperty('code'))) {
-                    toastQueue.error('Neplatný .json súbor. Nahrávajte prosím iba json súbory vytvorené týmto simulátorom')
+                    toastQueue.error(get(_)('views.projects.prompts.invalidJson'))
                     return projects
                 }
 
 
                 // Project we are trying to upload exists? Ask if we should overwrite it
+
                 if (projects.filter(project => project.name === newProject.name).length !== 0) {
-                    if (confirm(`Projekt s menom '${newProject.name}' už existuje? Prepísať ho?`)) {
+                    let collisionProject = projects.filter(project => project.name === newProject.name)[0]
+
+                    let areProjectsTheSame = JSON.stringify(collisionProject, null, 2) === JSON.stringify(newProject, null, 2)
+                    if (areProjectsTheSame) {
+                        // no change, projects are the same
+
+                        // but load it
+                        if (isLast) {  // we need to load only last dropped project
+                            setTimeout(()=>thisStore.loadProject(newProject.name), 0)  // delay the loading, project doesn't exist now yet
+                        }
+                        return projects
+                    }
+                    else if (confirm(get(_)('views.projects.prompts.projectsNotTheSame', {values: {programName: newProject.name}}))) {
                         projects = projects.filter(project => project.name !== newProject.name)  // remove old project before adding new one
                     } else {
                         // user has pressed 'cancel'
-                        toastQueue.error(`Načítanie projektu '${newProject.name}' prerušené používateľom`)
+                        toastQueue.error(get(_)('views.projects.toasts.importCanceled', {values: {programName: newProject.name}}))
                         return projects
                     }
                 }
 
                 // "upload" the project
-                if (isLast) {  // we need to load only last dropped project, because autosave may glitch out and overwrite wrong project
+                if (isLast) {  // we need to load only last dropped project
                     setTimeout(()=>thisStore.loadProject(newProject.name), 0)  // delay the loading, project doesn't exist now yet
                 }
-                toastQueue.success('Úspešne načítaný projekt "' + newProject.name + '"')
+                toastQueue.success(get(_)('views.projects.toasts.imported', {values: {programName: newProject.name}}))
                 return sortProjects([...projects, newProject])
             })
         },
         deleteAllProjects: () => {
             set([{...defaultProject}])
             thisStore.loadProject(defaultProject.name)
-            toastQueue.success("All projects were deleted")
+            toastQueue.success(get(_)('views.projects.toasts.allDeleted'))
         },
     }
 

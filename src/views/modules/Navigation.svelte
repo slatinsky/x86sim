@@ -56,7 +56,7 @@
         user-select: none;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1500px) {
         .navLabel {
             display: none;
         }
