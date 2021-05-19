@@ -38,6 +38,7 @@
 	import ChooseLanguage from "./modules/ChooseLanguage.svelte";
 	import {_} from "svelte-i18n";
 	import {language} from "@stores/language";
+	import ShowHideModules from "./modules/ShowHideModules.svelte";
 
 
 	let showCalculator = false
@@ -74,14 +75,63 @@
 	} else {
 		window.onbeforeunload = null;
 	}
+
+	$: stackOrMemoryCount = $settings.shownModules.showStack + $settings.shownModules.showMemory
+	$: middleModulesCount = $settings.shownModules.showCalculator + $settings.shownModules.showRegisters + $settings.shownModules.showScreen + $settings.shownModules.showKeyboard
 </script>
 
 <style>
 	#grid {
 		display: grid;
-        grid-template-columns: clamp(300px, 30vw, 500px) clamp(500px, 10vw, 800px) 200px auto;
-		gap: 15px
+		grid-gap: 15px;
+		grid-template-areas:
+            "areaCodeEditor areaMiddleModules areaStackMemory";
 	}
+
+	#grid.stackMemory-count-0 {
+		grid-template-areas:
+            "areaCodeEditor areaMiddleModules";
+	}
+
+
+	#grid.middle-count-0,
+	#grid.middle-count-1{
+		grid-template-areas:
+            "areaCodeEditor areaMiddleModules"
+            "areaCodeEditor areaStackMemory";
+	}
+
+
+	#grid.stackMemory-count-0.middle-count-0 {
+		grid-template-areas:
+            "areaCodeEditor";
+	}
+
+	@media (min-width: 1000px) {
+
+	}
+
+	#areaCodeEditor {
+		grid-area: areaCodeEditor;
+		min-width: 350px;
+		width: 100%;
+		max-width: 100vw;
+	}
+
+	#areaMiddleModules {
+		grid-area: areaMiddleModules;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: nowrap;
+	}
+
+	#areaStackMemory {
+		grid-area: areaStackMemory;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+	}
+
 </style>
 
 
@@ -91,40 +141,54 @@
 	{:else}
 		<Spinner />
 		<Navigation />
+<!--		debug module -->
+<!--		<ShowHideModules />-->
 
 		<div class="container-fluid">
-			<!--		<ShowHideModules />-->
-			<div id="grid">
+			<div id="grid" class="middle-count-{middleModulesCount} stackMemory-count-{stackOrMemoryCount}">
 				{#if $settings.shownModules.showCodeEditor}
-					<div>
+					<div id="areaCodeEditor">
 						<CodeEditor />
 					</div>
 				{/if}
-				<div>
-					{#if $settings.shownModules.showCalculator}
-						<Calculator />
-					{/if}
-					{#if $settings.shownModules.showRegisters}
-						<Registers />
-					{/if}
-					{#if $settings.shownModules.showScreen}
-						<Screen />
-					{/if}
-					{#if $settings.shownModules.showKeyboard}
-						<Keyboard />
-					{/if}
-				</div>
-				<div>
-					{#if $settings.shownModules.showStack}
-						<VirtualStack />
-					{/if}
-				</div>
-				<div>
-					<!--				<div style="max-width: 50vw;word-break: break-all;">{JSON.stringify($memory)}</div>-->
-					{#if $settings.shownModules.showMemory}
-						<VirtualMemory />
-					{/if}
-				</div>
+				{#if middleModulesCount > 0}
+					<div id="areaMiddleModules">
+						{#if $settings.shownModules.showCalculator}
+							<div style="grid-area: areaCalculator; padding-bottom: 15px;">
+								<Calculator />
+							</div>
+						{/if}
+						{#if $settings.shownModules.showRegisters}
+							<div style="grid-area: areaRegisters; padding-bottom: 15px;">
+								<Registers />
+							</div>
+						{/if}
+						{#if $settings.shownModules.showScreen}
+							<div style="grid-area: areaScreen; padding-bottom: 15px;">
+								<Screen />
+							</div>
+						{/if}
+						{#if $settings.shownModules.showKeyboard}
+							<div style="grid-area: areaKeyboard">
+								<Keyboard />
+							</div>
+						{/if}
+					</div>
+				{/if}
+				{#if stackOrMemoryCount > 0}
+					<div id="areaStackMemory">
+						{#if $settings.shownModules.showStack}
+							<div style="padding-right: 15px;">
+								<VirtualStack />
+							</div>
+						{/if}
+						{#if $settings.shownModules.showMemory}
+							<div>
+								<VirtualMemory />
+							</div>
+						{/if}
+					</div>
+				{/if}
 			</div>
 		</div>
 
