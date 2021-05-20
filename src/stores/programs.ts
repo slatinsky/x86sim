@@ -162,7 +162,7 @@ function createProjects() {
             let projects = get(thisStore)
             let projectToLoad = projects.filter(project => project.name === projectNameToLoad)?.[0]
             if (!projectToLoad) {
-                projectToLoad = {...defaultProject}
+                projectToLoad = JSON.parse(JSON.stringify(defaultProject))
             }
             projectToLoad = upgradeProjectVersion(projectToLoad)
             projectName.set(projectToLoad.name)
@@ -200,7 +200,7 @@ function createProjects() {
             update(projects => {
                 if (get(projectName) === projectNameToDelete) {
                     if (projects.length <= 1) {
-                        projects = [{...defaultProject}]
+                        projects = [JSON.parse(JSON.stringify(defaultProject))]
                         thisStore.loadProject(defaultProject.name)
                     }
                     else {
@@ -222,7 +222,7 @@ function createProjects() {
             console.log("newProject dummy", newProjectName)
             update(projects => {
                 newProjectName = findProjectNameWithoutCollision(newProjectName)
-                let newProject = {...defaultProject}
+                let newProject = JSON.parse(JSON.stringify(defaultProject))
                 newProject.name = newProjectName
                 return sortProjects([...projects, newProject])
             })
@@ -321,7 +321,7 @@ function createProjects() {
             })
         },
         deleteAllProjects: () => {
-            set([{...defaultProject}])
+            set([JSON.parse(JSON.stringify(defaultProject))])
             thisStore.loadProject(defaultProject.name)
             toastQueue.success(get(_)('views.projects.toasts.allDeleted'))
         },
