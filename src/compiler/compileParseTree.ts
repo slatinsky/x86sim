@@ -23,6 +23,8 @@ class executedLineToEditorLine {
                 counter++
             }
         }
+
+        currentlyExecutedLine.set(eLineToEditorLine.convert(get(registers).ip))
     }
 
     convert(ipRegister: number) {
@@ -180,13 +182,15 @@ function parseLabels(rows: iRow[]): {[labelName: string]: number} {
  */
 export function compileParseTree(rows: iRow[], pass:number=0): [iCompiledInstruction[], iError[]] {
     let errors: iError[] = []
+
+    eLineToEditorLine.updateRows(rows)
+
     if (rows.length === 0) { // nothing left to compile
         return [[], []]
     }
 
     const labels = parseLabels(rows)
 
-    eLineToEditorLine.updateRows(rows)
 
     let compiledInstructions: iCompiledInstruction[] = []
 

@@ -158,6 +158,7 @@ function createProjects() {
 
         },
         loadProject: (projectNameToLoad: string) => {
+            let previousCodeRunnerStatus = get(codeRunnerStatus)
             codeRunnerStatus.set('loading-project')
             let projects = get(thisStore)
             let projectToLoad = projects.filter(project => project.name === projectNameToLoad)?.[0]
@@ -175,7 +176,7 @@ function createProjects() {
                 currentSettings.shownModules = projectToLoad.shownModules ?? defaultProject.shownModules
                 return currentSettings
             })
-            codeRunnerStatus.set('reset')
+            codeRunnerStatus.set(previousCodeRunnerStatus)
         },
         renameProject: (oldProjectName: string, newProjectName: string) => {
             if (oldProjectName !== newProjectName) {
