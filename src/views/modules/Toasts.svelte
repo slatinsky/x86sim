@@ -27,7 +27,7 @@
                     toast.error("unrecognized toast type: " + toastObj.type)
                 }
             }
-            setTimeout(showToast, 3000)
+            setTimeout(showToast, 5)  // don't show all at the same time
         }
         else {
             animating = false

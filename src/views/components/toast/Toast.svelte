@@ -3,6 +3,7 @@
     export let type = ''
     export let position = 'bottom-center'
     $: _position = position.split('-').join(' ')
+    export let Nth = 1
 </script>
 
 <style>
@@ -33,7 +34,6 @@
         color: #FFF;
         opacity: 0;
         transition: opacity 0.2s, transform 0.2s;
-        transform: translateY(35px);
         max-width: 500px;
         width: 100%;
     }
@@ -56,5 +56,5 @@
 </style>
 
 <div class="toastContainer {_position}">
-    <div class="toastItem {type}">{msg}</div>
+    <div class="toastItem {type}" style="transform: translateY({- Nth * 60 + 70}px)">{msg}</div>
 </div>
