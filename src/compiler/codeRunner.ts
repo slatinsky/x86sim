@@ -10,6 +10,7 @@ import {createParseTree} from "@compiler/createParseTree";
 import {validateParseTree} from "@compiler/validateParseTree";
 import {objectKeyDifferences} from "../helperFunctions";
 
+export const parseTree = writable([])
 
 // breakpoints
 export const breakpoints = writable([])
@@ -91,6 +92,8 @@ class CodeRunner {
         let [rowsNew, errorsNew] = createParseTree(tokens)
         let errorsNew2
         [errorsNew2, rowsNew] = validateParseTree(rowsNew)
+
+        parseTree.set(rowsNew)
 
 
         let [instructionsNewCompiled, errorsNew3] = compileParseTree(rowsNew)

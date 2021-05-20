@@ -1,4 +1,6 @@
-export const registers = ['ip', 'ax', 'bx', 'cx', 'dx', 'si', 'di', 'bp', 'sp', 'f']
+// flag register is not in this list, because we can't modify it directly
+
+export const registers = ['ip', 'ax', 'bx', 'cx', 'dx', 'si', 'di', 'bp', 'sp']
 
 // source - first column of this csv file: https://raw.githubusercontent.com/GregoryComer/x86-csv/master/x86.csv
 // csv file was generated from Intel® 64 and IA-32 architectures software developer's manual volume 2 by Gregory Comer
@@ -9,7 +11,7 @@ export const allIntelRegisters = [
     'cx', 'cl', 'ch',
     'dx', 'dl', 'dh',
     'cs', 'ds', 'ss', 'es',
-    'si', 'di', 'bp', 'sp', 'f', 'ip'
+    'si', 'di', 'bp', 'sp', 'ip'
 ]
 export const allFlags = ['cf', 'pf', 'af', 'zf', 'sf', 'tf', 'if', 'df', 'of']
 
@@ -20,7 +22,7 @@ export const allIntel16bitRegisters = [
     'cx',
     'dx',
     'cs', 'ds', 'ss', 'es',
-    'si', 'di', 'bp', 'sp', 'f', 'ip'
+    'si', 'di', 'bp', 'sp', 'ip'
 ]
 export const allIntelSegmentRegisters = ['cs', 'ds', 'ss', 'es']
 

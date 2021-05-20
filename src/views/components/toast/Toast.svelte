@@ -56,5 +56,5 @@
 </style>
 
 <div class="toastContainer {_position}">
-    <div class="toastItem {type}" style="transform: translateY({- Nth * 60 + 70}px)">{msg}</div>
+    <div class="toastItem {type}" style="transform: translateY({- Nth * 60 + 35}px)">{msg}</div>
 </div>
