@@ -260,7 +260,7 @@
 
 {#if currentlyEditedAddress !== -1}
     <div class="hex-absolute-warning">
-        <div>{$_('views.memory.currentlyEditing')}: {intToFormattedString(currentlyEditedAddress, $settings.selectedFormat, 16)}. {$_('views.memory.escToExit')}</div>
+        <div>{$_('views.memory.currentlyEditing')}: {intToFormattedString(currentlyEditedAddress, $settings.selectedFormat, 20)}. {$_('views.memory.escToExit')}</div>
     </div>
 {/if}
 
