@@ -122,8 +122,9 @@
     .virtualContainer {
         /*border-top: 1px solid #333;*/
         /*border-bottom: 1px solid #333;*/
-        min-height: 200px;
-        height: calc(100vh - 15em);
+        /*min-height: 200px;*/
+        height: 100%;
+        max-height: calc(100vh - 15em);
         /*max-height: 600px;*/
 
         /*max-width: 600px;*/

@@ -39,6 +39,8 @@
 	import {_} from "svelte-i18n";
 	import {language} from "@stores/language";
 	import ShowHideModules from "./modules/ShowHideModules.svelte";
+	import {query_selector_all} from "svelte/internal";
+	import {onMount} from "svelte";
 
 
 	let showCalculator = false
@@ -78,6 +80,54 @@
 
 	$: stackOrMemoryCount = $settings.shownModules.showStack + $settings.shownModules.showMemory
 	$: middleModulesCount = $settings.shownModules.showCalculator + $settings.shownModules.showRegisters + $settings.shownModules.showScreen + $settings.shownModules.showKeyboard
+
+	/* START - Set stack and memory container size using Javascript. I didn't find a way to do it using CSS */
+	function setStackMemoryHeight(mddlCount, smCount) {
+		try {
+			if (mounted && document.querySelector('#areaStackMemory')) {
+				if (smCount > 0) {
+					if (0 < mddlCount && mddlCount < 2) {
+						let height = window.innerHeight - document.querySelector('nav').getBoundingClientRect().height
+						let children = document.getElementById('areaMiddleModules').childNodes;
+						for(let child of children){
+							if(child instanceof Element) {
+								height -= child.getBoundingClientRect().height
+							}
+						}
+						height -= 300  // magic value
+						document.querySelector('#areaStackMemory').setAttribute("style",`height:${Math.max(height, 0)}px`);
+					}
+					else {
+						document.querySelector('#areaStackMemory').setAttribute("style",`height:calc(100% - ${document.querySelector('nav').getBoundingClientRect().height}px)`);
+					}
+				}
+				else {
+					document.querySelector('#areaStackMemory').setAttribute("style",`height:0`);
+				}
+			}
+		}
+		catch (e) {
+			console.error("setStackMemoryHeight - should be fixed error", e)  // this error should be fixed, but just in case log it. Else it will take down entire simulator
+		}
+	}
+
+	let mounted = false
+	onMount(() => {
+		mounted = true
+		window.addEventListener('resize', function(event) {
+			setTimeout(()=>setStackMemoryHeight(middleModulesCount, stackOrMemoryCount), 100)
+		}, true)
+
+		window.addEventListener('load', function(event) {
+			setTimeout(()=>setStackMemoryHeight(middleModulesCount, stackOrMemoryCount), 100)
+		}, true)
+
+		setInterval(()=> {  // doesn't work without polling after another project load
+			setStackMemoryHeight(middleModulesCount, stackOrMemoryCount)
+		}, 1000)
+	})
+	$: setStackMemoryHeight(middleModulesCount, stackOrMemoryCount)
+	/* END - Set stack and memory container size using Javascript */
 </script>
 
 <style>

@@ -105,10 +105,10 @@
             <Tooltip tooltip={$_('tooltips.navigation.settings')} bottom>
                 <li on:click={() => $appState.settingsShown = true}><i class="fas fa-cog"></i> <span class="navLabel">{$_('views.navigation.settings')}</span></li>
             </Tooltip>
-            <Tooltip tooltip={$_('tooltips.navigation.help')} bottom>
+            <Tooltip tooltip={$_('tooltips.navigation.help')} left>
                 <li on:click={() => $appState.helpShown = true}><i class="fas fa-info-circle"></i> <span class="navLabel">{$_('views.navigation.help')}</span></li>
             </Tooltip>
-            <Tooltip tooltip="English" bottom>
+            <Tooltip tooltip="English" left>
                 <li on:click={() => $language = 'en'}><div class="icon"><IconUnitedKingdom /></div></li>
             </Tooltip>
             <Tooltip tooltip="Slovensky" left>
