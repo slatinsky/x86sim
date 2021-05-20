@@ -1,5 +1,5 @@
 import {get, writable} from "svelte/store";
-import {appState, code, debugMode, memory, registers, settings} from "./stores";
+import {appState, code, currentlyExecutedLine, debugMode, memory, registers, settings} from "./stores";
 import {createWritableStore} from "./createWritableStore";
 import {ensureObjectHasDefaultValues} from "../helperFunctions";
 import {codeRunnerStatus} from "../compiler/codeRunner";
@@ -158,7 +158,6 @@ function createProjects() {
 
         },
         loadProject: (projectNameToLoad: string) => {
-            let previousCodeRunnerStatus = get(codeRunnerStatus)
             codeRunnerStatus.set('loading-project')
             let projects = get(thisStore)
             let projectToLoad = projects.filter(project => project.name === projectNameToLoad)?.[0]
@@ -176,7 +175,13 @@ function createProjects() {
                 currentSettings.shownModules = projectToLoad.shownModules ?? defaultProject.shownModules
                 return currentSettings
             })
-            codeRunnerStatus.set(previousCodeRunnerStatus)
+
+            if (get(currentlyExecutedLine) !== -1) {
+                codeRunnerStatus.set('reset')
+            }
+            else {
+                codeRunnerStatus.set('not-runnable')
+            }
         },
         renameProject: (oldProjectName: string, newProjectName: string) => {
             if (oldProjectName !== newProjectName) {
