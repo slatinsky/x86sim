@@ -2,7 +2,7 @@
     import { _} from 'svelte-i18n'
     import {range} from "lodash-es";
     import {memory} from "../../stores/stores";
-    import {signedToUnsignedInt} from "../../formatConverter";
+    import {signedToUnsignedInt, valueToAscii} from "../../formatConverter";
 
     const OFFSET = 0xb8000  // from which memory address is screen mapped
     const COLUMNS = 80
@@ -146,7 +146,7 @@
         {#each addresses as address}
             <span class="{getColorsClasses($memory?.[address])}">
                 {#if $memory.hasOwnProperty(address + 1)}
-                    {String.fromCharCode($memory[address + 1])}
+                    {valueToAscii($memory[address + 1])}
                 {:else}
                     &nbsp;
                 {/if}

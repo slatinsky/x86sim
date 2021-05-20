@@ -2,7 +2,7 @@
     import { _} from 'svelte-i18n'
     import {memory, registers, settings} from "../../stores/stores";
 
-    import {formattedStringToInt, intToFormattedString, signedToUnsignedInt} from "../../formatConverter";
+    import {formattedStringToInt, intToFormattedString, signedToUnsignedInt, valueToAscii} from "../../formatConverter";
     import {onMount} from "svelte";
     import {differences} from "../../compiler/codeRunner";
 
@@ -112,7 +112,6 @@
             }
         }, 50)
     }
-
     onMount(() => {
         isMounted = true
     })
@@ -248,7 +247,7 @@
             <div class="hexEditorRow-asciiWrapper">
                 {#each Array(COLUMNS) as _, offset}
                     {#if $memory.hasOwnProperty(index + offset)}
-                        <div class="hexEditorRow-ascii {differentMemory.includes((index + offset).toString()) ? 'isDifferent' : ''}" on:click={() => changeValue(index + offset)}>{String.fromCharCode($memory[index + offset])} </div>
+                        <div class="hexEditorRow-ascii {differentMemory.includes((index + offset).toString()) ? 'isDifferent' : ''}" on:click={() => changeValue(index + offset)}>{valueToAscii($memory[index + offset])} </div>
                     {:else}
                         <div class="hexEditorRow-ascii {differentMemory.includes((index + offset).toString()) ? 'isDifferent' : ''} hexEditorRow-ascii-deactivated" on:click={() => changeValue(index + offset)}>.</div>
                     {/if}

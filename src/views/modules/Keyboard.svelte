@@ -2,6 +2,7 @@
     import { _} from 'svelte-i18n'
     import {keyCodesToKeyNames} from "../../config";
     import {keycodes} from "../../stores/stores";
+    import {valueToAscii} from "../../formatConverter";
     let alwaysEmptyValue = ""
     $: alwaysEmptyValue, alwaysEmptyValue = ""
 
@@ -28,7 +29,7 @@
                 return keyCodesToKeyNames[keycode]
             }
             else {
-                return String.fromCharCode(keycode)
+                return valueToAscii(keycode)
             }
         }).join(' ')
     }
