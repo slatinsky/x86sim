@@ -21,17 +21,19 @@
 <img src="assets/help/settings/checkbox_dark_theme.png" alt="" class="img-fluid d-block mx-auto mb-1">
 <img src="assets/help/settings/light_dark_theme.png" alt="" class="img-fluid d-block mx-auto mb-5">
 
-<h5 class="mt-3">Deaktivovanie histórie vykonania inštrukcií</h5>
+<h5 class="mt-3">Aktivovanie histórie vykonania inštrukcií</h5>
+<p>Zapnutím tejto možnosti:</p>
+<ul>
+    <li>Simulátor nebude používať veľké množstvo pamäte RAM pre programy dlhšie bežiace programy</li>
+    <li>Programy teoreticky budú môcť bežať nekonečne dlho</li>
+    <li>V kombinácií s vypnutými animáciami bude vykonanie inštrukcií "instantné"</li>
+</ul>
 <p>Deaktivovaním histórie sa vypne nasledovná funkcionalita:</p>
 <ul>
     <li>Nebudete môcť sa vrátiť vo vykonaní programu po krokoch späť (tlačidlá "Krok späť" a "Pretočiť naspäť"), ale bude možné simulátor vrátiť do stavu pred zapnutím krokovacieho režimu stlačením tlačidla "Reset"</li>
     <li>Simulátor nebude zobrazovať červenou farbou zmenené hodnoty v registroch a pamäti</li>
 </ul>
-<p>Zapnutím tejto možnosti:</p>
-<ul>
-    <li>Simulátor nebude používať veľké množstvo pamäte RAM pre programy dlhšie bežiace programy</li>
-    <li>V kombinácií s vypnutými animáciami bude vykonanie inštrukcií "instantné"</li>
-</ul>
+
 
 <h5 class="mt-3">Rýchlosť / vypnutie animácie</h5>
 <p>Taktiež je možné nastaviť, ako rýchlo funkcia "Spustiť" spúšťa inštrukcie (animácia). Ak vypnete túto animáciu, inštrukcie sa vykonajú instantne</p>

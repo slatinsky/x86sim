@@ -191,10 +191,10 @@ class CodeRunner {
      * sets status to ended if there is no instruction to execute
      */
     private runNextInstruction(): void {
-        let historyDisabled:boolean = get(settings).disableHistory
+        let historyEnabled :boolean = get(settings).codeExecutionHistory
         let currentInstruction = this.instructionsCompiled[registers.get('ip')]
         if (currentInstruction) {
-            if (!historyDisabled || this.history.length === 0) {  // we need to push first snapshot to stack even if history is disabled, so we can restore it later after reset
+            if (historyEnabled || this.history.length === 0) {  // we need to push first snapshot to stack even if history is disabled, so we can restore it later after reset
                 let snapshot = this.makeSnapshot()
                 this.history.push(snapshot)
             }
@@ -205,7 +205,7 @@ class CodeRunner {
             codeRunnerStatus.set('ended')
         }
 
-        if (!historyDisabled) {  // comparing snapshots is costly. Don't do it if we don't use snapshots
+        if (historyEnabled ) {  // comparing snapshots is costly. Don't do it if we don't use snapshots
             this.compareWithSnapshot()
         }
     }

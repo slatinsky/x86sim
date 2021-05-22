@@ -6,7 +6,7 @@ const defaultSettings = {
     selectedFormat: 'hex',
     darkTheme: false,
     codeExecutionDelay: 1,
-    disableHistory: false,
+    codeExecutionHistory: true,
     shownModules: {
         showCalculator: false,
         showRegisters: true,

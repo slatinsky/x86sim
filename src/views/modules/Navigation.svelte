@@ -77,7 +77,7 @@
                 <li class="{['ended', 'not-runnable', 'running'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.step()}><i class="fas fa-step-forward"></i> <span class="navLabel">{$_('views.navigation.step')}</span></li>
             </Tooltip>
 
-            {#if !$settings.disableHistory}
+            {#if $settings.codeExecutionHistory}
                 <Tooltip tooltip={$_('tooltips.navigation.stepBack')} bottom>
                     <li class="{['reset', 'not-runnable', 'running'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.stepBack()}><i class="fas fa-step-backward"></i> <span class="navLabel">{$_('views.navigation.stepBack')}</span></li>
                 </Tooltip>
@@ -90,7 +90,7 @@
                 <Tooltip tooltip={$_('tooltips.navigation.run')} bottom>
                     <li class="{['ended', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runForwards()}><i class="fas fa-forward"></i> <span class="navLabel">{$_('views.navigation.run')}</span></li>
                 </Tooltip>
-                {#if !$settings.disableHistory}
+                {#if $settings.codeExecutionHistory}
                     <Tooltip tooltip={$_('tooltips.navigation.runBackwards')} bottom>
                         <li class="{['reset', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runBackwards()}><i class="fas fa-forward fa-rotate-180"></i> <span class="navLabel">{$_('views.navigation.runBackwards')}</span></li>
                     </Tooltip>
