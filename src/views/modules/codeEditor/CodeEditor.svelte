@@ -190,7 +190,9 @@
 
 
             if (!editorFocused) {
-                editor.scrollToLine(lineNumber, true, true, function () {})
+                if ($settings.codeExecutionScroll) {
+                    editor.scrollToLine(lineNumber, true, true, function () {})
+                }
             }
         })
 

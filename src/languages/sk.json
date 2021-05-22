@@ -93,6 +93,7 @@
         "labels": {
           "selectFormat": "Formát čísel",
           "codeExecutionHistory": "Aktivovať históriu vykonania inštrukcií",
+          "codeExecutionScroll": "Sledovať IP register v editore kódu",
           "animation": "Animovať vykonávanie inštrukcií",
           "animationSpeed": "Rýchlosť animácie",
           "fastAnimation": "rýchla",
@@ -102,6 +103,7 @@
         "questionCircles": {
           "selectFormat": "Príklad: 10-ková signed: -11, 10-ková unsigned: 65525, 16-ková: 0xFFF5, 2-ková: 1111111111110101",
           "codeExecutionHistory": "Simulátor bude pomalší, ale bude možné vracať vykonané inštrukcie",
+          "codeExecutionScroll": "Editor kódu automaticky 'scrollne' na vykonanú inštrukciu",
           "darkTheme": "Ak je zapnuté, simulátor použije tmavú farebnú paletu",
           "animation": "Ak je vypnuté, inštrukcie sa vykonajú okamžite bez animácie",
           "animationSpeed": "Čas čakania medzi vykonávanými inštrukciami (v ms). Menšie číslo = rýchlejšia animácia"

@@ -93,6 +93,7 @@
         "labels": {
           "selectFormat": "Number format",
           "codeExecutionHistory": "Enable instruction execution history",
+          "codeExecutionScroll": "Follow IP register in code editor",
           "animation": "Animate instruction execution",
           "animationSpeed": "Animation speed",
           "fastAnimation": "fast",
@@ -102,6 +103,7 @@
         "questionCircles": {
           "selectFormat": "Example: base 10 signed: -11, base 10 unsigned: 65525, base 16: 0xFFF5, base 2: 1111111111110101",
           "codeExecutionHistory": "Simulation will be slower, but you will be able to rollback executed instructions",
+          "codeExecutionScroll": "Code editor will automatically scroll to where  IP register points to",
           "darkTheme": "If turned on, simulator will switch to darker color palette",
           "animation": "If turned off, instructions will be executed without delay",
           "animationSpeed": "Delay between two executed instructions (in ms). Smaller number = faster animation"

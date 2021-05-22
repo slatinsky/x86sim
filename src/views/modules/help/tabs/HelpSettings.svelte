@@ -34,6 +34,8 @@
     <li>Simulátor nebude zobrazovať červenou farbou zmenené hodnoty v registroch a pamäti</li>
 </ul>
 
+<h5 class="mt-3">Sledovať IP register v editore kódu</h5>
+<p>IP register vždy ukazuje na adresu inštrukcie, ktorá sa vykoná ako ďalšia. Zapnutím tejto možnosti pri krokovaní editor kódu automaticky posunie obrazovku tak, aby bola ďalšia vykonávaná inštrukcia vždy viditeľná</p>
 
 <h5 class="mt-3">Rýchlosť / vypnutie animácie</h5>
 <p>Taktiež je možné nastaviť, ako rýchlo funkcia "Spustiť" spúšťa inštrukcie (animácia). Ak vypnete túto animáciu, inštrukcie sa vykonajú instantne</p>

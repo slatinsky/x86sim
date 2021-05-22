@@ -7,6 +7,7 @@ const defaultSettings = {
     darkTheme: false,
     codeExecutionDelay: 1,
     codeExecutionHistory: true,
+    codeExecutionScroll: true,
     shownModules: {
         showCalculator: false,
         showRegisters: true,
