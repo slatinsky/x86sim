@@ -3,11 +3,13 @@
     import {registers, settings} from "../../stores/stores";
     import {_} from 'svelte-i18n'
     import FormatInput from "../components/FormatInput.svelte";
-    import {differences} from "../../compiler/codeRunner";
+    import {differences, executedInstructionsCount} from "../../compiler/codeRunner";
 
     $: decValues = `DEBUG - ip: ${$registers.ip}, ax: ${$registers.ax}, bx: ${$registers.bx}, cx: ${$registers.cx}, dx: ${$registers.dx}, format: ${$settings.selectedFormat}`
 
     $: differentRegisters = $differences.registers
+
+
 </script>
 
 <style>
@@ -54,6 +56,10 @@
 <!--        <Register bind:value={$registers.df} isDifferent={differentRegisters.includes('df')} bits="1" label="df" tooltip={$_('tooltips.registers.df')} bcolor="#008BC0"/>-->
         <Register bind:value={$registers.of} isDifferent={differentRegisters.includes('of')} bits="1" label="of" tooltip={$_('tooltips.registers.of')} bcolor="#008BC0"/>
     </div>
+</div>
+
+<div>
+    <b>{$_('views.modules.counter')}:</b> {$executedInstructionsCount}
 </div>
 {#if $settings.developerMode}
     <button on:click={registers.reset}>DEBUG: Prenastav registre</button>

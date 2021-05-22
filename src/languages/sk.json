@@ -58,7 +58,8 @@
       "screen": "Obrazovka",
       "keyboard": "Klávesnica",
       "stack": "Zásobníkový segment",
-      "calculator": "Kalkulačka"
+      "calculator": "Kalkulačka",
+      "counter": "Počet vykonaných inštrukcií"
     },
     "keyboard": {
       "scanCodes": "Scan kódy",

@@ -37,7 +37,6 @@ export const currentlyExecutedLine = writable(-1);
 
 registers.subscribe(updatedRegisters => {
     currentlyExecutedLine.set(eLineToEditorLine.convert(updatedRegisters.ip))
-    console.log("currentlyExecutedLine", get(currentlyExecutedLine))
 })
 
 

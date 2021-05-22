@@ -2,7 +2,7 @@ import {get, writable} from "svelte/store";
 import {appState, code, currentlyExecutedLine, debugMode, memory, registers, settings} from "./stores";
 import {createWritableStore} from "./createWritableStore";
 import {ensureObjectHasDefaultValues} from "../helperFunctions";
-import {codeRunnerStatus} from "../compiler/codeRunner";
+import {codeRunner, codeRunnerStatus} from "../compiler/codeRunner";
 import {_} from "svelte-i18n";
 import defaultProjectsJson, {defaultProjectsName} from "../defaults/defaultProjects";
 import JSZip from "jszip";
@@ -158,6 +158,7 @@ function createProjects() {
 
         },
         loadProject: (projectNameToLoad: string) => {
+            codeRunner.reset()  // reset currently loaded project and free up history, so new one can be loaded safely
             codeRunnerStatus.set('loading-project')
             let projects = get(thisStore)
             let projectToLoad = projects.filter(project => project.name === projectNameToLoad)?.[0]

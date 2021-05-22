@@ -44,6 +44,8 @@ codeRunnerStatus.subscribe((newStatus: tCodeRunnerStatus) => {
     }
 });
 
+export const executedInstructionsCount = writable(0)
+
 class CodeRunner {
     get errors(): iError[] {
         return this._errors;
@@ -166,6 +168,7 @@ class CodeRunner {
             registers.load(firstSnapshot.registers)
             memory.load(firstSnapshot.memory)
             this.history = []  // empty history
+            executedInstructionsCount.set(0)
         }
         codeRunnerStatus.set('reset')
         this.compareWithSnapshot()
@@ -197,6 +200,7 @@ class CodeRunner {
         else {
             codeRunnerStatus.set('ended')
         }
+        executedInstructionsCount.set(this.history.length)
         this.compareWithSnapshot()
     }
 
@@ -218,6 +222,7 @@ class CodeRunner {
         else if (get(codeRunnerStatus) === 'ended'){
             codeRunnerStatus.set('paused')
         }
+        executedInstructionsCount.set(this.history.length)
         this.compareWithSnapshot()
     }
 

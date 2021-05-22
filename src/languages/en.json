@@ -58,7 +58,8 @@
       "screen": "Screen",
       "keyboard": "Keyboard",
       "stack": "Stack segment",
-      "calculator": "Calculator"
+      "calculator": "Calculator",
+      "counter": "Executed instruction count"
     },
     "keyboard": {
       "scanCodes": "Scan codes",
