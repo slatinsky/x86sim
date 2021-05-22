@@ -1,5 +1,5 @@
 <script>
-    import {appState, projectName, debugMode, currentlyExecutedLine} from "../../stores/stores";
+    import {appState, projectName, debugMode, currentlyExecutedLine, settings} from "../../stores/stores";
     import {_, locale} from 'svelte-i18n'
     import Tooltip from "../components/Tooltip.svelte";
     import {codeRunner} from "../../compiler/codeRunner";
@@ -77,9 +77,11 @@
                 <li class="{['ended', 'not-runnable', 'running'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.step()}><i class="fas fa-step-forward"></i> <span class="navLabel">{$_('views.navigation.step')}</span></li>
             </Tooltip>
 
-            <Tooltip tooltip={$_('tooltips.navigation.stepBack')} bottom>
-                <li class="{['reset', 'not-runnable', 'running'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.stepBack()}><i class="fas fa-step-backward"></i> <span class="navLabel">{$_('views.navigation.stepBack')}</span></li>
-            </Tooltip>
+            {#if !$settings.disableHistory}
+                <Tooltip tooltip={$_('tooltips.navigation.stepBack')} bottom>
+                    <li class="{['reset', 'not-runnable', 'running'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.stepBack()}><i class="fas fa-step-backward"></i> <span class="navLabel">{$_('views.navigation.stepBack')}</span></li>
+                </Tooltip>
+            {/if}
             {#if $codeRunnerStatus === "running"}
                 <Tooltip tooltip={$_('tooltips.navigation.pause')} bottom>
                     <li on:click={() => codeRunner.pause()}><i class="fas fa-pause"></i> <span class="navLabel">{$_('views.navigation.pause')}</span></li>
@@ -88,9 +90,11 @@
                 <Tooltip tooltip={$_('tooltips.navigation.run')} bottom>
                     <li class="{['ended', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runForwards()}><i class="fas fa-forward"></i> <span class="navLabel">{$_('views.navigation.run')}</span></li>
                 </Tooltip>
-                <Tooltip tooltip={$_('tooltips.navigation.runBackwards')} bottom>
-                    <li class="{['reset', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runBackwards()}><i class="fas fa-forward fa-rotate-180"></i> <span class="navLabel">{$_('views.navigation.runBackwards')}</span></li>
-                </Tooltip>
+                {#if !$settings.disableHistory}
+                    <Tooltip tooltip={$_('tooltips.navigation.runBackwards')} bottom>
+                        <li class="{['reset', 'not-runnable'].includes($codeRunnerStatus) ? 'deactivated' : ''}" on:click={() => codeRunner.runBackwards()}><i class="fas fa-forward fa-rotate-180"></i> <span class="navLabel">{$_('views.navigation.runBackwards')}</span></li>
+                    </Tooltip>
+                {/if}
             {/if}
             <Tooltip tooltip={$_('tooltips.navigation.reset')} bottom>
                 <li class="{$debugMode ? '' : 'deactivated'}" on:click={() => codeRunner.reset()}><i class="fas fa-stop"></i> <span class="navLabel">{$_('views.navigation.reset')}</span></li>

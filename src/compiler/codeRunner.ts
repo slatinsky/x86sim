@@ -191,17 +191,23 @@ class CodeRunner {
      * sets status to ended if there is no instruction to execute
      */
     private runNextInstruction(): void {
+        let historyDisabled:boolean = get(settings).disableHistory
         let currentInstruction = this.instructionsCompiled[registers.get('ip')]
         if (currentInstruction) {
-            let snapshot = this.makeSnapshot()
-            this.history.push(snapshot)
+            if (!historyDisabled || this.history.length === 0) {  // we need to push first snapshot to stack even if history is disabled, so we can restore it later after reset
+                let snapshot = this.makeSnapshot()
+                this.history.push(snapshot)
+            }
             currentInstruction.run()
+            executedInstructionsCount.set(get(executedInstructionsCount) + 1)
         }
         else {
             codeRunnerStatus.set('ended')
         }
-        executedInstructionsCount.set(this.history.length)
-        this.compareWithSnapshot()
+
+        if (!historyDisabled) {  // comparing snapshots is costly. Don't do it if we don't use snapshots
+            this.compareWithSnapshot()
+        }
     }
 
     /**
@@ -214,6 +220,7 @@ class CodeRunner {
             let snapshot = this.history.pop()
             registers.load(snapshot.registers)
             memory.load(snapshot.memory)
+            executedInstructionsCount.set(get(executedInstructionsCount) - 1)
         }
 
         if (this.history.length === 0) {
@@ -222,7 +229,6 @@ class CodeRunner {
         else if (get(codeRunnerStatus) === 'ended'){
             codeRunnerStatus.set('paused')
         }
-        executedInstructionsCount.set(this.history.length)
         this.compareWithSnapshot()
     }
 

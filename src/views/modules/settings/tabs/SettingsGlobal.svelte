@@ -42,6 +42,10 @@
         <label class="form-check-label" for="flexSwitchCheckDarkTheme">{$_('views.settings.globalSettings.labels.darkTheme')} <QuestionCircle tooltip={$_('views.settings.globalSettings.questionCircles.darkTheme')} /></label>
     </div>
 
+    <div class="my-3 form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="flexSwitchHistory" bind:checked={$settings.disableHistory}>
+        <label class="form-check-label" for="flexSwitchHistory">{$_('views.settings.globalSettings.labels.disableHistory')} <QuestionCircle tooltip={$_('views.settings.globalSettings.questionCircles.disableHistory')} /></label>
+    </div>
 
     <div class="my-3 form-check form-switch">
         <input class="form-check-input" type="checkbox" id="flexSwitchAnimations" bind:checked={animationChecked} on:change={() => $settings.codeExecutionDelay <= 0 ? $settings.codeExecutionDelay = 1 : $settings.codeExecutionDelay = 0}>

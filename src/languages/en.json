@@ -92,6 +92,7 @@
         "help": "These settings will be applied to all projects",
         "labels": {
           "selectFormat": "Number format",
+          "disableHistory": "Disable instruction execution history",
           "animation": "Animate instruction execution",
           "animationSpeed": "Animation speed",
           "fastAnimation": "fast",
@@ -100,6 +101,7 @@
         },
         "questionCircles": {
           "selectFormat": "Example: base 10 signed: -11, base 10 unsigned: 65525, base 16: 0xFFF5, base 2: 1111111111110101",
+          "disableHistory": "Simulation will be faster, but you won't be able to rollback executed instructions",
           "darkTheme": "If turned on, simulator will switch to darker color palette",
           "animation": "If turned off, instructions will be executed without delay",
           "animationSpeed": "Delay between two executed instructions (in ms). Smaller number = faster animation"
