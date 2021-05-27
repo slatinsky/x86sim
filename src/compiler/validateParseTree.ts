@@ -1,6 +1,6 @@
 import {errorObject, mergeTokens} from "@compiler/createParseTree";
 import {allIntelSegmentRegisters} from "../config";
-import {opcodes} from "../stores/stores";
+import {opcodes} from "@stores";
 
 /**
  * merges all tokens from operands, so they can be used in error highlighting

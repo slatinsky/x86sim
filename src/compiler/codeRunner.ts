@@ -1,4 +1,4 @@
-import {registers, memory, currentlyExecutedLine} from "@stores/stores";
+import {registers, memory, currentlyExecutedLine} from "@stores";
 import {get, writable} from "svelte/store";
 import {settings} from "@stores/settings";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "@stores/config";

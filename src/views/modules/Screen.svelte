@@ -1,7 +1,7 @@
 <script>
     import { _} from 'svelte-i18n'
     import {range} from "lodash-es";
-    import {memory} from "../../stores/stores";
+    import {memory} from "../../stores";
     import {signedToUnsignedInt, valueToAscii} from "../../formatConverter";
 
     const OFFSET = 0xb8000  // from which memory address is screen mapped

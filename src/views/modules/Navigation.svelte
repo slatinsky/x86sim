@@ -1,5 +1,5 @@
 <script>
-    import {appState, projectName, debugMode, currentlyExecutedLine, settings} from "../../stores/stores";
+    import {appState, projectName, debugMode, currentlyExecutedLine, settings} from "../../stores";
     import {_, locale} from 'svelte-i18n'
     import Tooltip from "../components/Tooltip.svelte";
     import {codeRunner} from "../../compiler/codeRunner";

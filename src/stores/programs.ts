@@ -1,5 +1,5 @@
 import {get, writable} from "svelte/store";
-import {appState, code, currentlyExecutedLine, debugMode, memory, registers, settings} from "./stores";
+import {appState, code, currentlyExecutedLine, debugMode, memory, registers, settings} from "./index";
 import {createWritableStore} from "./createWritableStore";
 import {ensureObjectHasDefaultValues} from "../helperFunctions";
 import {codeRunner, codeRunnerStatus} from "../compiler/codeRunner";

@@ -1,4 +1,4 @@
-import {registers, memory} from "@stores/stores";
+import {registers, memory} from "@stores";
 
 // pops value from stack
 export default  {

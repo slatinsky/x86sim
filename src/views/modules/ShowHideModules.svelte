@@ -1,7 +1,7 @@
 <script>
     import Tooltip from "../components/Tooltip.svelte";
     import {_} from "svelte-i18n";
-    import {settings} from "../../stores/stores";
+    import {settings} from "../../stores";
 </script>
 
 <style>

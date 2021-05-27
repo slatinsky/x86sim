@@ -1,5 +1,5 @@
 <script>
-    import {opcodes} from "../../../../stores/stores";
+    import {opcodes} from "../../../../stores";
     import {_} from "svelte-i18n";
 
     let moveInstructions = [

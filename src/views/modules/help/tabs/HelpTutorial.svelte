@@ -1,6 +1,6 @@
 <script>
     import {defaultProjectsName} from "../../../../defaults/defaultProjects";
-    import {programs, projectName} from "../../../../stores/stores";
+    import {programs, projectName} from "../../../../stores";
 </script>
 
 <p>Aby ste sa s programovaním v jazyku symbolických inštrukcií zoznámili, simulátor obsahuje krátke tutoriálové projekty, v ktorých nájdete základné informácie, ako začať</p>

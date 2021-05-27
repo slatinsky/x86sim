@@ -1,6 +1,6 @@
 <script>
     import {_} from "svelte-i18n";
-    import {registers, settings} from "../../stores/stores";
+    import {registers, settings} from "../../stores";
     import HexEditor from "./HexEditor.svelte";
     import {SEGMENT_MEMORY_SIZE} from "../../stores/config";
     import {formattedStringToInt} from "../../formatConverter";

@@ -1,6 +1,6 @@
 <script>
     import { _} from 'svelte-i18n'
-    import {memory, registers, settings} from "../../stores/stores";
+    import {memory, registers, settings} from "../../stores";
 
     import {formattedStringToInt, intToFormattedString, signedToUnsignedInt, valueToAscii} from "../../formatConverter";
     import {onMount} from "svelte";

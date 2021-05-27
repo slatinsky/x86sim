@@ -1,6 +1,6 @@
 <script>
     import {_} from "svelte-i18n";
-    import {settings, projectName} from "../../../../stores/stores";
+    import {settings, projectName} from "../../../../stores";
     import QuestionCircle from "../../../components/QuestionCircle.svelte";
 </script>
 

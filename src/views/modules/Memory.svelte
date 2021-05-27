@@ -1,5 +1,5 @@
 <script>
-    import {memory, settings} from "../../stores/stores";
+    import {memory, settings} from "../../stores";
     import {_} from 'svelte-i18n'
     import FormatInput from "../components/FormatInput.svelte";
 </script>

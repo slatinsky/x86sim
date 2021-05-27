@@ -1,7 +1,7 @@
 <script>
     import { _} from 'svelte-i18n'
     import {keyCodesToKeyNames} from "../../config";
-    import {keycodes} from "../../stores/stores";
+    import {keycodes} from "../../stores";
     import {valueToAscii} from "../../formatConverter";
     let alwaysEmptyValue = ""
     $: alwaysEmptyValue, alwaysEmptyValue = ""

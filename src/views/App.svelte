@@ -17,8 +17,8 @@
 	import "../languages/i18n"
 
 	// stores
-	import {appState, debugMode, programs, projectName} from "../stores/stores";
-	import {settings} from "../stores/stores";
+	import {appState, debugMode, programs, projectName} from "@stores";
+	import {settings} from "@stores";
 
 	// ui
 	import Navigation from "./modules/Navigation.svelte"

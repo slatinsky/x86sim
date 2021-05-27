@@ -1,4 +1,4 @@
-import {registers} from "@stores/stores";
+import {registers} from "@stores";
 
 // Jump if positive value or zero
 // (JNS) Jump No Sign

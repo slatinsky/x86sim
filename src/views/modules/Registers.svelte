@@ -1,6 +1,6 @@
 <script>
     import Register from "./Register.svelte";
-    import {registers, settings} from "../../stores/stores";
+    import {registers, settings} from "../../stores";
     import {_} from 'svelte-i18n'
     import FormatInput from "../components/FormatInput.svelte";
     import {differences, executedInstructionsCount} from "../../compiler/codeRunner";

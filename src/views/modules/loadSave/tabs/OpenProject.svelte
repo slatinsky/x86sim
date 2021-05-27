@@ -1,5 +1,5 @@
 <script>
-    import {projectName, appState, programs, debugMode} from "../../../../stores/stores";
+    import {projectName, appState, programs, debugMode} from "../../../../stores";
     import {spinnerLoad} from "../../../../spinnerLoad";
     import { _} from 'svelte-i18n'
     import {codeRunner} from "../../../../compiler/codeRunner";

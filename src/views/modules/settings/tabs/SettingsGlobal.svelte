@@ -1,6 +1,6 @@
 <script>
     import {_} from 'svelte-i18n'
-    import {settings} from "../../../../stores/stores";
+    import {settings} from "../../../../stores";
     import QuestionCircle from "../../../components/QuestionCircle.svelte";
 
     $: formats = [

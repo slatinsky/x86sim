@@ -6,7 +6,7 @@
     import "brace/theme/dracula"
     import "brace/theme/chrome"
     import "brace/ext/language_tools"
-    import {code, currentlyExecutedLine, settings} from "../../../stores/stores"
+    import {code, currentlyExecutedLine, settings} from "../../../stores"
     import {mainCompleter, snippetsCompleter} from "./completers"
     import {annotate} from "./annotations.js"
     import { _} from 'svelte-i18n'

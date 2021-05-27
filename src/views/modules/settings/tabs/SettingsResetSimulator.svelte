@@ -1,5 +1,5 @@
 <script>
-    import {programs} from "../../../../stores/stores"
+    import {programs} from "../../../../stores"
     import {_} from "svelte-i18n";
 </script>
 

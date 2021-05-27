@@ -1,4 +1,4 @@
-import {keycodes} from "@stores/stores";
+import {keycodes} from "@stores";
 import {get} from "svelte/store";
 
 // how ps/2 input using i8042 Keyboard Controller works: http://www-ug.eecg.toronto.edu/msl/nios_devices/datasheets/PS2%20Keyboard%20Protocol.htm

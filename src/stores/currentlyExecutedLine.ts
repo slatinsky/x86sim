@@ -1,5 +1,5 @@
 import {get, writable} from "svelte/store";
-import {registers} from "@stores/stores";
+import {registers} from "@stores";
 
 export class CurrentlyExecutedLine {
     private mapping: {}

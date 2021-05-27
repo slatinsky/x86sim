@@ -2,7 +2,7 @@
     import { fade } from 'svelte/transition';
     import {onMount, afterUpdate} from 'svelte';
     import Register from "./Register.svelte";
-    import {memory, registers, settings} from "../../stores/stores";
+    import {memory, registers, settings} from "../../stores";
     import { _} from 'svelte-i18n'
     import {intToFormattedString} from "../../formatConverter";
 

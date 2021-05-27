@@ -1,7 +1,7 @@
 <script>
     import {_} from "svelte-i18n";
     import HexEditor from "./HexEditor.svelte";
-    import {settings} from "../../stores/stores";
+    import {settings} from "../../stores";
     import {formattedStringToInt} from "../../formatConverter";
     import {MEMORY_SIZE} from "../../stores/config";
     let columns = 8
