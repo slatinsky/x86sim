@@ -198,7 +198,6 @@ export class Programs {
 
     saveCurrentProject() {
         if (!get(debugMode)) {
-            console.log("this", this)
             this.update(projects => {
                 let projectToSave = {
                     version: 1,

@@ -1,7 +1,7 @@
 import {get, writable} from "svelte/store";
-import {registers} from "@stores/registers";
+import {registers} from "@stores/stores";
 
-class CurrentlyExecutedLine {
+export class CurrentlyExecutedLine {
     private mapping: {}
     subscribe: any
     update: any
@@ -48,7 +48,7 @@ class CurrentlyExecutedLine {
     }
 }
 
-export let currentlyExecutedLine = new CurrentlyExecutedLine()
+
 
 
 

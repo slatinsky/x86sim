@@ -156,6 +156,4 @@ export class Registers {
     }
 }
 
-// TODO: move this to stores.ts
-export const registers = new Registers();
 
