@@ -1,14 +1,14 @@
-import {registers} from "@stores/stores";
+import {registers, memory, currentlyExecutedLine} from "@stores/stores";
 import {get, writable} from "svelte/store";
-import {memory} from "@stores/stores";
 import {settings} from "@stores/settings";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "@stores/config";
-import {compileParseTree, currentlyExecutedLine} from "./compileParseTree";
-import {_} from "svelte-i18n";
+import {compileParseTree} from "./compileParseTree";
+import {_, locale} from "svelte-i18n";
 import {tokenize} from "@compiler/tokenizer";
 import {createParseTree} from "@compiler/createParseTree";
 import {validateParseTree} from "@compiler/validateParseTree";
 import {objectKeyDifferences} from "../helperFunctions";
+import {language} from "@stores/language";
 
 export const parseTree = writable([])
 
@@ -62,11 +62,13 @@ class CodeRunner {
         this._errors = []
         this.instructionsCompiled = []
 
+        addEventListener("load", ()=> {
+            // subscribe for code changes
+            code.subscribe(updatedCode => {
+                this.compile(updatedCode)
+            });
+        })
 
-        // subscribe for code changes
-        code.subscribe(updatedCode => {
-            this.compile(updatedCode)
-        });
     }
 
 

@@ -1,17 +1,21 @@
 import {registers} from "./registers"
 import {Programs, projectName} from "./programs"
 
+import {currentlyExecutedLine} from "@stores/currentlyExecutedLine";
+export {currentlyExecutedLine}
+
 import {Memory} from "./memory"
 import {writable} from "svelte/store";
-import { currentlyExecutedLine } from '@compiler/compileParseTree';
 import {code, debugMode} from "@compiler/codeRunner";
 import {opcodes} from "@compiler/opcodes";
 
-const memory = new Memory();
-const programs = new Programs();
 
 
-export {registers, memory, programs, projectName, code, currentlyExecutedLine, debugMode, opcodes}
+export const memory = new Memory();
+export const programs = new Programs();
+
+
+export {registers, projectName, code, debugMode, opcodes}
 export {settings} from "./settings"
 export {appState} from "./appState"
 

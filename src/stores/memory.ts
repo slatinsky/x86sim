@@ -19,7 +19,7 @@ export class Memory {
 
         // load autosave from localstorage
         if (localStorage.getItem('memory')) {
-            memory.load(JSON.parse(localStorage.getItem('memory')))
+            this.load(JSON.parse(localStorage.getItem('memory')))
         }
     }
 

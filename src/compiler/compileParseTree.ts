@@ -1,43 +1,11 @@
 import {opcodes} from "./opcodes"
-import {registers} from "@stores/stores"
+import {currentlyExecutedLine, registers} from "@stores/stores"
 import {get, writable} from "svelte/store"
 import type {tRegister} from "../types/types"
 import { memory } from "@stores/stores"
 import {errorObject} from "./createParseTree";
 import {signedToUnsignedInt} from "../formatConverter";
 
-class executedLineToEditorLine {
-    private mapping: {}
-
-    constructor() {
-        this.mapping = {}
-    }
-
-    updateRows(rows: iRow[]) {
-        this.mapping = {}
-        let counter = 0
-
-        for (const row of rows) {
-            if (row.type === 'instruction') {
-                this.mapping[counter] = row.opcode.row
-                counter++
-            }
-        }
-
-        currentlyExecutedLine.set(eLineToEditorLine.convert(get(registers).ip))
-    }
-
-    convert(ipRegister: number) {
-        return this.mapping?.[ipRegister] ?? -1
-    }
-}
-
-let eLineToEditorLine = new executedLineToEditorLine()
-export const currentlyExecutedLine = writable(-1);
-
-registers.subscribe(updatedRegisters => {
-    currentlyExecutedLine.set(eLineToEditorLine.convert(updatedRegisters.ip))
-})
 
 
 
@@ -183,7 +151,7 @@ function parseLabels(rows: iRow[]): {[labelName: string]: number} {
 export function compileParseTree(rows: iRow[], pass:number=0): [iCompiledInstruction[], iError[]] {
     let errors: iError[] = []
 
-    eLineToEditorLine.updateRows(rows)
+    currentlyExecutedLine.updateRows(rows)
 
     if (rows.length === 0) { // nothing left to compile
         return [[], []]
@@ -237,7 +205,7 @@ export function compileParseTree(rows: iRow[], pass:number=0): [iCompiledInstruc
 
     console.log("newCompiledInstructions", compiledInstructions)
 
-    currentlyExecutedLine.set(eLineToEditorLine.convert(get(registers).ip))
+    currentlyExecutedLine.refresh()
 
     // if (compiledInstructions.length > 0)
     //     compiledInstructions[0].run().then(r => console.log(r))

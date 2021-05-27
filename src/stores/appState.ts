@@ -1,4 +1,4 @@
-import {writable} from "svelte/store";
+import {createWritableStore} from "@stores/createWritableStore";
 
 let defaultAppState = {
     settingsShown: false,
@@ -7,4 +7,6 @@ let defaultAppState = {
     loadingReason: ""
 }
 
-export const appState = writable(defaultAppState)
+export const appState = createWritableStore("appState", defaultAppState)
+// for some reason it doesn't work with default 'writable' from svelte
+// errors out while switching projects
