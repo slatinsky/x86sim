@@ -1,4 +1,4 @@
-import {registers} from "@stores/registers";
+import {registers} from "@stores/stores";
 import {get, writable} from "svelte/store";
 import {memory} from "@stores/memory";
 import {settings} from "@stores/settings";

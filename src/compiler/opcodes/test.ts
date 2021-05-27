@@ -1,4 +1,4 @@
-import {registers} from "@stores/registers";
+import {registers} from "@stores/stores";
 
 // does 'bitwise and' and sets ONLY flags according to the result
 export default  {

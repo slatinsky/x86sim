@@ -24,9 +24,9 @@
 <h5 class="mt-3">Aktivovanie histórie vykonania inštrukcií</h5>
 <p>Zapnutím tejto možnosti:</p>
 <ul>
-    <li>Simulátor nebude používať veľké množstvo pamäte RAM pre programy dlhšie bežiace programy</li>
+    <li>Simulátor nebude používať veľké množstvo pamäte RAM pre dlhšie bežiace programy</li>
     <li>Programy teoreticky budú môcť bežať nekonečne dlho</li>
-    <li>V kombinácií s vypnutými animáciami bude vykonanie inštrukcií "instantné"</li>
+    <li>V kombinácií s vypnutými animáciami bude vykonanie inštrukcií veľmi rýchle, až "instantné"</li>
 </ul>
 <p>Deaktivovaním histórie sa vypne nasledovná funkcionalita:</p>
 <ul>

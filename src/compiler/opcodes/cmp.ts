@@ -1,4 +1,4 @@
-import {registers} from "@stores/registers";
+import {registers} from "@stores/stores";
 
 // subtracts operands and sets ONLY flags according to the result
 export default  {
