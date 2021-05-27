@@ -17,21 +17,7 @@ import {opcodes} from "@compiler/opcodes";
 // note: code in this file runs only one
 
 
-// load autosaved project
-programs.loadCurrentProject()
 
-
-// autosave currently opened project
-const throttledSaveCurrentProject = throttle(programs.saveCurrentProject, 1000);  // 1 sec throttle
-code.subscribe(updatedCode => {
-    throttledSaveCurrentProject()
-});
-registers.subscribe(_ => {
-    throttledSaveCurrentProject()
-});
-memory.subscribe(_ => {
-    throttledSaveCurrentProject()
-});
 export {registers, memory, programs, projectName, code, currentlyExecutedLine, debugMode, opcodes}
 // export {registers, memory, programs, projectName, code, currentlyExecutedLine, compiledInstructions, debugMode, programIsRunning}
 // export {registers, memory, programs, projectName, currentlyExecutedLine}
