@@ -107,6 +107,3 @@ export class Memory {
         }
     }
 }
-
-// TODO: move this to stores.ts
-export const memory = new Memory();

@@ -1,4 +1,4 @@
-import {createWritableStore} from "./createWritableStore";
+import {writable} from "svelte/store";
 
 let defaultAppState = {
     settingsShown: false,
@@ -7,6 +7,4 @@ let defaultAppState = {
     loadingReason: ""
 }
 
-
-
-export const appState = createWritableStore('appState', defaultAppState)
+export const appState = writable(defaultAppState)

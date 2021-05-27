@@ -2,11 +2,9 @@ import {opcodes} from "./opcodes"
 import {registers} from "@stores/stores"
 import {get, writable} from "svelte/store"
 import type {tRegister} from "../types/types"
-import { memory } from "@stores/memory"
+import { memory } from "@stores/stores"
 import {errorObject} from "./createParseTree";
 import {signedToUnsignedInt} from "../formatConverter";
-import {locale} from "svelte-i18n";
-import {language} from "@stores/language";
 
 class executedLineToEditorLine {
     private mapping: {}

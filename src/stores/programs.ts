@@ -410,5 +410,3 @@ export class Programs {
     }
 }
 
-// TODO: move this to stores.ts
-export const programs = new Programs();

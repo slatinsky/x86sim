@@ -1,6 +1,6 @@
 import {registers} from "@stores/stores";
 import {get, writable} from "svelte/store";
-import {memory} from "@stores/memory";
+import {memory} from "@stores/stores";
 import {settings} from "@stores/settings";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "@stores/config";
 import {compileParseTree, currentlyExecutedLine} from "./compileParseTree";
