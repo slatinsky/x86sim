@@ -34,7 +34,6 @@ interface Project {
 
 
 export class Programs {
-    this: any
     subscribe: any
     update: any
     setSvelte: any  // original svelte set

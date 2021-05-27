@@ -6,7 +6,6 @@ import {toastQueue} from "@stores/toastQueue";
 
 
 export class Memory {
-    this: any
     subscribe: any
     update: any
     setSvelte: any  // original svelte set

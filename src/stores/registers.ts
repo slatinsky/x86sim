@@ -31,7 +31,6 @@ interface Register {
 
 
 export class Registers {
-    this: any
     subscribe: any
     update: any
     setSvelte: any  // original svelte set

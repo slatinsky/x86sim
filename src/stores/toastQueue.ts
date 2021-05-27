@@ -6,53 +6,63 @@ interface tToastObj {
     msg: string
 }
 
-function createToastQueue() {
-    const {subscribe, set, update} = writable([]);
-
-
+class ToastQueue {
+    subscribe: any
+    private readonly update: any
+    private set: any
 
     /**
      * Add message do queue
      */
-    const enqueue = (type: tToast, msg: string) => {
+    private enqueue(type: tToast, msg: string) {
         let objToInsert: tToastObj = {
             type,
             msg
         }
-        update(storeObj => {
+        this.update(storeObj => {
             storeObj = [...storeObj, objToInsert]
             return storeObj
         })
     }
 
-    const thisStore = {
-        subscribe,
-        set,
-        update,
-        success: (msg: string) => {
-            enqueue('success', msg)
-        },
-        error: (msg: string) => {
-            enqueue('error', msg)
-        },
-        dequeue: () => {
-            let itemRemoved
-            update(storeObj => {
-                let queue = get(thisStore)
-                if (queue.length === 0) {
-                    itemRemoved = null
-                }
-                else {
-                    itemRemoved = queue.shift()
-                    storeObj = storeObj
-                }
-                return storeObj
-            })
-            return itemRemoved
-        }
+    constructor() {
+        const {subscribe, set, update} = writable([]);
+        this.set = set
+        this.subscribe = subscribe
+        this.update = update
     }
 
-    return thisStore
+    success(msg: string) {
+        this.enqueue('success', msg)
+    }
+
+    error(msg: string) {
+        this.enqueue('error', msg)
+    }
+
+    dequeue() {
+        let itemRemoved
+        this.update(storeObj => {
+            let queue = this.get()
+            if (queue.length === 0) {
+                itemRemoved = null
+            }
+            else {
+                itemRemoved = queue.shift()
+                storeObj = storeObj
+            }
+            return storeObj
+        })
+        return itemRemoved
+    }
+
+    /**
+     * get queue array from svelte store
+     * @private
+     */
+    private get(): tToastObj[] {
+        return get(this)
+    }
 }
 
-export const toastQueue = createToastQueue();
+export const toastQueue = new ToastQueue();
