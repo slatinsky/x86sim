@@ -31,7 +31,7 @@ export function signedToUnsignedInt(signedInt, bits) {
 /**
  * converts unsigned integer to signed integer
  */
-function unsignedToSignedInt(unsignedInt, bits) {
+export function unsignedToSignedInt(unsignedInt, bits) {
     if (bits === 16) {
         return (new Int16Array([unsignedInt]))[0]
     }
@@ -250,29 +250,3 @@ export function valueToAscii(signedValue: number) {
         return windows1252[unsignedValue]
     }
 }
-
-
-// TODO: port ugly console tests to test library
-// console.log("test 1", signedToUnsignedInt(-1, 16), "=", 65535)
-// console.log("test 2", unsignedToSignedInt(65535, 16), "=", -1)
-// console.log("test 3", formattedStringToInt('fe0c', 'hex', 16), "=", -500)
-// console.log("test 4", formattedStringToInt('ffff', 'hex', 16), "=", -1)
-// console.log("test 5", formattedStringToInt('8000', 'hex', 16), "=", -32768)
-// console.log("test 6", formattedStringToInt('7fff', 'hex', 16), "=", 32767)
-// console.log("test 7", intToFormattedString(-500, 'hex', 16), "=", 'fe0c')
-// console.log("test 8", intToFormattedString(-1, 'hex', 16), "=", 'ffff')
-// console.log("test 9", intToFormattedString(-32768, 'hex', 16), "=", '8000')
-// console.log("test 10", intToFormattedString(32767, 'hex', 16), "=", '7fff')
-//
-// console.log("test 11", formattedStringToInt('0', 'unsigned', 16), "=", 0)
-// console.log("test 12", formattedStringToInt('65535', 'unsigned', 16), "=", -1)
-// console.log("test 13", intToFormattedString(0, 'unsigned', 16), "=", '0')
-// console.log("test 14", intToFormattedString(-1, 'unsigned', 16), "=", '65535')
-
-// console.log("test 15", split16bitToTwo8bit(-1), "=", '[-1, -1]')
-// console.log("test 16", split16bitToTwo8bit(256), "=", '[0, 1]')
-// console.log("test 17", split16bitToTwo8bit(99999999), "=", 'does it overflow to range [<-127; 128>, <-127; 128>]?')
-//
-// console.log("test 18", mergeTwo8bitTo16bit(-1, -1), "=", '-1')
-// console.log("test 19", mergeTwo8bitTo16bit(0, 1), "=", '256')
-

@@ -55,6 +55,18 @@ To create optimized production build, compile using `npm run build`. After compi
 
 You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv) dependency.
 
+## Tests
+Tests use `Mocha` testing library.
+
+### Running tests
+To run tests, run `npm run test` in command line
+
+Or directly inside WebStorm IDE using `ALT+SHIFT+R` shortcut
+
+### Creating new test
+For example fi you have file named `exampleFileName.ts` inside `src/` folder, create `exampleFileName.spec.ts` file. All `.spec.ts` files will be run if you run tests.
+
+
 ## Design choices
 Stack and data memory shares the same memory region. Stack is at the end of the memory.
 
