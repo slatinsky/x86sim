@@ -1,11 +1,8 @@
 <script>
-    import {projectName, appState, programs, debugMode} from "../../../../stores";
+    import {projectName, appState, programs, debugMode, codeRunner} from "../../../../stores";
     import {spinnerLoad} from "../../../../spinnerLoad";
     import { _} from 'svelte-i18n'
-    import {codeRunner} from "../../../../compiler/codeRunner";
     import {toastQueue} from "../../../../stores/toastQueue";
-
-
 
     let value
 

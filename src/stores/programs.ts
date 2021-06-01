@@ -1,8 +1,7 @@
 import {get, writable} from "svelte/store";
-import {appState, code, currentlyExecutedLine, debugMode, memory, registers, settings} from "./index";
+import {appState, code, codeRunner, codeRunnerStatus, currentlyExecutedLine, debugMode, memory, registers, settings} from "./index";
 import {createWritableStore} from "./helpers/createWritableStore";
 import {ensureObjectHasDefaultValues} from "../helperFunctions";
-import {codeRunner, codeRunnerStatus} from "../compiler/codeRunner";
 import {_} from "svelte-i18n";
 import defaultProjectsJson, {defaultProjectsName} from "../defaults/defaultProjects";
 import JSZip from "jszip";

@@ -1,9 +1,7 @@
 <script>
-    import {appState, projectName, debugMode, currentlyExecutedLine, settings} from "../../stores";
-    import {_, locale} from 'svelte-i18n'
+    import {appState, projectName, debugMode, settings, codeRunner, codeRunnerStatus} from "../../stores";
+    import {_} from 'svelte-i18n'
     import Tooltip from "../components/Tooltip.svelte";
-    import {codeRunner} from "../../compiler/codeRunner";
-    import {codeRunnerStatus} from "../../compiler/codeRunner";
     import QuestionCircle from "../components/QuestionCircle.svelte";
     import IconUnitedKingdom from "../../assets/icons/united-kingdom.svg";
     import IconSlovakia from "../../assets/icons/slovakia.svg";

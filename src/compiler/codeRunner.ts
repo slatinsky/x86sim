@@ -1,5 +1,5 @@
 import {registers, memory, currentlyExecutedLine} from "@stores";
-import {get, writable} from "svelte/store";
+import {derived, get, writable} from "svelte/store";
 import {settings} from "@stores/settings";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "@stores/config";
 import {compileParseTree} from "./compileParseTree";
@@ -19,7 +19,7 @@ export const differences = writable({
     memory: [],
 })
 
-export const code = writable('')
+
 export const lineAddressMapping = writable<{ [key: number]: number }>({})
 
 interface iHistorySnapshot { // TODO add more strict types
@@ -28,42 +28,48 @@ interface iHistorySnapshot { // TODO add more strict types
 }
 
 type tCodeRunnerStatus = 'not-runnable' | 'reset' | 'paused' | 'running' | 'ended' | 'loading-project'
-export const codeRunnerStatus = writable<tCodeRunnerStatus>('not-runnable');
-export const debugMode = writable<boolean>(false);
-
-codeRunnerStatus.subscribe((newStatus: tCodeRunnerStatus) => {
-    console.log("codeRunnerStatus", newStatus)
-    if (newStatus === 'not-runnable' || newStatus === 'reset') {
-        debugMode.set(false)
-    }
-    else if (newStatus === 'paused' || newStatus === 'running' || newStatus === 'ended' || 'loading-project') {
-        debugMode.set(true)
-    }
-    else {
-        console.error("codeRunner.ts - codeRunnerStatus subscribe unknown status", newStatus)
-    }
-});
 
 export const executedInstructionsCount = writable(0)
 
-class CodeRunner {
+export class CodeRunner {
+    // public stores
+    public status: any    // old codeRunnerStatus store
+    public code: any      // store - contains original code string
+    public debugMode: any //
+
+
     get errors(): iError[] {
         return this._errors;
     }
-    private readonly compile: (updatedCode: string) => void;
     private history: iHistorySnapshot[];
     private _errors: iError[];
     private instructionsCompiled: iCompiledInstruction[];
 
     constructor() {
         this.history = []
-        // this.compile = throttle(this._compileUnthrottled, 50);  // .05 sec throttle - not updating correctly last change
-        this.compile = this._compileUnthrottled
         this._errors = []
         this.instructionsCompiled = []
 
+        this.code = writable('')
+        this.status = writable<tCodeRunnerStatus>('not-runnable');
+
+        this.debugMode = derived(this.status, (newStatus) => {
+            console.log("codeRunnerStatus", newStatus)
+            if (newStatus === 'not-runnable' || newStatus === 'reset') {
+                return false
+            }
+            else if (newStatus === 'paused' || newStatus === 'running' || newStatus === 'ended' || 'loading-project') {
+                return true
+            }
+            else {
+                console.error("codeRunner.ts - codeRunnerStatus subscribe unknown status", newStatus)
+                return true
+            }
+        });
+
+        // compile code on code change
         setTimeout(()=> {
-            code.subscribe(updatedCode => {
+            this.code.subscribe(updatedCode => {
                 this.compile(updatedCode)
             });
         }, 1000)
@@ -87,8 +93,7 @@ class CodeRunner {
         lineAddressMapping.set(newLineAddressMapping)
     }
 
-    // unthrottled
-    private _compileUnthrottled(updatedCode: string): void {
+    private compile(updatedCode: string): void {
 
         let tokens = tokenize(updatedCode)
         let [rowsNew, errorsNew] = createParseTree(tokens)
@@ -102,12 +107,12 @@ class CodeRunner {
         this.instructionsCompiled = instructionsNewCompiled
 
         if (instructionsNewCompiled.length > 0) {
-            if (get(codeRunnerStatus) === 'not-runnable') {
-                codeRunnerStatus.set('reset')
+            if (get(this.status) === 'not-runnable') {
+                this.status.set('reset')
             }
         }
         else {
-            codeRunnerStatus.set('not-runnable')
+            this.status.set('not-runnable')
         }
 
         this.updateLineAddressMapping()
@@ -149,7 +154,7 @@ class CodeRunner {
 
     // ---------- COMMANDS from navbar ----------
     public pause(): void {
-        codeRunnerStatus.set('paused')
+        this.status.set('paused')
     }
 
     public async runForwards(): Promise<void> {
@@ -170,12 +175,12 @@ class CodeRunner {
             this.history = []  // empty history
             executedInstructionsCount.set(0)
         }
-        codeRunnerStatus.set('reset')
+        this.status.set('reset')
         this.compareWithSnapshot()
     }
 
     public step(): void {
-        codeRunnerStatus.set('paused')
+        this.status.set('paused')
         this.runNextInstruction()
     }
 
@@ -202,7 +207,7 @@ class CodeRunner {
             executedInstructionsCount.set(get(executedInstructionsCount) + 1)
         }
         else {
-            codeRunnerStatus.set('ended')
+            this.status.set('ended')
         }
 
         if (historyEnabled ) {  // comparing snapshots is costly. Don't do it if we don't use snapshots
@@ -224,10 +229,10 @@ class CodeRunner {
         }
 
         if (this.history.length === 0) {
-            codeRunnerStatus.set('reset')
+            this.status.set('reset')
         }
-        else if (get(codeRunnerStatus) === 'ended'){
-            codeRunnerStatus.set('paused')
+        else if (get(this.status) === 'ended'){
+            this.status.set('paused')
         }
         this.compareWithSnapshot()
     }
@@ -249,9 +254,9 @@ class CodeRunner {
     private async run(callback: () => void): Promise<void> {
         let executedInstructionsCounter = 0  // count of instructions that run without UI rerender
         let codeExecutionDelay = get(settings).codeExecutionDelay
-        codeRunnerStatus.set('running')
+        this.status.set('running')
         while (true) {
-            if (get(codeRunnerStatus) !== 'running') {
+            if (get(this.status) !== 'running') {
                 return
             }
 
@@ -288,9 +293,8 @@ class CodeRunner {
                 await this.sleep(codeExecutionDelay);
             }
         }
-        codeRunnerStatus.set('paused')
+        this.status.set('paused')
     }
 }
 
 
-export const codeRunner = new CodeRunner()
