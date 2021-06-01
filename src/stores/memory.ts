@@ -1,9 +1,9 @@
 import {get, writable} from "svelte/store";
 import {MEMORY_SIZE} from "./config";
-import {calculateFlags} from "@compiler/calculateFlags";
 import {handleOverflow, mergeTwo8bitTo16bit, split16bitToTwo8bit} from "../formatConverter";
 import {toastQueue} from "@stores/toastQueue";
 import type {tTokenBits} from "@compiler/types";
+import {registers} from "@stores/index";
 
 
 export class Memory {
@@ -77,7 +77,7 @@ export class Memory {
     setWithFlags(address:any, newValue, bits: tTokenBits = 8) {
         this.set(address, newValue, bits)
         let storedNewValue = this.get(address, bits)  // if overflow occurred, actual stored value is different
-        calculateFlags(newValue, storedNewValue)
+        registers.calculateFlags(newValue, storedNewValue)
     }
     reset() {
         this.setSvelte({})

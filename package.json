@@ -8,7 +8,7 @@
     "watch": "rollup -c -w",
     "start": "sirv public",
     "validate": "svelte-check",
-    "test": "node ./node_modules/mocha/bin/mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "node ./node_modules/mocha/bin/mocha -r mock-local-storage -r ts-node/register -r tsconfig-paths/register src/**/*.spec.ts"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",
@@ -27,6 +27,7 @@
     "chai": "^4.3.4",
     "lodash-es": "^4.17.21",
     "mocha": "^8.4.0",
+    "mock-local-storage": "^1.1.17",
     "rollup": "^2.39.1",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
@@ -44,11 +45,11 @@
     "svelte-toast": "^1.0.0",
     "svelte-tooltip": "^1.2.0",
     "ts-node": "^10.0.0",
+    "tsconfig-paths": "^3.9.0",
     "tslib": "^2.1.0",
-    "typescript": "^3.9.9"
-  },
-  "dependencies": {
+    "typescript": "^3.9.9",
     "file-saver": "^2.0.5",
     "jszip": "^3.6.0"
-  }
+  },
+  "dependencies": {}
 }

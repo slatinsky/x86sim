@@ -59,7 +59,7 @@ You can run the newly built app with `npm run start`. This uses [sirv](https://g
 Tests use `Mocha` testing library.
 
 ### Running tests
-To run tests, run `npm run test` in command line
+To run tests, run `npm run test` in command line (shorter `npm t`)
 
 Or directly inside WebStorm IDE using `ALT+SHIFT+R` shortcut
 

@@ -1,8 +1,7 @@
 import {get, writable} from "svelte/store";
 import type {tRegister} from "../types/types";
 import {MEMORY_SIZE} from "./config";
-import {calculateFlags} from "@compiler/calculateFlags";
-import {mergeTwo8bitTo16bit, split16bitToTwo8bit} from "../formatConverter";
+import {handleOverflow, intToFormattedString, mergeTwo8bitTo16bit, split16bitToTwo8bit} from "../formatConverter";
 
 interface Register {
     ip: number,
@@ -82,7 +81,7 @@ export class Registers {
 
         this.update(storeObj => {
             // @ts-ignore
-            storeObj[registerName] = newValue
+            storeObj[registerName] = handleOverflow(newValue, 16) // TODO: is register there always 16-bit?
             return storeObj
         })
     }
@@ -91,7 +90,7 @@ export class Registers {
     setWithFlags(attributeName:any, newValue) {
         this.set(attributeName, newValue)
         let storedNewValue = this.get(attributeName)  // if overflow occurred, actual stored value is different
-        calculateFlags(newValue, storedNewValue)
+        this.calculateFlags(newValue, storedNewValue)
     }
 
 
@@ -153,6 +152,34 @@ export class Registers {
         this.set('if', 0)
         this.set('df', 0)
         this.set('of', 0)
+    }
+
+    /**
+     * @param newValue Value that should be stored
+     * @param storedNewValue Value that was actually stored (corrected with overflow to fit)
+     */
+    calculateFlags(newValue, storedNewValue) {
+        this.resetFlags()  // all flags to zero
+
+        // TODO: implement c, a, t, i, d
+        // Simple tutorial, how flags ar set https://www.geeksforgeeks.org/flag-register-8085-microprocessor/#:~:text=In%208085%20microprocessor%2C%20flag%20register,flag%20becomes%20set%2C%20i.e.%201.
+        if (storedNewValue == 0) {  // if value is zero, then set zero flag to 1
+            this.set('zf', 1)
+        }
+        if (storedNewValue < 0) { // if most significant bit is set to one, then set sign flag to 1
+            this.set('sf', 1)
+        }
+
+        let newValueInBinary: string = intToFormattedString(storedNewValue, 'bin', 16)
+        let binaryOnesCount = (newValueInBinary.split("1").length - 1)
+        if (binaryOnesCount % 2 === 0) {  // if even number of ones, set parity flag to 1
+            this.set('pf', 1)
+        }
+
+        if (newValue !== storedNewValue) {  // if stored value is not the value we wanted to store, overflow occurred
+            this.set('of', 1)
+        }
+        // console.log("newValue, storedNewValue", newValue, storedNewValue)
     }
 }
 
