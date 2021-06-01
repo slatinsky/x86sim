@@ -28,15 +28,15 @@ describe('registers', () => {
         const expected = 9
         expect(result).to.equal(expected)
     })
-    it('parity flag for even value', () => {
-        registers.setWithFlags('ax', 10)
+    it('parity flag for even number of bits', () => {
+        registers.setWithFlags('ax', 0b0011)
 
         const result = registers.get('pf')
         const expected = 1
         expect(result).to.equal(expected)
     })
-    it('parity flag for odd value', () => {
-        registers.setWithFlags('ax', 11)
+    it('parity flag for odd number of bits', () => {
+        registers.setWithFlags('ax', 0b0010)
 
         const result = registers.get('pf')
         const expected = 0

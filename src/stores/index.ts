@@ -8,8 +8,8 @@ import {opcodes} from "@compiler/opcodes";
 import {CodeRunner} from "@compiler/codeRunner";
 
 export const registers = new Registers();
-export const currentlyExecutedLine = new CurrentlyExecutedLine(registers)
 export const memory = new Memory(registers);
+export const currentlyExecutedLine = new CurrentlyExecutedLine(registers)
 export const codeRunner = new CodeRunner()
 export const code = codeRunner.code
 export const debugMode = codeRunner.debugMode
