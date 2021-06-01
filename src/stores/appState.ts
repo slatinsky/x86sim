@@ -1,4 +1,4 @@
-import {createWritableStore} from "@stores/createWritableStore";
+import {createWritableStore} from "@stores/helpers/createWritableStore";
 
 let defaultAppState = {
     settingsShown: false,

@@ -1,4 +1,4 @@
-import {createWritableStore} from "./createWritableStore";
+import {createWritableStore} from "./helpers/createWritableStore";
 import {locale} from "svelte-i18n";
 import {get} from "svelte/store";
 

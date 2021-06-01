@@ -3,20 +3,21 @@ import {MEMORY_SIZE} from "./config";
 import {handleOverflow, mergeTwo8bitTo16bit, split16bitToTwo8bit} from "../formatConverter";
 import {toastQueue} from "@stores/toastQueue";
 import type {tTokenBits} from "@compiler/types";
-import {registers} from "@stores/index";
 
 
 export class Memory {
     subscribe: any
     update: any
     setSvelte: any  // original svelte set
+    registers: any
 
-    constructor() {
+    constructor(registers) {
         const {subscribe, set, update} = writable({});
 
         this.setSvelte = set
         this.subscribe = subscribe
         this.update = update
+        this.registers = registers
 
         // load autosave from localstorage
         if (localStorage.getItem('memory')) {
@@ -77,7 +78,7 @@ export class Memory {
     setWithFlags(address:any, newValue, bits: tTokenBits = 8) {
         this.set(address, newValue, bits)
         let storedNewValue = this.get(address, bits)  // if overflow occurred, actual stored value is different
-        registers.calculateFlags(newValue, storedNewValue)
+        this.registers.calculateFlags(newValue, storedNewValue)
     }
     reset() {
         this.setSvelte({})

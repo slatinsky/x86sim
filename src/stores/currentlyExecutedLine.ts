@@ -1,5 +1,4 @@
 import {get, writable} from "svelte/store";
-import {registers} from "@stores";
 import type {iRow} from "@compiler/types";
 
 export class CurrentlyExecutedLine {
@@ -7,10 +6,12 @@ export class CurrentlyExecutedLine {
     subscribe: any
     update: any
     set: any
+    registers: any
 
-    constructor() {
+    constructor(registers) {
+        this.registers = registers
+
         this.mapping = {}
-
         const {subscribe, set, update} = writable(-1);
         this.set = set
         this.subscribe = subscribe
@@ -41,7 +42,7 @@ export class CurrentlyExecutedLine {
 
     refresh() {
         // @ts-ignore
-        this.refreshFromIpRegister(get(registers).ip)
+        this.refreshFromIpRegister(get(this.registers).ip)
     }
 
     private refreshFromIpRegister(ipRegister: number): void {

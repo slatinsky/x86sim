@@ -3,7 +3,7 @@ import {get, writable} from "svelte/store";
 import {settings} from "@stores/settings";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "@stores/config";
 import {compileParseTree} from "./compileParseTree";
-import {_, locale} from "svelte-i18n";
+import {_} from "svelte-i18n";
 import {tokenize} from "@compiler/tokenizer";
 import {createParseTree} from "@compiler/createParseTree";
 import {validateParseTree} from "@compiler/validateParseTree";
@@ -62,13 +62,11 @@ class CodeRunner {
         this._errors = []
         this.instructionsCompiled = []
 
-        addEventListener("load", ()=> {
-            // subscribe for code changes
+        setTimeout(()=> {
             code.subscribe(updatedCode => {
                 this.compile(updatedCode)
             });
-        })
-
+        }, 1000)
     }
 
 
