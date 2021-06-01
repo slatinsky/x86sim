@@ -1,4 +1,4 @@
-import {registers, memory, currentlyExecutedLine} from "@stores";
+import {registers, currentlyExecutedLine} from "@stores";
 import {derived, get, writable} from "svelte/store";
 import {settings} from "@stores/settings";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "@stores/config";
@@ -24,6 +24,7 @@ export class CodeRunner {
     public status: any    // old codeRunnerStatus store
     public code: any      // store - contains original code string
     public debugMode: any //
+
     public snapshots: Snapshots
 
 
