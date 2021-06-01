@@ -2,6 +2,7 @@
  * merges two tokens together, so they can be used as one token
  */
 import {allIntelSegmentRegisters} from "../config";
+import type {iError, iInstruction, iOperand, iRow, iToken, tErrorType, tSegment, tTokenBits} from "@compiler/types";
 
 function mergeTwoTokens(token1: iToken, token2: iToken): iToken {
     let newToken: iToken = {

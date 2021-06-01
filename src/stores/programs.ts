@@ -222,7 +222,7 @@ export class Programs {
         }
     }
     getCurrentProject() {
-        let projects = get(this)
+        let projects:any[] = get(this)
         return projects.filter(project => project.name === get(projectName))
     }
     getAllProjects() {
@@ -234,7 +234,7 @@ export class Programs {
     loadProject(projectNameToLoad: string) {
         codeRunner.reset()  // reset currently loaded project and free up history, so new one can be loaded safely
         codeRunnerStatus.set('loading-project')
-        let projects = get(this)
+        let projects:any[] = get(this)
         let projectToLoad = projects.filter(project => project.name === projectNameToLoad)?.[0]
         if (!projectToLoad) {
             projectToLoad = JSON.parse(JSON.stringify(this.defaultProject))
@@ -247,7 +247,7 @@ export class Programs {
         document.title = `${projectToLoad.name} | x86sim`
 
         settings.update(currentSettings => {
-            currentSettings.shownModules = projectToLoad.shownModules ?? defaultProject.shownModules
+            currentSettings.shownModules = projectToLoad.shownModules ?? this.defaultProject.shownModules
             return currentSettings
         })
 
@@ -297,7 +297,7 @@ export class Programs {
         console.log("deleteProject dummy", projectNameToDelete)
     }
     projectNameExists(projectName: string) {
-        return get(this).filter(project => project.name === projectName).length !== 0
+        return (<any[]>get(this)).filter(project => project.name === projectName).length !== 0
     }
     newProject(newProjectName: string): string {  // returns created project name
         console.log("newProject dummy", newProjectName)
@@ -315,7 +315,7 @@ export class Programs {
     downloadProject(projectName: string) {
         // modified https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
         let filename = projectName + ".json"
-        let fileContent = JSON.stringify(get(this).filter(project => project.name === projectName)[0], null, 2)
+        let fileContent = JSON.stringify((<any[0]>get(this)).filter(project => project.name === projectName)[0], null, 2)
         let element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileContent));
         element.setAttribute('download', filename);
@@ -326,7 +326,7 @@ export class Programs {
     }
     downloadAllProjects(projectName: string) {
         let zip = new JSZip();
-        get(this).map(project => {
+        (<any[]>get(this)).map(project => {
             let filename = project.name + ".json"
             let fileContent = JSON.stringify(project, null, 2)  // prettify
             zip.file(filename, fileContent);

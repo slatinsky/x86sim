@@ -8,7 +8,7 @@ import {tokenize} from "@compiler/tokenizer";
 import {createParseTree} from "@compiler/createParseTree";
 import {validateParseTree} from "@compiler/validateParseTree";
 import {objectKeyDifferences} from "../helperFunctions";
-import {language} from "@stores/language";
+import type {iCompiledInstruction, iError} from "@compiler/types";
 
 export const parseTree = writable([])
 

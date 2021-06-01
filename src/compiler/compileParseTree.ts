@@ -1,10 +1,10 @@
 import {opcodes} from "./opcodes"
 import {currentlyExecutedLine, registers} from "@stores"
-import {get, writable} from "svelte/store"
 import type {tRegister} from "../types/types"
 import { memory } from "@stores"
 import {errorObject} from "./createParseTree";
 import {signedToUnsignedInt} from "../formatConverter";
+import type {iCompiledInstruction, iCompiledOperand, iError, iInstruction, iOperand, iRow, tSegment, tTokenBits} from "@compiler/types";
 
 
 

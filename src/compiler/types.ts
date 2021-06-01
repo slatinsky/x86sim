@@ -1,15 +1,15 @@
-type tErrorType = 'error' | 'warning' | 'information'
-interface iError {
+export type tErrorType = 'error' | 'warning' | 'information'
+export interface iError {
     message: string,
     token: iToken,
     type: tErrorType
 }
 
-type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' | 'identifier' | 'mixed' | 'type_override'   // mixed token is merged token with different types
-type tTokenBits = null | 8 | 16   // null if unknown
-type tSegment = null | 'cs' | 'ds' | 'ss' | 'es'   // null if unknown
+export type tTokenType = 'numeric' | 'alphanumeric' | 'operator' | 'register' | 'comment' | 'opcode' | 'identifier' | 'mixed' | 'type_override'   // mixed token is merged token with different types
+export type tTokenBits = null | 8 | 16   // null if unknown
+export type tSegment = null | 'cs' | 'ds' | 'ss' | 'es'   // null if unknown
 
-interface iToken {
+export interface iToken {
     row: number,
     col: number,
     index: number,  // character index from the beginning
@@ -19,20 +19,20 @@ interface iToken {
     bits: tTokenBits
 }
 
-type iRow = iInstruction | iLabel
+export type iRow = iInstruction | iLabel
 
-interface iOperand {
+export interface iOperand {
     type: 'immediate' | 'register' | 'memory' | 'label'
     tokens: iToken[]
 }
 
-interface iLabel {
+export interface iLabel {
     type: 'label',
     token: iToken
     position: iToken,
 }
 
-interface iInstruction {
+export interface iInstruction {
     type: 'instruction',
     position: iToken,
     opcode: iToken
@@ -41,12 +41,12 @@ interface iInstruction {
     segment: tSegment
 }
 
-interface iCompiledInstruction {
+export interface iCompiledInstruction {
     instruction: iInstruction,
     run: () => void,
 }
 
-interface iCompiledOperand {
+export interface iCompiledOperand {
     get(): number,
 
     set(valueToSet: number): void,

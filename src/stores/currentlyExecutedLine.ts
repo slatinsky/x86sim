@@ -1,5 +1,6 @@
 import {get, writable} from "svelte/store";
 import {registers} from "@stores";
+import type {iRow} from "@compiler/types";
 
 export class CurrentlyExecutedLine {
     private mapping: {}

@@ -13,6 +13,7 @@ export function annotate(editor, code) {
     }
 
     let annotations = errors.map(error => {
+        // @ts-ignore
         if (typeof error.content !== 'string') {
             if (error.hasOwnProperty('token') && error.token !== null) {
                 markers.push(editor.session.addMarker(new Range(error.token.row, error.token.col, error.token.row, error.token.col + error.token.content.length), "ace_error_line"))
@@ -26,6 +27,7 @@ export function annotate(editor, code) {
             else if (error.hasOwnProperty('line')) {
                 markers.push(editor.session.addMarker(new Range(error.line, 0, error.line, 1), "ace_error_line", "fullLine"))
                 return {
+                    // @ts-ignore
                     row: error.line,
                     column: 0,
                     text: error.message,
@@ -34,6 +36,7 @@ export function annotate(editor, code) {
             }
             else {
                 return {
+                    // @ts-ignore
                     row: error.row,
                     column: 0,
                     text: JSON.stringify(error),
@@ -45,9 +48,12 @@ export function annotate(editor, code) {
             }
 
         }
+
         return {
+            // @ts-ignore
             row: error.line,
             column: 0,
+            // @ts-ignore
             text: error.content.toString(),
             type: "error" // also can be warning or information
         }

@@ -1,5 +1,6 @@
 import {allIntelOpcodes, allIntelRegisters, allIntel16bitRegisters, allIntel8bitRegisters} from "../config"
 import {autodetectToSignedInteger} from "../formatConverter";
+import type {iToken, tTokenBits, tTokenType} from "@compiler/types";
 
 function getTokenType(tokenContent: string): tTokenType {
     if (/^(word|byte) ptr$/i.test(tokenContent)) {
