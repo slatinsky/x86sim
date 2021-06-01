@@ -7,46 +7,35 @@ import {_} from "svelte-i18n";
 import {tokenize} from "@compiler/tokenizer";
 import {createParseTree} from "@compiler/createParseTree";
 import {validateParseTree} from "@compiler/validateParseTree";
-import {objectKeyDifferences} from "../helperFunctions";
 import type {iCompiledInstruction, iError} from "@compiler/types";
+import {Snapshots} from "@compiler/snapshots";
 
 export const parseTree = writable([])
 
 // breakpoints
 export const breakpoints = writable([])
-export const differences = writable({
-    registers: [],
-    memory: [],
-})
-
 
 export const lineAddressMapping = writable<{ [key: number]: number }>({})
 
-interface iHistorySnapshot { // TODO add more strict types
-    registers: any,
-    memory: any
-}
-
 type tCodeRunnerStatus = 'not-runnable' | 'reset' | 'paused' | 'running' | 'ended' | 'loading-project'
-
-export const executedInstructionsCount = writable(0)
 
 export class CodeRunner {
     // public stores
     public status: any    // old codeRunnerStatus store
     public code: any      // store - contains original code string
     public debugMode: any //
+    public snapshots: Snapshots
 
 
     get errors(): iError[] {
         return this._errors;
     }
-    private history: iHistorySnapshot[];
+
     private _errors: iError[];
     private instructionsCompiled: iCompiledInstruction[];
 
     constructor() {
-        this.history = []
+        this.snapshots = new Snapshots(this)
         this._errors = []
         this.instructionsCompiled = []
 
@@ -120,37 +109,6 @@ export class CodeRunner {
         this._errors = [].concat(errorsNew).concat(errorsNew2).concat(errorsNew3)  // TODO: errors from old compiler are intentionally removed
     }
 
-    private makeSnapshot(): iHistorySnapshot {
-        return {
-            registers: registers.reduce(),
-            memory: memory.reduce(),
-        }
-    }
-
-    /**
-     * Compares latest snapshot saved in the stack with current (newest) version
-     */
-    private compareWithSnapshot() {
-        if (this.history.length > 0) {
-            let currentVersion = this.makeSnapshot()
-
-            let latestSnapshot = this.history[this.history.length - 1]
-
-            // we will store there names of different registers or memory addresses
-            let newDifferences = {
-                registers: objectKeyDifferences(currentVersion.registers, latestSnapshot.registers),
-                memory: objectKeyDifferences(currentVersion.memory, latestSnapshot.memory),
-            }
-            // console.log("newDifferences", newDifferences)
-            differences.set(newDifferences)
-        }
-        else {
-            differences.set({
-                registers: [],
-                memory: [],
-            })
-        }
-    }
 
     // ---------- COMMANDS from navbar ----------
     public pause(): void {
@@ -168,15 +126,8 @@ export class CodeRunner {
 
     public reset(): void {
         this.pause()
-        if (this.history.length > 0) {
-            let firstSnapshot = this.history[0]
-            registers.load(firstSnapshot.registers)
-            memory.load(firstSnapshot.memory)
-            this.history = []  // empty history
-            executedInstructionsCount.set(0)
-        }
+        this.snapshots.rollbackAll()
         this.status.set('reset')
-        this.compareWithSnapshot()
     }
 
     public step(): void {
@@ -185,7 +136,7 @@ export class CodeRunner {
     }
 
     public stepBack(): void {
-        this.rollbackPreviousInstruction()
+        this.snapshots.rollback()
     }
     // ---------- end COMMANDS ----------
 
@@ -196,45 +147,20 @@ export class CodeRunner {
      * sets status to ended if there is no instruction to execute
      */
     private runNextInstruction(): void {
-        let historyEnabled :boolean = get(settings).codeExecutionHistory
         let currentInstruction = this.instructionsCompiled[registers.get('ip')]
         if (currentInstruction) {
-            if (historyEnabled || this.history.length === 0) {  // we need to push first snapshot to stack even if history is disabled, so we can restore it later after reset
-                let snapshot = this.makeSnapshot()
-                this.history.push(snapshot)
-            }
+            this.snapshots.newSnapshot()
             currentInstruction.run()
-            executedInstructionsCount.set(get(executedInstructionsCount) + 1)
         }
         else {
             this.status.set('ended')
         }
 
-        if (historyEnabled ) {  // comparing snapshots is costly. Don't do it if we don't use snapshots
-            this.compareWithSnapshot()
-        }
+        this.snapshots.compareWithCurrentState()
     }
 
-    /**
-     * Rollbacks previously run instruction from history
-     *
-     * sets codeRunnerStatus to reset if there is no history available
-     */
-    private rollbackPreviousInstruction(): void {
-        if (this.history.length > 0) {
-            let snapshot = this.history.pop()
-            registers.load(snapshot.registers)
-            memory.load(snapshot.memory)
-            executedInstructionsCount.set(get(executedInstructionsCount) - 1)
-        }
-
-        if (this.history.length === 0) {
-            this.status.set('reset')
-        }
-        else if (get(this.status) === 'ended'){
-            this.status.set('paused')
-        }
-        this.compareWithSnapshot()
+    private rollbackPreviousInstruction() {
+        this.snapshots.rollback()
     }
 
 
@@ -262,9 +188,6 @@ export class CodeRunner {
 
             callback()  // run next instruction or rollback previous instruction callback
 
-            if ((this.history.length % 100000) === 0)
-                console.log("executed", this.history.length / 1000000, "mil instructions")
-
             if (get(breakpoints).hasOwnProperty(get(currentlyExecutedLine))) {
                 break
             }
@@ -274,7 +197,7 @@ export class CodeRunner {
                 executedInstructionsCounter++
 
                 // nop instruction rerenders the screen :)
-                if (this.instructionsCompiled[registers.get('ip')]?.hasOwnProperty('instruction') && this.instructionsCompiled[registers.get('ip')].instruction.opcode.content === 'nop') {  // is next instruction nop instrucion?
+                if (this.instructionsCompiled[registers.get('ip')]?.hasOwnProperty('instruction') && this.instructionsCompiled[registers.get('ip')].instruction.opcode.content === 'nop') {  // is next instruction nop instruction?
                     await this.sleep(1)
                     executedInstructionsCounter = 0
                 }

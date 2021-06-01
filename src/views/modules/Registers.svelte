@@ -1,9 +1,7 @@
 <script>
     import Register from "./Register.svelte";
-    import {registers, settings} from "../../stores";
+    import {registers, settings, executedInstructionsCount, differences} from "../../stores";
     import {_} from 'svelte-i18n'
-    import FormatInput from "../components/FormatInput.svelte";
-    import {differences, executedInstructionsCount} from "../../compiler/codeRunner";
 
     $: decValues = `DEBUG - ip: ${$registers.ip}, ax: ${$registers.ax}, bx: ${$registers.bx}, cx: ${$registers.cx}, dx: ${$registers.dx}, format: ${$settings.selectedFormat}`
 

@@ -1,10 +1,9 @@
 <script>
     import { _} from 'svelte-i18n'
-    import {memory, registers, settings} from "../../stores";
+    import {memory, registers, settings, differences} from "../../stores";
 
     import {formattedStringToInt, intToFormattedString, signedToUnsignedInt, valueToAscii} from "../../formatConverter";
     import {onMount} from "svelte";
-    import {differences} from "../../compiler/codeRunner";
 
     // documentation https://github.com/sveltejs/svelte-virtual-list
     import VirtualList from '@sveltejs/svelte-virtual-list';

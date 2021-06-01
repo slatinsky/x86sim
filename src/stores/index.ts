@@ -14,6 +14,8 @@ export const codeRunner = new CodeRunner()
 export const code = codeRunner.code
 export const debugMode = codeRunner.debugMode
 export const codeRunnerStatus = codeRunner.status
+export const executedInstructionsCount = codeRunner.snapshots.executedInstructionsCount
+export const differences = codeRunner.snapshots.differences
 
 
 export const programs = new Programs();
