@@ -1,6 +1,4 @@
-import {registers, currentlyExecutedLine, breakpoints} from "@stores";
 import {derived, get, writable} from "svelte/store";
-import {settings} from "@stores/settings";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "@stores/config";
 import {compileParseTree} from "./compileParseTree";
 import {_} from "svelte-i18n";
@@ -10,6 +8,7 @@ import {validateParseTree} from "@compiler/validateParseTree";
 import type {iCompiledInstruction, iError} from "@compiler/types";
 import {Snapshots} from "@compiler/snapshots";
 import {Breakpoints} from "@stores/breakpoints";
+import {CurrentlyExecutedLine} from "@stores/currentlyExecutedLine";
 
 export const parseTree = writable([])
 
@@ -24,7 +23,11 @@ export class CodeRunner {
     public snapshots: Snapshots
     public breakpoints: Breakpoints
     public lineAddressMapping
+    public currentlyExecutedLine
 
+    // constructor parameters
+    private registers
+    private settings
 
     get errors(): iError[] {
         return this._errors;
@@ -33,7 +36,12 @@ export class CodeRunner {
     private _errors: iError[];
     private instructionsCompiled: iCompiledInstruction[];
 
-    constructor() {
+    constructor(registers, settings) {
+        this.registers = registers
+        this.settings = settings
+
+        this.currentlyExecutedLine = new CurrentlyExecutedLine(registers)
+
         this.lineAddressMapping = writable<{ [key: number]: number }>({})
         this.breakpoints = new Breakpoints()
         this.snapshots = new Snapshots(this)
@@ -152,7 +160,7 @@ export class CodeRunner {
      * sets status to ended if there is no instruction to execute
      */
     private runNextInstruction(): void {
-        let currentInstruction = this.instructionsCompiled[registers.get('ip')]
+        let currentInstruction = this.instructionsCompiled[this.registers.get('ip')]
         if (currentInstruction) {
             this.snapshots.newSnapshot()
             currentInstruction.run()
@@ -184,7 +192,7 @@ export class CodeRunner {
      */
     private async run(callback: () => void): Promise<void> {
         let executedInstructionsCounter = 0  // count of instructions that run without UI rerender
-        let codeExecutionDelay = get(settings).codeExecutionDelay
+        let codeExecutionDelay = this.settings.get().codeExecutionDelay
         this.status.set('running')
         while (true) {
             if (get(this.status) !== 'running') {
@@ -193,7 +201,7 @@ export class CodeRunner {
 
             callback()  // run next instruction or rollback previous instruction callback
 
-            if (breakpoints.isBreakpointSetAtLine(get(currentlyExecutedLine))) {
+            if (this.breakpoints.isBreakpointSetAtLine(get(this.currentlyExecutedLine))) {
                 break
             }
 
@@ -202,7 +210,7 @@ export class CodeRunner {
                 executedInstructionsCounter++
 
                 // nop instruction rerenders the screen :)
-                if (this.instructionsCompiled[registers.get('ip')]?.hasOwnProperty('instruction') && this.instructionsCompiled[registers.get('ip')].instruction.opcode.content === 'nop') {  // is next instruction nop instruction?
+                if (this.instructionsCompiled[this.registers.get('ip')]?.hasOwnProperty('instruction') && this.instructionsCompiled[this.registers.get('ip')].instruction.opcode.content === 'nop') {  // is next instruction nop instruction?
                     await this.sleep(1)
                     executedInstructionsCounter = 0
                 }
@@ -217,7 +225,7 @@ export class CodeRunner {
                 }
             }
             else {
-                codeExecutionDelay = get(settings).codeExecutionDelay   // refresh execution delay only if not already on max speed
+                codeExecutionDelay = this.settings.get().codeExecutionDelay   // refresh execution delay only if not already on max speed
                 await this.sleep(codeExecutionDelay);
             }
         }

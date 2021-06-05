@@ -1,6 +1,6 @@
 <script>
-    import {settings} from "../../stores/settings";
     import {formattedStringToInt, intToFormattedString, splitSelectedFormat} from "../../formatConverter";
+    import {settings} from "../../stores";
     export let bits             // how many bits can value hold
 
     let stringValue = '0'        // value shown inside register input

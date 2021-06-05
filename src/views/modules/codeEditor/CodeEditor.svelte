@@ -94,16 +94,10 @@
             }
         })
 
-
-        // let loadedBreakpoints = breakpoints.reduce()
-        // console.warn("loaded breakpoints", loadedBreakpoints)
-        // for (const rowNumber of loadedBreakpoints) {
-        //     editor.session.setBreakpoint(rowNumber)
-        // }
-
-        // add breakpoints to ace editor
-        // https://ourcodeworld.com/articles/read/1052/how-to-add-toggle-breakpoints-on-the-ace-editor-gutter
-        // TODO: save breakpoints in a project file
+        /**
+         * add / remove breakpoints by clicking the gutter next to line number inside ace editor
+         * https://ourcodeworld.com/articles/read/1052/how-to-add-toggle-breakpoints-on-the-ace-editor-gutter
+         */
         editor.on("guttermousedown", function(e) {
             var target = e.domEvent.target
             if (target.className.indexOf("ace_gutter-cell") == -1)
@@ -129,8 +123,11 @@
             // breakpoints.setAce(e.editor.session.getBreakpoints())
         })
 
-        // watch code changes and move breakpoints to the correct place (or delete breakpoints)
-        // modified https://github.com/ajaxorg/ace/issues/1282, works for multiple breakpoints
+        /**
+         * watch code changes and move breakpoints to the correct place (or delete breakpoints)
+         * modified https://github.com/ajaxorg/ace/issues/1282, works for multiple breakpoints
+         */
+
         editor.on("change", function (e) {
             if (editorFocused) {  // IMPORTANT, we want to respond only code changes made by user. If projects is switched and code changes, don't run this code.
                 if (e.lines.length > 1 && (e.action==='insert' || e.action==='remove')){

@@ -5,6 +5,7 @@
   "exclude": ["node_modules/*", "__sapper__/*", "public/*"],
   "sourceMap": true,
   "compilerOptions": {
+    "module": "CommonJS",
     "target": "es2020",
     "strict": false,
     "resolveJsonModule": true,

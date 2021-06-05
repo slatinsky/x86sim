@@ -12,12 +12,12 @@ export class Memory {
     registers: any
 
     constructor(registers) {
-        const {subscribe, set, update} = writable({});
-
-        this.setSvelte = set
-        this.subscribe = subscribe
-        this.update = update
         this.registers = registers
+
+        const {subscribe, set, update} = writable({});
+        this.subscribe = subscribe
+        this.setSvelte = set
+        this.update = update
 
         // load autosave from localstorage
         if (localStorage.getItem('memory')) {
