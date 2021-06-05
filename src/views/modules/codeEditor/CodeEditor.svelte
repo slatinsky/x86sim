@@ -6,12 +6,17 @@
     import "brace/theme/dracula"
     import "brace/theme/chrome"
     import "brace/ext/language_tools"
-    import {code, currentlyExecutedLine, settings} from "../../../stores"
+    import {
+        code,
+        currentlyExecutedLine,
+        settings,
+        lineAddressMapping,
+        breakpoints
+    } from "../../../stores"
     import {mainCompleter, snippetsCompleter} from "./completers"
     import {annotate} from "./annotations.js"
-    import { _} from 'svelte-i18n'
+    import {_} from 'svelte-i18n'
     import {intToFormattedString} from "../../../formatConverter";
-    import {breakpoints, lineAddressMapping} from "../../../compiler/codeRunner";
     import {onDestroy} from "svelte";
 
     $: theme = $settings.darkTheme ? 'dracula' : 'chrome';
@@ -22,6 +27,7 @@
 
     let EMPTY_GUTTER = "   "
     let unsubscribeCurrentlyExecutedLine
+    let unsubscribeBreakpoints
 
     function isBreakpointPlaceableAtRow(rowNumber) {
         return editor.session.gutterRenderer.getText(editor.session, rowNumber) !== EMPTY_GUTTER  // if gutter is empty, breakpoint should not be placed
@@ -68,6 +74,33 @@
             wrap: true
         });
 
+
+
+        /**
+         * apply breakpoints set inside breakpoints store
+         */
+        unsubscribeBreakpoints = breakpoints.subscribe(newBreakpoints => {
+            // remove old breakpoints
+            const breakpointsArrayToRemove = editor.session.getBreakpoints()
+            for (let lineNumber = 0; lineNumber < breakpointsArrayToRemove.length; lineNumber++) {
+                if (breakpointsArrayToRemove[lineNumber] === "ace_breakpoint") {
+                    editor.session.clearBreakpoint(lineNumber)
+                }
+            }
+
+            // add new breakpoints
+            for (const lineNumber of newBreakpoints) {
+                editor.session.setBreakpoint(lineNumber)
+            }
+        })
+
+
+        // let loadedBreakpoints = breakpoints.reduce()
+        // console.warn("loaded breakpoints", loadedBreakpoints)
+        // for (const rowNumber of loadedBreakpoints) {
+        //     editor.session.setBreakpoint(rowNumber)
+        // }
+
         // add breakpoints to ace editor
         // https://ourcodeworld.com/articles/read/1052/how-to-add-toggle-breakpoints-on-the-ace-editor-gutter
         // TODO: save breakpoints in a project file
@@ -86,86 +119,69 @@
 
 
             if(breakpointsTemp[rowNumber] === undefined && isBreakpointPlaceableAtRow(rowNumber)) {
-                e.editor.session.setBreakpoint(rowNumber)
+                breakpoints.setBreakpoint(rowNumber)
             }
             else {
-                e.editor.session.clearBreakpoint(rowNumber)
+                breakpoints.clearBreakpoint(rowNumber)
             }
             e.stop()
 
-            $breakpoints = e.editor.session.getBreakpoints()
+            // breakpoints.setAce(e.editor.session.getBreakpoints())
         })
-
-        // TODO: can be probably refactored to not use setInterval
-        // check for useless breakpoints (on empty or incorrect lines = unreachable lines) and remove them
-        setInterval(()=> {
-            let breakpointsArray = editor.session.getBreakpoints()
-
-            for (const key of Object.keys(breakpointsArray)) {
-                let breakpointRow = parseInt(key)
-                if (!isBreakpointPlaceableAtRow(breakpointRow)) {
-                    editor.session.clearBreakpoint(breakpointRow)
-
-                    // update the array after change
-                    $breakpoints = breakpointsArray
-                }
-            }
-        }, 100)
 
         // watch code changes and move breakpoints to the correct place (or delete breakpoints)
         // modified https://github.com/ajaxorg/ace/issues/1282, works for multiple breakpoints
         editor.on("change", function (e) {
-            if (e.lines.length > 1 && (e.action==='insert' || e.action==='remove')){
-                const breakpointsArrayOld = editor.session.getBreakpoints()
-                let breakpointsArrayNew = []
+            if (editorFocused) {  // IMPORTANT, we want to respond only code changes made by user. If projects is switched and code changes, don't run this code.
+                if (e.lines.length > 1 && (e.action==='insert' || e.action==='remove')){
+                    const amountOfLinesAffected = e.lines.length - 1
+                    const startRow = e.start.row
+                    const endRow = e.end.row
 
-                const amountOfLinesAffected = e.lines.length - 1
-                const startRow = e.start.row
-                const endRow = e.end.row
+                    const oldBreakpointsSet = breakpoints.get()
+                    let newBreakpointsSet = new Set()
 
-                for (const key of Object.keys(breakpointsArrayOld)) {
-                    let breakpointRow = parseInt(key)
-
-                    if (e.action==='insert') {  // new lines
-                        if (breakpointRow > startRow ){
-                            // breakpoint forward
-                            breakpointsArrayNew[breakpointRow + amountOfLinesAffected] = "ace_breakpoint"
+                    for (const breakpointRow of oldBreakpointsSet) {
+                        if (e.action==='insert') {  // new lines
+                            if (breakpointRow > startRow ){
+                                // breakpoint forward
+                                newBreakpointsSet.add(breakpointRow + amountOfLinesAffected)
+                            }
+                            else {
+                                // unaffected by insert
+                                newBreakpointsSet.add(breakpointRow)
+                            }
                         }
-                        else {
-                            // unaffected by insert
-                            breakpointsArrayNew[breakpointRow] = "ace_breakpoint"
+                        else if (e.action==='remove') {  // removed lines
+                            if (breakpointRow > startRow && breakpointRow <= endRow ){
+                                // breakpoint removed
+                            }
+                            else if (breakpointRow >= endRow ){
+                                // breakpoint behind
+                                newBreakpointsSet.add(breakpointRow - amountOfLinesAffected)
+                            }
+                            else {
+                                // unaffected by remove
+                                newBreakpointsSet.add(breakpointRow)
+                            }
                         }
                     }
-                    else if (e.action==='remove') {  // removed lines
-                        if (breakpointRow > startRow && breakpointRow <= endRow ){
-                            // breakpoint removed
-                        }
-                        else if (breakpointRow >= endRow ){
-                            // breakpoint behind
-                            breakpointsArrayNew[breakpointRow - amountOfLinesAffected] = "ace_breakpoint"
-                        }
-                        else {
-                            // unaffected by remove
-                            breakpointsArrayNew[breakpointRow] = "ace_breakpoint"
+                    breakpoints.set(newBreakpointsSet)
+                }
+
+                // check for useless breakpoints (on empty or incorrect lines (with syntax error) = unreachable lines) and remove them
+                setTimeout(()=> {   // setTimeout is needed, it doesn't work immediately
+                    let breakpointsSet = breakpoints.get()
+
+                    for (const rowNumber of breakpointsSet) {
+                        if (!isBreakpointPlaceableAtRow(rowNumber)) {
+                            breakpoints.clearBreakpoint(rowNumber)
                         }
                     }
-                }
-
-                // remove all old breakpoints
-                for (const key of Object.keys(breakpointsArrayOld)) {
-                    let breakpointRow = parseInt(key)
-                    editor.session.clearBreakpoint(breakpointRow)
-                }
-
-                // add all new breakpoints
-                for (const key of Object.keys(breakpointsArrayNew)) {
-                    let breakpointRow = parseInt(key)
-                    editor.session.setBreakpoint(breakpointRow)
-                }
-
-                $breakpoints = breakpointsArrayNew
+                }, 100)
             }
         })
+
 
 
 
@@ -205,8 +221,11 @@
     const debouncedAnnotate = debounce(() => annotate(editor, $code), 0)
 
 
-    $: console.log("breakpoints", breakpoints)
-    onDestroy(() => unsubscribeCurrentlyExecutedLine());
+    $: console.log("breakpoints", $breakpoints)
+    onDestroy(() => {
+        unsubscribeCurrentlyExecutedLine()
+        unsubscribeBreakpoints()
+    });
 
 </script>
 

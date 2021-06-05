@@ -1,4 +1,4 @@
-import {registers, currentlyExecutedLine} from "@stores";
+import {registers, currentlyExecutedLine, breakpoints} from "@stores";
 import {derived, get, writable} from "svelte/store";
 import {settings} from "@stores/settings";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "@stores/config";
@@ -9,13 +9,9 @@ import {createParseTree} from "@compiler/createParseTree";
 import {validateParseTree} from "@compiler/validateParseTree";
 import type {iCompiledInstruction, iError} from "@compiler/types";
 import {Snapshots} from "@compiler/snapshots";
+import {Breakpoints} from "@stores/breakpoints";
 
 export const parseTree = writable([])
-
-// breakpoints
-export const breakpoints = writable([])
-
-export const lineAddressMapping = writable<{ [key: number]: number }>({})
 
 type tCodeRunnerStatus = 'not-runnable' | 'reset' | 'paused' | 'running' | 'ended' | 'loading-project'
 
@@ -26,6 +22,8 @@ export class CodeRunner {
     public debugMode: any //
 
     public snapshots: Snapshots
+    public breakpoints: Breakpoints
+    public lineAddressMapping
 
 
     get errors(): iError[] {
@@ -36,6 +34,8 @@ export class CodeRunner {
     private instructionsCompiled: iCompiledInstruction[];
 
     constructor() {
+        this.lineAddressMapping = writable<{ [key: number]: number }>({})
+        this.breakpoints = new Breakpoints()
         this.snapshots = new Snapshots(this)
         this._errors = []
         this.instructionsCompiled = []
@@ -70,8 +70,12 @@ export class CodeRunner {
      * creates object that maps ip register and editor line, so editor can display expected ip register in line gutter
      *
      * lineAddressMapping:
-     *      key = ip register
-     *      value = editor row
+     *      key = editor row
+     *      value = ip register
+     *
+     * example:
+     * {2: 0, 4: 1, 5: 2, 6: 3, 7: 4}
+
      */
     private updateLineAddressMapping() {
         let newLineAddressMapping: { [key: number]: number } = {}
@@ -80,7 +84,7 @@ export class CodeRunner {
             let editorRow = instructionCompiled.instruction.opcode.row
             newLineAddressMapping[editorRow] = parseInt(ip)
         }
-        lineAddressMapping.set(newLineAddressMapping)
+        this.lineAddressMapping.set(newLineAddressMapping)
     }
 
     private compile(updatedCode: string): void {
@@ -189,7 +193,7 @@ export class CodeRunner {
 
             callback()  // run next instruction or rollback previous instruction callback
 
-            if (get(breakpoints).hasOwnProperty(get(currentlyExecutedLine))) {
+            if (breakpoints.isBreakpointSetAtLine(get(currentlyExecutedLine))) {
                 break
             }
 
