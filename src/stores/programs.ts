@@ -210,7 +210,8 @@ export class Programs {
                     memory: memory.reduce(),
                     code: get(code),
                     breakpoints: breakpoints.reduce(),
-                    shownModules: get(settings).shownModules
+                    // @ts-ignore
+                    shownModules: settings.get().shownModules
                 }
 
                 //Find index of specific object using findIndex method.

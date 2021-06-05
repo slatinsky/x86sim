@@ -1,16 +1,13 @@
 import {derived, get, writable} from "svelte/store";
 import {MAX_EXECUTED_INSTRUCTION_COUNT} from "@stores/config";
-import {compileParseTree} from "./compileParseTree";
 import {_} from "svelte-i18n";
-import {tokenize} from "@compiler/tokenizer";
-import {createParseTree} from "@compiler/createParseTree";
-import {validateParseTree} from "@compiler/validateParseTree";
 import type {iCompiledInstruction, iError} from "@compiler/types";
-import {Snapshots} from "@compiler/snapshots";
+import {Snapshots} from "@stores/snapshots";
 import {Breakpoints} from "@stores/breakpoints";
 import {CurrentlyExecutedLine} from "@stores/currentlyExecutedLine";
+import {Compiler, iCompilerOutput} from "@compiler/compiler";
 
-export const parseTree = writable([])
+
 
 type tCodeRunnerStatus = 'not-runnable' | 'reset' | 'paused' | 'running' | 'ended' | 'loading-project'
 
@@ -22,8 +19,8 @@ export class CodeRunner {
 
     public snapshots: Snapshots
     public breakpoints: Breakpoints
-    public lineAddressMapping
     public currentlyExecutedLine
+    public compiler: Compiler
 
     // constructor parameters
     private registers
@@ -41,8 +38,9 @@ export class CodeRunner {
         this.settings = settings
 
         this.currentlyExecutedLine = new CurrentlyExecutedLine(registers)
+        this.compiler = new Compiler()
 
-        this.lineAddressMapping = writable<{ [key: number]: number }>({})
+
         this.breakpoints = new Breakpoints()
         this.snapshots = new Snapshots(this)
         this._errors = []
@@ -74,41 +72,12 @@ export class CodeRunner {
     }
 
 
-    /**
-     * creates object that maps ip register and editor line, so editor can display expected ip register in line gutter
-     *
-     * lineAddressMapping:
-     *      key = editor row
-     *      value = ip register
-     *
-     * example:
-     * {2: 0, 4: 1, 5: 2, 6: 3, 7: 4}
-
-     */
-    private updateLineAddressMapping() {
-        let newLineAddressMapping: { [key: number]: number } = {}
-        console.log("this.instructionsCompiled", this.instructionsCompiled)
-        for (const [ip, instructionCompiled] of Object.entries(this.instructionsCompiled)) {
-            let editorRow = instructionCompiled.instruction.opcode.row
-            newLineAddressMapping[editorRow] = parseInt(ip)
-        }
-        this.lineAddressMapping.set(newLineAddressMapping)
-    }
-
     private compile(updatedCode: string): void {
-
-        let tokens = tokenize(updatedCode)
-        let [rowsNew, errorsNew] = createParseTree(tokens)
-        let errorsNew2
-        [errorsNew2, rowsNew] = validateParseTree(rowsNew)
-
-        parseTree.set(rowsNew)
-
-
-        let [instructionsNewCompiled, errorsNew3] = compileParseTree(rowsNew)
-        this.instructionsCompiled = instructionsNewCompiled
-
-        if (instructionsNewCompiled.length > 0) {
+        let compilationResult: iCompilerOutput = this.compiler.compile(updatedCode)
+        this.instructionsCompiled = compilationResult.instructionsCompiled
+        this._errors = compilationResult.errors
+        console.log("compilationResult", compilationResult)
+        if (compilationResult.instructionsCompiled.length > 0) {
             if (get(this.status) === 'not-runnable') {
                 this.status.set('reset')
             }
@@ -116,10 +85,6 @@ export class CodeRunner {
         else {
             this.status.set('not-runnable')
         }
-
-        this.updateLineAddressMapping()
-
-        this._errors = [].concat(errorsNew).concat(errorsNew2).concat(errorsNew3)  // TODO: errors from old compiler are intentionally removed
     }
 
 

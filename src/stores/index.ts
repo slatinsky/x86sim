@@ -4,7 +4,7 @@ import {Registers} from "./registers"
 import {Programs, projectName} from "./programs"
 import {Memory} from "./memory"
 import {opcodes} from "@compiler/opcodes";
-import {CodeRunner} from "@compiler/codeRunner";
+import {CodeRunner} from "@stores/codeRunner";
 import {Settings} from "@stores/settings";
 
 export const settings = new Settings();
@@ -18,7 +18,8 @@ export const codeRunnerStatus = codeRunner.status
 export const executedInstructionsCount = codeRunner.snapshots.executedInstructionsCount
 export const differences = codeRunner.snapshots.differences
 export const breakpoints = codeRunner.breakpoints
-export const lineAddressMapping = codeRunner.lineAddressMapping
+export const lineAddressMapping = codeRunner.compiler.lineAddressMapping
+export const parseTree = codeRunner.compiler.parseTree
 export const currentlyExecutedLine = codeRunner.currentlyExecutedLine
 
 

@@ -393,6 +393,6 @@ export function createParseTree(tokens: iToken[]): [iRow[], iError[]] {
         }
     }
 
-    console.log("createParseTree", JSON.stringify(rows))
+    // console.log("createParseTree", JSON.stringify(rows))
     return [rows, errors]
 }

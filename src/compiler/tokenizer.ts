@@ -134,6 +134,6 @@ export function tokenize(instructionList: string): iToken[] {
         }
     }
 
-    console.log("tokenList", JSON.stringify(tokenList))
+    // console.log("tokenList", JSON.stringify(tokenList))
     return tokenList
 }

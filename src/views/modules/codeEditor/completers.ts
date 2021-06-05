@@ -2,8 +2,7 @@ import {allIntelRegisters, allIntelSegmentRegisters} from "../../../config"
 import {opcodes, opcodes_0_operands, opcodes_1_operands} from "@compiler/opcodes";
 import {get} from "svelte/store";
 import {firstWord, wordCount} from '../../../helperFunctions'
-import {tokenize} from "@compiler/tokenizer";
-import {parseTree} from "@compiler/codeRunner";
+import {parseTree} from "@stores";
 
 interface iSuggestion {
     score: number,      // priority
