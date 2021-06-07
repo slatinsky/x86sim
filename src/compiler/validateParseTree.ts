@@ -1,7 +1,7 @@
 import {errorObject, mergeTokens} from "@compiler/createParseTree";
 import {allIntelSegmentRegisters} from "../config";
 import {opcodes} from "@stores";
-import type {iError, iInstruction, iOperand, iRow, iToken} from "@compiler/types";
+import type {iError, iInstruction, iOperand, iRow, iToken, tTokenBits} from "@compiler/types";
 
 /**
  * merges all tokens from operands, so they can be used in error highlighting
@@ -86,6 +86,17 @@ function validateMemoryAccessWithoutTypeOverride(operands: iOperand[], bits) {
     }
 }
 
+/**
+ * makes 'push al' impossible, because 'al' is 8-bit
+ * TODO: handle unknown bit value, for example 'push 10' - 'bits' is set to null
+ * TODO: fix - push 'c' - should be possible
+ * */
+// function validatePushPopOnly16bit(opcode: iToken, bits: tTokenBits) {
+    // if (['push', 'pop'].includes(opcode.content) && bits === 8) {
+    //     throw errorObject(opcode, `PUSH/POP opcode supports only 16-bit operand, you used ${bits}-bit operand`)
+    // }
+// }
+
 function validateRow(row: iRow) {
     if (row.type === 'instruction') {
         if (!opcodes.hasOwnProperty(row.opcode.content)) {
@@ -93,6 +104,7 @@ function validateRow(row: iRow) {
         }
 
         validateMemoryAccessWithoutTypeOverride(row.operands, row.bits)
+        // validatePushPopOnly16bit(row.opcode, row.bits)
 
         let operandAmountRequired = opcodes[row.opcode.content].run.length
         let operandAmountProvided = row.operands.length

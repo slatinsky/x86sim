@@ -1,10 +1,13 @@
 import {get, writable} from "svelte/store";
-import {memory, registers, settings} from "@stores";
+import {keycodes, memory, registers, settings} from "@stores";
 import {objectKeyDifferences} from "../helperFunctions";
+import type {Registers} from "@stores/registers";
+import type {Memory} from "@stores/memory";
 
-interface iHistorySnapshot { // TODO add more strict types
-    registers: any,
-    memory: any
+interface iHistorySnapshot {
+    registers: object,
+    memory: object
+    keycodes: any[]
 }
 
 
@@ -71,6 +74,7 @@ export class Snapshots {
             let snapshot = this.snapshots.pop()
             registers.load(snapshot.registers)
             memory.load(snapshot.memory)
+            keycodes.set(snapshot.keycodes)
         }
 
         // update status
@@ -92,6 +96,7 @@ export class Snapshots {
             let firstSnapshot = this.snapshots[0]
             registers.load(firstSnapshot.registers)
             memory.load(firstSnapshot.memory)
+            keycodes.set(firstSnapshot.keycodes)
             this.snapshots = []  // empty history
         }
         this.executedInstructionsCount.set(0)
@@ -100,9 +105,11 @@ export class Snapshots {
 
 
     private createSnapshot(): iHistorySnapshot {
+        console.log('get(keycodes)', get(keycodes))
         return {
             registers: registers.reduce(),
             memory: memory.reduce(),
+            keycodes: [...get(keycodes)]
         }
     }
 
@@ -128,6 +135,7 @@ export class Snapshots {
                 this.differences.set({
                     registers: [],
                     memory: [],
+                    keycodes: [],
                 })
             }
         }

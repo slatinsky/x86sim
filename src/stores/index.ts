@@ -22,11 +22,11 @@ export const lineAddressMapping = codeRunner.compiler.lineAddressMapping
 export const parseTree = codeRunner.compiler.parseTree
 export const currentlyExecutedLine = codeRunner.currentlyExecutedLine
 
-
+export let keycodes = writable([])
 export const programs = new Programs();
 
 export {projectName, opcodes}
 export {appState} from "./appState"
 
-export let keycodes = writable([])
+
 

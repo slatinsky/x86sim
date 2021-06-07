@@ -1,5 +1,5 @@
 import {get, writable} from "svelte/store";
-import {appState, breakpoints, code, codeRunner, codeRunnerStatus, currentlyExecutedLine, debugMode, memory, registers, settings} from "./index";
+import {appState, breakpoints, code, codeRunner, codeRunnerStatus, currentlyExecutedLine, debugMode, keycodes, memory, registers, settings} from "./index";
 import {createWritableStore} from "./helpers/createWritableStore";
 import {ensureObjectHasDefaultValues} from "../helperFunctions";
 import {_} from "svelte-i18n";
@@ -21,6 +21,7 @@ interface Project {
     memory: any,
     code: string,
     breakpoints: number[],
+    keycodes: number[],
     shownModules: {
         showCalculator: boolean,
         showRegisters: boolean,
@@ -47,6 +48,7 @@ export class Programs {
         memory:{},
         code:"",
         breakpoints: [],
+        keycodes: [],
         hide: [],
         shownModules: {
             showCalculator: false,
@@ -210,6 +212,7 @@ export class Programs {
                     memory: memory.reduce(),
                     code: get(code),
                     breakpoints: breakpoints.reduce(),
+                    keycodes: get(keycodes),
                     // @ts-ignore
                     shownModules: settings.get().shownModules
                 }
@@ -251,6 +254,7 @@ export class Programs {
         memory.load(projectToLoad.memory)
         code.set(projectToLoad.code)
         breakpoints.load(projectToLoad.breakpoints)
+        keycodes.set(projectToLoad.keycodes)
         document.title = `${projectToLoad.name} | x86sim`
 
         settings.update(currentSettings => {
