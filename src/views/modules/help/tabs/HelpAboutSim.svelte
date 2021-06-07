@@ -6,5 +6,5 @@
 
 
 <h4 class="mt-5">Poďakovania</h4>
-<p>Týmto by som chcel poďakovať hlavne doc. Ing. Tiborovi krajčovičovi, PhD. za usmerňovanie počas práce na tomto projekte.</p>
+<p>Týmto by som chcel poďakovať hlavne doc. Ing. Tiborovi Krajčovičovi, PhD. za usmerňovanie počas práce na tomto projekte.</p>
 <div><a href="https://www.flaticon.com/packs/countrys-flags" target="_blank">Flag icons</a> vytvorené autorom Freepik</div>

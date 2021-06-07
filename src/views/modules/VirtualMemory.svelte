@@ -39,7 +39,7 @@
 <!--    <button on:click={()=>columns = 4}>4</button>-->
 <!--    <br>-->
     <div class="jumpToOffset-label">{$_('views.memory.jumpToOffset')}:</div>
-    <input type="text" on:keyup={(e)=>scrollTo = formattedStringToInt(e.target.value, $settings.selectedFormat, 32)}>
+    <input class="input" type="text" on:keyup={(e)=>scrollTo = formattedStringToInt(e.target.value, $settings.selectedFormat, 32)}>
 </HexEditor>
 
 

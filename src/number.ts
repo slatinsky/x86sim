@@ -1,16 +1,31 @@
 import {formattedStringToInt, handleOverflow, intToFormattedString, signedToUnsignedInt, unsignedToSignedInt} from "./formatConverter";
 
+type tFlag = 0 | 1
 class Flags {
-    public overflow: boolean
-    public carry: boolean
+    public overflow: tFlag
+    public carry: tFlag
+    public parity: tFlag
+    public sign: tFlag
+    public adjust: tFlag
+    public zero: tFlag
+    public trap: tFlag
+    public interruptEnable: tFlag
+    public direction: tFlag
 
     constructor() {
         this.clearFlags()
     }
 
     public clearFlags() {
-        this.overflow = false
-        this.carry = false
+        this.overflow = 0
+        this.carry = 0
+        this.parity = 0
+        this.sign = 0
+        this.adjust = 0
+        this.zero = 0
+        this.trap = 0
+        this.interruptEnable = 0
+        this.direction = 0
     }
 
     public copy() {
@@ -20,6 +35,8 @@ class Flags {
         return newFlags
     }
 }
+
+
 
 export class BitNumber {
     private _signed: number
@@ -37,9 +54,37 @@ export class BitNumber {
         this.flags = new Flags()
     }
 
-    // A 'set' accessor
+    public setSigned(valueToSet: number): BitNumber {
+        let copy = this.copy()
+        copy._signed = handleOverflow(valueToSet, this.bits)
+
+        copy.flags.parity = copy.getParity()
+        copy.flags.zero = copy.getZero()
+        copy.flags.sign = copy.getSign()
+        return copy
+    }
+    public setUnsigned(valueToSet: number): BitNumber {
+        return this.setSigned(unsignedToSignedInt(valueToSet, this.bits))
+    }
+    public setHex(valueToSet: string): BitNumber {
+        return this.setSigned(formattedStringToInt(valueToSet, 'hex', this.bits))
+    }
+    public setBin(valueToSet: string): BitNumber {
+        return this.setSigned(formattedStringToInt(valueToSet, 'bin', this.bits))
+    }
+
+    // A 'set' accessor   // removed, because BitNumber object should stay immutable
     set signed(valueToSet: number) {
-        this._signed = handleOverflow(valueToSet, this.bits)
+        throw "removed - do not use signed set accessor"
+    }
+    set unsigned(valueToSet: number) {
+        throw "removed - do not use unsigned set accessor"
+    }
+    set hex(valueToSet: string) {
+        throw "removed - do not use hex set accessor"
+    }
+    set bin(valueToSet: string) {
+        throw "removed - do not use hex set accessor"
     }
 
     // A 'get' accessor
@@ -47,39 +92,70 @@ export class BitNumber {
     get signed(): number {
         return handleOverflow(this._signed, this.bits)
     }
-
     get unsigned(): number {
         return signedToUnsignedInt(this.signed, this.bits)
     }
-
-    set unsigned(valueToSet: number) {
-        this.signed = unsignedToSignedInt(valueToSet, this.bits)
-    }
-
-
     get hex(): string {
         return intToFormattedString(this.signed, 'hex', this.bits)
     }
-
-    set hex(valueToSet: string) {
-        this.signed = formattedStringToInt(valueToSet, 'hex', this.bits)
-    }
-
-
     get bin(): string {
         return intToFormattedString(this.signed, 'bin', this.bits)
     }
 
-    set bin(valueToSet: string) {
-        this.signed = formattedStringToInt(valueToSet, 'bin', this.bits)
+
+    /**
+     * returns sign flag (the most significant bit)
+     * 1 if signed number is negative
+     * 0 otherwise
+     */
+    private getSign() {
+        if (this.signed < 0) {
+            return 1
+        }
+        else {
+            return 0
+        }
     }
+
+    /**
+     * returns zero flag
+     * 1 if number is zero
+     * 0 otherwise
+     */
+    private getZero() {
+        if (this.signed === 0) {
+            return 1
+        }
+        else {
+            return 0
+        }
+    }
+
+    /**
+     * returns parity flag
+     * 1 if the result has even parity (an even number of 1 bits)
+     * 0 otherwise
+     */
+    private getParity() {
+        if ((this.bin.split("1").length - 1) % 2 === 0) {
+            return 1
+        }
+        else {
+            return 0
+        }
+    }
+
+
+
+
+
 
     /**
      * returns deep copy of this object
      */
     copy() {
         const newNumber = new BitNumber(this.bits)
-        newNumber.signed = this.signed
+        newNumber._signed = this._signed
         newNumber.flags = this.flags.copy()
         return newNumber
     }
@@ -99,25 +175,24 @@ export class BitNumber {
      *          2) parameter is unsigned number (to compute carry flag)
      */
     run(callback): BitNumber {
-        this.flags.clearFlags()
+        this.flags.clearFlags()  // set all flags to zero
         let resultObj = this.copy()
 
+        // calculate overflow
         const resultSigned = callback(this.signed)
         const resultSignedWithOverflow = handleOverflow(resultSigned, this.bits)
-
         if (resultSigned !== resultSignedWithOverflow) {
-            resultObj.flags.overflow = true
+            resultObj.flags.overflow = 1
         }
 
+        // calculate cary
         const resultUnsigned = callback(this.unsigned)
         const resultUnsignedWithOverflow = signedToUnsignedInt(handleOverflow(unsignedToSignedInt(resultUnsigned, this.bits), this.bits), this.bits)
 
         if (resultUnsigned !== resultUnsignedWithOverflow) {
-            resultObj.flags.carry = true
+            resultObj.flags.carry = 1
         }
-
-        resultObj.signed = resultSignedWithOverflow
-        return resultObj  // allows chaining
+        return resultObj.setSigned(resultSignedWithOverflow)  // allows chaining
     }
 
     add(newNumber: number): BitNumber {
@@ -128,5 +203,11 @@ export class BitNumber {
     }
     mul(newNumber: number): BitNumber {
         return this.run((signedOrUnsigned) => signedOrUnsigned * newNumber)
+    }
+    and(newNumber: number): BitNumber {
+        return this.run((signedOrUnsigned) => signedOrUnsigned & newNumber)
+    }
+    xor(newNumber: number): BitNumber {
+        return this.run((signedOrUnsigned) => signedOrUnsigned ^ newNumber)
     }
 }
