@@ -18,6 +18,10 @@
     .regContainer > div {
         padding: 1rem;
     }
+
+    .counter {
+        color: var(--text-color)
+    }
 </style>
 
 <b>{$_('views.modules.registers')}:</b>
@@ -57,7 +61,7 @@
 </div>
 
 <div>
-    <b>{$_('views.modules.counter')}:</b> {$executedInstructionsCount}
+    <b>{$_('views.modules.counter')}:</b> <span class="counter">{$executedInstructionsCount}</span>
 </div>
 {#if $settings.developerMode}
     <button on:click={registers.reset}>DEBUG: Prenastav registre</button>
