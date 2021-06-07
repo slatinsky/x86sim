@@ -10,6 +10,8 @@
     },
     "memory": {},
     "code": "; welcome in x86sim\n; intel 8086 simulator\n; -------------------\n\n\n; -------------------\n; to open tutorial, you need to open tutorial project:\n; 1) press 'Projects' button to see available projects\n; 2) click on 'tutorial 01 - registers' project\n; 3) to open the next tutorial project, repeat this process\n; -------------------\n\n\n\n; -------------------\n; If you don't need tutorial, create new project:\n; 1) press 'Projects' button\n; 2) press 'Create new project' button\n; 3) new project is opened.\n\n\n\n; -------------------\n; if you ever get stuck, press 'Help' button in top right navigation bar",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": false,
@@ -29,7 +31,9 @@
       "ss": 4096
     },
     "memory": {},
-    "code": "; Let's introduce you to registers\n\n; Registers are the fastest memory processor can use\n; ----------------------\n\n; in registers you can see 'ip' register. It point to the next instruction that will be executed\n\n; in this editor is the place where ip register point to highlighted in green\n\n; execute this instruction by pressing 'step' button in top navigation bar.\nmov cx, 0x001A\n\n\n; after mov(e) instruction was executed\n; - value 0x001A was moved to cx register\n; - ip register was incremented and it now points to the next instruction below\n\n; also simulator switched into 'debugging mode'.  After you exit from this mode by pressing 'reset' button, simulator state will return to state before you started the stepping throught the program.\n\n\n; press step again\nmov dx, 0x0006\n\n; dx register now contains value 0x0006\n\n; ----------------------\n; WARNING:\n; You need to exit debugging mode by pressing 'Reset' button to save your changes\n; ----------------------",
+    "code": "; Let's introduce you to registers\n\n; Registers are the fastest memory processor can use\n; ----------------------\n\n; The most important register is 'ip' register. It points to the next instruction that will be executed.\n\n; in this editor is the place where 'ip' register point to highlighted in green\n\n; execute this instruction by pressing 'step' button in top navigation bar.\nmov cx, 0x001A\n\n\n; after mov(e) instruction was executed\n; - value 0x001A was moved to cx register\n; - ip register was incremented and it now points to the next instruction below\n\n; also simulator switched into 'debugging mode'.  After you exit from this mode by pressing 'reset' button, simulator state will return to state before you started the stepping throught the program.\n\n\n; press step again\nmov dx, 0x0006\n\n; dx register now contains value 0x0006\n\n; ----------------------\n; WARNING:\n; You need to exit debugging mode by pressing 'Reset' button to save your changes\n; ----------------------",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,
@@ -49,7 +53,9 @@
       "ss": 4096
     },
     "memory": {},
-    "code": "\n; set ax register to value 5\n; pseudocode:\n; AX = 5\nmov ax, 5\n\n; set bx register to value 14 (0xE in HEX)\nmov bx, 14\n\n; adds ax and bx registers together and stores result in ax register\n; pseudocode:\n; AX = AX + BX\nadd ax, bx\n\n; -------------------\n; to run all the code till the end, press 'run' button\n",
+    "code": "; set ax register to value 5\n; pseudocode:\n; AX = 5\nmov ax, 5\n\n; set bx register to value 14 (0xE in HEX)\nmov bx, 14\n\n; adds ax and bx registers together and stores result in ax register\n; pseudocode:\n; AX = AX + BX\nadd ax, bx\n\n; -------------------\n; to run all the code till the end, press 'run' button\n",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,
@@ -70,6 +76,8 @@
     },
     "memory": {},
     "code": "mov ax, 0x0005\nmov bx, 0x000A\n; registers AX and BX contain values 0x0005 and 0x000A\n\n; add them together and store result in CX register. Do not modify registers AX and BX\n\n",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,
@@ -90,6 +98,8 @@
     },
     "memory": {},
     "code": "mov ax, 0x0005\nmov bx, 0x000A\n; registers AX and BX contain values 0x0005 and 0x000A\n\n; add them together and store result in CX register. Do not modify registers AX and BX\n\n\n; solution:\nmov cx, ax\nadd cx, bx\n",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,
@@ -109,7 +119,55 @@
       "ss": 4096
     },
     "memory": {},
-    "code": "mov ax, 0x3a3b\nmov bl, al\nmov cl, ah\n\n; al register is just lower 8 bits of 16 bit ax register\n\n; ax = 0x3a3b\n; al = 0x3b\n; ah = 0x3a\n\n; _________________________\n; | ax                    |\n; |_______________________|\n; | ah        | al        |\n; |___________|___________|\n; | 0011 1010 | 0011 1011 |\n; |___________|___________|\n\n\n; only AX, BX, CX and DX can be split up to 8-bit \"parts\"",
+    "code": "mov ax, 0x3a3b\nmov bl, al\nmov cl, ah\n\n; you can access lower 8 bits of 16 bit 'ax' register by using 'al'\n\n; ax = 0x3a3b\n; al = 0x3b\n; ah = 0x3a\n\n; _________________________\n; | ax                    |\n; |_______________________|\n; | ah        | al        |\n; |___________|___________|\n; | 0011 1010 | 0011 1011 |\n; |___________|___________|\n\n\n; you can access lower/higher 8-bit \"parts\" only for these registers: 'ax', 'bx', 'cx' and 'dx'\n; ax <-> al <-> ah\n; bx <-> bl <-> bh\n; cx <-> cl <-> ch\n; dx <-> dl <-> dh\n\n\n;mnemonic:\n; l = low\n; h = high",
+    "breakpoints": [],
+    "keycodes": [],
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 03 try it",
+    "registers": {
+      "ax": -12885,
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "; Register ax contains value 0xCDAB\n\n; Change 'ax' value to 0xABCD\n; Don't use 'mov ax, 0xABCD\n\n; (hint - use registers 'al', 'ah', 'bl')",
+    "breakpoints": [],
+    "keycodes": [],
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 03 try it solution",
+    "registers": {
+      "ax": -12885,
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096
+    },
+    "memory": {},
+    "code": "; Register ax contains value 0xCDAB\n\n; Change 'ax' value to 0xABCD\n; Don't use 'mov ax, 0xABCD\n\n; (hint - use registers 'al', 'ah', 'bl')\n\nmov bl, ah\nmov ah, al\nmov al, bl\n",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,
@@ -132,6 +190,8 @@
     },
     "memory": {},
     "code": "; to aid in better readibility, you can use hexadecimal or binary immediate operands\n\n\n; decimal \nmov al, 58\n\n; hex\nmov bl, 0x3a\n\n; alternative hex\nmov cl, 3ah\n\n; binary\nmov dl, 0b00111010\n\n; alternative binary\nmov si, 00111010b\n\n; all values are equal to 0x3a\n\n; --------------------\n; you can also use character in sigle quotes\n; character 'a' in ascii is 0x61\nmov al, 'a'\n\n\n\n\n\n",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,
@@ -152,7 +212,55 @@
       "es": -18432
     },
     "memory": {},
-    "code": "; jump instruction jump to label 'jumpOverIt'\njmp jumpOverIt\n\n    ; this code will never run\n    mov ax, 1\n    mov bx, 2\n    mov cx, 3\n    mov dx, 4\n\njumpOverIt:\n    mov ax, 5",
+    "code": "; jump instruction jumps to label 'jumpOverIt'\njmp jumpOverIt\n\n    ; this code will never run\n    mov ax, 1\n    mov bx, 2\n    mov cx, 3\n    mov dx, 4\n\njumpOverIt:\n    mov ax, 5",
+    "breakpoints": [],
+    "keycodes": [],
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 05 try it",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": -18432
+    },
+    "memory": {},
+    "code": "; use one 'jmp' instruction to set ax register to 0x1f (31 in dec)\n\n\n\n\n\nlabel1:\nlabel2:\nadd ax, 2\n\nlabel3:\nadd ax, 3\n\nlabel4:\nadd ax, 7\n\nlabel5:\nadd ax, 11\n\nlabel6:\nadd ax, 13\n\nlabel7:",
+    "breakpoints": [],
+    "keycodes": [],
+    "shownModules": {
+      "showCalculator": false,
+      "showRegisters": true,
+      "showScreen": false,
+      "showKeyboard": false,
+      "showStack": false,
+      "showMemory": false,
+      "showCodeEditor": true
+    }
+  },
+  {
+    "version": 1,
+    "name": "tutorial 05 try it solution",
+    "registers": {
+      "sp": 4096,
+      "bp": 4096,
+      "ss": 4096,
+      "es": -18432
+    },
+    "memory": {},
+    "code": "; use one 'jmp' instruction to set ax register to 0x1f (31 in dec)\n\njmp label4\n\n\nlabel1:\nlabel2:\nadd ax, 2\n\nlabel3:\nadd ax, 3\n\nlabel4:\nadd ax, 7\n\nlabel5:\nadd ax, 11\n\nlabel6:\nadd ax, 13\n\nlabel7:",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,
@@ -179,7 +287,9 @@
       "6": 85,
       "7": 69
     },
-    "code": "; But if we sometimed don't want to jump.\n; How can we simulate \"IF\" in assembly?\n\n; We use CMP instruction to set flags and we jump if some flag is set or not\n; (internally CMP instruction subtracts second operand from first operand and sets only flags)\n; ----------------------------\n\n\n\nmov ax, 0x0005      ; modify this value to 0x004 and try again :)\n\n; does AX register contain value 0x0005?\n; if yes, set zero flag (zf) to 1\ncmp ax, 0x0005\njz ifAxIs5      ; jz = jump if zero\n\n    ; this code will never run because JZ will jump over it\n    mov bx, 60\n    \nifAxIs5:\n    mov cx, 1\n\n\n; ----------------------------\n; if you missed anything, you can press 'Step back' button to step backwards in code execution",
+    "code": "; 'jmp' instruction always jumps to label address, but sometimes we don't want to jump.\n\n; In other words, how can we simulate \"if\" in assembly?\n\n; ----------------------------\n; look at registers - do you see 'pf', 'zf', 'sf', 'of' flags? One of these 1-bit values can become condition, if we want to jump or not.\n\n; We use CMP instruction to set these flags and we jump if some flag is set or not\n; (internally CMP instruction subtracts second operand from first operand and sets only flags)\n; ----------------------------\n\n\n\nmov ax, 0x0005      ; modify this value to 0x004 and try again :)\n\n; does AX register contain value 0x0005?\n; if yes, set zero flag (zf) to 1\ncmp ax, 0x0005\njz ifAxIs5      ; jz = jump if zero\n\n    ; this code will never run because JZ will jump over it\n    mov bx, 60\n    \nifAxIs5:\n    mov cx, 1\n\n; ----------------------------\n; Negation of 'jz' is 'jnz' (jump if not zero)\n\n; to use other flags as condition, you can use\n; 'jp', 'jnp', 'js', 'jns', 'jo', 'jno', ...\n\n; ----------------------------\n; if you missed anything, you can press 'Step back' button to step backwards in code execution",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,
@@ -201,6 +311,8 @@
     },
     "memory": {},
     "code": "; We don't need to always use CMP instruction if we need to set flags\n\nmov ax, 2\n\n; look inside zero flag. There is 0 value inside\n\ndec ax\ndec ax\n\n; now look again inside zero flag. Value 0 was changed to 1\n; all arithmetic and logical instructions set flags automatically\n\njz axIsZero:\n\n    mov dx, 55  ; this won't be executed\n\naxIsZero:\n    mov cx, 44\n\n\n\n; now change code at line \"0\" to \"mov ax, 2\" and try again :)\n\n; --------------------------\n; TIP:\n; red value means that the value was changed after the last instruction was executed\n",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,
@@ -446,6 +558,8 @@
     },
     "memory": {},
     "code": "; this is the last part of this tutorial. Every computer needs a keyboard. This one is PS/2 one\n; This simple example reads from keyboard and types it to screen\n\n; ------------\n; Important magic values:\n; 0x64 = keyboard status port. (in other words - does keyboard have input for me. If yes, second lowest bit (IBF flag) is set)\n; 0x60 = port to read input from keyboard\n\n; ------------\n; to use this example\n; 1) press run\n; 2) click on keyboard image\n; 3) press keys\n; 4) your pressed keys will appear on the screen\n; ------------\n; That's all. If you ever get stuck, read the manual by pressing 'Help' button.\n; Now create something awesome!\n; ------------\n\nxor ax, ax\n\nmov ax, b800h\nmov es, ax\n\nreadNextChar:\n    waitForInputLoop:  ; Wait for IBF = 1\n        ; Read Status byte\n        in al, 64h\n        \n        ; Test IBF flag (Status<1>) = does keyboard have input ready for me?\n        and al, 10b     \n        \n        jz     waitForInputLoop    \n        \n    ; read input to ax\n    in al, 60h\n\n    ; print ax\n    push ax\n    call printChar\n    jmp readNextChar\n    \n\nprintChar:\n    ; store ax and bx values in stack\n    push ax\n    push bx\n    \n    ; read cursor position from memory\n    mov bx, es:[-2]\n    \n    ; set color to green text + black background\n    mov byte ptr es:[bx], 0xa\n    \n    ; get pushed ascii value from stack\n    mov ax, [sp+6]\n    \n    ; and write it on screen\n    mov byte ptr es:[bx+1], ax\n    \n    ; increase cursor position\n    add bx, 2           \n    \n    ; store updated cursor to memory\n    mov es:[-2], bx    \n    \n    ; restore ax and bx values from stack\n    pop bx\n    pop ax\n    \n    ; ret pops address from stack and jump to it\n    ret 2\n    ",
+    "breakpoints": [],
+    "keycodes": [],
     "shownModules": {
       "showCalculator": false,
       "showRegisters": true,

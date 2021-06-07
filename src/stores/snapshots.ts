@@ -105,7 +105,6 @@ export class Snapshots {
 
 
     private createSnapshot(): iHistorySnapshot {
-        console.log('get(keycodes)', get(keycodes))
         return {
             registers: registers.reduce(),
             memory: memory.reduce(),
