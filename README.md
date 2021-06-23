@@ -1,160 +1,96 @@
 # ![x86sim](public/assets/128.png?raw=true "x86sim") x86sim
 
+
 ---
 
-Simulator of x86 intel computer in 16-bit real mode.
+Simulator of x86 intel computer in a 16-bit real mode made for education purposes.
 
 Made in [svelte](https://svelte.dev/) - [sveltejs/component-template](https://github.com/sveltejs/component-template)
 
+---
 
-## User guide
-### Code editor
-**Keybings**
-https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts
-
-### Added functionality to code editor
-Add/remove breakpoint by clicking next to line number
-
-### Memory editor
-**Keybings**
-
- - ArrowDown ArrowUp ArrowLeft ArrowRight -> change currently edited memory adress using keyboard
- - Delete -> set current memory cell to zero and move to next address
- - Escape -> exits from exitation mode
- - Backspace -> removes the least significant digit and shifts the value by one character
- - [0-9a-f] -> change value. Moves automatically to the next memory address if necessary
+**Warning**: refactoring in progress, a lot of code will change
 
 ---
 
-## Installation guide
-### Development environment
-#### First setup
-- Make sure you have [Node.js](https://nodejs.org) and git installed.
-- run inside empty directory command `git clone https://github.com/slatinsky/sim .`. This will clone all project files inside that directory.
-- to install dependencies, run `npm i` 
+## Demo
+You can try the simulator [on this page](http://slatinsky.github.io/x86sim/index.html)
 
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
+## Features
+- code editor
+    - breakpoints
+    - autocomplete
+    - error checking
+    - autosave, no need to manually save the project
+- registers editor
+    - implemented general-purpose registers (AX, BX, CX, DX), segment registers (CS, DS, SS, ES), flags (parity, zero, sign, overflow)
+- memory editor
+    - memory size 1 MB (so segment registers need to be used) - same as the largest memory addressable by Intel 8086
+- stack segment (different view to the same memory)
+- keyboard
+    - read status (if keyboard has available input) at port 0x64
+    - read input byte at port 0x60
+- screen (text graphics adapter)
+    - colors
+    - memory-mapped from address 0xb8000
+- running the code
+    - infinite loop detection (simulator won't "freeze")
+    - "instant" code executions or animated (delayed) code execution
+    - follow IP register setting
+    - ability to undo code execution ("step back" and "run backwards")
+    - debugging mode - changes to registers, memory, and keyboard buffer are restored to the state before the "debugging mode"
+- help and tutorial
+  - 22 included tutorial projects
+  - Guide directly inside simulator (not yet fully translated to English)
+- all projects saved in the browsers (permanent) localStorage
+    - all projects can be exported as ZIP/JSON
+    - exported projects can be imported by drag & drop to the window of the simulator 
+- English and Slovak internationalization
+- Dark theme :)
+- Speed
+- Offline support using service worker (index.html can't be inside a subfolder of the webserver, subdomain is ok)
 
-If you're using [Visual Studio Code](https://code.visualstudio.com/), installation of the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) is recommended. If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
+## Limitations
+- Variable-length instructions are not implemented (every instruction is 1 byte in length, but shouldn't be. x86 instructions can be up to 15 bytes in length)
+- compiled assembly code cannot be seen inside the main memory
+- not all flags from the flag register are implemented (missing carry flag, ac, ...)
+- limited amount of implemented instructions
+- doesn't work on touch devices ("ace" code editor needs to be updated, provide an alternative for drag & drop to import projects to the simulator)
 
-If you are using ide from jetbrains and indexing is slow -> right click `public/build folder` -> `mark directory as` -> `Excluded`
+## Future plans
+- Translate built-in guide to English
+- Add support for touch devices
+- Implement carry flag
+- Implement ability to run multiple instances of application logic
 
-#### Starting development server
-To start [Rollup](https://rollupjs.org) development server in live reloading mode, run `npm run dev`. Then navigate to [localhost:5000](http://localhost:5000) in your browser. If you make any changes in `src`, page will be automatically reloaded.
 
 
-#### Service worker is disabled in development builds or localhost
-To make builds quicker, service worker is disabled:
-- if you are on localhost
-- or in development builds
+## Building from source
+### First setup
+- `git clone https://github.com/slatinsky/x86sim`
+- `cd x86sim`
+- `npm i`
 
-To debug service worker, change `USE_SERVICE_WORKER` variable in `rollup.config.ts` and using [hosts](https://en.wikipedia.org/wiki/Hosts_(file)) file access localhost under different domain
+### Development build
+- `npm run dev`
+- you are now ready to modify the code. The browser will be automatically reloaded
+- if you add a new typescript file, you may need to restart `npm run dev`
 
-### Production
-To create optimized production build, compile using `npm run build`. After compilation, production build will be created inside `public` folder. Upload it's content to your web server. Only static files are generated, so it will work in almost any server which serves static files, for example [apache](https://httpd.apache.org/). 
-
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv) dependency.
-
-## Tests
-Tests use `Mocha` testing library.
+### Production build
+to create optimized production build including service workers for offline support:
+- `npm run build`
+- copy files from the `public` folder to your webserver
 
 ### Running tests
-To run tests, run `npm run test` in command line (shorter `npm t`)
+- `npm t`
+- all `.spec.ts` files are test files
 
-Or directly inside WebStorm IDE using `ALT+SHIFT+R` shortcut
+[More in-depth development environment guide](docs/development.md)
 
-### Creating new test
-For example fi you have file named `exampleFileName.ts` inside `src/` folder, create `exampleFileName.spec.ts` file. All `.spec.ts` files will be run if you run tests.
+---
+Found a bug? [Please create an issue](https://github.com/slatinsky/x86sim/issues)
+
+---
 
 
-## Design choices
-Stack and data memory shares the same memory region. Stack is at the end of the memory.
-
-## Simulator architecture documentation
-### Split logic (compiler) and views
-Simulator is split into two parts:
-1) compiler
-2) views
-3) controller layer between the compiler and views is planned
-
-The idea is that the graphical user interface can be replaced at any time if needed without the need to modify the core compiler.
-
-### Modular opcode definitions
-Simulator was made with extensibility in mind. 
-
-To add new instruction:
-1) create new file in `src/compiler/opcodes/[OPCODE_NAME].ts` and copy the closest existing opcode definition file.
-2) implement it - use already implemented instructions as an inspiration
-3) import it inside `src/compiler/opcodes/index.ts` and add it to `opcodes` object
-4) If rollup throws error after adding new .ts file - restart it.
-
-Example of `pop.ts` instruction:
-```javascript
-// Import pre made code, that handles reading and setting values from and to registers and memory.
-// If you need to access stack, modify it using memory object, because stack and data memory is shared.
-import {registers, memory} from "../../stores/stores";
-
-export default  {
-    // hint to the code editor, which values is expected the function to modify
-    // available values (must be lowercase):
-    // writesTo: ['operand1']
-    // writesTo: []             // if it doesn't write to anything - for example nop
-    // writesTo: ['ip']         // if it is jump. If it contains 'ip', ip register isn't autoincremented after instruction execution
-    writesTo: ['operand1'],
-
-    // if instruction uses two operands, change signature to
-    // run: (operand1, operand2) => {
-
-    // if instruction uses zero operands, change signature to
-    // run: () => {
-    run: (operand1) => {        
-        // get value of stack pointer register (sp)
-        let sp = registers.get('sp')
-
-        // using stack pointer register, read value from stack
-        let valueFromStack = memory.get(sp)
-
-        // if the instruction signature is for example 'POP AX', operand1 will contain 'pointer' to AX register. but it also can be direct or indirect memory address, for example '[ax-4]'
-        // setting this value will set that value passed in. If user passed in AX register, AX register will be changed. If user passed in '[ax-4]', the memory cell at the address of AX-4 will be set.
-        // if the instrution you are implementing is an arithmetic instruction, use operand1.setWithFlags(value) instead - it will update the flag register
-        // if you use operand1.set(value), flag register will stay untouched
-        operand1.set(valueFromStack)
-
-        // set the memory at the address of 'sp' to zero
-        memory.set(sp, 0)
-
-        // set 'sp' register to sp+2
-        registers.set('sp', sp + 2)
-
-        // increment ip register
-        registers.inc('ip')
-    },
-}
-```
-
-### Save file format
-This part of the documentation talks about the save format used.
-
-#### Format
-
-Example of the format
-```json
-{
-    "version":1,
-    "name":"a",
-    "registers":{"ip":18,"ax":21,"bx":6,"sp":32,"bp":32},
-    "memory":{},
-    "code":"inc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\ninc ax\r\n"
-}
-```
-
-- `version` is version of the saved format. It is used to ensure, that future versions of the simulator can safely migrate the file to new format.
-- `name` is the user defined name of the program
-- `registers` contains all non zero registers
-- `memory` contains all non zero memory addresses used
-- `code` contains assembly code written by user. New lines are delimeted by `\n`
-
-#### Autosave
-Currently opened program is autosaved to `localStorage.autosave` every 2 seconds
-
-On simulator load, `localStorage.autosave` is checked if exists. If exists, it is loaded. Else simulator loads default values.
+![x86sim](public/assets/help/beginning/snake.png?raw=true "x86sim")
