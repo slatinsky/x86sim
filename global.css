@@ -1,0 +1,160 @@
+html, body {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	color: #333;
+	margin: 0;
+	padding: 8px;
+	box-sizing: border-box;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+
+/*colors - light theme*/
+:root {
+	--primary-background: midnightblue;
+	--active-primary-background: dodgerblue;
+	--active-secondary-background: lightgray;
+	--body-background: white;
+	--text-color: #161616;
+	--white-text-color: white;
+	--white-deactivated-text-color: #cfcfcf;
+	--link-color: #0d6efd;
+	--visited-link-color: rgb(0,80,160);
+	--input-background: white;
+	--input-border-color: silver;
+	--register-ip: #64C864;
+	--register-sp: #6734e0;
+	--register-spbs: #735bab;  /* sp and bs register color average, because they are often pointing to the same place */
+	--register-bp: #8d76c2;
+	--changed-value: red;
+
+	--bs-alert-info: #cff4fc;
+	--bs-alert-success: #d1e7dd;
+	--bs-alert-danger: #f8d7da;
+}
+
+/* Overrides colors in :root */
+/*colors - dark theme*/
+html.dark {
+
+	--primary-background: #2d2d2d;
+	--active-primary-background: #737373;
+	--active-secondary-background: #414141;
+	--body-background: #161616;
+	--text-color: #d6d6d6;
+	--white-text-color: #d6d6d6;
+	--white-deactivated-text-color: #868686;
+	--link-color: #8f8f8f;
+	--visited-link-color: #727272;
+	--input-background: #282828;
+	--input-border-color: #5d5d5d;
+
+	--bs-alert-info: #043640;
+	--bs-alert-success: #044026;
+	--bs-alert-danger: #440009;
+
+
+	/* Dark theme scrollbar styling - firefox */
+	scrollbar-color: darkgrey rgb(16, 16, 16)
+}
+
+body {
+	background-color: var(--body-background) !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+input {
+	background-color: var(--input-background);
+	color: var(--text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+b,
+li,
+label,
+th,
+td,
+.text {
+	color: var(--text-color);
+}
+
+/* modal windows */
+.tabsWrapper div {
+	color: var(--text-color);
+}
+
+/* Link styling */
+a {
+	color: var(--link-color);
+}
+a:visited {
+	color: var(--visited-link-color);
+}
+
+
+/* Dark theme scrollbar styling - chrome */
+html.dark *::-webkit-scrollbar {
+	width: 1em;
+}
+
+html.dark *::-webkit-scrollbar-track,
+html.dark *::-webkit-scrollbar-corner{
+	background-color: rgb(16, 16, 16);
+}
+
+html.dark *::-webkit-scrollbar-thumb {
+	background-color: darkgrey;
+	outline: 1px solid darkgrey;
+}
+
+/* Input styling */
+.input {
+	border: none;
+	outline: none;
+	border-bottom: 1px solid var(--input-border-color);
+}
+
+.input:focus {
+	border-bottom: 1px solid var(--text-color);
+}
+
+
+
+/*
+------
+bootstrap 5 dark mode fixes
+------
+*/
+.alert-success {
+	background-color: var(--bs-alert-success) !important;
+}
+.alert-info {
+	background-color: var(--bs-alert-info) !important;
+}
+.alert-danger {
+	background-color: var(--bs-alert-danger) !important;
+}
+.form-select {
+	color: var(--text-color) !important;
+	background-color: var(--body-background) !important;
+}
+
+html.dark .form-select { /*white chevron */
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+
+html.dark .form-check-input:not(:checked) {
+	background-color: #727272;
+}

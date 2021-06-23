@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'>
+
+	<title>x86sim</title>
+
+	<link rel='icon' type='image/png' href='favicon.png'>
+	<link rel='stylesheet' href='global.css'>
+	<link rel='stylesheet' href='build/bundle.css'>
+
+	<script defer src='build/bundle.js'></script>
+
+	<link rel="manifest" href="manifest.json" />
+
+	<meta name="theme-color" content="#2d2d2d" />
+
+	<style>
+		/*Simple circle loader*/
+		/*https://www.w3schools.com/howto/howto_css_loader.asp*/
+		.applicationLoaderSpinner {
+			border: 16px solid lightgray;
+			border-radius: 50%;
+			border-top: 16px solid midnightblue;
+			width: 120px;
+			height: 120px;
+			-webkit-animation: spin 2s linear infinite; /* Safari */
+			animation: spin 2s linear infinite;
+		}
+
+		/* Safari */
+		@-webkit-keyframes spin {
+			0% { -webkit-transform: rotate(0deg); }
+			100% { -webkit-transform: rotate(360deg); }
+		}
+
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
+		#applicationLoaderContainer {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			width: 100vw;
+			height: 100vh;
+			background-color: #333333;
+			color: lightgray;
+		}
+
+		#applicationLoaderContainerWaiting {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		#applicationLoaderContainerWaiting.applicationLoaderStuckHidden {
+			display: none;
+		}
+
+		#applicationLoaderContainer > h1,
+		#applicationLoaderContainer > div {
+			color: var(--white-text-color)
+		}
+
+		#loadingStuck {
+			margin: 2rem;
+			text-align: center;
+		}
+		#loadingStuck.loadingStuckHidden {
+			display: none;
+		}
+		#loadingStuck a {
+			cursor: pointer;
+		}
+
+		#loadingStuck textarea {
+			text-align: left;
+			max-width: 100%;
+			word-wrap: break-word;
+			width: 90vw
+		}
+
+		#loadingStuckErrorTextarea {
+			text-align: left;
+			margin-top: 3rem;
+		}
+	</style>
+</head>
+<body>
+
+<div id="applicationLoaderContainer">
+	<div id="applicationLoaderContainerWaiting">
+		<div class="applicationLoaderSpinner"></div>
+		<h1>loading...</h1>
+		<div>please wait</div>
+	</div>
+
+	<div id="loadingStuck" class="loadingStuckHidden">
+		<div>EN: It seems like the simulator didn't load correctly :(. More information should be in devtools (F12)</div>
+		<div><b>Backup your programs in case you will need them in the future:</b></div>
+		<div>SK: Vypadá to tak, že simulátor sa nenačítal správne :(. V dev konzole (F12) sa možno dozviete viac.</div>
+		<div><b>Zálohujte si vaše programy, ak ich ešte budete potrebovať:</b></div>
+		<textarea id="loadingStuckCodeRecovery" rows="10"></textarea>
+		<div>EN: In case you don't have saved in simulator any important work, reset it by clicking <a href="javascript:void(0)">HERE</a></div>
+		<div>SK: Ak v simulátore už nemáte dôležité dáta, môžete zresetovať simulátor kliknutím <a href="javascript:void(0)">TU</a></div>
+
+		<pre id="loadingStuckErrorTextarea" rows="10"></pre>
+	</div>
+	<script>
+		var loadingErrorString = ""
+		window.addEventListener('load', function () {
+
+			setTimeout(()=> {
+				let element = document.getElementById("loadingStuck")
+				if (element) {  // if loader element still exists after full page load - javascript isn't loaded correctly -> probably an error
+					element.classList.remove("loadingStuckHidden");
+					document.getElementById('applicationLoaderContainerWaiting').classList.add("applicationLoaderStuckHidden");
+					if(localStorage.hasOwnProperty('projects')) {
+						document.getElementById('loadingStuckCodeRecovery').innerText = localStorage.getItem('projects')
+					}
+					document.getElementById('applicationLoaderContainerWaiting').classList.add("applicationLoaderStuckHidden");
+					document.querySelector('#loadingStuck a').addEventListener("click", function(){
+						localStorage.clear()
+						location.reload()
+					})
+				}
+
+				// document.getElementById('loadingStuckErrorTextarea').innerHTML   = JSON.stringify(window.loadingErrorString, null, 2)
+
+				window.onerror = function (msg, url, lineNo, columnNo, error) {
+					// don't listen for errors after load
+					return false;
+				};
+			}, 500)
+		})
+		window.onerror = function (msg, url, lineNo, columnNo, error) {
+			// https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror
+			var string = msg.toLowerCase();
+			var substring = "script error";
+			if (string.indexOf(substring) > -1){
+				alert('Script Error: See Browser Console for Detail');
+			} else {
+				window.loadingErrorString = [
+					'Message: ' + msg,
+					'URL: ' + url,
+					'Line: ' + lineNo,
+					'Column: ' + columnNo,
+					'Error object: ' + JSON.stringify(error)
+				].join('<br>')
+			}
+			return false;
+		};
+	</script>
+</div>
+</body>
+</html>
