@@ -239,22 +239,22 @@ define("./sw.js",['./workbox-f0e3ab47'], function (workbox) { 'use strict';
     "revision": "67066f0231ad7ae427707b371f2d5c17"
   }, {
     "url": "build/bundle.css",
-    "revision": "70f6aa4c559a12570de60293eb08147b"
+    "revision": "2d416862a032f45455ad4e3dd35fc502"
   }, {
     "url": "build/bundle.js",
-    "revision": "419c35581174286830b3d060ce66d738"
+    "revision": "5611cf9cfd6d0790db8644377c83c7f6"
   }, {
     "url": "favicon.png",
     "revision": "20316ee777424ccaa6046966f96c545e"
   }, {
     "url": "global.css",
-    "revision": "6b2700c9d87d1a40d32568f240662c84"
+    "revision": "0315980ad83a8311f266ea63d5b98618"
   }, {
     "url": "index.html",
-    "revision": "be155a93e12e1d32a5bb4e5d1d832f7e"
+    "revision": "c43f1dbfff429afb20d84c459716cef5"
   }, {
     "url": "manifest.json",
-    "revision": "3dcc849f25c3b28c54292077bfabbaef"
+    "revision": "c993cd1ef87ef442586e9723e89f837a"
   }], {});
 
 });
