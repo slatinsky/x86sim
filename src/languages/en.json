@@ -80,7 +80,17 @@
         "modules": "Modules",
         "availableOpcodes": "Available opcodes",
         "aboutSim": "About simulator"
-      }
+      },
+	  "tabs": {
+		"availableOpcodes": {
+			"name": "Name",
+			"explanation": "Explanation",
+			"example": "Example",
+			"operandCount": "Operands",
+			"description": "Description",
+			"note": "Note"
+		}
+	  }
     },
     "settings": {
       "tabNames": {

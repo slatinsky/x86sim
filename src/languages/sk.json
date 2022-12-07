@@ -80,7 +80,17 @@
         "modules": "Moduly",
         "availableOpcodes": "Dostupné inštrukcie",
         "aboutSim": "O simulátore"
-      }
+      },
+	  "tabs": {
+		"availableOpcodes": {
+			"name": "Názov",
+			"explanation": "Vysvetlenie",
+			"example": "Príklad",
+			"operandCount": "Operandov",
+			"description": "Popis",
+			"note": "Poznámka"
+		}
+	  }
     },
     "settings": {
       "tabNames": {
