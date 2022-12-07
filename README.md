@@ -7,12 +7,6 @@ Simulator of x86 intel computer in a 16-bit real mode made for education purpose
 
 Made in [svelte](https://svelte.dev/) - [sveltejs/component-template](https://github.com/sveltejs/component-template)
 
----
-
-**Warning**: refactoring in progress, a lot of code will change
-
----
-
 ## Demo
 You can try the simulator [on this page](http://slatinsky.github.io/x86sim/index.html)
 
@@ -41,10 +35,10 @@ You can try the simulator [on this page](http://slatinsky.github.io/x86sim/index
     - debugging mode - changes to registers, memory, and keyboard buffer are restored to the state before the "debugging mode"
 - help and tutorial
   - 22 included tutorial projects
-  - Guide directly inside simulator (not yet fully translated to English)
+  - Guide directly inside simulator
 - all projects saved in the browsers (permanent) localStorage
     - all projects can be exported as ZIP/JSON
-    - exported projects can be imported by drag & drop to the window of the simulator 
+    - exported projects can be imported by drag & drop to the window of the simulator
 - English and Slovak internationalization
 - Dark theme :)
 - Speed
